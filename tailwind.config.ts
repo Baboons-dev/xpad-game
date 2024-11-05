@@ -63,6 +63,7 @@ const config: Config = {
         "brand-lime": "#BEF642",
         "brand-white": "#FFFFFF",
         "brand-lime-dark": "#bef642",
+        black: "#000",
       },
       keyframes: {
         "accordion-down": {

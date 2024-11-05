@@ -23,13 +23,13 @@ export default function BattleArena({
   onStartBattle,
 }: BattleArenaProps) {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 p-4">
+    <main className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto">
-        <div className="relative h-[70vh] bg-[url('https://images.unsplash.com/photo-1533134486753-c833f0ed4866?w=1200&auto=format&fit=crop&q=80')] bg-cover bg-center rounded-lg overflow-hidden">
+        <div className="relative h-[70vh]">
           <div className="absolute inset-0 bg-black/40" />
 
           {/* Battle Stage */}
-          <div className="relative h-full flex flex-col justify-between p-8">
+          <div className="relative h-full flex justify-between p-4">
             {/* Opponent Area */}
             <div className="self-start w-full max-w-sm">
               <motion.div
@@ -53,9 +53,9 @@ export default function BattleArena({
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                className="absolute left-[45%] top-[30%] -translate-x-1/2 -translate-y-1/2"
               >
-                <div className="bg-red-500 text-white font-bold px-8 py-4 rounded-full shadow-lg">
+                <div className=" text-white font-bold px-8 py-4 rounded-full shadow-lg">
                   VS
                 </div>
               </motion.div>
@@ -82,10 +82,7 @@ export default function BattleArena({
         </div>
 
         {/* Battle Controls */}
-        <div
-          style={{ border: "1px solid red" }}
-          className="mt-4 bg-slate-900 rounded-lg p-4"
-        >
+        <div className="mt-4 bg-foreground border-border rounded-lg p-4">
           <div className="grid grid-cols-1 gap-4">
             <BattleMessage
               message={
@@ -99,7 +96,7 @@ export default function BattleArena({
             {!isFighting && !winner && (
               <Button
                 onClick={onStartBattle}
-                className="bg-red-600 hover:bg-red-700 text-white w-full py-6 text-lg"
+                className="bg-brand-lime-dark hover:bg-brand-lime text-blac w-full py-6 text-lg"
               >
                 <Swords className="mr-2 h-5 w-5" />
                 Start Battle!
@@ -109,7 +106,7 @@ export default function BattleArena({
             {winner && (
               <Button
                 onClick={onStartBattle}
-                className="bg-red-600 hover:bg-red-700 text-white w-full py-6 text-lg"
+                className="bg-brand-lime-dark hover:bg-brand-lime text-black w-full py-6 text-lg"
               >
                 <Swords className="mr-2 h-5 w-5" />
                 Battle Again!

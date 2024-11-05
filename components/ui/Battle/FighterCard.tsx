@@ -27,7 +27,7 @@ export default function FighterCard({
       {/* Stats Card */}
       <div
         className={cn(
-          "bg-slate-900/90 rounded-lg p-3 mb-3",
+          "bg-foreground rounded-lg p-3 mb-3 border-border",
           isOpponent ? "ml-auto" : "mr-auto"
         )}
       >
@@ -46,7 +46,7 @@ export default function FighterCard({
         </div>
         <div className="flex items-center gap-2">
           <div className="text-white font-pixel text-sm">HP</div>
-          <Progress
+          {/* <Progress
             value={(fighter.health / fighter.points) * 100}
             className={cn(
               "h-2 w-48",
@@ -56,7 +56,7 @@ export default function FighterCard({
                 ? "bg-yellow-900"
                 : "bg-red-900"
             )}
-          />
+          /> */}
         </div>
         <div className="text-right text-white/80 text-sm font-pixel">
           {fighter.health}/{fighter.points}
