@@ -151,7 +151,7 @@ export default function BattlePage() {
   const playerFighterId = parseInt(searchParams.get("fighter") || "1");
   const computerFighterId = Math.floor(Math.random() * 4) + 1;
 
-  const playerFighter = users[playerFighterId as unknown as keyof typeof users];
+  const playerFighter = fighters[playerFighterId as keyof typeof fighters];
   const computerFighter = fighters[computerFighterId as keyof typeof fighters];
 
   console.log("playerFighter", playerFighter);
@@ -159,32 +159,32 @@ export default function BattlePage() {
 
   console.log("playerFighter", playerFighter);
 
-  // useEffect(() => {
-  //   if (battleState === "fighting") {
-  //     const timer = setTimeout(() => {
-  //       const playerWins =
-  //         Math.random() <
-  //         playerFighter.power / (playerFighter.power + computerFighter.power);
-  //       setWinner(playerWins ? playerFighterId : computerFighterId);
-  //       setBattleState("finished");
+  useEffect(() => {
+    if (battleState === "fighting") {
+      const timer = setTimeout(() => {
+        const playerWins =
+          Math.random() <
+          playerFighter.power / (playerFighter.power + computerFighter.power);
+        setWinner(playerWins ? playerFighterId : computerFighterId);
+        setBattleState("finished");
 
-  //       // Trigger confetti for the winner
-  //       confetti({
-  //         particleCount: 100,
-  //         spread: 70,
-  //         origin: { y: 0.6 },
-  //       });
-  //     }, 3000);
+        // Trigger confetti for the winner
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+      }, 3000);
 
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [
-  //   battleState,
-  //   playerFighter.power,
-  //   computerFighter.power,
-  //   playerFighterId,
-  //   computerFighterId,
-  // ]);
+      return () => clearTimeout(timer);
+    }
+  }, [
+    battleState,
+    playerFighter.power,
+    computerFighter.power,
+    playerFighterId,
+    computerFighterId,
+  ]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
