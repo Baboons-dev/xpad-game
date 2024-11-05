@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Trophy, Swords } from "lucide-react";
 import { useRouter } from "next/navigation";
 import confetti from "canvas-confetti";
+import axios from "axios";
+import { UserResponse } from "../page";
 
 const fighters = {
   1: {
@@ -40,109 +42,10 @@ const fighters = {
   },
 };
 
-const users = {
-  results: [
-    {
-      id: 53,
-      username: "BNamangala",
-      email: "",
-      wallet_address: "0x601BA90637feF8208a68aD1cB9c46EF25229aD9D",
-      profile_link: "https://x.com/BNamangala",
-      avatar:
-        "https://pbs.twimg.com/profile_images/1494839217654050816/-mrcdvrZ_normal.jpg",
-      points: 1012,
-    },
-    {
-      id: 52,
-      username: "tomjongbloets",
-      email: "",
-      wallet_address: null,
-      profile_link: "https://x.com/tomjongbloets",
-      avatar:
-        "https://pbs.twimg.com/profile_images/1325103480885964809/sP7xqpac_normal.jpg",
-      points: 0,
-    },
-    {
-      id: 48,
-      username: "BartErmens",
-      email: "",
-      wallet_address: "0xa898DB8dBDdb62c3a6FB5Be4f3720d9d14bFa0F6",
-      profile_link: "https://x.com/BartErmens",
-      avatar:
-        "https://pbs.twimg.com/profile_images/1358816985040248835/bPtQbruz_normal.jpg",
-      points: 8300,
-    },
-    {
-      id: 41,
-      username: "test1150756",
-      email: "",
-      wallet_address: null,
-      profile_link: "https://x.com/test1150756",
-      avatar: null,
-      points: 0,
-    },
-    {
-      id: 37,
-      username: "ArjunVihaan80",
-      email: "",
-      wallet_address: null,
-      profile_link: "https://x.com/ArjunVihaan80",
-      avatar: null,
-      points: 0,
-    },
-    {
-      id: 35,
-      username: "AppealsC14358",
-      email: "",
-      wallet_address: null,
-      profile_link: "https://x.com/AppealsC14358",
-      avatar: null,
-      points: 0,
-    },
-    {
-      id: 34,
-      username: "greyjoy_sh56058",
-      email: "",
-      wallet_address: null,
-      profile_link: "https://x.com/greyjoy_sh56058",
-      avatar: null,
-      points: 0,
-    },
-    {
-      id: 33,
-      username: "cwsctsqa",
-      email: "",
-      wallet_address: null,
-      profile_link: "https://x.com/cwsctsqa",
-      avatar: null,
-      points: 0,
-    },
-    {
-      id: 32,
-      username: "neelamwaqar12",
-      email: "",
-      wallet_address: "0x7868933a36Fb7771f5d87c65857F63C9264d28a4",
-      profile_link: "https://x.com/neelamwaqar12",
-      avatar:
-        "https://pbs.twimg.com/profile_images/1813302706150195200/27e3wDkM_bigger.png",
-      points: 13200,
-    },
-    {
-      id: 31,
-      username: "cwsbnglr78465",
-      email: "",
-      wallet_address: null,
-      profile_link: "https://x.com/cwsbnglr78465",
-      avatar:
-        "https://pbs.twimg.com/profile_images/1817792301432979457/9oEMzurD_x96.png",
-      points: 0,
-    },
-  ],
-};
-
 export default function BattlePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [fighters1, setFighters] = useState<UserResponse | null>(null);
   const [battleState, setBattleState] = useState<
     "pre" | "fighting" | "finished"
   >("pre");
@@ -154,10 +57,22 @@ export default function BattlePage() {
   const playerFighter = fighters[playerFighterId as keyof typeof fighters];
   const computerFighter = fighters[computerFighterId as keyof typeof fighters];
 
-  console.log("playerFighter", playerFighter);
-  console.log("computerFighter", computerFighter);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.xpad-extension.baboons.tech/api/user/list/"
+        );
+        console.log("response", response);
+        setFighters(response.data); // Assuming response data is the array of users
+      } catch (err: any) {
+        console.log("err", err);
+        console.error("Error fetching users:", err);
+      }
+    };
 
-  console.log("playerFighter", playerFighter);
+    fetchUsers();
+  }, []);
 
   useEffect(() => {
     if (battleState === "fighting") {

@@ -40,7 +40,7 @@ const fighters = [
   },
 ];
 
-interface User {
+export interface User {
   id: number;
   username: string;
   email: string;
@@ -50,7 +50,7 @@ interface User {
   points: number;
 }
 
-interface UserResponse {
+export interface UserResponse {
   count: number;
   current_page: number;
   total_pages: number;
