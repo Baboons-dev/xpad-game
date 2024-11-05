@@ -8,54 +8,7 @@ import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-
-const fighters = [
-  {
-    id: 1,
-    name: "Shadow Striker",
-    avatar:
-      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&h=200&auto=format&fit=crop",
-    power: 85,
-  },
-  {
-    id: 2,
-    name: "Mystic Warrior",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&h=200&auto=format&fit=crop",
-    power: 82,
-  },
-  {
-    id: 3,
-    name: "Thunder Knight",
-    avatar:
-      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=200&h=200&auto=format&fit=crop",
-    power: 88,
-  },
-  {
-    id: 4,
-    name: "Dragon Master",
-    avatar:
-      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=200&h=200&auto=format&fit=crop",
-    power: 90,
-  },
-];
-
-export interface User {
-  id: number;
-  username: string;
-  email: string;
-  wallet_address: string;
-  profile_link: string;
-  avatar: string;
-  points: number;
-}
-
-export interface UserResponse {
-  count: number;
-  current_page: number;
-  total_pages: number;
-  results: User[];
-}
+import { UserResponse } from "@/lib/types";
 
 export default function Home() {
   const router = useRouter();
@@ -74,7 +27,6 @@ export default function Home() {
         const response = await axios.get(
           "https://api.xpad-extension.baboons.tech/api/user/list/"
         );
-        console.log("response", response);
         setUsers(response.data); // Assuming response data is the array of users
       } catch (err: any) {
         console.log("err", err);
