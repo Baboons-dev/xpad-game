@@ -9,43 +9,45 @@ import { Trophy, Swords } from "lucide-react";
 import { useRouter } from "next/navigation";
 import confetti from "canvas-confetti";
 import axios from "axios";
-import { UserResponse } from "../page";
+import { User, UserResponse } from "../page";
 
-const fighters = {
-  1: {
-    id: 1,
-    name: "Shadow Striker",
-    avatar:
-      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&h=200&auto=format&fit=crop",
-    power: 85,
-  },
-  2: {
-    id: 2,
-    name: "Mystic Warrior",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&h=200&auto=format&fit=crop",
-    power: 82,
-  },
-  3: {
-    id: 3,
-    name: "Thunder Knight",
-    avatar:
-      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=200&h=200&auto=format&fit=crop",
-    power: 88,
-  },
-  4: {
-    id: 4,
-    name: "Dragon Master",
-    avatar:
-      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=200&h=200&auto=format&fit=crop",
-    power: 90,
-  },
-};
+// const fighters = {
+//   1: {
+//     id: 1,
+//     name: "Shadow Striker",
+//     avatar:
+//       "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&h=200&auto=format&fit=crop",
+//     power: 85,
+//   },
+//   2: {
+//     id: 2,
+//     name: "Mystic Warrior",
+//     avatar:
+//       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&h=200&auto=format&fit=crop",
+//     power: 82,
+//   },
+//   3: {
+//     id: 3,
+//     name: "Thunder Knight",
+//     avatar:
+//       "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=200&h=200&auto=format&fit=crop",
+//     power: 88,
+//   },
+//   4: {
+//     id: 4,
+//     name: "Dragon Master",
+//     avatar:
+//       "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=200&h=200&auto=format&fit=crop",
+//     power: 90,
+//   },
+// };
 
 export default function BattlePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [fighters1, setFighters] = useState<UserResponse | null>(null);
+  const [fighters, setFighters] = useState<UserResponse | null>(null);
+  const [playerFighter, setPlayerFighter] = useState<User>();
+  const [computerFighter, setComputerFighter] = useState<User>();
   const [battleState, setBattleState] = useState<
     "pre" | "fighting" | "finished"
   >("pre");
@@ -54,8 +56,24 @@ export default function BattlePage() {
   const playerFighterId = parseInt(searchParams.get("fighter") || "1");
   const computerFighterId = Math.floor(Math.random() * 4) + 1;
 
-  const playerFighter = fighters[playerFighterId as keyof typeof fighters];
-  const computerFighter = fighters[computerFighterId as keyof typeof fighters];
+  useEffect(() => {
+    console.log("fifgg", fighters);
+    if (fighters) {
+      const playerFighter =
+        fighters[playerFighterId as unknown as keyof typeof fighters];
+      setPlayerFighter(playerFighter as any);
+      console.log("playerFighterhere", playerFighter);
+      const randomIndex = 53;
+      //  Math.floor(
+      //   Math.random() * Object.keys(fighters).length
+      // );
+      console.log("randomIndex", randomIndex);
+      const computerFighter =
+        fighters[randomIndex as unknown as keyof typeof fighters];
+      console.log("computerFighter herere", computerFighter);
+      setComputerFighter(computerFighter as any);
+    }
+  }, [fighters]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -64,7 +82,14 @@ export default function BattlePage() {
           "https://api.xpad-extension.baboons.tech/api/user/list/"
         );
         console.log("response", response);
-        setFighters(response.data); // Assuming response data is the array of users
+        const users = response?.data?.results.reduce(
+          (acc: { [x: string]: any }, user: { id: string | number }) => {
+            acc[user.id] = user;
+            return acc;
+          },
+          {}
+        );
+        setFighters(users); // Assuming response data is the array of users
       } catch (err: any) {
         console.log("err", err);
         console.error("Error fetching users:", err);
@@ -78,8 +103,11 @@ export default function BattlePage() {
     if (battleState === "fighting") {
       const timer = setTimeout(() => {
         const playerWins =
+          playerFighter &&
+          computerFighter &&
           Math.random() <
-          playerFighter.power / (playerFighter.power + computerFighter.power);
+            playerFighter.points /
+              (playerFighter.points + computerFighter.points);
         setWinner(playerWins ? playerFighterId : computerFighterId);
         setBattleState("finished");
 
@@ -95,8 +123,8 @@ export default function BattlePage() {
     }
   }, [
     battleState,
-    playerFighter.power,
-    computerFighter.power,
+    playerFighter && playerFighter.points,
+    computerFighter && computerFighter.points,
     playerFighterId,
     computerFighterId,
   ]);
@@ -119,14 +147,20 @@ export default function BattlePage() {
             transition={{ duration: 0.5 }}
             className="text-center"
           >
-            <Avatar className="w-32 h-32 border-4 border-blue-500">
-              <img
-                // src={playerFighter.avatar}
-                // alt={playerFighter.name}
-                className="w-full h-full object-cover"
-              />
-            </Avatar>
-            {/* <h3 className="mt-4 text-xl font-bold">{playerFighter.name}</h3> */}
+            {playerFighter && (
+              <>
+                <Avatar className="w-32 h-32 border-4 border-blue-500">
+                  <img
+                    src={playerFighter.avatar}
+                    alt={playerFighter.username}
+                    className="w-full h-full object-cover"
+                  />
+                </Avatar>
+                <h3 className="mt-4 text-xl font-bold">
+                  {playerFighter.username}
+                </h3>
+              </>
+            )}
             <p className="text-blue-400">Player</p>
           </motion.div>
 
@@ -170,14 +204,21 @@ export default function BattlePage() {
             transition={{ duration: 0.5 }}
             className="text-center"
           >
-            <Avatar className="w-32 h-32 border-4 border-red-500">
-              <img
-                src={computerFighter.avatar}
-                alt={computerFighter.name}
-                className="w-full h-full object-cover"
-              />
-            </Avatar>
-            <h3 className="mt-4 text-xl font-bold">{computerFighter.name}</h3>
+            {" "}
+            {computerFighter && (
+              <>
+                <Avatar className="w-32 h-32 border-4 border-blue-500">
+                  <img
+                    src={computerFighter.avatar}
+                    alt={computerFighter.username}
+                    className="w-full h-full object-cover"
+                  />
+                </Avatar>
+                <h3 className="mt-4 text-xl font-bold">
+                  {computerFighter.username}
+                </h3>
+              </>
+            )}
             <p className="text-red-400">Computer</p>
           </motion.div>
         </div>
