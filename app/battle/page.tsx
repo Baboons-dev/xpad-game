@@ -11,7 +11,7 @@ export default function Home() {
   const [battleLog, setBattleLog] = useState<string[]>([]);
   const [isFighting, setIsFighting] = useState(false);
   const [winner, setWinner] = useState<User | null>(null);
-  const playerFighterId = parseInt(searchParams.get("fighter") || "1");
+  const playerFighterId = searchParams.get("fighter");
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -19,7 +19,31 @@ export default function Home() {
         const response = await axios.get(
           "https://api.xpad-extension.baboons.tech/api/user/list/"
         );
-        setFighters(response?.data?.results); // Assuming response data is the array of users
+        const fighters = response?.data?.results;
+
+        // Filter to find the fighter with the matching `id`
+        const matchingFighter =
+          playerFighterId &&
+          fighters?.find(
+            (f: { id: number }) => f.id === parseInt(playerFighterId)
+          );
+
+        const otherFighters =
+          playerFighterId &&
+          fighters?.filter(
+            (f: { id: number }) => f.id !== parseInt(playerFighterId)
+          );
+
+        // Filter out the matching fighter to avoid duplicates, then select a random fighter
+        const randomFighter =
+          otherFighters && otherFighters.length > 0
+            ? otherFighters[Math.floor(Math.random() * otherFighters.length)]
+            : null;
+
+        console.log("seee", matchingFighter, otherFighters, randomFighter);
+
+        // Return the array with both fighters if both exist
+        playerFighterId && setFighters([matchingFighter, randomFighter] as any); // Assuming response data is the array of users
       } catch (err: any) {
         console.log("err", err);
         console.error("Error fetching users:", err);
@@ -35,76 +59,80 @@ export default function Home() {
       setIsFighting(true);
       setBattleLog([]);
       setWinner(null);
+      console.log("fromplayerFighterId", playerFighterId);
+      if (playerFighterId) {
+        console.log("fromplayerFighterId", playerFighterId);
+        const newFighters = [
+          ...fighters
+            .filter(
+              (f) =>
+                f.id === parseInt(playerFighterId) ||
+                fighters[Math.floor(Math.random() * fighters.length)].id
+            )
+            .slice(0, 2)
+            .map((f) => ({ ...f, health: f.points })),
+        ];
+        console.log("newFighters", newFighters);
 
-      const newFighters = [
-        ...fighters
-          .filter(
-            (f) => f.id === playerFighterId || f.id === 53
-            // fighters[Math.floor(Math.random() * fighters.length)].id
-          )
-          .slice(0, 2)
-          .map((f) => ({ ...f, health: f.points })),
-      ];
-      console.log("newFighters", newFighters);
+        let currentFighters = newFighters;
+        console.log("currentFighters", currentFighters);
+        let turnCounter = 0;
 
-      let currentFighters = newFighters;
-      console.log("currentFighters", currentFighters);
-      let turnCounter = 0;
+        const battleInterval = setInterval(() => {
+          if (
+            // currentFighters[0].health <= 0 ||
+            // currentFighters[1].health <= 0 ||
+            turnCounter >= 10
+          ) {
+            clearInterval(battleInterval);
+            setIsFighting(false);
+            const winner =
+              currentFighters[0].health > currentFighters[1].health
+                ? currentFighters[0]
+                : currentFighters[1];
 
-      const battleInterval = setInterval(() => {
-        if (
-          // currentFighters[0].health <= 0 ||
-          // currentFighters[1].health <= 0 ||
-          turnCounter >= 10
-        ) {
-          clearInterval(battleInterval);
-          setIsFighting(false);
-          const winner =
-            currentFighters[0].health > currentFighters[1].health
-              ? currentFighters[0]
-              : currentFighters[1];
+            console.log("winner from main", winner);
+            setWinner(winner);
+            return;
+          }
 
-          console.log("winner from main", winner);
-          setWinner(winner);
-          return;
-        }
+          const attacker = turnCounter % 2 === 0 ? 0 : 1;
+          const defender = attacker === 0 ? 1 : 0;
 
-        const attacker = turnCounter % 2 === 0 ? 0 : 1;
-        const defender = attacker === 0 ? 1 : 0;
+          const moves = ["punched", "kicked", "struck", "attacked"];
+          const move = moves[Math.floor(Math.random() * moves.length)];
 
-        const moves = ["punched", "kicked", "struck", "attacked"];
-        const move = moves[Math.floor(Math.random() * moves.length)];
+          // Check if points are valid numbers, defaulting to 0 if they are not
+          const attackerPoints =
+            typeof currentFighters[attacker].points === "number"
+              ? currentFighters[attacker].points
+              : 0;
+          const defenderPoints =
+            typeof currentFighters[defender].points === "number"
+              ? currentFighters[defender].points
+              : 0;
 
-        // Check if points are valid numbers, defaulting to 0 if they are not
-        const attackerPoints =
-          typeof currentFighters[attacker].points === "number"
-            ? currentFighters[attacker].points
-            : 0;
-        const defenderPoints =
-          typeof currentFighters[defender].points === "number"
-            ? currentFighters[defender].points
-            : 0;
+          // Example formula to calculate damage based on the attacker's points
+          const baseDamageFactor = 0.1 + Math.random() * 0.4; // 10% to 50% of attacker's points
+          const damage = Math.max(
+            Math.floor(attackerPoints * baseDamageFactor),
+            1
+          );
 
-        // Example formula to calculate damage based on the attacker's points
-        const baseDamageFactor = 0.1 + Math.random() * 0.4; // 10% to 50% of attacker's points
-        const damage = Math.max(
-          Math.floor(attackerPoints * baseDamageFactor),
-          1
-        );
+          currentFighters[defender].health = Math.max(
+            currentFighters[defender].health - damage,
+            0
+          );
 
-        currentFighters[defender].health = Math.max(
-          currentFighters[defender].health - damage,
-          0
-        );
+          setBattleLog((prev) => [
+            ...prev,
+            `${currentFighters[attacker].username} ${move} ${currentFighters[defender].username} for ${damage} damage!`,
+          ]);
 
-        setBattleLog((prev) => [
-          ...prev,
-          `${currentFighters[attacker].username} ${move} ${currentFighters[defender].username} for ${damage} damage!`,
-        ]);
-
-        setFighters(currentFighters as unknown as [User, User]);
-        turnCounter++;
-      }, 2000);
+          setFighters(currentFighters as unknown as [User, User]);
+          turnCounter++;
+        }, 2000);
+      }
     }
   };
 
