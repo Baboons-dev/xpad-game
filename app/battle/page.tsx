@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 
 export default function Home() {
   const searchParams = useSearchParams();
+  const [loading, setLoading] = useState(false);
   const [fighters, setFighters] = useState<[User, User]>();
   const [battleLog, setBattleLog] = useState<string[]>([]);
   const [isFighting, setIsFighting] = useState(false);
@@ -14,37 +15,39 @@ export default function Home() {
   const playerFighterId = searchParams.get("fighter");
 
   useEffect(() => {
+    setLoading(true);
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
           "https://api.xpad-extension.baboons.tech/api/user/list/"
         );
-        const fighters = response?.data?.results;
 
+        const fighters = response?.data?.results;
         // Filter to find the fighter with the matching `id`
-        const matchingFighter =
-          playerFighterId &&
-          fighters?.find(
+        if (playerFighterId) {
+          const matchingFighter = fighters?.find(
             (f: { id: number }) => f.id === parseInt(playerFighterId)
           );
 
-        const otherFighters =
-          playerFighterId &&
-          fighters?.filter(
+          const otherFighters = fighters?.filter(
             (f: { id: number }) => f.id !== parseInt(playerFighterId)
           );
 
-        // Filter out the matching fighter to avoid duplicates, then select a random fighter
-        const randomFighter =
-          otherFighters && otherFighters.length > 0
-            ? otherFighters[Math.floor(Math.random() * otherFighters.length)]
-            : null;
+          // Filter out the matching fighter to avoid duplicates, then select a random fighter
+          const randomFighter =
+            otherFighters && otherFighters.length > 0
+              ? otherFighters[Math.floor(Math.random() * otherFighters.length)]
+              : null;
 
-        console.log("seee", matchingFighter, otherFighters, randomFighter);
+          console.log("seee", matchingFighter, otherFighters, randomFighter);
 
-        // Return the array with both fighters if both exist
-        playerFighterId && setFighters([matchingFighter, randomFighter] as any); // Assuming response data is the array of users
+          // Return the array with both fighters if both exist
+          playerFighterId &&
+            setFighters([matchingFighter, randomFighter] as any); // Assuming response data is the array of users
+          setLoading(false);
+        }
       } catch (err: any) {
+        setLoading(false);
         console.log("err", err);
         console.error("Error fetching users:", err);
       }
