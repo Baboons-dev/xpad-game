@@ -69,63 +69,6 @@ export default function Home() {
     fetchUsers();
   }, []);
 
-  // Start the battle and set up the interval
-  const simulateBattle1 = (user1: User, user2: User) => {
-    setFightInProgress(true);
-    setRound(0);
-    setUser1Score(0);
-    setUser2Score(0);
-    setBattleFinished(false);
-    setFinalWinner(null);
-
-    const battleInterval = setInterval(() => {
-      if (round < 5) {
-        startFight(user1, user2);
-      } else {
-        clearInterval(battleInterval);
-        endBattle(user1, user2);
-      }
-    }, 5000); // 5 seconds interval for each round
-  };
-
-  // Function to simulate each fight round
-  const startFight = (user1: User, user2: User) => {
-    setFightInProgress(true);
-    setCurrentFightResult(null);
-
-    // Simulate random numbers for each user
-    const user1Random = Math.floor(Math.random() * 5) + 1;
-    const user2Random = Math.floor(Math.random() * 5) + 1;
-
-    // Determine the winner of the round
-    if (user1Random > user2Random) {
-      setUser1Score((prevScore) => prevScore + 1);
-      setCurrentFightResult(`${user1.username} wins this round!`);
-    } else if (user2Random > user1Random) {
-      setUser2Score((prevScore) => prevScore + 1);
-      setCurrentFightResult(`${user2.username} wins this round!`);
-    } else {
-      setCurrentFightResult("It's a draw this round!");
-    }
-
-    // Increment the round count
-    setRound((prevRound) => prevRound + 1);
-  };
-
-  // End the battle and determine the final winner
-  const endBattle = (user1: User, user2: User) => {
-    setBattleFinished(true);
-    setFightInProgress(false);
-
-    if (user1Score > user2Score) {
-      setFinalWinner(user1.username);
-    } else if (user2Score > user1Score) {
-      setFinalWinner(user2.username);
-    } else {
-      setFinalWinner("It's a draw!");
-    }
-  };
-
   const simulateBattle = () => {
     if (fighters && fighters.length > 0) {
       setIsFighting(true);
