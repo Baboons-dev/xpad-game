@@ -12,7 +12,7 @@ interface BattleArenaProps {
   battleLog: string[];
   isFighting: boolean;
   winner: User | null;
-  onStartBattle: () => void;
+  onStartBattle: (fighter1: any, fighter2: any) => void;
 }
 
 export default function BattleArena({
@@ -93,9 +93,9 @@ export default function BattleArena({
               isFighting={isFighting}
             />
 
-            {!isFighting && !winner && (
+            {!isFighting && !winner && fighters && fighters?.length > 0 && (
               <Button
-                onClick={onStartBattle}
+                onClick={() => onStartBattle(fighters[0], fighters[1])}
                 className="bg-brand-lime-dark hover:bg-brand-lime text-blac w-full py-6 text-lg"
               >
                 <Swords className="mr-2 h-5 w-5" />
@@ -103,9 +103,9 @@ export default function BattleArena({
               </Button>
             )}
 
-            {winner && (
+            {winner && fighters && fighters?.length > 0 && (
               <Button
-                onClick={onStartBattle}
+                onClick={() => onStartBattle(fighters[0], fighters[1])}
                 className="bg-brand-lime-dark hover:bg-brand-lime text-black w-full py-6 text-lg"
               >
                 <Swords className="mr-2 h-5 w-5" />
