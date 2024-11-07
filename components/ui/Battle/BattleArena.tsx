@@ -37,7 +37,7 @@ export default function BattleArena({
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
               >
-                {fighters && (
+                {fighters && fighters[1] && (
                   <FighterCard
                     fighter={fighters[1]}
                     isAttacking={isFighting && battleLog.length % 2 === 1}
@@ -68,7 +68,7 @@ export default function BattleArena({
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
               >
-                {fighters && (
+                {fighters && fighters[1] && (
                   <FighterCard
                     fighter={fighters[0]}
                     isAttacking={isFighting && battleLog.length % 2 === 0}
