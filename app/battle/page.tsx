@@ -55,70 +55,81 @@ export default function Home() {
     fetchUsers();
   }, []);
 
+  useEffect(() => console.log(" fighters changed", fighters), [fighters]);
+
   const simulateBattle = () => {
-    if (fighters && fighters?.length > 0) {
+    if (fighters && fighters.length > 0) {
       setIsFighting(true);
       setBattleLog([]);
       setWinner(null);
-      const newFighters = fighters.map((f) => ({ ...f, health: f.points }));
+
+      // Initialize each fighter's health, with a minimum starting health even if points are zero
+      const newFighters = fighters.map((f) => ({
+        ...f,
+        health: f.points > 0 ? f.points : 10, // Minimum starting health if points are zero
+      }));
       let currentFighters = newFighters;
       let turnCounter = 0;
 
       const battleInterval = setInterval(() => {
+        // Check for end conditions: either fighter has zero health or max turns reached
         if (
-          // currentFighters[0].health <= 0 ||
-          // currentFighters[1].health <= 0 ||
-          turnCounter >= 2
+          currentFighters[0].health <= 0 ||
+          currentFighters[1].health <= 0 ||
+          turnCounter >= 5 // Max 5 turns to avoid infinite loop for demonstration
         ) {
           clearInterval(battleInterval);
           setIsFighting(false);
+
+          // Determine the winner based on higher health
           const winner =
             currentFighters[0].health > currentFighters[1].health
               ? currentFighters[0]
               : currentFighters[1];
-
           setWinner(winner);
           return;
         }
 
-        const attacker = turnCounter % 2 === 0 ? 0 : 1;
-        const defender = attacker === 0 ? 1 : 0;
+        const attackerIndex = turnCounter % 2 === 0 ? 0 : 1;
+        const defenderIndex = attackerIndex === 0 ? 1 : 0;
 
         const moves = ["punched", "kicked", "struck", "attacked"];
         const move = moves[Math.floor(Math.random() * moves.length)];
-        const attackerPoints = Math.max(currentFighters[attacker].points, 1);
-        const defenderPoints = Math.max(currentFighters[defender].points, 1);
 
-        console.log("attackerPoints", attackerPoints);
-        console.log("defenderPoints", defenderPoints);
+        // Set base points to 1 if points are 0 to ensure minimum damage
+        const attackerPoints = Math.max(
+          currentFighters[attackerIndex].points,
+          1
+        );
 
         // Calculate damage, ensuring a minimum base damage factor even if points are low
         const baseDamageFactor = 0.1 + Math.random() * 0.4;
-        const minimumDamage = 5; // Set a base minimum damage for zero-point cases
+        const minimumDamage = 5; // Set a minimum base damage
         const damage = Math.max(
           Math.floor(attackerPoints * baseDamageFactor),
           minimumDamage
         );
 
-        // Create a new array to ensure a state update
-        const updatedFighters = [...currentFighters];
-        updatedFighters[defender] = {
-          ...updatedFighters[defender],
-          // health: damage,
-          health: Math.max(updatedFighters[defender].health - damage, 0),
-          // Math.max(updatedFighters[defender].health - damage, 0),
-        };
+        // Accumulate the new health for the defender by subtracting the damage
+        const updatedFighters = currentFighters.map((fighter, index) => {
+          if (index === defenderIndex) {
+            return {
+              ...fighter,
+              health: Math.max(fighter.health - damage, 0), // Ensure health doesn't drop below 0
+            };
+          }
+          return fighter;
+        });
 
         // Update the battle log with the latest move
         setBattleLog((prev) => [
           ...prev,
-          `${updatedFighters[attacker].username} ${move} ${updatedFighters[defender].username} for ${damage} damage!`,
+          `${updatedFighters[attackerIndex].username} ${move} ${updatedFighters[defenderIndex].username} for ${damage} damage!`,
         ]);
 
-        // Update the state with the new array reference
+        // Update the state with the new fighters array
         setFighters(updatedFighters as any);
-
-        console.log("Updated fighters", updatedFighters);
+        currentFighters = updatedFighters;
         turnCounter++;
       }, 2000);
     }
