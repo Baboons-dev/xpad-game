@@ -45,20 +45,18 @@ export default function Home() {
         const strObj = JSON.stringify(response.data?.results[0]);
         localStorage.setItem("userObject", strObj);
         setLoggedInUser(response.data?.results[0]);
-        setUsers(response.data); // Assuming response data is the array of users
+        setUsers(response.data);
         setLoading(false);
       } catch (err: any) {
         console.log("err", err);
         setLoading(false);
-        setError(err.message); // Optional: handle error by setting error state
+        setError(err.message);
         console.error("Error fetching users:", err);
       }
     };
 
     fetchUsers(currentPage, 10);
   }, [currentPage]);
-
-  useEffect(() => console.log("cureent", currentPage), [currentPage]);
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
@@ -67,7 +65,6 @@ export default function Home() {
   };
 
   const handleNextPage = () => {
-    console.log("users?.total_pages", users?.total_pages, currentPage);
     if (users?.total_pages && currentPage < users?.total_pages) {
       setCurrentPage(currentPage + 1);
     }
@@ -80,22 +77,20 @@ export default function Home() {
   return (
     <>
       {loggedInUser && <Header loggedInUser={loggedInUser} loading={loading} />}
-      <main className="min-h-screen bg-background text-white p-8">
+      <main className="min-h-screen bg-gradient-to-b from-background via-background/95 to-card/90 text-white p-8 pt-20">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4 text-brand-lime">
+          <div className="text-center mb-12 relative">
+            <div className="absolute inset-0 bg-brand-lime/5 blur-3xl rounded-full"></div>
+            <h1 className="text-5xl font-black mb-4 bg-gradient-to-r from-brand-lime to-brand-white bg-clip-text text-transparent">
               Ultimate Fighter Championship
             </h1>
-            <p className="text-muted">
+            <p className="text-muted text-lg">
               Choose your opponent to begin the battle
             </p>
           </div>
 
           {loading ? (
-            <div
-              style={{ border: "1px solid redx" }}
-              className="flex items-center justify-center  w-full"
-            >
+            <div className="flex items-center justify-center w-full">
               <LoadingSpinner />
             </div>
           ) : (
@@ -107,30 +102,36 @@ export default function Home() {
                     <Card
                       key={user.id}
                       className={cn(
-                        "p-6 cursor-pointer transition-all duration-300 hover:scale-105 bg-card border-border",
-                        selectedFighter === user.id && "ring-2 ring-red-500"
+                        "p-6 cursor-pointer transition-all duration-300 hover:scale-105 bg-gradient-to-b from-card/90 to-black/90 border-brand-lime/20 hover:border-brand-lime/40",
+                        selectedFighter === user.id && "ring-2 ring-brand-lime shadow-lg shadow-brand-lime/20"
                       )}
                       onClick={() => handleFighterSelect(user.id)}
                     >
                       <div className="flex flex-col items-center space-y-4">
-                        <Avatar className="w-24 h-24">
-                          <AvatarImage src={user.avatar} alt={user.username} />
-                          <AvatarFallback>{user.username[0]}</AvatarFallback>
-                        </Avatar>
-                        <div className="text-center">
-                          <h3 className="text-brand-white">{user.username}</h3>
-                          <div className="flex items-center justify-center mt-2 space-x-2">
-                            <Sword className="w-4 h-4 text-red-400" />
-                            <span className="text-sm text-muted">
-                              Power: {user.points}
-                            </span>
+                        <div className="relative">
+                          <Avatar className="w-24 h-24 ring-4 ring-brand-lime/20">
+                            <AvatarImage src={user.avatar} alt={user.username} />
+                            <AvatarFallback>{user.username[0]}</AvatarFallback>
+                          </Avatar>
+                          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-black/90 px-3 py-1 rounded-full border border-brand-lime/20">
+                            <div className="flex items-center space-x-1">
+                              <Sword className="w-4 h-4 text-brand-lime" />
+                              <span className="text-sm font-mono text-brand-lime">
+                                {user.points}
+                              </span>
+                            </div>
                           </div>
                         </div>
+                        <div className="text-center mt-4">
+                          <h3 className="text-brand-white font-bold text-lg">
+                            {user.username}
+                          </h3>
+                        </div>
                         <Button
-                          className="w-full mt-4 bg-brand-lime-dark text-background"
+                          className="w-full mt-4 bg-gradient-to-r from-brand-lime to-brand-lime-dark hover:from-brand-lime-dark hover:to-brand-lime text-background font-bold transition-all duration-300 hover:shadow-lg hover:shadow-brand-lime/20"
                           onClick={() => handleFighterSelect(user.id)}
                         >
-                          Select Fighter
+                          Challenge Fighter
                         </Button>
                       </div>
                     </Card>
@@ -141,12 +142,10 @@ export default function Home() {
         <div className="mt-10">
           <Pagination>
             <PaginationContent>
-              {/* Previous Button */}
               <PaginationItem>
                 <PaginationPrevious onClick={handlePrevPage} />
               </PaginationItem>
 
-              {/* Page Numbers */}
               {users &&
                 Array.from({ length: users?.total_pages }, (_, index) => {
                   const page = index + 1;
@@ -162,7 +161,6 @@ export default function Home() {
                   );
                 })}
 
-              {/* Ellipsis (if needed) */}
               {users?.total_pages &&
                 users?.total_pages > 5 &&
                 currentPage < users?.total_pages - 2 && (
@@ -171,7 +169,6 @@ export default function Home() {
                   </PaginationItem>
                 )}
 
-              {/* Next Button */}
               <PaginationItem>
                 <PaginationNext onClick={handleNextPage} />
               </PaginationItem>

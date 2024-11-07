@@ -1,31 +1,46 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Scroll } from "lucide-react";
 
 interface BattleLogProps {
-  logs: string[];
+  messages: string[];
 }
 
-export default function BattleLog({ logs }: BattleLogProps) {
+export default function BattleLog({ messages }: BattleLogProps) {
   return (
-    <Card className="bg-gray-800/50 border-gray-700 p-4">
-      <h3 className="text-xl font-bold text-white mb-4">Battle Log</h3>
-      <div className="space-y-2 max-h-48 overflow-y-auto">
-        <AnimatePresence>
-          {logs.map((log, index) => (
-            <motion.div
-              key={index}
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: 20, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <p className="text-gray-300 p-2 rounded bg-gray-700/30">{log}</p>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+    <div className="relative">
+      <div className="flex items-center mb-4 space-x-2">
+        <Scroll className="w-5 h-5 text-brand-lime" />
+        <h3 className="text-xl font-bold text-brand-white">Battle Log</h3>
       </div>
-    </Card>
+      <div className="bg-black/50 border border-brand-lime/20 rounded-lg p-4">
+        <ScrollArea className="h-[200px] w-full">
+          <AnimatePresence mode="popLayout">
+            {messages.length === 0 ? (
+              <p className="text-muted text-center py-8">
+                Battle log will appear here...
+              </p>
+            ) : (
+              <div className="space-y-2">
+                {messages.map((message, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: 20, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-sm text-brand-white/90 font-mono bg-black/30 p-2 rounded"
+                  >
+                    {message}
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </AnimatePresence>
+        </ScrollArea>
+      </div>
+    </div>
   );
 }
