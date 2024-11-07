@@ -16,7 +16,7 @@ export default function Home() {
   const [isFighting, setIsFighting] = useState(false);
   const [winner, setWinner] = useState<User | null>(null);
   const playerFighterId = searchParams.get("fighter");
-  const loggedInUser = localStorage.getItem("userObject");
+  const loggedInUser = localStorage?.getItem("userObject");
   const parsedLoggedInUser = loggedInUser && JSON.parse(loggedInUser);
   const [fightInProgress, setFightInProgress] = useState(false);
   const [currentFightResult, setCurrentFightResult] = useState<string | null>(
@@ -49,8 +49,14 @@ export default function Home() {
             (f: { id: number }) => f.id === parsedLoggedInUser?.id
           );
 
+          console.log([matchingFighter, loggedInFighter]);
+
+          // give same points for fair fight
           playerFighterId &&
-            setFighters([matchingFighter, loggedInFighter] as any); // Assuming response data is the array of users
+            setFighters([
+              { ...matchingFighter, points: 100 },
+              { ...loggedInFighter, points: 100 },
+            ] as any); // Assuming response data is the array of users
           setLoading(false);
         }
       } catch (err: any) {
@@ -137,8 +143,19 @@ export default function Home() {
 
       const battleInterval = setInterval(() => {
         // Check for end conditions: either fighter has zero health or max turns reached
+
+        console.log("fighters[0]", currentFighters[0]);
+        console.log("fighters[1]", currentFighters[1]);
+
+        // turnCounter >= 6 - use this for tun based fair gameplay
+
+        // currentFighters[0].health === 0 ||
+        // currentFighters[1].health === 0  - use this for health based fair gameplay
+
         if (
-          turnCounter >= 5 // Limit turns for this example
+          // turnCounter >= 6
+          currentFighters[0].health === 0 ||
+          currentFighters[1].health === 0 // Limit turns for this example
         ) {
           clearInterval(battleInterval);
           setIsFighting(false);
