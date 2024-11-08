@@ -94,7 +94,7 @@ export default function XPlayPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {users &&
                 users!.results
-                  // .filter((f) => f.id !== loggedInUser?.id)
+                  .filter((f) => f.id !== 52)
                   .map((user) => (
                     <Card
                       key={user.id}
