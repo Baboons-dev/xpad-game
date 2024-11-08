@@ -8,28 +8,26 @@ import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-
-interface User {
-  id: number;
-  username: string;
-  email: string;
-  wallet_address: string;
-  profile_link: string;
-  avatar: string;
-  points: number;
-}
-
-interface UserResponse {
-  count: number;
-  current_page: number;
-  total_pages: number;
-  results: User[];
-}
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationLink,
+  PaginationEllipsis,
+  PaginationNext,
+} from "@/components/ui/pagination";
+import LoadingSpinner from "@/components/common/loadingSpinner";
+import Header from "@/components/common/Header";
+import { User, UserResponse } from "@/types/type";
 
 export default function XPlayPage() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState<User>();
   const [users, setUsers] = useState<UserResponse | null>(null);
   const [error, setError] = useState<any>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [selectedFighter, setSelectedFighter] = useState<number | null>(null);
 
   const handleFighterSelect = (id: number) => {
@@ -39,68 +37,146 @@ export default function XPlayPage() {
 
   useEffect(() => {
     const fetchUsers = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(
           "https://api.xpad-extension.baboons.tech/api/user/list/"
         );
+        const strObj = JSON.stringify(response.data?.results[0]);
+        localStorage.setItem("userObject", strObj);
+        setLoggedInUser(response.data?.results[0]);
         setUsers(response.data);
+        setLoading(false);
       } catch (err: any) {
+        setLoading(false);
         setError(err.message);
         console.error("Error fetching users:", err);
       }
     };
 
     fetchUsers();
-  }, []);
+  }, [currentPage]);
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (users?.total_pages && currentPage < users?.total_pages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
-    <main className="min-h-screen bg-background text-white p-4 sm:p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8 sm:mb-12">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4 text-brand-lime">
-            Ultimate Fighter Championship
-          </h1>
-          <p className="text-muted text-sm sm:text-base">Choose your opponent to begin the battle</p>
-        </div>
+    <>
+      <main className="min-h-screen bg-background text-white p-4 sm:p-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12">
+            <h1 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4 text-brand-lime">
+              Ultimate Fighter Championship
+            </h1>
+            <p className="text-muted text-sm sm:text-base">
+              Choose your opponent to begin the battle
+            </p>
+          </div>
 
-        <div className="grid grid-cols-2 gap-3 sm:gap-6">
-          {users &&
-            users.results.map((user) => (
-              <Card
-                key={user.id}
-                className={cn(
-                  "p-4 sm:p-6 cursor-pointer transition-all duration-300 hover:scale-105 bg-card border-border",
-                  selectedFighter === user.id && "ring-2 ring-red-500"
-                )}
-                onClick={() => handleFighterSelect(user.id)}
-              >
-                <div className="flex flex-col items-center space-y-3 sm:space-y-4">
-                  <Avatar className="w-16 sm:w-24 h-16 sm:h-24">
-                    <AvatarImage src={user.avatar} alt={user.username} />
-                    <AvatarFallback>{user.username[0]}</AvatarFallback>
-                  </Avatar>
-                  <div className="text-center">
-                    <h3 className="text-brand-white text-sm sm:text-base truncate max-w-[120px] sm:max-w-full">
-                      {user.username}
-                    </h3>
-                    <div className="flex items-center justify-center mt-1 sm:mt-2 space-x-1 sm:space-x-2">
-                      <Sword className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />
-                      <span className="text-xs sm:text-sm text-muted">
-                        Power: {user.points}
-                      </span>
-                    </div>
-                  </div>
-                  <Button
-                    className="w-full mt-2 sm:mt-4 bg-brand-lime-dark text-background text-xs sm:text-sm py-1 sm:py-2"
-                    onClick={() => handleFighterSelect(user.id)}
-                  >
-                    Select Fighter
-                  </Button>
-                </div>
-              </Card>
-            ))}
+          {loading ? (
+            <div className="flex items-center justify-center w-full">
+              <LoadingSpinner />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {users &&
+                users!.results
+                  // .filter((f) => f.id !== loggedInUser?.id)
+                  .map((user) => (
+                    <Card
+                      key={user.id}
+                      className={cn(
+                        "p-6 cursor-pointer transition-all duration-300 hover:scale-105 bg-gradient-to-b from-card/90 to-black/90 border-brand-lime/20 hover:border-brand-lime/40",
+                        selectedFighter === user.id &&
+                          "ring-2 ring-brand-lime shadow-lg shadow-brand-lime/20"
+                      )}
+                      onClick={() => handleFighterSelect(user.id)}
+                    >
+                      <div className="flex flex-col items-center space-y-4">
+                        <div className="relative">
+                          <Avatar className="w-24 h-24 ring-4 ring-brand-lime/20">
+                            <AvatarImage
+                              src={user.avatar}
+                              alt={user.username}
+                            />
+                            <AvatarFallback>{user.username[0]}</AvatarFallback>
+                          </Avatar>
+                          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-black/90 px-3 py-1 rounded-full border border-brand-lime/20">
+                            <div className="flex items-center space-x-1">
+                              <Sword className="w-4 h-4 text-brand-lime" />
+                              <span className="text-sm font-mono text-brand-lime">
+                                {user.points}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-center mt-4">
+                          <h3 className="text-brand-white font-bold text-lg">
+                            {user.username}
+                          </h3>
+                        </div>
+                        <Button
+                          className="w-full mt-4 bg-gradient-to-r from-brand-lime to-brand-lime-dark hover:from-brand-lime-dark hover:to-brand-lime text-background font-bold transition-all duration-300 hover:shadow-lg hover:shadow-brand-lime/20"
+                          onClick={() => handleFighterSelect(user.id)}
+                        >
+                          Challenge Fighter
+                        </Button>
+                      </div>
+                    </Card>
+                  ))}
+            </div>
+          )}
         </div>
-      </div>
-    </main>
+        <div className="mt-10">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious onClick={handlePrevPage} />
+              </PaginationItem>
+
+              {users &&
+                Array.from({ length: users?.total_pages }, (_, index) => {
+                  const page = index + 1;
+                  return (
+                    <PaginationItem key={page}>
+                      <PaginationLink
+                        isActive={page === currentPage}
+                        onClick={() => goToPage(page)}
+                      >
+                        {page}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                })}
+
+              {users?.total_pages &&
+                users?.total_pages > 5 &&
+                currentPage < users?.total_pages - 2 && (
+                  <PaginationItem>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                )}
+
+              <PaginationItem>
+                <PaginationNext onClick={handleNextPage} />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      </main>
+    </>
   );
 }
