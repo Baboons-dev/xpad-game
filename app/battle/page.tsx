@@ -1,12 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Fighter, User } from "@/lib/types";
-import BattleArena from "@/components/ui/Battle/BattleArena";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
-import LoadingSpinner from "@/components/ui/LoadingSpinner";
-import Header from "@/components/ui/Header";
-import Battle from "@/components/ui/Battle/TestBattle";
+import { User } from "@/types/type";
+import LoadingSpinner from "@/components/common/loadingSpinner";
+import BattleArena from "@/components/Battle/BattleArena";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -158,9 +156,6 @@ export default function Home() {
 
   return (
     <>
-      {loggedInUser && (
-        <Header loggedInUser={parsedLoggedInUser} loading={loading} />
-      )}
       {loading ? (
         <div
           style={{ border: "1px solid redx" }}

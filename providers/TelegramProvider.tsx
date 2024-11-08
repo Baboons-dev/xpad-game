@@ -18,8 +18,8 @@ export interface ITelegramContext {
 export const TelegramContext = createContext<ITelegramContext>({});
 
 export const TelegramProvider = ({
-                                   children,
-                                 }: {
+  children,
+}: {
   children: React.ReactNode;
 }) => {
   const [webApp, setWebApp] = useState<IWebApp | null>(null);
@@ -72,13 +72,13 @@ export const TelegramProvider = ({
   const value = useMemo(() => {
     return webApp
       ? {
-        webApp,
-        unsafeData: webApp.initDataUnsafe,
-        telegram_user: webApp.initDataUnsafe.user ?? statUser,
-      }
+          webApp,
+          unsafeData: webApp.initDataUnsafe,
+          telegram_user: webApp.initDataUnsafe.user ?? statUser,
+        }
       : {
-        telegram_user: statUser,
-      };
+          telegram_user: statUser,
+        };
   }, [webApp, statUser]);
 
   useEffect(() => {

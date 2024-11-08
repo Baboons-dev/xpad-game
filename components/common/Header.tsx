@@ -1,9 +1,8 @@
 "use client";
-
-import { User } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Trophy } from "lucide-react";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "@/components/common/loadingSpinner";
+import { User } from "@/types/type";
 
 interface HeaderProps {
   loggedInUser: User;
@@ -21,12 +20,17 @@ export default function Header({ loggedInUser, loading }: HeaderProps) {
             <div className="relative">
               <div className="absolute inset-0 bg-brand-lime/10 blur-lg rounded-full"></div>
               <Avatar className="w-10 h-10 ring-2 ring-brand-lime/30">
-                <AvatarImage src={loggedInUser.avatar} alt={loggedInUser.username} />
+                <AvatarImage
+                  src={loggedInUser.avatar}
+                  alt={loggedInUser.username}
+                />
                 <AvatarFallback>{loggedInUser.username[0]}</AvatarFallback>
               </Avatar>
             </div>
             <div>
-              <p className="font-bold text-brand-white">{loggedInUser.username}</p>
+              <p className="font-bold text-brand-white">
+                {loggedInUser.username}
+              </p>
             </div>
           </div>
 

@@ -1,11 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Fighter, User } from "@/lib/types";
-import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Shield, Swords } from "lucide-react";
+import { User } from "@/types/type";
 
 interface FighterCardProps {
   fighter: User;

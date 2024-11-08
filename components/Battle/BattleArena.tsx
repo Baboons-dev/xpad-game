@@ -1,11 +1,10 @@
 "use client";
-
-import { User } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sword, Swords } from "lucide-react";
 import { motion } from "framer-motion";
+import { User } from "@/types/type";
 import BattleLog from "./BattleLog";
 
 interface BattleArenaProps {
@@ -35,7 +34,9 @@ export default function BattleArena({
           <h1 className="text-3xl md:text-5xl font-black mb-2 md:mb-4 bg-gradient-to-r from-brand-lime to-brand-white bg-clip-text text-transparent">
             Battle Arena
           </h1>
-          <p className="text-muted text-sm md:text-lg">May the best fighter win!</p>
+          <p className="text-muted text-sm md:text-lg">
+            May the best fighter win!
+          </p>
         </div>
 
         <div className="grid grid-cols-2 gap-2 md:gap-6">
@@ -51,7 +52,10 @@ export default function BattleArena({
                   <div className="relative">
                     <div className="absolute inset-0 bg-brand-lime/10 blur-lg rounded-full"></div>
                     <Avatar className="w-16 h-16 md:w-32 md:h-32 ring-2 md:ring-4 ring-brand-lime/20">
-                      <AvatarImage src={fighter.avatar} alt={fighter.username} />
+                      <AvatarImage
+                        src={fighter.avatar}
+                        alt={fighter.username}
+                      />
                       <AvatarFallback>{fighter.username[0]}</AvatarFallback>
                     </Avatar>
                     <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-black/90 px-2 md:px-4 py-1 rounded-full border border-brand-lime/20">
@@ -74,7 +78,9 @@ export default function BattleArena({
                           className="bg-brand-lime h-full rounded-full"
                           initial={{ width: "100%" }}
                           animate={{
-                            width: `${(fighter.health / fighter.points) * 100}%`,
+                            width: `${
+                              (fighter.health / fighter.points) * 100
+                            }%`,
                           }}
                           transition={{ duration: 0.5 }}
                         />
@@ -118,7 +124,9 @@ export default function BattleArena({
               <h2 className="text-xl md:text-2xl font-bold text-brand-lime mb-2">
                 Winner: {winner.username}!
               </h2>
-              <p className="text-sm md:text-base text-muted">Victory has been claimed!</p>
+              <p className="text-sm md:text-base text-muted">
+                Victory has been claimed!
+              </p>
             </motion.div>
           )}
 
