@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Scroll } from "lucide-react";
 
 interface BattleLogProps {
@@ -16,7 +15,7 @@ export default function BattleLog({ messages }: BattleLogProps) {
         <h3 className="text-xl font-bold text-brand-white">Battle Log</h3>
       </div>
       <div className="bg-black/50 border border-brand-lime/20 rounded-lg p-4">
-        <ScrollArea className="h-[200px] w-full">
+        <div className="h-[200px] w-full overflow-y-auto">
           <AnimatePresence mode="popLayout">
             {messages.length === 0 ? (
               <p className="text-muted text-center py-8">
@@ -39,7 +38,7 @@ export default function BattleLog({ messages }: BattleLogProps) {
               </div>
             )}
           </AnimatePresence>
-        </ScrollArea>
+        </div>
       </div>
     </div>
   );

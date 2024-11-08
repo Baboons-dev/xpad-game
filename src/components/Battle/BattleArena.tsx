@@ -1,11 +1,9 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sword, Swords } from "lucide-react";
 import { motion } from "framer-motion";
 import { User } from "@/types/type";
 import BattleLog from "./BattleLog";
+import {Avatar, Button} from "antd";
 
 interface BattleArenaProps {
   fighters?: [User, User];
@@ -47,16 +45,11 @@ export default function BattleArena({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2 }}
             >
-              <Card className="p-3 md:p-6 bg-gradient-to-b from-card/90 to-black/90 border-brand-lime/20">
+              <div className="p-3 md:p-6 bg-gradient-to-b from-card/90 to-black/90 border-brand-lime/20">
                 <div className="flex flex-col items-center space-y-2 md:space-y-4">
                   <div className="relative">
                     <div className="absolute inset-0 bg-brand-lime/10 blur-lg rounded-full"></div>
-                    <Avatar className="w-16 h-16 md:w-32 md:h-32 ring-2 md:ring-4 ring-brand-lime/20">
-                      <AvatarImage
-                        src={fighter.avatar}
-                        alt={fighter.username}
-                      />
-                      <AvatarFallback>{fighter.username[0]}</AvatarFallback>
+                    <Avatar className="w-16 h-16 md:w-32 md:h-32 ring-2 md:ring-4 ring-brand-lime/20" src={fighter.avatar}>
                     </Avatar>
                     <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-black/90 px-2 md:px-4 py-1 rounded-full border border-brand-lime/20">
                       <div className="flex items-center space-x-1 md:space-x-2">
@@ -91,7 +84,7 @@ export default function BattleArena({
                     </div>
                   </div>
                 </div>
-              </Card>
+              </div>
             </motion.div>
           ))}
         </div>

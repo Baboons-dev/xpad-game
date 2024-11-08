@@ -23,10 +23,7 @@ export const TelegramProvider = ({
   children: React.ReactNode;
 }) => {
   const [webApp, setWebApp] = useState<IWebApp | null>(null);
-  const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { login, logout } = useUser();
-  const tgId = searchParams.get("tgId");
 
   useEffect(() => {
     const app = (window as any).Telegram?.WebApp;
@@ -62,12 +59,12 @@ export const TelegramProvider = ({
   // encrypted 6365928462 2697130450116749GY92+QvsVj++ehtUq0oUSw==
   // encrypted 6365928463 7125520470488884wHmf5Sq5QSqOU4ch3hMLXQ==
 
-  // const statUser = {
-  //   id: 6365928461,
-  //   first_name: "waqas",
-  // };
+  const statUser = {
+    id: 1778691594,
+    first_name: "hasib",
+  };
 
-  const statUser = null;
+  // const statUser = null;
 
   const value = useMemo(() => {
     return webApp
@@ -81,19 +78,6 @@ export const TelegramProvider = ({
         };
   }, [webApp, statUser]);
 
-  useEffect(() => {
-    console.log(
-      "value.telegram_user?.id",
-      value.telegram_user,
-      "tgId<<><><><>",
-      tgId
-    );
-    // logout();
-    if (value.telegram_user?.id && tgId) {
-      console.log("logging in tgProvider");
-      login(value.telegram_user, tgId);
-    }
-  }, [value, tgId]);
 
   return (
     <TelegramContext.Provider value={value as ITelegramContext}>
