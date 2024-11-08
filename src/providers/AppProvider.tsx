@@ -50,7 +50,7 @@ export function AppProvider({children}: { children: React.ReactNode }) {
                 const response = await twitterLogin(tgId as string,telegram_user?.id.toString() as string )
                 if (response?.url) {
                     const queryParams = new URL(response?.url);
-                    queryParams.searchParams.set("redirect_uri", "https://xgame.baboons.tech/authenticate?tgId=" + tgId + '&tId=' + telegram_user?.id.toString());
+                    queryParams.searchParams.set("redirect_uri", "https://xplay.baboons.tech/authenticate?tgId=" + encodeURI(tgId) + '&tId=' + encodeURI(telegram_user?.id.toString() as string));
                     setTwUrl(queryParams.toString())
                 }
             } catch (e) {
@@ -61,8 +61,9 @@ export function AppProvider({children}: { children: React.ReactNode }) {
 
     return (
         <>
-            {user && accessToken && !fistTime && <div className="app-wrap">{children}</div> }
-            {/*{!(user && accessToken) && */}
+            {/*{user && accessToken && !fistTime && <div className="app-wrap">{children}</div>}*/}
+            <div className="app-wrap">{children}</div>
+            {!(user && accessToken) &&
                 <div>
                     <Button onClick={() => login()}>Login with twitter</Button>
                     {twUrl && <div>
@@ -79,7 +80,7 @@ export function AppProvider({children}: { children: React.ReactNode }) {
                     </div>
                     }
                 </div>
-            {/*}*/}
+            }
         </>
     );
 }
