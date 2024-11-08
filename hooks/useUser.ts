@@ -1,35 +1,70 @@
-import { signIn, signOut } from "next-auth/react";
+
+import {
+    GetUser, twitterSave
+} from '@/api/apiCalls/user';
+import {
+    login as _login,
+    logout as _logout,
+    setUser,
+} from '../redux/reducer';
+import {useDispatch, useSelector} from "react-redux";
 
 const useUser = () => {
-  const login = async (telegram_user: any, tgId: string) => {
-    if (telegram_user?.id) {
-      try {
-        console.log("trying signin");
-        // await signIn("credentials", {
-        //   redirect: false,
-        //   tgId: tgId ?? telegram_user.id.toString(),
-        //   telegramId: telegram_user.id.toString(),
-        //   firstName: telegram_user.first_name
-        //     ? telegram_user.first_name
-        //     : telegram_user.id,
-        // });
-      } catch (e) {
-        console.log("error login", e);
-      }
-    }
-  };
+    const dispatch = useDispatch();
 
-  const logout = () => {
-    // signOut({
-    //   callbackUrl: "/",
-    // });
-    console.log("logout");
-  };
+    const loginTwitter = async (payload: { state: string, code: string,tgId:string,tId:string }) => {
+        try {
+            const res = await twitterSave(payload)
+            console.log('res final login', res);
+            if (res.data) {
+                localStorage.setItem('token', res.data.data.access);
+                localStorage.setItem('refreshToken', res.data.data.refresh);
+                setTimeout(async () => {
+                    const currentUser = await GetUser();
+                    if (currentUser) {
+                        dispatch(
+                            _login({
+                                isAuthenticated: true,
+                                refreshToken: res.data.data.access,
+                                token: res.data.data.access,
+                                user: currentUser.data
+                            }),
+                        );
+                        // message.success('Login success');
+                    }
+                }, 500)
+                return true;
+            }
 
-  return {
-    login,
-    logout,
-  };
+        } catch (error) {
+            console.error('error login', error);
+            // message.error('Something went wrong');
+        }
+    };
+
+    const getCurrentUser = async () => {
+        try {
+            const res = await GetUser();
+            // console.log('userrr refresh', res);
+            dispatch(setUser(res.data));
+        } catch (error) {
+            console.error('error getCurrentUser', error);
+        }
+    };
+
+
+    const logout = () => {
+        dispatch(_logout());
+        localStorage.removeItem('token');
+        console.log('logout');
+    };
+
+
+    return {
+        logout,
+        getCurrentUser,
+        loginTwitter
+    };
 };
 
 export default useUser;
