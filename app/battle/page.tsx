@@ -1,182 +1,291 @@
 "use client";
+
 import { useEffect, useState } from "react";
-import { Fighter, User } from "@/lib/types";
-import BattleArena from "@/components/ui/Battle/BattleArena";
-import axios from "axios";
 import { useSearchParams } from "next/navigation";
-import LoadingSpinner from "@/components/ui/LoadingSpinner";
-import Header from "@/components/ui/Header";
-import Battle from "@/components/ui/Battle/TestBattle";
+import { motion } from "framer-motion";
+import { Avatar } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Trophy, Swords } from "lucide-react";
+import { useRouter } from "next/navigation";
+import confetti from "canvas-confetti";
 
-export default function Home() {
+const fighters = {
+  1: {
+    id: 1,
+    name: "Shadow Striker",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&h=200&auto=format&fit=crop",
+    power: 85,
+  },
+  2: {
+    id: 2,
+    name: "Mystic Warrior",
+    avatar:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&h=200&auto=format&fit=crop",
+    power: 82,
+  },
+  3: {
+    id: 3,
+    name: "Thunder Knight",
+    avatar:
+      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=200&h=200&auto=format&fit=crop",
+    power: 88,
+  },
+  4: {
+    id: 4,
+    name: "Dragon Master",
+    avatar:
+      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=200&h=200&auto=format&fit=crop",
+    power: 90,
+  },
+};
+
+const users = {
+  results: [
+    {
+      id: 53,
+      username: "BNamangala",
+      email: "",
+      wallet_address: "0x601BA90637feF8208a68aD1cB9c46EF25229aD9D",
+      profile_link: "https://x.com/BNamangala",
+      avatar:
+        "https://pbs.twimg.com/profile_images/1494839217654050816/-mrcdvrZ_normal.jpg",
+      points: 1012,
+    },
+    {
+      id: 52,
+      username: "tomjongbloets",
+      email: "",
+      wallet_address: null,
+      profile_link: "https://x.com/tomjongbloets",
+      avatar:
+        "https://pbs.twimg.com/profile_images/1325103480885964809/sP7xqpac_normal.jpg",
+      points: 0,
+    },
+    {
+      id: 48,
+      username: "BartErmens",
+      email: "",
+      wallet_address: "0xa898DB8dBDdb62c3a6FB5Be4f3720d9d14bFa0F6",
+      profile_link: "https://x.com/BartErmens",
+      avatar:
+        "https://pbs.twimg.com/profile_images/1358816985040248835/bPtQbruz_normal.jpg",
+      points: 8300,
+    },
+    {
+      id: 41,
+      username: "test1150756",
+      email: "",
+      wallet_address: null,
+      profile_link: "https://x.com/test1150756",
+      avatar: null,
+      points: 0,
+    },
+    {
+      id: 37,
+      username: "ArjunVihaan80",
+      email: "",
+      wallet_address: null,
+      profile_link: "https://x.com/ArjunVihaan80",
+      avatar: null,
+      points: 0,
+    },
+    {
+      id: 35,
+      username: "AppealsC14358",
+      email: "",
+      wallet_address: null,
+      profile_link: "https://x.com/AppealsC14358",
+      avatar: null,
+      points: 0,
+    },
+    {
+      id: 34,
+      username: "greyjoy_sh56058",
+      email: "",
+      wallet_address: null,
+      profile_link: "https://x.com/greyjoy_sh56058",
+      avatar: null,
+      points: 0,
+    },
+    {
+      id: 33,
+      username: "cwsctsqa",
+      email: "",
+      wallet_address: null,
+      profile_link: "https://x.com/cwsctsqa",
+      avatar: null,
+      points: 0,
+    },
+    {
+      id: 32,
+      username: "neelamwaqar12",
+      email: "",
+      wallet_address: "0x7868933a36Fb7771f5d87c65857F63C9264d28a4",
+      profile_link: "https://x.com/neelamwaqar12",
+      avatar:
+        "https://pbs.twimg.com/profile_images/1813302706150195200/27e3wDkM_bigger.png",
+      points: 13200,
+    },
+    {
+      id: 31,
+      username: "cwsbnglr78465",
+      email: "",
+      wallet_address: null,
+      profile_link: "https://x.com/cwsbnglr78465",
+      avatar:
+        "https://pbs.twimg.com/profile_images/1817792301432979457/9oEMzurD_x96.png",
+      points: 0,
+    },
+  ],
+};
+
+export default function BattlePage() {
   const searchParams = useSearchParams();
-  const [loading, setLoading] = useState(false);
-  const [fighters, setFighters] = useState<[User, User]>();
-  const [battleLog, setBattleLog] = useState<string[]>([]);
-  const [isFighting, setIsFighting] = useState(false);
-  const [winner, setWinner] = useState<User | null>(null);
-  const playerFighterId = searchParams.get("fighter");
-  const loggedInUser = localStorage?.getItem("userObject");
-  const parsedLoggedInUser = loggedInUser && JSON.parse(loggedInUser);
-  const [fightInProgress, setFightInProgress] = useState(false);
-  const [currentFightResult, setCurrentFightResult] = useState<string | null>(
-    null
-  );
-  const [round, setRound] = useState(0);
-  const [user1Score, setUser1Score] = useState(0);
-  const [user2Score, setUser2Score] = useState(0);
-  const [battleFinished, setBattleFinished] = useState(false);
-  const [finalWinner, setFinalWinner] = useState<string | null>(null);
+  const router = useRouter();
+  const [battleState, setBattleState] = useState<
+    "pre" | "fighting" | "finished"
+  >("pre");
+  const [winner, setWinner] = useState<number | null>(null);
 
-  console.log("parsedLoggedInUser", parsedLoggedInUser);
+  const playerFighterId = parseInt(searchParams.get("fighter") || "1");
+  const computerFighterId = Math.floor(Math.random() * 4) + 1;
 
-  useEffect(() => {
-    setLoading(true);
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(
-          "https://api.xpad-extension.baboons.tech/api/user/list/"
-        );
+  const playerFighter = users[playerFighterId as unknown as keyof typeof users];
+  const computerFighter = fighters[computerFighterId as keyof typeof fighters];
 
-        const fighters = response?.data?.results;
-        // Filter to find the fighter with the matching `id`
-        if (playerFighterId) {
-          const matchingFighter = fighters?.find(
-            (f: { id: number }) => f.id === parseInt(playerFighterId)
-          );
+  console.log("playerFighter", playerFighter);
+  console.log("computerFighter", computerFighter);
 
-          const loggedInFighter = fighters?.find(
-            (f: { id: number }) => f.id === parsedLoggedInUser?.id
-          );
+  console.log("playerFighter", playerFighter);
 
-          console.log([matchingFighter, loggedInFighter]);
+  // useEffect(() => {
+  //   if (battleState === "fighting") {
+  //     const timer = setTimeout(() => {
+  //       const playerWins =
+  //         Math.random() <
+  //         playerFighter.power / (playerFighter.power + computerFighter.power);
+  //       setWinner(playerWins ? playerFighterId : computerFighterId);
+  //       setBattleState("finished");
 
-          // give same points for fair fight
-          playerFighterId &&
-            setFighters([
-              { ...matchingFighter, points: 100 },
-              { ...loggedInFighter, points: 100 },
-            ] as any); // Assuming response data is the array of users
-          setLoading(false);
-        }
-      } catch (err: any) {
-        setLoading(false);
-        console.log("err", err);
-        console.error("Error fetching users:", err);
-      }
-    };
+  //       // Trigger confetti for the winner
+  //       confetti({
+  //         particleCount: 100,
+  //         spread: 70,
+  //         origin: { y: 0.6 },
+  //       });
+  //     }, 3000);
 
-    fetchUsers();
-  }, []);
-
-  const simulateBattle = () => {
-    if (fighters && fighters.length > 0) {
-      setIsFighting(true);
-      setBattleLog([]);
-      setWinner(null);
-
-      // Initialize each fighter's health, giving zero-point fighters a minimum starting health
-      const newFighters = fighters.map((f) => ({
-        ...f,
-        health: f.points > 0 ? f.points : 10, // Minimum starting health of 10 for zero-point fighters
-      }));
-      let currentFighters = [...newFighters];
-      setFighters(newFighters as any); // Initialize the fighters state with starting health
-      let turnCounter = 0;
-
-      const battleInterval = setInterval(() => {
-        // Check for end conditions: either fighter has zero health or max turns reached
-
-        console.log("fighters[0]", currentFighters[0]);
-        console.log("fighters[1]", currentFighters[1]);
-
-        // turnCounter >= 6 - use this for tun based fair gameplay
-
-        // currentFighters[0].health === 0 ||
-        // currentFighters[1].health === 0  - use this for health based fair gameplay
-
-        if (
-          // turnCounter >= 6
-          currentFighters[0].health === 0 ||
-          currentFighters[1].health === 0 // Limit turns for this example
-        ) {
-          clearInterval(battleInterval);
-          setIsFighting(false);
-
-          // Determine the winner based on remaining health
-          const winner =
-            currentFighters[0].health > currentFighters[1].health
-              ? currentFighters[0]
-              : currentFighters[1];
-          setWinner(winner);
-          return;
-        }
-
-        const attackerIndex = turnCounter % 2 === 0 ? 0 : 1;
-        const defenderIndex = attackerIndex === 0 ? 1 : 0;
-
-        const moves = ["punched", "kicked", "struck", "attacked"];
-        const move = moves[Math.floor(Math.random() * moves.length)];
-
-        // Ensure attacker points contribute to damage calculation even if they're 0
-        const attackerPoints = Math.max(
-          currentFighters[attackerIndex].points,
-          1
-        );
-
-        // Calculate damage with a base factor and minimum damage threshold
-        const baseDamageFactor = 0.1 + Math.random() * 0.4;
-        const minimumDamage = 5;
-        const damage = Math.max(
-          Math.floor(attackerPoints * baseDamageFactor),
-          minimumDamage
-        );
-
-        // Update defender's health in `currentFighters`
-        currentFighters = currentFighters.map((fighter, index) => {
-          if (index === defenderIndex) {
-            return {
-              ...fighter,
-              health: Math.max(fighter.health - damage, 0), // Ensure health doesn't go below 0
-            };
-          }
-          return fighter;
-        });
-
-        // Log the attack in the battle log
-        setBattleLog((prev) => [
-          ...prev,
-          `${currentFighters[attackerIndex].username} ${move} ${currentFighters[defenderIndex].username} for ${damage} damage!`,
-        ]);
-
-        // Update both `fighters` and `currentFighters` state to ensure health is saved
-        setFighters([...currentFighters] as any);
-        turnCounter++;
-      }, 2000);
-    }
-  };
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [
+  //   battleState,
+  //   playerFighter.power,
+  //   computerFighter.power,
+  //   playerFighterId,
+  //   computerFighterId,
+  // ]);
 
   return (
-    <>
-      {loggedInUser && (
-        <Header loggedInUser={parsedLoggedInUser} loading={loading} />
-      )}
-      {loading ? (
-        <div
-          style={{ border: "1px solid redx" }}
-          className="flex items-center justify-center  w-full"
-        >
-          <LoadingSpinner />
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-red-500 to-orange-500 text-transparent bg-clip-text">
+            Battle Arena
+          </h1>
         </div>
-      ) : (
-        <BattleArena
-          fighters={fighters}
-          battleLog={battleLog}
-          isFighting={isFighting}
-          winner={winner}
-          onStartBattle={simulateBattle}
-        />
-      )}
-    </>
+
+        <div className="flex justify-center items-center gap-8">
+          <motion.div
+            animate={{
+              x: battleState === "fighting" ? -50 : 0,
+              scale: winner === playerFighterId ? 1.2 : 1,
+            }}
+            transition={{ duration: 0.5 }}
+            className="text-center"
+          >
+            <Avatar className="w-32 h-32 border-4 border-blue-500">
+              <img
+                // src={playerFighter.avatar}
+                // alt={playerFighter.name}
+                className="w-full h-full object-cover"
+              />
+            </Avatar>
+            {/* <h3 className="mt-4 text-xl font-bold">{playerFighter.name}</h3> */}
+            <p className="text-blue-400">Player</p>
+          </motion.div>
+
+          {battleState === "pre" && (
+            <Button
+              variant="destructive"
+              size="lg"
+              onClick={() => setBattleState("fighting")}
+              className="mx-8"
+            >
+              <Swords className="mr-2" />
+              Start Battle
+            </Button>
+          )}
+
+          {battleState === "fighting" && (
+            <motion.div
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 0.5, repeat: Infinity }}
+              className="text-4xl font-bold text-red-500"
+            >
+              VS
+            </motion.div>
+          )}
+
+          {battleState === "finished" && (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="mx-8"
+            >
+              <Trophy className="w-16 h-16 text-yellow-400" />
+            </motion.div>
+          )}
+
+          <motion.div
+            animate={{
+              x: battleState === "fighting" ? 50 : 0,
+              scale: winner === computerFighterId ? 1.2 : 1,
+            }}
+            transition={{ duration: 0.5 }}
+            className="text-center"
+          >
+            <Avatar className="w-32 h-32 border-4 border-red-500">
+              <img
+                src={computerFighter.avatar}
+                alt={computerFighter.name}
+                className="w-full h-full object-cover"
+              />
+            </Avatar>
+            <h3 className="mt-4 text-xl font-bold">{computerFighter.name}</h3>
+            <p className="text-red-400">Computer</p>
+          </motion.div>
+        </div>
+
+        {battleState === "finished" && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mt-12"
+          >
+            <h2 className="text-3xl font-bold mb-4">
+              {winner === playerFighterId ? "You Won!" : "Computer Won!"}
+            </h2>
+            <Button
+              variant="secondary"
+              onClick={() => router.push("/")}
+              className="mt-4"
+            >
+              Play Again
+            </Button>
+          </motion.div>
+        )}
+      </div>
+    </div>
   );
 }
