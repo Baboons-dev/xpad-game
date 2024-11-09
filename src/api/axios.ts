@@ -2,8 +2,8 @@ import axios, {AxiosInstance} from 'axios';
 import { clean } from '@/utils';
 
 const TIMEOUT = 25 * 1000;  //15sec
-const SERVER_URL = process.env.NEXT_PUBLIC_API_HOST || 'https://api.xpad-extension.baboons.tech';
-// const SERVER_URL = process.env.NEXT_PUBLIC_API_HOST || 'http://127.0.0.1:8080';
+// const SERVER_URL = process.env.NEXT_PUBLIC_API_HOST || 'https://api.xpad-extension.baboons.tech';
+const SERVER_URL = process.env.NEXT_PUBLIC_API_HOST || 'http://127.0.0.1:8000';
 
 const instance: AxiosInstance = axios.create({
     baseURL: SERVER_URL,
