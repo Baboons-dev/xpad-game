@@ -1,7 +1,4 @@
 "use client";
-import useUser from "@/hooks/useUser";
-import { ITelegramUser, IWebApp } from "@/types/type";
-import { usePathname, useSearchParams } from "next/navigation";
 import React, {
   createContext,
   useContext,
@@ -9,6 +6,8 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import type { ITelegramUser, IWebApp } from "@/types/type";
+import { usePathname } from "next/navigation";
 
 export interface ITelegramContext {
   webApp?: IWebApp;
@@ -24,7 +23,6 @@ export const TelegramProvider = ({
 }) => {
   const [webApp, setWebApp] = useState<IWebApp | null>(null);
   const pathname = usePathname();
-
   useEffect(() => {
     const app = (window as any).Telegram?.WebApp;
     if (app) {
@@ -40,7 +38,6 @@ export const TelegramProvider = ({
       }, 100);
     }
   }, []);
-
   useEffect(() => {
     const app = (window as any).Telegram?.WebApp;
     if (app) {
@@ -54,30 +51,24 @@ export const TelegramProvider = ({
     }
   }, [pathname]);
 
-  // encrypted 6365928460 4499501758768256du5M5fG1NEo0SY+tag577g==
-  // encrypted 6365928461 6427898935961730nDXYGXvq6A7FWyWms6glFA==
-  // encrypted 6365928462 2697130450116749GY92+QvsVj++ehtUq0oUSw==
-  // encrypted 6365928463 7125520470488884wHmf5Sq5QSqOU4ch3hMLXQ==
-
+  //
+  //
+  //
   // const statUser = {
   //   id: 1778691594,
-  //   first_name: "hasib",
+  //   first_name: "Hasib2",
+  //   last_name: "Arman2",
   // };
-
   const statUser = null;
-
   const value = useMemo(() => {
     return webApp
       ? {
           webApp,
           unsafeData: webApp.initDataUnsafe,
-          telegram_user: webApp.initDataUnsafe.user,
+          telegram_user: webApp.initDataUnsafe.user ?? statUser,
         }
-      : {
-          telegram_user: statUser,
-        };
-  }, [webApp, statUser]);
-
+      : {};
+  }, [webApp]);
 
   return (
     <TelegramContext.Provider value={value as ITelegramContext}>

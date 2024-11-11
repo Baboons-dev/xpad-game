@@ -4,7 +4,7 @@ import {Suspense} from 'react';
 import './globals.css';
 import {TelegramProvider} from '@/providers/TelegramProvider';
 import {AppProvider} from "@/providers/AppProvider";
-
+import Script from "next/script";
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -15,15 +15,25 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: { children: React.ReactNode }) {
     return (
         <html lang="en">
-            <Suspense>
-                <TelegramProvider>
-                    <body className={inter.className}>
-                    <AppProvider>
-                            {children}
-                    </AppProvider>
-                    </body>
-                </TelegramProvider>
-            </Suspense>
+        <head>
+            <Script
+                src="https://telegram.org/js/telegram-web-app.js"
+                strategy="beforeInteractive"
+            />
+            <meta
+                content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover"
+                name="viewport"
+            />
+        </head>
+        <Suspense>
+            <TelegramProvider>
+                <body className={inter.className}>
+                <AppProvider>
+                    {children}
+                </AppProvider>
+                </body>
+            </TelegramProvider>
+        </Suspense>
 
         </html>
     );
