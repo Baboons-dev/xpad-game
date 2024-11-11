@@ -59,19 +59,19 @@ export const TelegramProvider = ({
   // encrypted 6365928462 2697130450116749GY92+QvsVj++ehtUq0oUSw==
   // encrypted 6365928463 7125520470488884wHmf5Sq5QSqOU4ch3hMLXQ==
 
-  const statUser = {
-    id: 1778691594,
-    first_name: "hasib",
-  };
+  // const statUser = {
+  //   id: 1778691594,
+  //   first_name: "hasib",
+  // };
 
-  // const statUser = null;
+  const statUser = null;
 
   const value = useMemo(() => {
     return webApp
       ? {
           webApp,
           unsafeData: webApp.initDataUnsafe,
-          telegram_user: webApp.initDataUnsafe.user ?? statUser,
+          telegram_user: webApp.initDataUnsafe.user,
         }
       : {
           telegram_user: statUser,
