@@ -4,7 +4,7 @@ const web_link = "https://xplay.baboons.tech/";
 const TOKEN = "8169861892:AAHmobMRPylA7SLW9Z-kgOS7BQNZOQq6JYw";
 
 const bot = new Telegraf(TOKEN);
-var secretKey = "LefjQ2pEXmiy/nNZvEJ43i8hJuaAnzbA1Cbn1hOuAgA=";
+var secretKey = "02PhgD8F4bgtA0T8WB2/y0dvrtHKXXMwtht3HZgyHSzAUrJwXRYjUV9z0lLB3sNu";
 
 function random16String() {
   let result = "";
