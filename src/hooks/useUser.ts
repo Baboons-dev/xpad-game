@@ -10,7 +10,7 @@ const useUser = () => {
     const logoutUser = useSelector.use.logoutUser();
     const setUser = useSelector.use.setUser();
 
-    const loginTwitter = async (payload: { state: string, code: string, tgId: string, tId: string,codeVerifier:string }) => {
+    const loginTwitter = async (payload: { state: string, code: string, tgId: string, tId: string }) => {
         try {
             const res = await twitterSave(payload)
             console.log('res final login', res);

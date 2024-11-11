@@ -14,7 +14,7 @@ export default function Authenticate() {
     const tgId = searchParams.get("tgId");
     const code = searchParams.get("code");
     const tId = searchParams.get("tId");
-    const codeVerifier = searchParams.get("codeVerifier");
+    // const codeVerifier = searchParams.get("codeVerifier");
     const [twUrl, setTwUrl] = useState('')
     const {loginTwitter, getCurrentUser} = useUser();
     const user = useStore((state) => state.user);
@@ -22,19 +22,19 @@ export default function Authenticate() {
     const setAccessToken = useSelector.use.setAccessToken();
     const setRefreshToken = useSelector.use.setRefreshToken();
     useEffect(() => {
-        if (state && code && tgId && tId && codeVerifier) {
-            loginTwitter({state: state, code: code, tId: tId, tgId: tgId, codeVerifier: codeVerifier})
+        if (state && code && tgId && tId ) {
+            loginTwitter({state: state, code: code, tId: tId, tgId: tgId})
         }
-    }, [tId, code, tgId, state, codeVerifier]);
+    }, [tId, code, tgId, state]);
     const {telegram_user} = useTelegram();
     const login = async () => {
         if (telegram_user && tgId)
             try {
                 const response = await twitterLogin(tgId as string, telegram_user?.id.toString() as string)
                 console.log(response.data)
-                if (response?.url && response?.code_verifier) {
+                if (response?.url) {
                     const queryParams = new URL(response?.url);
-                    queryParams.searchParams.set("redirect_uri", "https://xplay.baboons.tech/authenticate?codeVerifier=" + response?.code_verifier + "&tgId=" + encodeURI(tgId) + '&tId=' + encodeURI(telegram_user?.id.toString() as string));
+                    queryParams.searchParams.set("redirect_uri", "https://xplay.baboons.tech/authenticate?tgId=" + encodeURI(tgId) + '&tId=' + encodeURI(telegram_user?.id.toString() as string));
                     setTwUrl(queryParams.toString())
                 } else if (response.data.access) {
                     localStorage.setItem('token', response.data.access);
