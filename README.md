@@ -16,21 +16,89 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# env
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+BOT_USERNAME=pepe_mp3_bot
 
-## Learn More
+BOT_TOKEN=
 
-To learn more about Next.js, take a look at the following resources:
+SECRET=
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+SECRET_KEY=
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+NEXTAUTH_SECRET=
 
-## Deploy on Vercel
+<!-- DATABASE_URL=postgresql://<db_username>:<db_passowrd>@<ip_address>:5432/<db_name> -->
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+DATABASE_URL=postgresql://postgres:123456@localhost:5432/frog-dev
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+ADMIN_SECRET_KEY=
+
+NEXTAUTH_URL=http://localhost:3000
+
+BASE_URL=http://localhost:3000
+
+# Note
+
+Make sure the SECRET_KEY and SECRET is the same as in bot.js file in root folder
+
+# Running the project dev mode
+
+NPM
+`npm install && npm run dev`
+
+Yarn
+`yarn && yarn dev`
+
+# DB schema
+
+when changes are made to prisma schema
+you need to run postinstall script in package.json
+and to migrate schema `npx prisma db push` also available in package script `yarn prismadb`
+
+to clear db `yarn prismadbForce` <<never run this on prod>>
+
+for db dashboard
+`yarn studio`
+
+# HACK to authentication locally
+
+in TelegramProvider.tsx
+
+uncomment
+
+```
+// const statUser = {
+  //   id: 6365928461,
+  //   first_name: 'waqas',
+// };
+```
+
+and in authOptions.ts file
+
+`const decryptedId: any = await decrypt(credentials.tgId ?? '');`
+
+change to
+
+`const decryptedId: any = credentials.telegramId;`
+
+will let you authenticate locally
+
+# bot.js
+
+The file in the root directory stays the tg bot up and running for debug locally you can create your own bot with BotFather in telegram and for production this file need to run in cleaver process monitors
+`node bot.js`
+
+# Providers
+
+the AppProvider file include all the providers like
+
+TelegramProvider > make sure that the telegram scripts are added and user is extracted from the telegram app
+
+ReferralProvider > use for referral code
+
+SessionProvider > NextJs auth provider gives the loggedIn user with
+
+`const {data, update} = useSession();`
+
+`const user = data.user //gives user`
