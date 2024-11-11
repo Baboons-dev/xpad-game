@@ -1,11 +1,10 @@
 const { Telegraf } = require("telegraf");
 const crypto = require("crypto-js");
-
 const web_link = "https://xplay.baboons.tech/";
-const TOKEN = process.env.BOT_TOKEN || "8169861892:AAHmobMRPylA7SLW9Z-kgOS7BQNZOQq6JYw";
+const TOKEN = "8169861892:AAHmobMRPylA7SLW9Z-kgOS7BQNZOQq6JYw";
 
 const bot = new Telegraf(TOKEN);
-var secretKey = process.env.SECRET_KEY || "LefjQ2pEXmiy/nNZvEJ43i8hJuaAnzbA1Cbn1hOuAgA=";
+var secretKey = "LefjQ2pEXmiy/nNZvEJ43i8hJuaAnzbA1Cbn1hOuAgA=";
 
 function random16String() {
   let result = "";
