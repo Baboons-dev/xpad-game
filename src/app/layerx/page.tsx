@@ -7,65 +7,6 @@ import { useEffect, useState } from "react";
 import { AllNftsResponse, AllNftsResponseData } from "@/types/type";
 import { getAllNfts } from "@/api/apiCalls/user";
 
-// const nfts = [
-//   {
-//     id: 1,
-//     title: "Cosmic Dreamscape #137",
-//     image:
-//       "https://images.unsplash.com/photo-1634973357973-f2ed2657db3c?w=800&auto=format&fit=crop&q=60",
-//     price: "2.5 ETH",
-//     creator: {
-//       name: "Elena Stars",
-//       avatar:
-//         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&auto=format&fit=crop",
-//     },
-//     network: "Ethereum",
-//     likes: 234,
-//   },
-//   {
-//     id: 2,
-//     title: "Digital Genesis #089",
-//     image:
-//       "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=60",
-//     price: "1.8 ETH",
-//     creator: {
-//       name: "Alex Quantum",
-//       avatar:
-//         "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&auto=format&fit=crop",
-//     },
-//     network: "Polygon",
-//     likes: 189,
-//   },
-//   {
-//     id: 3,
-//     title: "Neon Horizons #442",
-//     image:
-//       "https://images.unsplash.com/photo-1633101585272-9511da5fd523?w=800&auto=format&fit=crop&q=60",
-//     price: "3.2 ETH",
-//     creator: {
-//       name: "Maya Digital",
-//       avatar:
-//         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&auto=format&fit=crop",
-//     },
-//     network: "Ethereum",
-//     likes: 567,
-//   },
-//   {
-//     id: 4,
-//     title: "Cyber Punk City #221",
-//     image:
-//       "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&auto=format&fit=crop&q=60",
-//     price: "1.5 ETH",
-//     creator: {
-//       name: "Chris Matrix",
-//       avatar:
-//         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&auto=format&fit=crop",
-//     },
-//     network: "Polygon",
-//     likes: 321,
-//   },
-// ];
-
 interface NftCardProps {
   nft: AllNftsResponseData;
 }
@@ -91,7 +32,7 @@ function NFTCard(props: NftCardProps) {
             {nft?.name}
           </h3>
           <span className="text-brand-lime font-medium shrink-0 ml-2">
-            price
+            {/* price */}
             {/* {nft.price} */}
           </span>
         </div>
