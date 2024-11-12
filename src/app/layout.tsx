@@ -34,7 +34,6 @@ export default function RootLayout({
       <Suspense>
         <TelegramProvider>
           <body className={inter.className}>
-            <TopBar />
             <AppProvider>{children}</AppProvider>
             <MobileNav />
             <div className="h-16 md:h-0" />

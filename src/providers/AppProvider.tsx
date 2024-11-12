@@ -48,11 +48,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [user, fistTime]);
 
   return (
-    <>
-      {/* {user && accessToken && <TopBar/>} */}
+    <div>
+      {user && accessToken && <TopBar />}
       <div className="pt-16">{children}</div>
       {/*<MobileNav/>*/}
       {/*<div className="h-16 md:h-0"/>*/}
-    </>
+    </div>
   );
 }
