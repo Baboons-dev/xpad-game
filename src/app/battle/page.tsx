@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { User } from "@/types/type";
 import BattleArena from "@/components/Battle/BattleArena";
 import { Spin } from "antd";
+import { useStore } from "@/store";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -14,19 +15,7 @@ export default function Home() {
   const [isFighting, setIsFighting] = useState(false);
   const [winner, setWinner] = useState<User | null>(null);
   const playerFighterId = searchParams.get("fighter");
-  const loggedInUser = localStorage?.getItem("userObject");
-  const parsedLoggedInUser = loggedInUser && JSON.parse(loggedInUser);
-  const [fightInProgress, setFightInProgress] = useState(false);
-  const [currentFightResult, setCurrentFightResult] = useState<string | null>(
-    null,
-  );
-  const [round, setRound] = useState(0);
-  const [user1Score, setUser1Score] = useState(0);
-  const [user2Score, setUser2Score] = useState(0);
-  const [battleFinished, setBattleFinished] = useState(false);
-  const [finalWinner, setFinalWinner] = useState<string | null>(null);
-
-  console.log("parsedLoggedInUser", parsedLoggedInUser);
+  const user = useStore((state) => state.user);
 
   useEffect(() => {
     setLoading(true);
@@ -44,7 +33,7 @@ export default function Home() {
           );
 
           const loggedInFighter = fighters?.find(
-            (f: { id: number }) => f.id === parsedLoggedInUser?.id,
+            (f: { username: string }) => f.username === user?.username,
           );
 
           console.log([matchingFighter, loggedInFighter]);

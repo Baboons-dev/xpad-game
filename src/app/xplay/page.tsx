@@ -11,7 +11,7 @@ import { useStore } from "@/store";
 export default function XPlayPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  // const user = useStore((state) => state.user);
+  const user = useStore((state) => state.user);
   const [users, setUsers] = useState<UserResponse | null>(null);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,6 +56,10 @@ export default function XPlayPage() {
     setCurrentPage(page);
   };
 
+  console.log("user", user);
+
+  console.log("user", users);
+
   return (
     <>
       <main className="min-h-screen bg-background text-white p-4 sm:p-8">
@@ -77,7 +81,7 @@ export default function XPlayPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {users &&
                 users!.results
-                  .filter((f) => f.id !== 52)
+                  .filter((f) => f.username !== user?.username)
                   .map((user) => (
                     <div
                       key={user.id}
