@@ -54,12 +54,12 @@ export const TelegramProvider = ({
   //
   //
   //
-  // const statUser = {
-  //   id: 1778691594,
-  //   first_name: "Hasib2",
-  //   last_name: "Arman2",
-  // };
-  const statUser = null;
+  const statUser = {
+    id: 1778691594,
+    first_name: "Hasib2",
+    last_name: "Arman2",
+  };
+  // const statUser = null;
   const value = useMemo(() => {
     return webApp
       ? {

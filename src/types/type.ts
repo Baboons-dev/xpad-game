@@ -45,3 +45,37 @@ export interface IWebApp {
   };
   HapticFeedback: any;
 }
+
+export interface AllNftsResponse {
+  data: AllNftsResponseData[];
+  page: string;
+  records_per_page: string;
+  total_count: number;
+  total_pages: number;
+}
+
+export interface AllNftsResponseData {
+  has_logged_in_user_voted: boolean;
+  id: number;
+  identifier: string;
+  collection: string;
+  contract: string;
+  name: string;
+  description: string;
+  image_url: string;
+  display_image_url: string;
+  metadata_url: string;
+  updated_at: string;
+  owner: OwnerObject;
+  transaction: string;
+}
+
+export interface OwnerObject {
+  points: string;
+  profile_picture: string;
+  twitter_username: string;
+  username: string;
+  wallet_address: string;
+  xpad_access_token: string;
+  xpad_id: string;
+}
