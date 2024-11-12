@@ -38,7 +38,7 @@ export default function Authenticate() {
                 if (response?.url && response?.code_verifier) {
                      const queryParams = new URL(response?.url);
                     queryParams.searchParams.set("redirect_uri", "https://xplay.baboons.tech/authenticate?codeVerifier="+encodeURI(response?.code_verifier)+"&tgId=" + encodeURI(tgId) + '&tId=' + encodeURI(telegram_user?.id.toString() as string));
-                    setTwUrl(response?.url)
+                    setTwUrl(queryParams.toString())
 
 
                     // const queryParams = new URL(response?.url);
