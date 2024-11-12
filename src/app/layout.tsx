@@ -37,7 +37,6 @@ export default function RootLayout({
             {/* <TopBar /> */}
             {/* <div>{children}</div> */}
             <AppProvider>{children}</AppProvider>
-            <MobileNav />
             <div className="h-16 md:h-0" /> {/* Spacer for mobile nav */}
           </body>
         </TelegramProvider>

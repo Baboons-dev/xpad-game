@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useTelegram } from "@/providers/TelegramProvider";
 import { useStore } from "@/store";
 import { TopBar } from "@/components/top-bar";
+import { MobileNav } from "@/components/mobile-nav";
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const { getCurrentUser, logout } = useUser();
@@ -52,6 +53,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     <div className="pt-16">
       {user && accessToken && <TopBar />}
       {children}
+      {user && accessToken && <MobileNav />}
     </div>
   );
 }
