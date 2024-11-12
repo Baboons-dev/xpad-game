@@ -16,7 +16,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const searchParams = useSearchParams();
   const tgId = searchParams.get("tgId");
 
-  // const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     if (
       !!user &&
