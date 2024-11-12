@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <Script
           src="https://telegram.org/js/telegram-web-app.js"
@@ -34,9 +34,11 @@ export default function RootLayout({
       <Suspense>
         <TelegramProvider>
           <body className={inter.className}>
+            {/* <TopBar /> */}
+            {/* <div>{children}</div> */}
             <AppProvider>{children}</AppProvider>
             <MobileNav />
-            <div className="h-16 md:h-0" />
+            <div className="h-16 md:h-0" /> {/* Spacer for mobile nav */}
           </body>
         </TelegramProvider>
       </Suspense>

@@ -45,7 +45,30 @@ export interface IWebApp {
   };
   HapticFeedback: any;
 }
-
+// export interface User {
+//   id: string;
+//   firstName: string;
+//   telegramId: string | number;
+//   createdAt: string;
+//   updatedAt: string;
+//   totalCredits: number;
+//   toolCredits: number;
+//   promptCredits: number;
+//   referralCode: string;
+//   referredById?: string | null;
+// }
+export interface User {
+  health: number;
+  id: number;
+  username: string;
+  email: string;
+  wallet_address: string;
+  profile_link: string;
+  avatar: string;
+  points: number;
+  attack: number;
+  defense: number;
+}
 export interface AllNftsResponse {
   data: AllNftsResponseData[];
   page: string;

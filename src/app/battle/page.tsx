@@ -4,7 +4,7 @@ import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { User } from "@/types/type";
 import BattleArena from "@/components/Battle/BattleArena";
-import {Spin} from "antd";
+import { Spin } from "antd";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -18,7 +18,7 @@ export default function Home() {
   const parsedLoggedInUser = loggedInUser && JSON.parse(loggedInUser);
   const [fightInProgress, setFightInProgress] = useState(false);
   const [currentFightResult, setCurrentFightResult] = useState<string | null>(
-    null
+    null,
   );
   const [round, setRound] = useState(0);
   const [user1Score, setUser1Score] = useState(0);
@@ -33,18 +33,18 @@ export default function Home() {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "https://api.xpad-extension.baboons.tech/api/user/list/"
+          "https://api.xpad-extension.baboons.tech/api/user/list/",
         );
 
         const fighters = response?.data?.results;
         // Filter to find the fighter with the matching `id`
         if (playerFighterId) {
           const matchingFighter = fighters?.find(
-            (f: { id: number }) => f.id === parseInt(playerFighterId)
+            (f: { id: number }) => f.id === parseInt(playerFighterId),
           );
 
           const loggedInFighter = fighters?.find(
-            (f: { id: number }) => f.id === parsedLoggedInUser?.id
+            (f: { id: number }) => f.id === parsedLoggedInUser?.id,
           );
 
           console.log([matchingFighter, loggedInFighter]);
@@ -119,7 +119,7 @@ export default function Home() {
         // Ensure attacker points contribute to damage calculation even if they're 0
         const attackerPoints = Math.max(
           currentFighters[attackerIndex].points,
-          1
+          1,
         );
 
         // Calculate damage with a base factor and minimum damage threshold
@@ -127,7 +127,7 @@ export default function Home() {
         const minimumDamage = 5;
         const damage = Math.max(
           Math.floor(attackerPoints * baseDamageFactor),
-          minimumDamage
+          minimumDamage,
         );
 
         // Update defender's health in `currentFighters`
@@ -157,11 +157,8 @@ export default function Home() {
   return (
     <>
       {loading ? (
-        <div
-          style={{ border: "1px solid redx" }}
-          className="flex items-center justify-center  w-full"
-        >
-          <Spin/>
+        <div className="flex items-center justify-center  w-full">
+          <Spin />
         </div>
       ) : (
         <BattleArena
