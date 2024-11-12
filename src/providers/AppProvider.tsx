@@ -50,7 +50,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   console.log("user", user, accessToken);
 
   return (
-    <div className="pt-16">
+    <div style={{ marginTop: "80px" }}>
       {user && accessToken && <TopBar />}
       {children}
       {user && accessToken && <MobileNav />}
