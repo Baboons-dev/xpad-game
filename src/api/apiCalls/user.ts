@@ -140,9 +140,7 @@ export const getAllNfts = async (
 ): Promise<AllNftsResponse> => {
   try {
     const endPoint = `https://api.layerx.baboons.tech/api/nfts/?page=${page}&per_page=${recordsPerPage}`;
-    const res = await axios.get(endPoint, {
-      params: { collection: "mytoken-10277" },
-    });
+    const res = await axios.get(endPoint);
     if (!res?.data) throw "Something went wrong GetUser";
     return res.data;
   } catch (err) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { Heart, Share2 } from "lucide-react";
-
+import axios from "axios";
 import { Avatar, Badge, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { AllNftsResponse, AllNftsResponseData } from "@/types/type";
@@ -120,15 +120,17 @@ function NFTCard(props: NftCardProps) {
 }
 
 export default function LayerXPage() {
-  const [allNfts, setAllNfts] = useState<AllNftsResponse>();
+  const [allNfts, setAllNfts] = useState<AllNftsResponse | null>();
 
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchAllNfts = async (page: number, recordsPerPage: number) => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const res = await getAllNfts(page, recordsPerPage);
-      setAllNfts(res);
+      const res = await axios.get<AllNftsResponse>(
+        `https://api.layerx.baboons.tech/api/nfts/?page=${page}&per_page=${recordsPerPage}`,
+      );
+      res && setAllNfts(res?.data);
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
