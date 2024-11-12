@@ -105,10 +105,10 @@ export default function LayerXPage() {
             <Spin />
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3 sm:gap-6">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6">
             {allNfts &&
-              allNfts?.data?.length > 0 &&
-              allNfts?.data.map((nft) => <NFTCard key={nft.id} nft={nft} />)}
+              allNfts.data?.length > 0 &&
+              allNfts.data.map((nft) => <NFTCard key={nft.id} nft={nft} />)}
           </div>
         )}
       </div>
