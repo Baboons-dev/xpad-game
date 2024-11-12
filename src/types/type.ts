@@ -6,6 +6,13 @@ export interface ITelegramUser {
   language_code?: string;
 }
 
+export interface UserResponse {
+  count: number;
+  current_page: number;
+  total_pages: number;
+  results: User[];
+}
+
 export interface IWebApp {
   initData: string;
   initDataUnsafe: {

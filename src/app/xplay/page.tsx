@@ -4,11 +4,9 @@ import { useEffect, useState } from "react";
 import { Sword } from "lucide-react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-
-
 import { User, UserResponse } from "@/types/type";
-import {Avatar, Button, Pagination, Spin} from "antd";
-import {useStore} from "@/store";
+import { Avatar, Button, Pagination, Spin } from "antd";
+import { useStore } from "@/store";
 
 export default function XPlayPage() {
   const router = useRouter();
@@ -29,7 +27,7 @@ export default function XPlayPage() {
       setLoading(true);
       try {
         const response = await axios.get(
-          "https://api.xpad-extension.baboons.tech/api/user/list/"
+          "https://api.xpad-extension.baboons.tech/api/user/list/",
         );
         setUsers(response.data);
         setLoading(false);
@@ -84,16 +82,18 @@ export default function XPlayPage() {
                     <div
                       key={user.id}
                       className={
-                        "p-6 cursor-pointer transition-all duration-300 hover:scale-105 bg-gradient-to-b from-card/90 to-black/90 border-brand-lime/20 hover:border-brand-lime/40 "
-                        +(selectedFighter === user.id &&
-                          "ring-2 ring-brand-lime shadow-lg shadow-brand-lime/20"
-                      )}
+                        "p-6 cursor-pointer transition-all duration-300 hover:scale-105 bg-gradient-to-b from-card/90 to-black/90 border-brand-lime/20 hover:border-brand-lime/40 " +
+                        (selectedFighter === user.id &&
+                          "ring-2 ring-brand-lime shadow-lg shadow-brand-lime/20")
+                      }
                       onClick={() => handleFighterSelect(user.id)}
                     >
                       <div className="flex flex-col items-center space-y-4">
                         <div className="relative">
-                          <Avatar className="w-24 h-24 ring-4 ring-brand-lime/20"  src={user.avatar}>
-                          </Avatar>
+                          <Avatar
+                            className="w-24 h-24 ring-4 ring-brand-lime/20"
+                            src={user.avatar}
+                          ></Avatar>
                           <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-black/90 px-3 py-1 rounded-full border border-brand-lime/20">
                             <div className="flex items-center space-x-1">
                               <Sword className="w-4 h-4 text-brand-lime" />
