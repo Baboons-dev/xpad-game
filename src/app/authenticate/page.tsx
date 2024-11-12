@@ -23,10 +23,7 @@ export default function Authenticate() {
     const setRefreshToken = useSelector.use.setRefreshToken();
     useEffect(() => {
         if (state && code && tgId && tId && codeVerifier) {
-            loginTwitter({state: state, code: code, tId: tId, tgId: tgId,codeVerifier:codeVerifier}).then(()=>{
-                message.success('Login Success')
-                setTwUrl('')
-            })
+            loginTwitter({state: state, code: code, tId: tId, tgId: tgId,codeVerifier:codeVerifier})
         }
     }, [tId, code, tgId, state,codeVerifier]);
     const {telegram_user} = useTelegram();
@@ -39,7 +36,6 @@ export default function Authenticate() {
                      const queryParams = new URL(response?.url);
                     queryParams.searchParams.set("redirect_uri", "https://xplay.baboons.tech/authenticate?codeVerifier="+encodeURI(response?.code_verifier)+"&tgId=" + encodeURI(tgId) + '&tId=' + encodeURI(telegram_user?.id.toString() as string));
                     setTwUrl(queryParams.toString())
-
 
                     // const queryParams = new URL(response?.url);
                     // queryParams.searchParams.set("redirect_uri", "https://xplay.baboons.tech/authenticate?tgId=" + encodeURI(tgId) + '&tId=' + encodeURI(telegram_user?.id.toString() as string));

@@ -2,6 +2,7 @@ import {
     GetUser, twitterSave
 } from '@/api/apiCalls/user';
 import {useSelector} from "@/store";
+import {message} from "antd";
 
 
 const useUser = () => {
@@ -15,6 +16,7 @@ const useUser = () => {
             const res = await twitterSave(payload)
             console.log('res final login', res);
             if (res.data) {
+                message.success('Login Success')
                 localStorage.setItem('token', res.data.data.access);
                 localStorage.setItem('refreshToken', res.data.data.refresh);
                 setAccessToken(res.data.data.access as string);
@@ -27,7 +29,7 @@ const useUser = () => {
 
         } catch (error) {
             console.error('error login', error);
-            // message.error('Something went wrong');
+            message.error('Something went wrong');
         }
     };
 
