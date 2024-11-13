@@ -1,31 +1,101 @@
 "use client";
-
-import { Trophy } from "lucide-react";
-import { Avatar, Button } from "antd";
 import { useUser } from "@/hooks";
 import { useStore } from "@/store";
+import ProfilePicture from "../assets/profilePicture.png";
+import { Box, Image, Text } from "@chakra-ui/react";
+import XpIcon from "@/icons/XpIcon";
 
 export function TopBar() {
   const { logout } = useUser();
   const user = useStore((state) => state.user);
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border h-16 px-4">
-      <div className="h-full max-w-4xl mx-auto flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <Avatar
-            className="h-10 w-10 border border-brand-lime/20"
-            src={user?.avatar}
-          ></Avatar>
-          <span className="font-medium text-brand-white">{user?.username}</span>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Button onClick={() => logout()}>Logout</Button>
-          <Trophy className="h-5 w-5 text-brand-lime" />
-          <span className="font-semibold text-brand-white">
-            {user?.points.toLocaleString()}
-          </span>
-        </div>
-      </div>
-    </div>
+    <Box
+      display="flex"
+      justifyContent="space-between"
+      height="64px"
+      padding="12px 16px"
+      border="1px solid red"
+    >
+      <Box display="flex" gap="13px" flexDirection="row">
+        {false ? (
+          <Box
+            padding={"1px"}
+            height="40px"
+            width="40px"
+            zIndex={2}
+            style={{
+              borderRadius: "8px",
+              backgroundImage:
+                "linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)",
+              backgroundOrigin: "border-box",
+              backgroundClip: "content-box, border-box",
+            }}
+          >
+            <Box height="40px" width="40px" overflow="hidden">
+              <Image
+                src={user?.avatar}
+                objectFit="cover" // Ensures the image fills the square box
+                height="100%"
+                width="100%"
+                style={{ borderRadius: "0" }} // Removes any circular styling
+              />
+            </Box>
+          </Box>
+        ) : (
+          <Box
+            padding={"1px"}
+            height="40px"
+            width="40px"
+            zIndex={2}
+            style={{
+              borderRadius: "8px",
+              backgroundImage:
+                "linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)",
+              backgroundOrigin: "border-box",
+              backgroundClip: "content-box, border-box",
+            }}
+          >
+            <Box height="40px" width="40px" overflow="hidden">
+              <Image
+                src={ProfilePicture.src}
+                objectFit="cover" // Ensures the image fills the square box
+                height="100%"
+                width="100%"
+                style={{ borderRadius: "0" }} // Removes any circular styling
+              />
+            </Box>
+          </Box>
+        )}
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <Text
+            color="#FFF"
+            fontSize="16px"
+            fontStyle="normal"
+            fontWeight="800"
+            lineHeight=" normal"
+          >
+            Bart Ermens
+          </Text>
+        </Box>
+      </Box>
+      <Box display="flex" gap="13px" flexDirection="row">
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <XpIcon />
+        </Box>
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <Text
+            color=" #33DBB8"
+            fontSize="16px"
+            fontStyle="normal"
+            fontWeight="600"
+            lineHeight=" normal"
+          >
+            {" "}
+            2500
+            {/* {user?.points.toLocaleString()} */}
+          </Text>
+        </Box>
+      </Box>
+    </Box>
   );
 }

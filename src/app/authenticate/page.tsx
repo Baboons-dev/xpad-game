@@ -123,7 +123,7 @@ export default function Authenticate() {
               style={{
                 borderRadius: "24px",
                 backgroundImage:
-                  "linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#118BCF, #3AFF65, #3AFF65)",
+                  "linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)",
                 backgroundOrigin: "border-box",
                 backgroundClip: "content-box, border-box",
               }}
