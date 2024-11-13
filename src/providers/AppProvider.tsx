@@ -6,6 +6,7 @@ import { useTelegram } from "@/providers/TelegramProvider";
 import { useStore } from "@/store";
 import { TopBar } from "@/components/top-bar";
 import { MobileNav } from "@/components/mobile-nav";
+import { Box } from "@chakra-ui/react";
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const { getCurrentUser, logout } = useUser();
@@ -50,10 +51,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   console.log("user", user, accessToken);
 
   return (
-    <div style={{ marginTop: "80px" }}>
+    <Box
+      height="inherit"
+      // style={{ marginTop: "80px" }}
+    >
       {user && accessToken && <TopBar />}
       {children}
       {user && accessToken && <MobileNav />}
-    </div>
+    </Box>
   );
 }

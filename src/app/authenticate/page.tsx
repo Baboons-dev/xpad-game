@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button, message, Spin } from "antd";
@@ -6,6 +7,9 @@ import { useUser } from "@/hooks";
 import { twitterLogin } from "@/api/apiCalls/user";
 import { useTelegram } from "@/providers/TelegramProvider";
 import { useSelector, useStore } from "@/store";
+import { Box, Divider, Text } from "@chakra-ui/react";
+import UnionLogo from "@/icons/Union";
+import Logo from "@/icons/Logo";
 
 export default function Authenticate() {
   const router = useRouter();
@@ -21,6 +25,7 @@ export default function Authenticate() {
   const accessToken = useStore((state) => state.accessToken);
   const setAccessToken = useSelector.use.setAccessToken();
   const setRefreshToken = useSelector.use.setRefreshToken();
+  const [authorizedState, setAuthorizedState] = useState(false);
 
   useEffect(() => {
     if (state && code && tgId && tId && codeVerifier) {
@@ -34,7 +39,9 @@ export default function Authenticate() {
     }
   }, [tId, code, tgId, state, codeVerifier]);
   const { telegram_user } = useTelegram();
+
   const login = async () => {
+    console.log("inside login");
     if (telegram_user && tgId)
       try {
         const response = await twitterLogin(
@@ -75,20 +82,150 @@ export default function Authenticate() {
         console.log(e);
       }
   };
+
   useEffect(() => {
     if (accessToken && user) {
       router.push("/?tgId=" + tgId);
     }
   }, [user, accessToken]);
+
+  const onTwitterLoginClick = () => {
+    if (authorizedState) {
+      login();
+    } else {
+      const newWindow = window.open(twUrl as string, "_blank");
+      if (newWindow) newWindow.opener = null;
+    }
+  };
   return (
-    <div className={"flex justify-center"}>
+    <Box>
       {state && code ? (
         <Spin />
       ) : (
-        <Button onClick={() => login()}>Login with twitter</Button>
+        <Box height="100vh" padding="24px">
+          <Box marginTop="24px" display="flex" justifyContent="center">
+            <Logo />
+          </Box>
+          <Box
+            marginTop="50px"
+            marginBottom="50px"
+            display="flex"
+            justifyContent="center"
+          >
+            <UnionLogo />
+          </Box>
+
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <Box
+              padding={"1px"}
+              width={["unset", "unset", "unset", "327px"]}
+              zIndex={2}
+              style={{
+                borderRadius: "24px",
+                backgroundImage:
+                  "linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#118BCF, #3AFF65, #3AFF65)",
+                backgroundOrigin: "border-box",
+                backgroundClip: "content-box, border-box",
+              }}
+              onClick={() => onTwitterLoginClick()}
+            >
+              <Box padding="20px 90px">
+                <Text
+                  color="#FFF"
+                  fontSize="16px"
+                  fontWeight="800"
+                  textAlign="center"
+                  cursor="pointer"
+                >
+                  {authorizedState ? "Continue" : "Login using X"}
+                </Text>
+              </Box>
+            </Box>
+          </Box>
+          {authorizedState ? (
+            <Box marginTop="16px">
+              <Text
+                color="rgba(255, 255, 255, 0.50)"
+                textAlign="center"
+                fontSize="12px"
+                fontStyle="normal"
+                fontWeight="500"
+                lineHeight="normal"
+                paddingLeft="14px"
+                paddingRight="14px"
+                whiteSpace="nowrap"
+                cursor="pointer"
+                onClick={() => setAuthorizedState(false)}
+              >
+                Or Go Back
+              </Text>
+            </Box>
+          ) : (
+            true && (
+              // twUrl &&
+              <Box>
+                <Box
+                  marginTop="16px"
+                  marginBottom="16px"
+                  display="flex"
+                  flexDirection="row"
+                  alignItems="center"
+                >
+                  <Divider
+                    border="1px solid rgba(255, 255, 255, 0.30) !important"
+                    width={["45%", "45%", "50%"]}
+                  />
+                  <Text
+                    color="rgba(255, 255, 255, 0.50)"
+                    textAlign="center"
+                    fontSize="12px"
+                    fontStyle="normal"
+                    fontWeight="500"
+                    lineHeight="normal"
+                    paddingLeft="14px"
+                    paddingRight="14px"
+                    whiteSpace="nowrap"
+                    cursor="pointer"
+                  >
+                    Or
+                  </Text>
+                  <Divider
+                    border="1px solid rgba(255, 255, 255, 0.30) !important"
+                    width={["45%", "45%", "50%"]}
+                  />
+                </Box>
+                <Box display="flex" justifyContent="space-around">
+                  <Text
+                    color="rgba(255, 255, 255, 0.50)"
+                    fontSize="14px"
+                    fontWeight="500"
+                    textAlign="center"
+                    cursor="pointer"
+                    onClick={async () => {
+                      await navigator.clipboard.writeText(twUrl);
+                      alert("copied");
+                    }}
+                  >
+                    Copy link
+                  </Text>
+                  <Text
+                    color="rgba(255, 255, 255, 0.50)"
+                    fontSize="14px"
+                    fontWeight="500"
+                    textAlign="center"
+                    cursor="pointer"
+                    onClick={() => setAuthorizedState(true)}
+                  >
+                    Already authorized
+                  </Text>
+                </Box>
+              </Box>
+            )
+          )}
+        </Box>
       )}
-      {twUrl && (
-        <div>
+      {/* {twUrl && (
+        <Box>
           <Button
             onClick={async () => {
               await navigator.clipboard.writeText(twUrl);
@@ -105,8 +242,8 @@ export default function Authenticate() {
           >
             Authenicate Link
           </Button>
-        </div>
-      )}
-    </div>
+        </Box>
+      )} */}
+    </Box>
   );
 }
