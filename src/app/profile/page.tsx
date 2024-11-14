@@ -8,6 +8,7 @@ import BackArrowIcon from "@/icons/ArrowBack";
 import BackRightIcon from "@/icons/ArrowRightGrey";
 
 export default function ProfilePage() {
+  const { logout } = useUser();
   const user = useStore((state) => state.user);
 
   return (
@@ -149,6 +150,7 @@ export default function ProfilePage() {
               fontSize="14px"
               fontWeight=" 600"
               lineHeight="14px"
+              onClick={() => logout()}
             >
               Logout
             </Text>

@@ -16,7 +16,7 @@ export function TopBar() {
       padding="12px 16px"
     >
       <Box display="flex" gap="13px" flexDirection="row">
-        {false ? (
+        {user?.avatar ? (
           <Box
             padding={"1px"}
             height="40px"

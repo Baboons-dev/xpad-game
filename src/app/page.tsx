@@ -13,7 +13,6 @@ interface FeatureCardProps {
 }
 
 export default function HomePage() {
-  const { logout } = useUser();
   const features = [
     {
       title: "LayerX",
