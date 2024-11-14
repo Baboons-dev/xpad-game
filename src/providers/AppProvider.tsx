@@ -59,7 +59,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       {user && accessToken && <TopBar />}
       {children}
       {user && accessToken && <MobileNav />}
-      <MobileNav />
       {/* {user && accessToken && <MobileNav />} */}
     </Box>
   );
