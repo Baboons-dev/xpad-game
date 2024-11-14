@@ -55,7 +55,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       height="inherit"
       // style={{ marginTop: "80px" }}
     >
-      <TopBar />
+      {/* <TopBar /> */}
       {user && accessToken && <TopBar />}
       {children}
       {user && accessToken && <MobileNav />}
