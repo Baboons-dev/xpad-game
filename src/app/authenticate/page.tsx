@@ -136,6 +136,7 @@ export default function Authenticate() {
                   fontWeight="800"
                   textAlign="center"
                   cursor="pointer"
+                  fontFamily="Plus Jakarta Sans"
                 >
                   {authorizedState ? "Continue" : "Login using X"}
                 </Text>
@@ -155,6 +156,7 @@ export default function Authenticate() {
                 paddingRight="14px"
                 whiteSpace="nowrap"
                 cursor="pointer"
+                fontFamily="Plus Jakarta Sans"
                 onClick={() => setAuthorizedState(false)}
               >
                 Or Go Back
@@ -185,6 +187,7 @@ export default function Authenticate() {
                     paddingLeft="14px"
                     paddingRight="14px"
                     whiteSpace="nowrap"
+                    fontFamily="Plus Jakarta Sans"
                     cursor="pointer"
                   >
                     Or
@@ -201,6 +204,7 @@ export default function Authenticate() {
                     fontWeight="500"
                     textAlign="center"
                     cursor="pointer"
+                    fontFamily="Plus Jakarta Sans"
                     onClick={async () => {
                       await navigator.clipboard.writeText(twUrl);
                       alert("copied");
@@ -213,6 +217,7 @@ export default function Authenticate() {
                     fontSize="14px"
                     fontWeight="500"
                     textAlign="center"
+                    fontFamily="Plus Jakarta Sans"
                     cursor="pointer"
                     onClick={() => setAuthorizedState(true)}
                   >

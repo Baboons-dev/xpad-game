@@ -37,6 +37,7 @@ export default function HomePage() {
               fontStyle="normal"
               fontWeight="500"
               lineHeight=" normal"
+              fontFamily="Plus Jakarta Sans"
             >
               Xp History
             </Text>
@@ -46,6 +47,7 @@ export default function HomePage() {
               fontStyle="normal"
               fontWeight="800"
               lineHeight="normal"
+              fontFamily="Plus Jakarta Sans"
               marginTop="2px"
             >
               Explore all

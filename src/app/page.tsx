@@ -66,11 +66,13 @@ export default function HomePage() {
               fontSize="14px"
               fontStyle="normal"
               fontWeight="500"
-              lineHeight=" normal"
+              lineHeight="normal"
+              fontFamily="Plus Jakarta Sans"
             >
               Explore all
             </Text>
             <Text
+              fontFamily="Plus Jakarta Sans"
               color="#33DBB8;"
               fontSize="32px"
               fontStyle="normal"
@@ -127,6 +129,7 @@ const FeatureCard = (props: FeatureCardProps) => {
 
         <Box display="flex" flexDirection="column" gap="6px">
           <Text
+            fontFamily="Plus Jakarta Sans"
             color="#FFF"
             fontSize="16px"
             fontStyle="normal"
@@ -136,6 +139,7 @@ const FeatureCard = (props: FeatureCardProps) => {
             {feature?.title}
           </Text>
           <Text
+            fontFamily="Plus Jakarta Sans"
             color="#A0A0A0"
             fontSize="14px"
             fontStyle="normal"
@@ -166,7 +170,12 @@ const FeatureCard = (props: FeatureCardProps) => {
         cursor="pointer"
       >
         <Link href={feature.disabled ? "#" : feature.href}>
-          <Text color="#FFF" fontSize=" 14px" fontWeight="700">
+          <Text
+            fontFamily="Plus Jakarta Sans"
+            color="#FFF"
+            fontSize=" 14px"
+            fontWeight="700"
+          >
             {feature?.buttonText}
           </Text>
         </Link>

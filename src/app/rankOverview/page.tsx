@@ -33,6 +33,7 @@ export default function HomePage() {
               color="#CECECE"
               fontSize="14px"
               fontStyle="normal"
+              fontFamily="Plus Jakarta Sans"
               fontWeight="500"
               lineHeight=" normal"
             >
@@ -43,6 +44,7 @@ export default function HomePage() {
               fontSize="32px"
               fontStyle="normal"
               fontWeight="800"
+              fontFamily="Plus Jakarta Sans"
               lineHeight="normal"
               marginTop="2px"
             >
