@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Box, Image, Text } from "@chakra-ui/react";
 import { useUser } from "@/hooks";
 import { useStore } from "@/store";
+import ProfilePicture from "../../assets/profilePicture.png";
 import backgroundImage from "../../assets/background.png";
 import BackArrowIcon from "@/icons/ArrowBack";
 import BackRightIcon from "@/icons/ArrowRightGrey";
@@ -33,6 +34,7 @@ export default function ProfilePage() {
                 fontStyle="normal"
                 fontWeight="500"
                 lineHeight=" normal"
+                fontFamily="Plus Jakarta Sans"
               >
                 My Profile
               </Text>
@@ -54,30 +56,55 @@ export default function ProfilePage() {
             flexDirection="column"
             gap="12px"
           >
-            <Box
-              padding={"1px"}
-              zIndex={2}
-              width="100px"
-              height="100px"
-              style={{
-                borderRadius: "24px",
-                backgroundImage:
-                  "linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)",
-                backgroundOrigin: "border-box",
-                backgroundClip: "content-box, border-box",
-              }}
-            >
-              <Box>
+            {user?.avatar ? (
+              <Box
+                padding="1px"
+                width="100px"
+                height="100px"
+                zIndex="2"
+                borderRadius="8px"
+                backgroundImage="linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)"
+                backgroundClip="content-box, border-box"
+                overflow="hidden"
+              >
                 <Image
                   src={user?.avatar}
-                  objectFit="cover"
-                  height="100%"
+                  alt="Description"
                   width="100%"
-                  style={{ borderRadius: "0" }}
+                  height="100%"
+                  objectFit="cover"
+                  objectPosition="center"
+                  borderRadius="7px"
                 />
               </Box>
-            </Box>
-            <Text color=" #FFF" fontSize=" 30px" fontWeight=" 800">
+            ) : (
+              <Box
+                padding="1px"
+                width="100px"
+                height="100px"
+                zIndex="2"
+                borderRadius="8px"
+                backgroundImage="linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)"
+                backgroundClip="content-box, border-box"
+                overflow="hidden"
+              >
+                <Image
+                  src={ProfilePicture.src}
+                  alt="Description"
+                  width="100%"
+                  height="100%"
+                  objectFit="cover"
+                  objectPosition="center"
+                  borderRadius="7px"
+                />
+              </Box>
+            )}
+            <Text
+              color=" #FFF"
+              fontSize="30px"
+              fontWeight="800"
+              fontFamily="Plus Jakarta Sans"
+            >
               {user?.username}
             </Text>
           </Box>
@@ -91,7 +118,12 @@ export default function ProfilePage() {
             alignItems="center"
             marginTop="10px"
           >
-            <Text color=" #FFF" fontSize=" 14px" fontWeight=" 700">
+            <Text
+              fontFamily="Plus Jakarta Sans"
+              color=" #FFF"
+              fontSize=" 14px"
+              fontWeight=" 700"
+            >
               Connect Wallet
             </Text>
           </Box>
@@ -113,6 +145,7 @@ export default function ProfilePage() {
                 fontWeight=" 600"
                 lineHeight="14px" /* 100% */
                 cursor="pointer"
+                fontFamily="Plus Jakarta Sans"
               >
                 View XP History
               </Text>
@@ -132,6 +165,7 @@ export default function ProfilePage() {
                 fontWeight=" 600"
                 lineHeight="14px" /* 100% */
                 cursor="pointer"
+                fontFamily="Plus Jakarta Sans"
               >
                 Rank Overview
               </Text>
@@ -152,6 +186,7 @@ export default function ProfilePage() {
               fontWeight=" 600"
               lineHeight="14px"
               cursor="pointer"
+              fontFamily="Plus Jakarta Sans"
               onClick={() => logout()}
             >
               Logout

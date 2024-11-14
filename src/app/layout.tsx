@@ -30,6 +30,10 @@ export default function RootLayout({
           src="https://telegram.org/js/telegram-web-app.js"
           strategy="beforeInteractive"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
         <meta
           content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover"
           name="viewport"

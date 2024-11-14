@@ -18,51 +18,45 @@ export function TopBar() {
       <Box display="flex" gap="13px" flexDirection="row">
         {user?.avatar ? (
           <Box
-            padding={"1px"}
+            padding="1px"
             height="40px"
             width="40px"
-            zIndex={2}
-            style={{
-              borderRadius: "8px",
-              backgroundImage:
-                "linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)",
-              backgroundOrigin: "border-box",
-              backgroundClip: "content-box, border-box",
-            }}
+            zIndex="2"
+            borderRadius="8px"
+            backgroundImage="linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)"
+            backgroundClip="content-box, border-box"
+            overflow="hidden"
           >
-            <Box height="40px" width="40px" overflow="hidden">
-              <Image
-                src={user?.avatar}
-                objectFit="cover" // Ensures the image fills the square box
-                height="100%"
-                width="100%"
-                style={{ borderRadius: "0" }} // Removes any circular styling
-              />
-            </Box>
+            <Image
+              src={user?.avatar}
+              alt="Description"
+              width="100%"
+              height="100%"
+              objectFit="cover"
+              objectPosition="center"
+              borderRadius="7px"
+            />
           </Box>
         ) : (
           <Box
-            padding={"1px"}
+            padding="1px"
             height="40px"
             width="40px"
-            zIndex={2}
-            style={{
-              borderRadius: "8px",
-              backgroundImage:
-                "linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)",
-              backgroundOrigin: "border-box",
-              backgroundClip: "content-box, border-box",
-            }}
+            zIndex="2"
+            borderRadius="8px"
+            backgroundImage="linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)"
+            backgroundClip="content-box, border-box"
+            overflow="hidden"
           >
-            <Box height="40px" width="40px" overflow="hidden">
-              <Image
-                src={ProfilePicture.src}
-                objectFit="cover" // Ensures the image fills the square box
-                height="100%"
-                width="100%"
-                style={{ borderRadius: "0" }} // Removes any circular styling
-              />
-            </Box>
+            <Image
+              src={ProfilePicture.src}
+              alt="Description"
+              width="100%"
+              height="100%"
+              objectFit="cover"
+              objectPosition="center"
+              borderRadius="7px"
+            />
           </Box>
         )}
         <Box display="flex" justifyContent="center" alignItems="center">
@@ -71,6 +65,7 @@ export function TopBar() {
             fontSize="16px"
             fontStyle="normal"
             fontWeight="800"
+            fontFamily="Plus Jakarta Sans"
             lineHeight=" normal"
           >
             {user?.username}
@@ -87,6 +82,7 @@ export function TopBar() {
             fontSize="16px"
             fontStyle="normal"
             fontWeight="600"
+            fontFamily="Plus Jakarta Sans"
             lineHeight=" normal"
           >
             {user?.points.toLocaleString()}
