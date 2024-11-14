@@ -1,11 +1,15 @@
 "use client";
 import Link from "next/link";
 import { Box, Image, Text } from "@chakra-ui/react";
+import { useUser } from "@/hooks";
+import { useStore } from "@/store";
 import backgroundImage from "../../assets/background.png";
 import BackArrowIcon from "@/icons/ArrowBack";
 import BackRightIcon from "@/icons/ArrowRightGrey";
 
 export default function ProfilePage() {
+  const user = useStore((state) => state.user);
+
   return (
     <Box w="100%" display="flex" flexDirection="column">
       <Box position="absolute" w="100%" zIndex={0}>
@@ -62,10 +66,19 @@ export default function ProfilePage() {
                 backgroundClip: "content-box, border-box",
               }}
             >
-              <Box>img here</Box>
+              <Box>
+                {" "}
+                <Image
+                  src={user?.avatar}
+                  objectFit="cover"
+                  height="100%"
+                  width="100%"
+                  style={{ borderRadius: "0" }}
+                />
+              </Box>
             </Box>
             <Text color=" #FFF" fontSize=" 30px" fontWeight=" 800">
-              Bart Ermens
+              {user?.username}
             </Text>
           </Box>
 
@@ -102,7 +115,9 @@ export default function ProfilePage() {
               >
                 View XP History
               </Text>
-              <BackRightIcon />
+              <Link href={"/xpHistory"}>
+                <BackRightIcon />
+              </Link>
             </Box>
             <Box
               display="flex"
@@ -118,7 +133,9 @@ export default function ProfilePage() {
               >
                 Rank Overview
               </Text>
-              <BackRightIcon />
+              <Link href={"/xpHistory"}>
+                <BackRightIcon />
+              </Link>
             </Box>
           </Box>
           <Box

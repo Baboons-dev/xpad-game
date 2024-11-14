@@ -69,7 +69,7 @@ export default function HomePage() {
               fontWeight="500"
               lineHeight=" normal"
             >
-              Explore all
+              Xp History
             </Text>
             <Text
               color="#33DBB8;"
@@ -91,87 +91,9 @@ export default function HomePage() {
           gap="14px"
           flexDirection="column"
         >
-          {features?.map((feature, i) => (
-            <FeatureCard key={i} feature={feature} />
-          ))}
+          xpHistory here
         </Box>
-
-        {/* <Text color="#fff" onClick={() => logout()}>
-          Logout
-        </Text>
-        <Link color="#fff" href={"/profile"}>
-          <Text>Go to profile page</Text>
-        </Link> */}
       </Box>
     </Box>
   );
 }
-
-const FeatureCard = (props: FeatureCardProps) => {
-  const { feature } = props;
-  return (
-    <Box
-      borderRadius="12px"
-      border="1px solid rgba(255, 255, 255, 0.10)"
-      background="#191916"
-      padding="16px"
-    >
-      <Box display="flex" flexDirection="row" gap="16px">
-        <Box
-          height="60px"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          {feature?.icon}
-        </Box>
-
-        <Box display="flex" flexDirection="column" gap="6px">
-          <Text
-            color="#FFF"
-            fontSize="16px"
-            fontStyle="normal"
-            fontWeight="800"
-            lineHeight=" normal"
-          >
-            {feature?.title}
-          </Text>
-          <Text
-            color="#A0A0A0"
-            fontSize="14px"
-            fontStyle="normal"
-            fontWeight="400"
-            lineHeight=" normal"
-          >
-            {feature?.description}
-          </Text>
-        </Box>
-      </Box>
-      <Box
-        marginTop="16px"
-        marginBottom="16px"
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-      >
-        <Divider border="1px solid rgba(255, 255, 255, 0.30) !important" />
-      </Box>
-      <Box
-        borderRadius=" 8px"
-        border={`1px solid ${feature?.borderColor}`}
-        padding="0px 16px"
-        height="58px"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        cursor="pointer"
-      >
-        <Link href={feature.disabled ? "#" : feature.href}>
-          <Text color="#FFF" fontSize=" 14px" fontWeight="700">
-            {feature?.buttonText}
-          </Text>
-        </Link>
-      </Box>
-    </Box>
-  );
-};

@@ -73,7 +73,7 @@ export function TopBar() {
             fontWeight="800"
             lineHeight=" normal"
           >
-            Bart Ermens
+            {user?.username}
           </Text>
         </Box>
       </Box>
@@ -89,9 +89,7 @@ export function TopBar() {
             fontWeight="600"
             lineHeight=" normal"
           >
-            {" "}
-            2500
-            {/* {user?.points.toLocaleString()} */}
+            {user?.points.toLocaleString()}
           </Text>
         </Box>
       </Box>
