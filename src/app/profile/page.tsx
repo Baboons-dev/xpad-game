@@ -68,7 +68,6 @@ export default function ProfilePage() {
               }}
             >
               <Box>
-                {" "}
                 <Image
                   src={user?.avatar}
                   objectFit="cover"
@@ -113,6 +112,7 @@ export default function ProfilePage() {
                 fontSize="14px"
                 fontWeight=" 600"
                 lineHeight="14px" /* 100% */
+                cursor="pointer"
               >
                 View XP History
               </Text>
@@ -131,6 +131,7 @@ export default function ProfilePage() {
                 fontSize="14px"
                 fontWeight=" 600"
                 lineHeight="14px" /* 100% */
+                cursor="pointer"
               >
                 Rank Overview
               </Text>
@@ -150,6 +151,7 @@ export default function ProfilePage() {
               fontSize="14px"
               fontWeight=" 600"
               lineHeight="14px"
+              cursor="pointer"
               onClick={() => logout()}
             >
               Logout
