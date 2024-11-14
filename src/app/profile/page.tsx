@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Box, Image, Text } from "@chakra-ui/react";
 import backgroundImage from "../../assets/background.png";
-import BackArrowIcon from "@/icons/arrowBack";
+import BackArrowIcon from "@/icons/ArrowBack";
 import BackRightIcon from "@/icons/ArrowRightGrey";
 
 export default function ProfilePage() {
