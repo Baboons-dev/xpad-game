@@ -58,8 +58,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       {/* <TopBar /> */}
       {user && accessToken && <TopBar />}
       {children}
-      {user && accessToken && <MobileNav />}
-      {/* <MobileNav /> */}
+      {/* {user && accessToken && <MobileNav />} */}
+      <MobileNav />
       {/* {user && accessToken && <MobileNav />} */}
     </Box>
   );

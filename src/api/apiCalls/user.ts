@@ -155,12 +155,6 @@ export const getMyHistory = async (
   try {
     const endPoint = `https://api.layerx.baboons.tech/api/user/xp-history/?page=${page}&per_page=${recordsPerPage}`;
     const res = await axios.get(endPoint);
-    // const res = await axios.get(endPoint, {
-    //   params: {
-    //     page: page,
-    //     per_page: recordsPerPage,
-    //   },
-    // });
     console.log("historyyy", res);
     if (!res?.data) throw "Something went wrong History";
     return res.data;

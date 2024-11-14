@@ -169,7 +169,7 @@ export default function ProfilePage() {
               >
                 Rank Overview
               </Text>
-              <Link href={"/xpHistory"}>
+              <Link href={"/rankOverview"}>
                 <BackRightIcon />
               </Link>
             </Box>

@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 import { getMyHistory } from "@/api/apiCalls/user";
 import XpHistoryDetails from "@/components/XpHistory/XpHistoryDetails";
 import BackArrowIcon from "@/icons/ArrowBack";
+import axios from "axios";
+import { useStore } from "@/store";
 
 export default function HomePage() {
   const { logout } = useUser();
@@ -18,6 +20,9 @@ export default function HomePage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [historyItemsList, setHistoryItemsList] =
     useState<HistoryResponse | null>();
+  // const accessToken = useStore((state) => state.accessToken);
+  const accessToken =
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozMiwid2FsbGV0X2FkZHJlc3MiOiIweDc4Njg5MzNhMzZGYjc3NzFmNWQ4N2M2NTg1N0Y2M0M5MjY0ZDI4YTQiLCJlbWFpbCI6IiIsImV4cCI6MTc2MjY5Nzg0Nn0.c1t7t9GI39SEqGfH4F_gchkhxtj0iYXBqvQ_T-qEIgA";
   // const historyItemsList = useAppStore(
   //   (state: AppStoreState) => state.historyItemsList,
   // );
@@ -42,7 +47,14 @@ export default function HomePage() {
   const fetchHistory = async (page: number, recordsPerPage: number) => {
     try {
       setIsDataLoading(true);
-      // const res: HistoryResponse = await getMyHistory(page, recordsPerPage);
+      // const res = await axios.get<HistoryResponse>(
+      //   `https://api.xpad-extension.baboons.tech/api/account/xp-transactions/?page=${page}&per_page=${recordsPerPage}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${accessToken}`, // Replace accessToken with your token variable
+      //     },
+      //   },
+      // );
       const res = {
         count: 38,
         current_page: 1,
@@ -197,7 +209,7 @@ export default function HomePage() {
         />
         <Box position="relative" margin="24px 16px 29px 16px">
           <Box display="flex" alignItems="center">
-            <Link href={"/"}>
+            <Link href={"/profile"}>
               <Box>
                 <BackArrowIcon />
               </Box>
