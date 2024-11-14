@@ -1,4 +1,4 @@
-import { AllNftsResponse } from "@/types/type";
+import { AllNftsResponse, HistoryResponse } from "@/types/type";
 import { axios } from "..";
 export const userLoginWallet = async (payload: {
   wallet_address: string;
@@ -142,6 +142,27 @@ export const getAllNfts = async (
     const endPoint = `https://api.layerx.baboons.tech/api/nfts/?page=${page}&per_page=${recordsPerPage}`;
     const res = await axios.get(endPoint);
     if (!res?.data) throw "Something went wrong GetUser";
+    return res.data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const getMyHistory = async (
+  page: number,
+  recordsPerPage: number,
+): Promise<HistoryResponse> => {
+  try {
+    const endPoint = `https://api.layerx.baboons.tech/api/user/xp-history/?page=${page}&per_page=${recordsPerPage}`;
+    const res = await axios.get(endPoint);
+    // const res = await axios.get(endPoint, {
+    //   params: {
+    //     page: page,
+    //     per_page: recordsPerPage,
+    //   },
+    // });
+    console.log("historyyy", res);
+    if (!res?.data) throw "Something went wrong History";
     return res.data;
   } catch (err) {
     return Promise.reject(err);

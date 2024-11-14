@@ -96,13 +96,6 @@ export default function HomePage() {
             <FeatureCard key={i} feature={feature} />
           ))}
         </Box>
-
-        {/* <Text color="#fff" onClick={() => logout()}>
-          Logout
-        </Text>
-        <Link color="#fff" href={"/profile"}>
-          <Text>Go to profile page</Text>
-        </Link> */}
       </Box>
     </Box>
   );

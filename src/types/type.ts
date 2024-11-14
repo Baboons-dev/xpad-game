@@ -121,3 +121,26 @@ export interface FeatureType {
   borderColor: string;
   buttonText: string;
 }
+
+export interface HistoryResponse {
+  results: HistoryObject[];
+  // page: number;
+  // records_per_page: number;
+  // total_count: number;
+  total_pages: number;
+  count: number;
+  current_page: number;
+}
+
+export interface HistoryObject {
+  // points_awarded: number;
+  // username: string;
+  // awarded_from: string;
+  // transaction_timestamp: string;
+  // activity: string;
+
+  points_awarded: number;
+  awarded_from: string;
+  transaction_timestamp: string;
+  activity: string;
+}
