@@ -180,17 +180,19 @@ export default function ProfilePage() {
             justifyContent="center"
             alignItems="center"
           >
-            <Text
-              color="#FF3A3A"
-              fontSize="14px"
-              fontWeight=" 600"
-              lineHeight="14px"
-              cursor="pointer"
-              fontFamily="Plus Jakarta Sans"
-              onClick={() => logout()}
-            >
-              Logout
-            </Text>
+            <Link href={"/authenticate"}>
+              <Text
+                color="#FF3A3A"
+                fontSize="14px"
+                fontWeight=" 600"
+                lineHeight="14px"
+                cursor="pointer"
+                fontFamily="Plus Jakarta Sans"
+                onClick={() => logout()}
+              >
+                Logout
+              </Text>
+            </Link>
           </Box>
         </Box>
       </Box>
