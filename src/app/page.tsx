@@ -6,12 +6,14 @@ import NftMintingIcon from "@/icons/NftMinting";
 import { FeatureType } from "@/types/type";
 import IxoFundraisingIcon from "@/icons/Ixo";
 import XplayIcon from "@/icons/Xplay";
+import { useUser } from "@/hooks";
 
 interface FeatureCardProps {
   feature: FeatureType;
 }
 
 export default function HomePage() {
+  const { logout } = useUser();
   const features = [
     {
       title: "LayerX",
@@ -93,6 +95,13 @@ export default function HomePage() {
             <FeatureCard key={i} feature={feature} />
           ))}
         </Box>
+
+        <Text color="#fff" onClick={() => logout()}>
+          Logout
+        </Text>
+        <Link color="#fff" href={"/profile"}>
+          <Text>Go to profile page</Text>
+        </Link>
       </Box>
     </Box>
   );
