@@ -121,12 +121,13 @@ export default function Authenticate() {
               width={["unset", "unset", "unset", "327px"]}
               zIndex={2}
               style={{
-                borderRadius: "24px",
+                borderRadius: "30px",
                 backgroundImage:
-                  "linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)",
+                  "linear-gradient(#000, #000), linear-gradient(#1ED1FC, #47E473, #3AFF65)",
                 backgroundOrigin: "border-box",
                 backgroundClip: "content-box, border-box",
               }}
+              backgroundColor="#000"
               onClick={() => onTwitterLoginClick()}
             >
               <Box padding="20px 90px">

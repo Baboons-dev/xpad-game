@@ -11,7 +11,7 @@ export default function XplayIcon(props: IconProps) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <rect width="44" height="44" rx="8" fill="#F6C942" fill-opacity="0.15" />
+      <rect width="44" height="44" rx="8" fill="#F6C942" fillOpacity="0.15" />
       <path
         d="M16 21H20"
         stroke="#F6C942"

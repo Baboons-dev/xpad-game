@@ -11,7 +11,7 @@ export default function IxoFundraisingIcon(props: IconProps) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <rect width="44" height="44" rx="8" fill="#BEF642" fill-opacity="0.15" />
+      <rect width="44" height="44" rx="8" fill="#BEF642" fillOpacity="0.15" />
       <path
         d="M18 24C21.3137 24 24 21.3137 24 18C24 14.6863 21.3137 12 18 12C14.6863 12 12 14.6863 12 18C12 21.3137 14.6863 24 18 24Z"
         stroke="#BEF642"

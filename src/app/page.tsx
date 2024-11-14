@@ -39,7 +39,7 @@ export default function HomePage() {
       description:
         "Play games with your collected XP. But watch out, you can also lose!",
       href: "/xplay",
-      borderColor: "#33DBB8",
+      borderColor: "#F6C942",
       buttonText: "Play Games",
       disabled: false,
     },
@@ -80,7 +80,7 @@ export default function HomePage() {
               lineHeight="normal"
               marginTop="2px"
             >
-              Explore all
+              LayerX Products
             </Text>
           </Box>
         </Box>
@@ -150,13 +150,12 @@ const FeatureCard = (props: FeatureCardProps) => {
         flexDirection="row"
         alignItems="center"
       >
-        <Divider border="1px solid rgba(255, 255, 255, 0.30) !important" />
+        <Divider border="1px solid rgba(255, 255, 255, 0.10) !important" />
       </Box>
       <Box
-        borderRadius=" 8px"
+        borderRadius="8px"
         border={`1px solid ${feature?.borderColor}`}
-        padding="0px 16px"
-        height="58px"
+        height="42px"
         display="flex"
         justifyContent="center"
         alignItems="center"

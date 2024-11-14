@@ -4,42 +4,58 @@ import backgroundImage from "../../assets/background.png";
 import BackArrowIcon from "@/icons/ArrowBack";
 import { useStore } from "@/store";
 import Link from "next/link";
+import Rank from "@/components/Ranks/Rank";
 
-const ranks = [
+const userLookupLevels = [
   {
-    title: "Digital Sculptor",
-    xpRequired: "1,000",
-    icon: "🎨",
-    color: "#33DBB8",
-    nextRank: "Pixel Artist",
+    id: 1,
+    level_name: "Rising Star",
+    starting_points: 0,
+    ending_points: 1000,
+    level_image:
+      "https://api.xpad-extension.baboons.tech/media/level_images/Rising_Star.png",
+    background_colour: "#1C1D33",
+    primary_color: "#19A0ED",
+    current_user_level: false,
+    next_level_name: "Digital Sculptor",
   },
   {
-    title: "Pixel Artist",
-    xpRequired: "1,500",
-    icon: "🎮",
-    color: "#4CAF50",
-    nextRank: "Digital Sculptor",
+    id: 4,
+    level_name: "Digital Sculptor",
+    starting_points: 1001,
+    ending_points: 4000,
+    level_image:
+      "https://api.xpad-extension.baboons.tech/media/level_images/Digital_Sculptor.png",
+    background_colour: "#221A1A",
+    primary_color: "#FF3A3A",
+    current_user_level: false,
+    next_level_name: "Crypto Curator",
   },
   {
-    title: "Digital Sculptor",
-    xpRequired: "2,000-4,000",
-    icon: "🎨",
-    color: "#F44336",
-    nextRank: "Crypto Curator",
+    id: 3,
+    level_name: "Crypto Curator",
+    starting_points: 4001,
+    ending_points: 6000,
+    level_image:
+      "https://api.xpad-extension.baboons.tech/media/level_images/Crypto_Curator.png",
+    background_colour: "#301C33",
+    primary_color: "#B707F5",
+    current_user_level: false,
+    next_level_name: "Blockchain Builder",
   },
   {
-    title: "Crypto Curator",
-    xpRequired: "4,000-6,000",
-    icon: "💎",
-    color: "#9C27B0",
-    nextRank: "Blockchain Builder",
-  },
-  {
-    title: "Blockchain Builder",
-    xpRequired: "6,000-10,000",
-    icon: "🏗️",
-    color: "#FFC107",
-    nextRank: null,
+    id: 2,
+    level_name: "Blockchain Builder",
+    starting_points: 6001,
+    ending_points: 2147483647,
+    level_image:
+      "https://api.xpad-extension.baboons.tech/media/level_images/Blockchain_Builder.png",
+    background_colour: "#13120A",
+    primary_color: "#EDC801",
+    current_user_level: true,
+    next_level_name: "N/A",
+    current_points: 13200,
+    percentage_completion: 0,
   },
 ];
 
@@ -48,29 +64,29 @@ export default function RankOverviewPage() {
   const userPoints = user?.points || 0;
 
   // Function to determine user's current rank
-  const getCurrentRank = () => {
-    for (let i = ranks.length - 1; i >= 0; i--) {
-      const minXP = parseInt(
-        ranks[i].xpRequired.split("-")[0].replace(",", ""),
-      );
-      if (userPoints >= minXP) {
-        return ranks[i];
-      }
-    }
-    return ranks[0];
-  };
+  // const getCurrentRank = () => {
+  //   for (let i = ranks.length - 1; i >= 0; i--) {
+  //     const minXP = parseInt(
+  //       ranks[i].xpRequired.split("-")[0].replace(",", ""),
+  //     );
+  //     if (userPoints >= minXP) {
+  //       return ranks[i];
+  //     }
+  //   }
+  //   return ranks[0];
+  // };
 
-  const currentRank = getCurrentRank();
+  // const currentRank = getCurrentRank();
 
   // Function to calculate progress for a rank
-  const calculateProgress = (rank: (typeof ranks)[0]) => {
-    const [minXP, maxXP] = rank.xpRequired
-      .split("-")
-      .map((xp) => parseInt(xp?.replace(",", "") || "0"));
-    const maxPoints = maxXP || minXP;
-    const progress = Math.min((userPoints / maxPoints) * 100, 100);
-    return progress;
-  };
+  // const calculateProgress = (rank: (typeof ranks)[0]) => {
+  //   const [minXP, maxXP] = rank.xpRequired
+  //     .split("-")
+  //     .map((xp) => parseInt(xp?.replace(",", "") || "0"));
+  //   const maxPoints = maxXP || minXP;
+  //   const progress = Math.min((userPoints / maxPoints) * 100, 100);
+  //   return progress;
+  // };
 
   return (
     <Box w="100%" display="flex" flexDirection="column">
@@ -105,99 +121,25 @@ export default function RankOverviewPage() {
 
         <Box margin="0px 16px 24px 16px" position="relative">
           <Box display="flex" flexDirection="column" gap="12px">
-            {ranks.map((rank, index) => {
-              const isCurrentRank = rank.title === currentRank.title;
-              const progress = calculateProgress(rank);
-              const isCompleted = progress >= 100;
-
-              return (
-                <Box
-                  key={index}
-                  borderRadius="12px"
-                  bg="#191916"
-                  padding="16px"
-                  border={
-                    isCurrentRank
-                      ? "1px solid #33DBB8"
-                      : "1px solid rgba(255, 255, 255, 0.10)"
+            {userLookupLevels &&
+              userLookupLevels?.length > 0 &&
+              userLookupLevels.map((level, i) => (
+                <Rank
+                  userLevelData={level}
+                  isComplete={
+                    i <
+                    userLookupLevels.findIndex(
+                      (level) => level.current_user_level,
+                    )
                   }
-                >
-                  <Box
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    mb="12px"
-                  >
-                    <Box display="flex" alignItems="center" gap="8px">
-                      <Box
-                        width="32px"
-                        height="32px"
-                        borderRadius="8px"
-                        bg={rank.color + "26"}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        fontSize="20px"
-                      >
-                        {rank.icon}
-                      </Box>
-                      <Text
-                        color="#FFF"
-                        fontSize="16px"
-                        fontWeight="700"
-                        fontFamily="Plus Jakarta Sans"
-                      >
-                        {rank.title}
-                      </Text>
-                    </Box>
-                    {isCompleted && (
-                      <Text
-                        color="#33DBB8"
-                        fontSize="14px"
-                        fontWeight="500"
-                        fontFamily="Plus Jakarta Sans"
-                      >
-                        Complete
-                      </Text>
-                    )}
-                  </Box>
-                  <Box
-                    width="100%"
-                    height="4px"
-                    bg="rgba(255, 255, 255, 0.10)"
-                    borderRadius="2px"
-                  >
-                    <Box
-                      width={`${progress}%`}
-                      height="100%"
-                      bg={rank.color}
-                      borderRadius="2px"
-                      transition="width 0.5s ease-in-out"
-                    />
-                  </Box>
-                  <Box display="flex" justifyContent="space-between" mt="8px">
-                    <Text
-                      color="rgba(255, 255, 255, 0.50)"
-                      fontSize="14px"
-                      fontWeight="500"
-                      fontFamily="Plus Jakarta Sans"
-                    >
-                      {rank.xpRequired}XP
-                    </Text>
-                    {rank.nextRank && (
-                      <Text
-                        color="rgba(255, 255, 255, 0.50)"
-                        fontSize="14px"
-                        fontWeight="500"
-                        fontFamily="Plus Jakarta Sans"
-                      >
-                        → {rank.nextRank}
-                      </Text>
-                    )}
-                  </Box>
-                </Box>
-              );
-            })}
+                  isAfter={
+                    i >
+                    userLookupLevels.findIndex(
+                      (level) => level.current_user_level,
+                    )
+                  }
+                />
+              ))}
           </Box>
         </Box>
       </Box>

@@ -6,6 +6,7 @@ import { timeAgo } from "@/utils/global";
 import { HistoryObject } from "@/types/type";
 import XpIcon from "@/icons/XpIcon";
 import XpIconLayerX from "@/icons/XpIconLayerX";
+import XpIconXpad from "@/icons/XpIconXpad";
 
 interface XpHistoryDetailsProps {
   date: string;
@@ -48,12 +49,9 @@ export default function XpHistoryDetails({
     // _notLast={{ marginBottom: "23px" }}
     >
       <Box display="flex" flexDirection="row" alignItems="center">
-        <Divider
-          border="1px solid rgba(255, 255, 255, 0.10) !important"
-          width="45%"
-        />
+        <Divider border="1px solid #808080 !important" width="45%" />
         <Text
-          color="#8C8C8C"
+          color="#808080"
           textAlign="center"
           fontSize="12px"
           fontStyle="normal"
@@ -66,16 +64,13 @@ export default function XpHistoryDetails({
         >
           {date}
         </Text>
-        <Divider
-          border="1px solid rgba(255, 255, 255, 0.10) !important"
-          width="45%"
-        />
+        <Divider border="1px solid #808080 !important" width="45%" />
       </Box>
       <Box mt="12px" display="flex" flexDirection="column" gap="12px">
         {historyItems.map((historyItems: HistoryObject, i) => (
           <Box key={i} display="flex" flexDirection="column" gap="14px">
             <Box
-              borderRadius="26px"
+              borderRadius="12px"
               border="1px solid rgba(255, 255, 255, 0.10)"
               background="#191916"
               padding="24px"
@@ -89,7 +84,7 @@ export default function XpHistoryDetails({
                   {historyItems.awarded_from === "layerx" ? (
                     <XpIconLayerX />
                   ) : (
-                    <XpIcon />
+                    <XpIconXpad />
                   )}
                   <Box display="flex" flexDirection="column" gap="6px">
                     <Text
@@ -101,6 +96,9 @@ export default function XpHistoryDetails({
                       lineHeight="normal"
                       textAlign="start"
                     >
+                      {historyItems.awarded_from === "layerx"
+                        ? "LayerX - NFT Minting"
+                        : "xPlay - Play & Earn XP"}
                       {capitalizeFirstLetter(historyItems.awarded_from)}
                     </Text>
                     <Text
@@ -153,7 +151,7 @@ export default function XpHistoryDetails({
                   color={
                     historyItems.awarded_from === "layerx"
                       ? "#33DBB8"
-                      : "#BEF642"
+                      : "#F6C942"
                   }
                   fontSize="14px"
                   fontStyle="normal"

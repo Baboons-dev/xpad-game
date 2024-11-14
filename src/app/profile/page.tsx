@@ -29,10 +29,10 @@ export default function ProfilePage() {
 
             <Box width="100%" display="flex" justifyContent="center">
               <Text
-                color="#CECECE"
-                fontSize="14px"
+                color="#FFF"
+                fontSize="20px"
                 fontStyle="normal"
-                fontWeight="500"
+                fontWeight="800"
                 lineHeight=" normal"
                 fontFamily="Plus Jakarta Sans"
               >
@@ -133,46 +133,47 @@ export default function ProfilePage() {
             flexDirection="column"
             gap="16px"
           >
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              gap="8px"
-            >
-              <Text
-                color=" #8C8C8C"
-                fontSize="14px"
-                fontWeight=" 600"
-                lineHeight="14px" /* 100% */
-                cursor="pointer"
-                fontFamily="Plus Jakarta Sans"
+            <Link href={"/xpHistory"}>
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                gap="8px"
               >
-                View XP History
-              </Text>
-              <Link href={"/xpHistory"}>
+                <Text
+                  color=" #8C8C8C"
+                  fontSize="14px"
+                  fontWeight=" 600"
+                  lineHeight="14px" /* 100% */
+                  cursor="pointer"
+                  fontFamily="Plus Jakarta Sans"
+                >
+                  View XP History
+                </Text>
                 <BackRightIcon />
-              </Link>
-            </Box>
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              gap="8px"
-            >
-              <Text
-                color=" #8C8C8C"
-                fontSize="14px"
-                fontWeight=" 600"
-                lineHeight="14px" /* 100% */
-                cursor="pointer"
-                fontFamily="Plus Jakarta Sans"
+              </Box>
+            </Link>
+            <Link href={"/rankOverview"}>
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                gap="8px"
               >
-                Rank Overview
-              </Text>
-              <Link href={"/rankOverview"}>
+                <Text
+                  color="#FFF"
+                  fontSize="20px"
+                  fontWeight="800"
+                  lineHeight="14px" /* 100% */
+                  cursor="pointer"
+                  fontFamily="Plus Jakarta Sans"
+                >
+                  Rank Overview
+                </Text>
+
                 <BackRightIcon />
-              </Link>
-            </Box>
+              </Box>
+            </Link>
           </Box>
           <Box
             marginTop="36px"

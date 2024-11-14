@@ -13,6 +13,7 @@ import XpHistoryDetails from "@/components/XpHistory/XpHistoryDetails";
 import BackArrowIcon from "@/icons/ArrowBack";
 import axios from "axios";
 import { useStore } from "@/store";
+import { Spin } from "antd";
 
 export default function HomePage() {
   const { logout } = useUser();
@@ -23,12 +24,6 @@ export default function HomePage() {
   // const accessToken = useStore((state) => state.accessToken);
   const accessToken =
     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozMiwid2FsbGV0X2FkZHJlc3MiOiIweDc4Njg5MzNhMzZGYjc3NzFmNWQ4N2M2NTg1N0Y2M0M5MjY0ZDI4YTQiLCJlbWFpbCI6IiIsImV4cCI6MTc2MjY5Nzg0Nn0.c1t7t9GI39SEqGfH4F_gchkhxtj0iYXBqvQ_T-qEIgA";
-  // const historyItemsList = useAppStore(
-  //   (state: AppStoreState) => state.historyItemsList,
-  // );
-  // const setHistoryItemsList = useAppStore(
-  //   (state: AppStoreState) => state.setHistoryItemsList,
-  // );
   const toast = useToast();
 
   // Helper function to format the date
@@ -47,114 +42,115 @@ export default function HomePage() {
   const fetchHistory = async (page: number, recordsPerPage: number) => {
     try {
       setIsDataLoading(true);
-      // const res = await axios.get<HistoryResponse>(
-      //   `https://api.xpad-extension.baboons.tech/api/account/xp-transactions/?page=${page}&per_page=${recordsPerPage}`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${accessToken}`, // Replace accessToken with your token variable
-      //     },
-      //   },
-      // );
-      const res = {
-        count: 38,
-        current_page: 1,
-        total_pages: 4,
-        results: [
-          {
-            id: 63,
-            points_awarded: 100,
-            awarded_from: "layerx",
-            transaction_timestamp: "2024-10-22T14:22:04.069204Z",
-            activity: "third_place_competition",
-            activity_id: null,
-            user: 32,
+      const res = await axios.get<HistoryResponse>(
+        `https://api.xpad-extension.baboons.tech/api/account/xp-transactions/?page=${page}&per_page=${recordsPerPage}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`, // Replace accessToken with your token variable
           },
-          {
-            id: 64,
-            points_awarded: 200,
-            awarded_from: "layerx",
-            transaction_timestamp: "2024-10-23T07:54:14.857832Z",
-            activity: "minted_nft",
-            activity_id: null,
-            user: 32,
-          },
-          {
-            id: 65,
-            points_awarded: 200,
-            awarded_from: "layerx",
-            transaction_timestamp: "2024-10-23T08:00:08.147309Z",
-            activity: "minted_nft",
-            activity_id: null,
-            user: 32,
-          },
-          {
-            id: 67,
-            points_awarded: 200,
-            awarded_from: "layerx",
-            transaction_timestamp: "2024-10-23T16:28:20.340436Z",
-            activity: "minted_nft",
-            activity_id: null,
-            user: 32,
-          },
-          {
-            id: 68,
-            points_awarded: 200,
-            awarded_from: "layerx",
-            transaction_timestamp: "2024-10-23T16:30:09.063132Z",
-            activity: "minted_nft",
-            activity_id: null,
-            user: 32,
-          },
-          {
-            id: 69,
-            points_awarded: 200,
-            awarded_from: "layerx",
-            transaction_timestamp: "2024-10-23T16:30:46.926157Z",
-            activity: "minted_nft",
-            activity_id: null,
-            user: 32,
-          },
-          {
-            id: 70,
-            points_awarded: 200,
-            awarded_from: "layerx",
-            transaction_timestamp: "2024-10-23T16:33:09.169898Z",
-            activity: "minted_nft",
-            activity_id: null,
-            user: 32,
-          },
-          {
-            id: 71,
-            points_awarded: 200,
-            awarded_from: "layerx",
-            transaction_timestamp: "2024-10-23T16:33:10.143426Z",
-            activity: "minted_nft",
-            activity_id: null,
-            user: 32,
-          },
-          {
-            id: 72,
-            points_awarded: 200,
-            awarded_from: "layerx",
-            transaction_timestamp: "2024-10-23T16:33:15.137841Z",
-            activity: "minted_nft",
-            activity_id: null,
-            user: 32,
-          },
-          {
-            id: 73,
-            points_awarded: 200,
-            awarded_from: "layerx",
-            transaction_timestamp: "2024-10-23T16:33:23.082047Z",
-            activity: "minted_nft",
-            activity_id: null,
-            user: 32,
-          },
-        ],
-      };
+        },
+      );
       console.log("res", res);
-      setHistoryItemsList(res);
-      setCurrentPage(res?.current_page);
+      // const res = {
+      //   count: 38,
+      //   current_page: 1,
+      //   total_pages: 4,
+      //   results: [
+      //     {
+      //       id: 63,
+      //       points_awarded: 100,
+      //       awarded_from: "layerx",
+      //       transaction_timestamp: "2024-10-22T14:22:04.069204Z",
+      //       activity: "third_place_competition",
+      //       activity_id: null,
+      //       user: 32,
+      //     },
+      //     {
+      //       id: 64,
+      //       points_awarded: 200,
+      //       awarded_from: "layerx",
+      //       transaction_timestamp: "2024-10-23T07:54:14.857832Z",
+      //       activity: "minted_nft",
+      //       activity_id: null,
+      //       user: 32,
+      //     },
+      //     {
+      //       id: 65,
+      //       points_awarded: 200,
+      //       awarded_from: "layerx",
+      //       transaction_timestamp: "2024-10-23T08:00:08.147309Z",
+      //       activity: "minted_nft",
+      //       activity_id: null,
+      //       user: 32,
+      //     },
+      //     {
+      //       id: 67,
+      //       points_awarded: 200,
+      //       awarded_from: "layerx",
+      //       transaction_timestamp: "2024-10-23T16:28:20.340436Z",
+      //       activity: "minted_nft",
+      //       activity_id: null,
+      //       user: 32,
+      //     },
+      //     {
+      //       id: 68,
+      //       points_awarded: 200,
+      //       awarded_from: "layerx",
+      //       transaction_timestamp: "2024-10-23T16:30:09.063132Z",
+      //       activity: "minted_nft",
+      //       activity_id: null,
+      //       user: 32,
+      //     },
+      //     {
+      //       id: 69,
+      //       points_awarded: 200,
+      //       awarded_from: "layerx",
+      //       transaction_timestamp: "2024-10-23T16:30:46.926157Z",
+      //       activity: "minted_nft",
+      //       activity_id: null,
+      //       user: 32,
+      //     },
+      //     {
+      //       id: 70,
+      //       points_awarded: 200,
+      //       awarded_from: "layerx",
+      //       transaction_timestamp: "2024-10-23T16:33:09.169898Z",
+      //       activity: "minted_nft",
+      //       activity_id: null,
+      //       user: 32,
+      //     },
+      //     {
+      //       id: 71,
+      //       points_awarded: 200,
+      //       awarded_from: "layerx",
+      //       transaction_timestamp: "2024-10-23T16:33:10.143426Z",
+      //       activity: "minted_nft",
+      //       activity_id: null,
+      //       user: 32,
+      //     },
+      //     {
+      //       id: 72,
+      //       points_awarded: 200,
+      //       awarded_from: "layerx",
+      //       transaction_timestamp: "2024-10-23T16:33:15.137841Z",
+      //       activity: "minted_nft",
+      //       activity_id: null,
+      //       user: 32,
+      //     },
+      //     {
+      //       id: 73,
+      //       points_awarded: 200,
+      //       awarded_from: "layerx",
+      //       transaction_timestamp: "2024-10-23T16:33:23.082047Z",
+      //       activity: "minted_nft",
+      //       activity_id: null,
+      //       user: 32,
+      //     },
+      //   ],
+      // };
+      console.log("res", res);
+      res && setHistoryItemsList(res?.data);
+      setCurrentPage(res?.data?.current_page);
       setIsDataLoading(false);
     } catch (error: any) {
       setIsDataLoading(false);
@@ -229,23 +225,29 @@ export default function HomePage() {
             </Box>
           </Box>
         </Box>
-        <Box
-          margin="0px 16px 24px 16px"
-          position="relative"
-          display="flex"
-          gap="14px"
-          flexDirection="column"
-        >
-          {Object.entries(historyItemsGroupedByDate).map(
-            ([date, historyItems], i) => (
-              <XpHistoryDetails
-                key={i}
-                date={date}
-                historyItems={historyItems}
-              />
-            ),
-          )}
-        </Box>
+        {isDataLoading ? (
+          <div className="flex items-center justify-center  w-full">
+            <Spin />
+          </div>
+        ) : (
+          <Box
+            margin="0px 16px 24px 16px"
+            position="relative"
+            display="flex"
+            gap="14px"
+            flexDirection="column"
+          >
+            {Object.entries(historyItemsGroupedByDate).map(
+              ([date, historyItems], i) => (
+                <XpHistoryDetails
+                  key={i}
+                  date={date}
+                  historyItems={historyItems}
+                />
+              ),
+            )}
+          </Box>
+        )}
       </Box>
     </Box>
   );
