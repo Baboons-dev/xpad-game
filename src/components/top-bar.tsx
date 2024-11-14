@@ -14,7 +14,6 @@ export function TopBar() {
       justifyContent="space-between"
       height="64px"
       padding="12px 16px"
-      border="1px solid red"
     >
       <Box display="flex" gap="13px" flexDirection="row">
         {false ? (

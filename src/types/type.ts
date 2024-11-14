@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface ITelegramUser {
   id: number;
   first_name: string;
@@ -108,4 +110,14 @@ export interface OwnerObject {
   wallet_address: string;
   xpad_access_token: string;
   xpad_id: string;
+}
+
+export interface FeatureType {
+  title: string;
+  icon: any;
+  description: string;
+  href: string;
+  disabled: boolean;
+  borderColor: string;
+  buttonText: string;
 }

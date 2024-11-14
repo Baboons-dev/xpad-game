@@ -1,73 +1,168 @@
 "use client";
-
-import { Layers, Gamepad2, Coins } from "lucide-react";
 import Link from "next/link";
-import {Button} from "antd";
+import { Box, Divider, Image, Text } from "@chakra-ui/react";
+import backgroundImage from "../assets/background.png";
+import NftMintingIcon from "@/icons/NftMinting";
+import { FeatureType } from "@/types/type";
+import IxoFundraisingIcon from "@/icons/Ixo";
+import XplayIcon from "@/icons/Xplay";
 
+interface FeatureCardProps {
+  feature: FeatureType;
+}
 
 export default function HomePage() {
   const features = [
     {
       title: "LayerX",
-      icon: Layers,
+      icon: <NftMintingIcon />,
       description: "Explore the revolutionary LayerX ecosystem",
       href: "/layerx",
+      borderColor: "#33DBB8",
+      buttonText: "Explore NFT Minting",
       disabled: false,
     },
     {
-      title: "IXOs",
-      icon: Coins,
-      description: "Coming soon - Experience the future of digital assets",
+      title: "IXOs - Fundraising on X",
+      icon: <IxoFundraisingIcon />,
+      description:
+        "Decentralized fundraising on X, using engagement-based participation.",
       href: "/ixos",
+      borderColor: "#BEF642",
+      buttonText: "Coming Soon",
       disabled: true,
     },
     {
-      title: "xPlay",
-      icon: Gamepad2,
-      description: "Play the Ultimate Fighter Championship",
+      title: "xPlay - Play & Earn XP",
+      icon: <XplayIcon />,
+      description:
+        "Play games with your collected XP. But watch out, you can also lose!",
       href: "/xplay",
+      borderColor: "#33DBB8",
+      buttonText: "Play Games",
       disabled: false,
     },
   ];
 
   return (
-    <main className="min-h-screen bg-background p-4 sm:p-6">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl sm:text-4xl font-bold mb-6 sm:mb-8 text-brand-lime">Xpad Features</h1>
+    <Box w="100%" display="flex" flexDirection="column">
+      <Box position="absolute" w="100%" zIndex={0}>
+        <Image
+          src={backgroundImage.src}
+          h="auto"
+          objectFit="contain"
+          position="absolute"
+        />
+        <Box position="relative" margin="36px 16px 36px 16px">
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column"
+          >
+            <Text
+              color="#CECECE"
+              fontSize="14px"
+              fontStyle="normal"
+              fontWeight="500"
+              lineHeight=" normal"
+            >
+              Explore all
+            </Text>
+            <Text
+              color="#33DBB8;"
+              fontSize="32px"
+              fontStyle="normal"
+              fontWeight="800"
+              lineHeight="normal"
+              marginTop="2px"
+            >
+              Explore all
+            </Text>
+          </Box>
+        </Box>
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-          {features.map((feature) => {
-            const Icon = feature.icon;
-            return (
-              <div key={feature.title} className="p-4 sm:p-6 bg-card relative overflow-hidden">
-                {feature.disabled && (
-                  <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
-                    <span className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full bg-brand-lime text-background">
-                      Coming Soon
-                    </span>
-                  </div>
-                )}
-                <div className="h-8 w-8 sm:h-12 sm:w-12 rounded-lg bg-brand-lime/10 flex items-center justify-center mb-3 sm:mb-4">
-                  <Icon className="h-4 w-4 sm:h-6 sm:w-6 text-brand-lime" />
-                </div>
-                <h3 className="text-lg sm:text-xl font-semibold mb-2 text-brand-white">
-                  {feature.title}
-                </h3>
-                <p className="text-muted text-sm mb-3 sm:mb-4">{feature.description}</p>
-                <Button
-                  className={"text-sm sm:text-base "+( feature.disabled && "opacity-50")}
-                  disabled={feature.disabled}
-                  asChild
-                >
-                  <Link href={feature.disabled ? "#" : feature.href}>
-                    Explore {feature.title}
-                  </Link>
-                </Button>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </main>
+        <Box
+          margin="0px 16px 24px 16px"
+          position="relative"
+          display="flex"
+          gap="14px"
+          flexDirection="column"
+        >
+          {features?.map((feature, i) => (
+            <FeatureCard key={i} feature={feature} />
+          ))}
+        </Box>
+      </Box>
+    </Box>
   );
 }
+
+const FeatureCard = (props: FeatureCardProps) => {
+  const { feature } = props;
+  return (
+    <Box
+      borderRadius="12px"
+      border="1px solid rgba(255, 255, 255, 0.10)"
+      background="#191916"
+      padding="16px"
+    >
+      <Box display="flex" flexDirection="row" gap="16px">
+        <Box
+          height="60px"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          {feature?.icon}
+        </Box>
+
+        <Box display="flex" flexDirection="column" gap="6px">
+          <Text
+            color="#FFF"
+            fontSize="16px"
+            fontStyle="normal"
+            fontWeight="800"
+            lineHeight=" normal"
+          >
+            {feature?.title}
+          </Text>
+          <Text
+            color="#A0A0A0"
+            fontSize="14px"
+            fontStyle="normal"
+            fontWeight="400"
+            lineHeight=" normal"
+          >
+            {feature?.description}
+          </Text>
+        </Box>
+      </Box>
+      <Box
+        marginTop="16px"
+        marginBottom="16px"
+        display="flex"
+        flexDirection="row"
+        alignItems="center"
+      >
+        <Divider border="1px solid rgba(255, 255, 255, 0.30) !important" />
+      </Box>
+      <Box
+        borderRadius=" 8px"
+        border={`1px solid ${feature?.borderColor}`}
+        padding="0px 16px"
+        height="58px"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        cursor="pointer"
+      >
+        <Link href={feature.disabled ? "#" : feature.href}>
+          <Text color="#FFF" fontSize=" 14px" fontWeight="700">
+            {feature?.buttonText}
+          </Text>
+        </Link>
+      </Box>
+    </Box>
+  );
+};
