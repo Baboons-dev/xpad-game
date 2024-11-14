@@ -40,7 +40,7 @@ export default function HomePage() {
       description:
         "Play games with your collected XP. But watch out, you can also lose!",
       href: "/xplay",
-      borderColor: "#33DBB8",
+      borderColor: "#F6C942;",
       buttonText: "Play Games",
       disabled: false,
     },
@@ -95,13 +95,14 @@ export default function HomePage() {
             <FeatureCard key={i} feature={feature} />
           ))}
         </Box>
+        <Box height="64px">herer</Box>
 
-        <Text color="#fff" onClick={() => logout()}>
+        {/* <Text color="#fff" onClick={() => logout()}>
           Logout
         </Text>
         <Link color="#fff" href={"/profile"}>
           <Text>Go to profile page</Text>
-        </Link>
+        </Link> */}
       </Box>
     </Box>
   );
