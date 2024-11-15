@@ -31,6 +31,7 @@ export default function Authenticate() {
   console.log("twUrls", twUrl);
 
   useEffect(() => {
+    console.log("tId", tId, state, code, tgId, tId, codeVerifier);
     if (state && code && tgId && tId && codeVerifier) {
       loginTwitter({
         state: state,
@@ -41,17 +42,19 @@ export default function Authenticate() {
       });
     }
   }, [tId, code, tgId, state, codeVerifier]);
+
   const { telegram_user } = useTelegram();
 
   const login = async () => {
     console.log("inside login");
+    console.log("telegram_user", telegram_user);
     if (telegram_user && tgId)
       try {
         const response = await twitterLogin(
           tgId as string,
           telegram_user?.id.toString() as string,
         );
-        console.log(response.data);
+        console.log("response", response.data);
         if (response?.url && response?.code_verifier) {
           const queryParams = new URL(response?.url);
           queryParams.searchParams.set(
@@ -84,6 +87,7 @@ export default function Authenticate() {
 
   useEffect(() => {
     if (accessToken && user) {
+      console.log("from this userEFFECT");
       router.push("/?tgId=" + tgId);
     }
   }, [user, accessToken]);
