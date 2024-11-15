@@ -135,7 +135,6 @@ export default function ProfilePage() {
                 Connect Wallet
               </Text>
             </Box>
-          </Box>
           <Box
             marginTop="10px"
             display="flex"
