@@ -111,6 +111,28 @@ export default function ProfilePage() {
           </Box>
 
           <Box
+            position="relative"
+            marginTop="10px"
+          >
+            <Box
+              position="absolute"
+              top="-10px"
+              right="-10px"
+              zIndex="1"
+              padding="4px 12px"
+              borderRadius="100px"
+              background="linear-gradient(90deg, #1ED1FC 0%, #47E473 100%)"
+            >
+              <Text
+                color="black"
+                fontSize="12px"
+                fontWeight="600"
+                fontFamily="Plus Jakarta Sans"
+              >
+                Coming Soon
+              </Text>
+            </Box>
+            <Box
               borderRadius="8px"
               border="1px solid rgba(255, 255, 255, 0.2)"
               height="42px"
@@ -135,6 +157,7 @@ export default function ProfilePage() {
                 Connect Wallet
               </Text>
             </Box>
+          </Box>
           <Box
             marginTop="10px"
             display="flex"
