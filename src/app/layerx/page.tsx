@@ -17,7 +17,7 @@ function NFTCard({ nft }: NftCardProps) {
     <div className="bg-black border border-[#33A7FF]/10 rounded-xl overflow-hidden">
       {/* Tweet Image Container */}
       <div className="aspect-square w-full bg-black">
-        <div className="w-full h-full flex items-center justify-center bg-black">
+        <div className="w-full h-full flex items-center justify-center bg-black/100" style={{backgroundColor:"#000"}}>
           <img
             src={nft.image_url}
             className="w-full h-full object-contain"

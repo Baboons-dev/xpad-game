@@ -25,16 +25,6 @@ export default function HomePage() {
       disabled: false,
     },
     {
-      title: "IXOs - Fundraising on X",
-      icon: <IxoFundraisingIcon />,
-      description:
-        "Decentralized fundraising on X, using engagement-based participation.",
-      href: "/ixos",
-      borderColor: "#BEF642",
-      buttonText: "Coming Soon",
-      disabled: true,
-    },
-    {
       title: "xPlay - Play & Earn XP",
       icon: <XplayIcon color="#F6C942" />,
       description:
@@ -43,6 +33,16 @@ export default function HomePage() {
       borderColor: "#F6C942",
       buttonText: "Play Games",
       disabled: false,
+    },
+    {
+      title: "IXOs - Fundraising on X",
+      icon: <IxoFundraisingIcon />,
+      description:
+        "Decentralized fundraising on X, using engagement-based participation.",
+      href: "/ixos",
+      borderColor: "#BEF642",
+      buttonText: "Coming Soon",
+      disabled: true,
     },
   ];
 
