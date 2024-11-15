@@ -63,34 +63,9 @@ export default function RankOverviewPage() {
   const user = useStore((state) => state.user);
   const userPoints = user?.points || 0;
 
-  // Function to determine user's current rank
-  // const getCurrentRank = () => {
-  //   for (let i = ranks.length - 1; i >= 0; i--) {
-  //     const minXP = parseInt(
-  //       ranks[i].xpRequired.split("-")[0].replace(",", ""),
-  //     );
-  //     if (userPoints >= minXP) {
-  //       return ranks[i];
-  //     }
-  //   }
-  //   return ranks[0];
-  // };
-
-  // const currentRank = getCurrentRank();
-
-  // Function to calculate progress for a rank
-  // const calculateProgress = (rank: (typeof ranks)[0]) => {
-  //   const [minXP, maxXP] = rank.xpRequired
-  //     .split("-")
-  //     .map((xp) => parseInt(xp?.replace(",", "") || "0"));
-  //   const maxPoints = maxXP || minXP;
-  //   const progress = Math.min((userPoints / maxPoints) * 100, 100);
-  //   return progress;
-  // };
-
   return (
-    <Box w="100%" display="flex" flexDirection="column">
-      <Box position="absolute" w="100%" zIndex={0}>
+    <Box w="100%" display="flex" flexDirection="column" minHeight="100vh">
+      <Box position="relative" w="100%" zIndex={0}>
         <Image
           src={backgroundImage.src}
           h="auto"
@@ -106,12 +81,13 @@ export default function RankOverviewPage() {
             </Link>
             <Box width="100%" display="flex" justifyContent="center">
               <Text
-                color="#CECECE"
+                color="white"
                 fontSize="20px"
                 fontStyle="normal"
                 fontWeight="800"
                 lineHeight="normal"
                 fontFamily="Plus Jakarta Sans"
+                mb="4"
               >
                 Rank Overview
               </Text>
@@ -119,12 +95,17 @@ export default function RankOverviewPage() {
           </Box>
         </Box>
 
-        <Box margin="0px 16px 24px 16px" position="relative">
+        <Box 
+          margin="0px 16px 24px 16px" 
+          position="relative"
+          pb="80px" // Add bottom padding to prevent content from being hidden under the menu
+        >
           <Box display="flex" flexDirection="column" gap="12px">
             {userLookupLevels &&
               userLookupLevels?.length > 0 &&
               userLookupLevels.map((level, i) => (
                 <Rank
+                  key={i}
                   userLevelData={level}
                   isComplete={
                     i <

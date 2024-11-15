@@ -16,6 +16,18 @@ export default function Rank(props: RankProps) {
     isAfter = false,
   } = props;
 
+  const formatXP = (number: number) => {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "XP";
+  };
+
+  const gradientStyle = {
+    background: "linear-gradient(90deg, #1ED1FC 0%, #47E473 100%)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    backgroundClip: "text",
+    fontFamily: "Plus Jakarta Sans",
+  };
+
   return (
     <Box
       borderRadius="12px"
@@ -33,7 +45,7 @@ export default function Rank(props: RankProps) {
               objectFit: "cover",
               width: "100%",
               height: "100%",
-              imageRendering: "auto", // Adjust rendering to avoid pixelation
+              imageRendering: "auto",
             }}
           />
         </Box>
@@ -66,7 +78,7 @@ export default function Rank(props: RankProps) {
       >
         <Box>
           <Text
-            color={isAfter ? "#8C8C8C" : "#19A0ED"}
+            sx={!isAfter ? gradientStyle : { color: "#8C8C8C", fontFamily: "Plus Jakarta Sans" }}
             fontSize="14px"
             fontStyle="normal"
             fontWeight="600"
@@ -74,10 +86,10 @@ export default function Rank(props: RankProps) {
             marginBottom="24px"
           >
             {userLevelData?.current_points
-              ? userLevelData?.current_points
+              ? formatXP(userLevelData?.current_points)
               : isComplete
-              ? userLevelData?.ending_points + "XP"
-              : userLevelData?.starting_points}
+              ? formatXP(userLevelData?.ending_points)
+              : formatXP(userLevelData?.starting_points)}
             <span
               style={{
                 color: "#8C8C8C",
@@ -95,7 +107,7 @@ export default function Rank(props: RankProps) {
                     userLevelData?.current_user_level || isProfilePage
                       ? "/"
                       : "-"
-                  }${userLevelData?.ending_points}XP`}
+                  }${formatXP(userLevelData?.ending_points)}`}
             </span>
           </Text>
         </Box>
@@ -103,21 +115,28 @@ export default function Rank(props: RankProps) {
         {userLevelData?.next_level_name !== "N/A" && (
           <Box display="flex" alignItems="center" gap={"2px"}>
             {isComplete ? (
-              <h1>complete</h1>
+              <Text
+                sx={gradientStyle}
+                fontSize="14px"
+                fontStyle="normal"
+                fontWeight="600"
+                lineHeight="normal"
+                fontFamily="Plus Jakarta Sans"
+              >
+                Complete
+              </Text>
             ) : (
-              // <CheckIcon />
-              <h1>incomplete</h1>
-              // <CustomRightArrow fillColor={"#D9D9D9"} />
+              <Text
+                color="#8C8C8C"
+                fontSize="14px"
+                fontStyle="normal"
+                fontWeight="600"
+                lineHeight="normal"
+                fontFamily="Plus Jakarta Sans"
+              >
+                {userLevelData?.next_level_name}
+              </Text>
             )}
-            <Text
-              color={isComplete ? "#19A0ED" : "#8C8C8C"}
-              fontSize=" 14px"
-              fontStyle="normal"
-              fontWeight="600"
-              lineHeight="normal"
-            >
-              {isComplete ? "Complete" : userLevelData?.next_level_name}
-            </Text>
           </Box>
         )}
       </Box>
@@ -125,7 +144,12 @@ export default function Rank(props: RankProps) {
         <Progress
           borderRadius="26px"
           value={isComplete ? 100 : userLevelData?.percentage_completion}
-          height="16px"
+          height="10px"
+          sx={{
+            '& > div[role="progressbar"]': {
+              background: "linear-gradient(90deg, #1ED1FC 0%, #47E473 100%)",
+            },
+          }}
         />
       </Box>
     </Box>

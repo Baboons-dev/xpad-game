@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { Box, Image, Text } from "@chakra-ui/react";
 import { useUser } from "@/hooks";
@@ -33,7 +34,7 @@ export default function ProfilePage() {
                 fontSize="20px"
                 fontStyle="normal"
                 fontWeight="800"
-                lineHeight=" normal"
+                lineHeight="normal"
                 fontFamily="Plus Jakarta Sans"
               >
                 My Profile
@@ -100,7 +101,7 @@ export default function ProfilePage() {
               </Box>
             )}
             <Text
-              color=" #FFF"
+              color="#FFF"
               fontSize="30px"
               fontWeight="800"
               fontFamily="Plus Jakarta Sans"
@@ -110,22 +111,52 @@ export default function ProfilePage() {
           </Box>
 
           <Box
-            borderRadius="8px"
-            border=" 1px solid #FFF"
-            height="42px"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
+            position="relative"
             marginTop="10px"
           >
-            <Text
-              fontFamily="Plus Jakarta Sans"
-              color=" #FFF"
-              fontSize=" 14px"
-              fontWeight=" 700"
+            <Box
+              position="absolute"
+              top="-10px"
+              right="-10px"
+              zIndex="1"
+              padding="4px 12px"
+              borderRadius="100px"
+              background="linear-gradient(90deg, #1ED1FC 0%, #47E473 100%)"
             >
-              Connect Wallet
-            </Text>
+              <Text
+                color="black"
+                fontSize="12px"
+                fontWeight="600"
+                fontFamily="Plus Jakarta Sans"
+              >
+                Coming Soon
+              </Text>
+            </Box>
+            <Box
+              borderRadius="8px"
+              border="1px solid rgba(255, 255, 255, 0.2)"
+              height="42px"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              background="linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)"
+              backdropFilter="blur(10px)"
+              transition="all 0.3s ease"
+              cursor="default"
+              _hover={{
+                border: "1px solid rgba(255, 255, 255, 0.3)",
+                background: "linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.07) 100%)",
+              }}
+            >
+              <Text
+                fontFamily="Plus Jakarta Sans"
+                color="rgba(255, 255, 255, 0.8)"
+                fontSize="14px"
+                fontWeight="700"
+              >
+                Connect Wallet
+              </Text>
+            </Box>
           </Box>
           <Box
             marginTop="10px"
@@ -141,10 +172,10 @@ export default function ProfilePage() {
                 gap="8px"
               >
                 <Text
-                  color=" #8C8C8C"
+                  color="#8C8C8C"
                   fontSize="14px"
-                  fontWeight=" 600"
-                  lineHeight="14px" /* 100% */
+                  fontWeight="600"
+                  lineHeight="14px"
                   cursor="pointer"
                   fontFamily="Plus Jakarta Sans"
                 >
@@ -161,16 +192,15 @@ export default function ProfilePage() {
                 gap="8px"
               >
                 <Text
-                  color="#FFF"
-                  fontSize="20px"
-                  fontWeight="800"
-                  lineHeight="14px" /* 100% */
+                  color="#8C8C8C"
+                  fontSize="14px"
+                  fontWeight="600"
+                  lineHeight="14px"
                   cursor="pointer"
                   fontFamily="Plus Jakarta Sans"
                 >
                   Rank Overview
                 </Text>
-
                 <BackRightIcon />
               </Box>
             </Link>
@@ -185,7 +215,7 @@ export default function ProfilePage() {
               <Text
                 color="#FF3A3A"
                 fontSize="14px"
-                fontWeight=" 600"
+                fontWeight="600"
                 lineHeight="14px"
                 cursor="pointer"
                 fontFamily="Plus Jakarta Sans"

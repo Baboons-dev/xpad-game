@@ -2,13 +2,9 @@
 import Link from "next/link";
 import { Box, Divider, Image, Text, useToast } from "@chakra-ui/react";
 import backgroundImage from "../../assets/background.png";
-import NftMintingIcon from "@/icons/NftMinting";
-import { FeatureType, HistoryObject, HistoryResponse } from "@/types/type";
-import IxoFundraisingIcon from "@/icons/Ixo";
-import XplayIcon from "@/icons/Xplay";
+import { HistoryObject, HistoryResponse } from "@/types/type";
 import { useUser } from "@/hooks";
 import { useEffect, useState } from "react";
-import { getMyHistory } from "@/api/apiCalls/user";
 import XpHistoryDetails from "@/components/XpHistory/XpHistoryDetails";
 import BackArrowIcon from "@/icons/ArrowBack";
 import axios from "axios";
@@ -46,108 +42,10 @@ export default function HomePage() {
         `https://api.xpad-extension.baboons.tech/api/account/xp-transactions/?page=${page}&per_page=${recordsPerPage}`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`, // Replace accessToken with your token variable
+            Authorization: `Bearer ${accessToken}`,
           },
         },
       );
-      console.log("res", res);
-      // const res = {
-      //   count: 38,
-      //   current_page: 1,
-      //   total_pages: 4,
-      //   results: [
-      //     {
-      //       id: 63,
-      //       points_awarded: 100,
-      //       awarded_from: "layerx",
-      //       transaction_timestamp: "2024-10-22T14:22:04.069204Z",
-      //       activity: "third_place_competition",
-      //       activity_id: null,
-      //       user: 32,
-      //     },
-      //     {
-      //       id: 64,
-      //       points_awarded: 200,
-      //       awarded_from: "layerx",
-      //       transaction_timestamp: "2024-10-23T07:54:14.857832Z",
-      //       activity: "minted_nft",
-      //       activity_id: null,
-      //       user: 32,
-      //     },
-      //     {
-      //       id: 65,
-      //       points_awarded: 200,
-      //       awarded_from: "layerx",
-      //       transaction_timestamp: "2024-10-23T08:00:08.147309Z",
-      //       activity: "minted_nft",
-      //       activity_id: null,
-      //       user: 32,
-      //     },
-      //     {
-      //       id: 67,
-      //       points_awarded: 200,
-      //       awarded_from: "layerx",
-      //       transaction_timestamp: "2024-10-23T16:28:20.340436Z",
-      //       activity: "minted_nft",
-      //       activity_id: null,
-      //       user: 32,
-      //     },
-      //     {
-      //       id: 68,
-      //       points_awarded: 200,
-      //       awarded_from: "layerx",
-      //       transaction_timestamp: "2024-10-23T16:30:09.063132Z",
-      //       activity: "minted_nft",
-      //       activity_id: null,
-      //       user: 32,
-      //     },
-      //     {
-      //       id: 69,
-      //       points_awarded: 200,
-      //       awarded_from: "layerx",
-      //       transaction_timestamp: "2024-10-23T16:30:46.926157Z",
-      //       activity: "minted_nft",
-      //       activity_id: null,
-      //       user: 32,
-      //     },
-      //     {
-      //       id: 70,
-      //       points_awarded: 200,
-      //       awarded_from: "layerx",
-      //       transaction_timestamp: "2024-10-23T16:33:09.169898Z",
-      //       activity: "minted_nft",
-      //       activity_id: null,
-      //       user: 32,
-      //     },
-      //     {
-      //       id: 71,
-      //       points_awarded: 200,
-      //       awarded_from: "layerx",
-      //       transaction_timestamp: "2024-10-23T16:33:10.143426Z",
-      //       activity: "minted_nft",
-      //       activity_id: null,
-      //       user: 32,
-      //     },
-      //     {
-      //       id: 72,
-      //       points_awarded: 200,
-      //       awarded_from: "layerx",
-      //       transaction_timestamp: "2024-10-23T16:33:15.137841Z",
-      //       activity: "minted_nft",
-      //       activity_id: null,
-      //       user: 32,
-      //     },
-      //     {
-      //       id: 73,
-      //       points_awarded: 200,
-      //       awarded_from: "layerx",
-      //       transaction_timestamp: "2024-10-23T16:33:23.082047Z",
-      //       activity: "minted_nft",
-      //       activity_id: null,
-      //       user: 32,
-      //     },
-      //   ],
-      // };
       console.log("res", res);
       res && setHistoryItemsList(res?.data);
       setCurrentPage(res?.data?.current_page);
@@ -164,25 +62,6 @@ export default function HomePage() {
     }
   };
 
-  const handlePrevPage = () => {
-    console.log("handlePrevPage");
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  function onPaginationitemClick(pageToFetch: number): void {
-    console.log("onPaginationitemClick", pageToFetch);
-    setCurrentPage(pageToFetch);
-  }
-
-  function handleNextPage(): void {
-    console.log("handle next page");
-    if (historyItemsList?.count && currentPage < historyItemsList?.count) {
-      setCurrentPage(currentPage + 1);
-    }
-  }
-
   const historyItemsGroupedByDate: Record<string, HistoryObject[]> = (
     historyItemsList?.results ?? []
   ).reduce((acc, transaction) => {
@@ -195,8 +74,8 @@ export default function HomePage() {
   }, {} as Record<string, HistoryObject[]>);
 
   return (
-    <Box w="100%" display="flex" flexDirection="column">
-      <Box position="absolute" w="100%" zIndex={0}>
+    <Box w="100%" display="flex" flexDirection="column" minHeight="100vh">
+      <Box position="relative" w="100%" zIndex={0}>
         <Image
           src={backgroundImage.src}
           h="auto"
@@ -213,12 +92,13 @@ export default function HomePage() {
 
             <Box width="100%" display="flex" justifyContent="center">
               <Text
-                color="#CECECE"
+                color="white"
                 fontSize="20px"
                 fontStyle="normal"
                 fontWeight="800"
-                lineHeight=" normal"
+                lineHeight="normal"
                 fontFamily="Plus Jakarta Sans"
+                mb="4"
               >
                 XP Overview
               </Text>
@@ -226,7 +106,7 @@ export default function HomePage() {
           </Box>
         </Box>
         {isDataLoading ? (
-          <div className="flex items-center justify-center  w-full">
+          <div className="flex items-center justify-center w-full">
             <Spin />
           </div>
         ) : (
@@ -236,6 +116,7 @@ export default function HomePage() {
             display="flex"
             gap="14px"
             flexDirection="column"
+            pb="80px" // Add bottom padding to prevent content from being hidden under the menu
           >
             {Object.entries(historyItemsGroupedByDate).map(
               ([date, historyItems], i) => (

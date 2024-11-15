@@ -61,10 +61,6 @@ export default function Authenticate() {
               encodeURI(telegram_user?.id.toString() as string),
           );
           setTwUrl(queryParams.toString());
-
-          // const queryParams = new URL(response?.url);
-          // queryParams.searchParams.set("redirect_uri", "https://xplay.baboons.tech/authenticate?tgId=" + encodeURI(tgId) + '&tId=' + encodeURI(telegram_user?.id.toString() as string));
-          // setTwUrl(response?.url)
         } else if (response.data.access) {
           message.success("Login Success");
           localStorage.setItem("token", response.data.access);
@@ -123,7 +119,7 @@ export default function Authenticate() {
               width={["unset", "unset", "unset", "327px"]}
               zIndex={2}
               style={{
-                borderRadius: "30px",
+                borderRadius: "100px",
                 backgroundImage:
                   "linear-gradient(#000, #000), linear-gradient(#1ED1FC, #47E473, #3AFF65)",
                 backgroundOrigin: "border-box",
@@ -132,7 +128,11 @@ export default function Authenticate() {
               backgroundColor="#000"
               onClick={() => onTwitterLoginClick()}
             >
-              <Box padding="20px 90px">
+              <Box
+                padding="20px 90px"
+                borderRadius="100px"
+                backgroundColor="#000"
+              >
                 <Text
                   color="#FFF"
                   fontSize="16px"
@@ -232,26 +232,6 @@ export default function Authenticate() {
           )}
         </Box>
       )}
-      {/* {twUrl && (
-        <Box>
-          <Button
-            onClick={async () => {
-              await navigator.clipboard.writeText(twUrl);
-              alert("copied");
-            }}
-          >
-            Copy Link
-          </Button>
-          <Button
-            onClick={() => {
-              const newWindow = window.open(twUrl as string, "_blank");
-              if (newWindow) newWindow.opener = null;
-            }}
-          >
-            Authenicate Link
-          </Button>
-        </Box>
-      )} */}
     </Box>
   );
 }

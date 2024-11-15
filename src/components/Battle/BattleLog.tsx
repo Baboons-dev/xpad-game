@@ -9,7 +9,7 @@ interface BattleLogProps {
 
 export default function BattleLog({ messages }: BattleLogProps) {
   return (
-    <div className="relative">
+    <div className="relative font-['Plus_Jakarta_Sans']">
       <div className="flex items-center mb-4 space-x-2">
         <Scroll className="w-5 h-5 text-brand-lime" />
         <h3 className="text-xl font-bold text-brand-white">Battle Log</h3>
@@ -30,7 +30,7 @@ export default function BattleLog({ messages }: BattleLogProps) {
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: 20, opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="text-sm text-brand-white/90 font-mono bg-black/30 p-2 rounded"
+                    className="text-sm text-brand-white/90 bg-black/30 p-2 rounded"
                   >
                     {message}
                   </motion.div>
