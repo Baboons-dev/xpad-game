@@ -54,12 +54,13 @@ export const TelegramProvider = ({
   //
   //
   //
-  const statUser = {
-    id: 1778691594,
-    first_name: "Hasib2",
-    last_name: "Arman2",
-  };
-  // const statUser = null;
+  // const statUser = {
+  //   id: 8052122879,
+  //   first_name: "Hasib2",
+  //   last_name: "Arman2",
+  // };
+
+  const statUser = null;
   const value = useMemo(() => {
     return webApp
       ? {
@@ -78,3 +79,5 @@ export const TelegramProvider = ({
 };
 
 export const useTelegram = () => useContext(TelegramContext);
+
+// https://xplay.baboons.tech/?tgId=0991436742780972dRyJi9l69ZTka7OtI4dyPA%3D%3D

@@ -21,9 +21,9 @@ export default function HomePage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [historyItemsList, setHistoryItemsList] =
     useState<HistoryResponse | null>();
-  // const accessToken = useStore((state) => state.accessToken);
-  const accessToken =
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozMiwid2FsbGV0X2FkZHJlc3MiOiIweDc4Njg5MzNhMzZGYjc3NzFmNWQ4N2M2NTg1N0Y2M0M5MjY0ZDI4YTQiLCJlbWFpbCI6IiIsImV4cCI6MTc2MjY5Nzg0Nn0.c1t7t9GI39SEqGfH4F_gchkhxtj0iYXBqvQ_T-qEIgA";
+  const accessToken = useStore((state) => state.accessToken);
+  // const accessToken =
+  //   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozMiwid2FsbGV0X2FkZHJlc3MiOiIweDc4Njg5MzNhMzZGYjc3NzFmNWQ4N2M2NTg1N0Y2M0M5MjY0ZDI4YTQiLCJlbWFpbCI6IiIsImV4cCI6MTc2MjY5Nzg0Nn0.c1t7t9GI39SEqGfH4F_gchkhxtj0iYXBqvQ_T-qEIgA";
   const toast = useToast();
 
   // Helper function to format the date

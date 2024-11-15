@@ -90,13 +90,15 @@ export default function Authenticate() {
   }, [user, accessToken]);
 
   const onTwitterLoginClick = () => {
-    if (authorizedState) {
-      login();
-    } else {
-      const newWindow = window.open(twUrl as string, "_blank");
-      if (newWindow) newWindow.opener = null;
-    }
+    login();
+    // if (authorizedState) {
+    //   login();
+    // } else {
+    //   const newWindow = window.open(twUrl as string, "_blank");
+    //   if (newWindow) newWindow.opener = null;
+    // }
   };
+
   return (
     <Box>
       {state && code ? (
@@ -164,8 +166,8 @@ export default function Authenticate() {
               </Text>
             </Box>
           ) : (
-            true && (
-              // twUrl &&
+            twUrl && (
+              //  &&
               <Box>
                 <Box
                   marginTop="16px"
