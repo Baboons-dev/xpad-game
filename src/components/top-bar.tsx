@@ -14,6 +14,15 @@ export function TopBar() {
       justifyContent="space-between"
       height="64px"
       padding="12px 16px"
+      position="fixed"
+      top="0"
+      left="0"
+      right="0"
+      zIndex="50"
+      backgroundColor="black"
+      borderBottom="1px solid"
+      borderColor="rgba(255, 255, 255, 0.1)"
+      backdropFilter="blur(10px)"
     >
       <Box display="flex" gap="13px" flexDirection="row">
         {user?.avatar ? (
@@ -66,7 +75,7 @@ export function TopBar() {
             fontStyle="normal"
             fontWeight="800"
             fontFamily="Plus Jakarta Sans"
-            lineHeight=" normal"
+            lineHeight="normal"
           >
             {user?.username}
           </Text>
@@ -83,7 +92,7 @@ export function TopBar() {
             fontStyle="normal"
             fontWeight="600"
             fontFamily="Plus Jakarta Sans"
-            lineHeight=" normal"
+            lineHeight="normal"
           >
             {user?.points.toLocaleString()}
           </Text>

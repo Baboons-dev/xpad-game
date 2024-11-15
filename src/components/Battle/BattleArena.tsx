@@ -3,7 +3,7 @@ import { Sword, Swords } from "lucide-react";
 import { motion } from "framer-motion";
 import { User } from "@/types/type";
 import BattleLog from "./BattleLog";
-import {Avatar, Button} from "antd";
+import { Avatar, Button } from "antd";
 
 interface BattleArenaProps {
   fighters?: [User, User];
@@ -25,7 +25,7 @@ export default function BattleArena({
   const [fighter1, fighter2] = fighters;
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-background via-background/95 to-card/90 p-2 pt-20 md:p-8">
+    <main className="min-h-screen bg-gradient-to-b from-background via-background/95 to-card/90 p-2 pt-20 md:p-8 font-['Plus_Jakarta_Sans']">
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="text-center mb-6 relative">
           <div className="absolute inset-0 bg-brand-lime/5 blur-3xl rounded-full"></div>

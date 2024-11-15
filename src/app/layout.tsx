@@ -43,7 +43,9 @@ export default function RootLayout({
         className={inter.className}
         style={{
           height: "100vh",
-          background: " #000",
+          background: "#000",
+          paddingTop: "64px", // Add padding to account for fixed TopBar
+          paddingBottom: "80px", // Add padding to account for mobile navigation
         }}
       >
         <ChakraProvider>
@@ -52,7 +54,6 @@ export default function RootLayout({
               <TelegramProvider>
                 <AppProvider>
                   {children}
-                  {/* <div className="h-16 md:h-0" />  */}
                 </AppProvider>
               </TelegramProvider>
             </Suspense>

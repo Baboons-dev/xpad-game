@@ -1,7 +1,5 @@
 import { Box, Divider, Text } from "@chakra-ui/react";
 import React from "react";
-// import XpIcon from "../../Icons/XpIcon";
-// import XpIconLayerX from "../../Icons/XpIconLayerX";
 import { timeAgo } from "@/utils/global";
 import { HistoryObject } from "@/types/type";
 import XpIcon from "@/icons/XpIcon";
@@ -33,10 +31,8 @@ export default function XpHistoryDetails({
         return "Join Ixo";
       case "win_competition":
         return "Win a competition";
-
-      // Add more cases as needed
       default:
-        return activity; // Fallback to the original if not mapped
+        return activity;
     }
   }
 
@@ -45,9 +41,7 @@ export default function XpHistoryDetails({
   }
 
   return (
-    <Box
-    // _notLast={{ marginBottom: "23px" }}
-    >
+    <Box>
       <Box display="flex" flexDirection="row" alignItems="center">
         <Divider border="1px solid #808080 !important" width="45%" />
         <Text
@@ -68,12 +62,12 @@ export default function XpHistoryDetails({
       </Box>
       <Box mt="12px" display="flex" flexDirection="column" gap="12px">
         {historyItems.map((historyItems: HistoryObject, i) => (
-          <Box key={i} display="flex" flexDirection="column" gap="14px">
+          <Box key={i} display="flex" flexDirection="column">
             <Box
               borderRadius="12px"
               border="1px solid rgba(255, 255, 255, 0.10)"
               background="#191916"
-              padding="24px"
+              padding="14px"
             >
               <Box
                 display="flex"
@@ -129,8 +123,8 @@ export default function XpHistoryDetails({
               </Box>
               <Divider
                 border="1px solid rgba(255, 255, 255, 0.10) !important"
-                marginTop="18px"
-                marginBottom="10px"
+                marginTop="14px"
+                marginBottom="14px"
               />
               <Box
                 display="flex"
@@ -138,7 +132,7 @@ export default function XpHistoryDetails({
                 flexDirection="row"
               >
                 <Text
-                  color=" #8C8C8C"
+                  color="#8C8C8C"
                   fontSize="14px"
                   fontFamily="Plus Jakarta Sans"
                   fontStyle="normal"

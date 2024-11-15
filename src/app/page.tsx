@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { Box, Divider, Image, Text } from "@chakra-ui/react";
 import backgroundImage from "../assets/background.png";
@@ -46,8 +47,8 @@ export default function HomePage() {
   ];
 
   return (
-    <Box w="100%" display="flex" flexDirection="column">
-      <Box position="absolute" w="100%" zIndex={0}>
+    <Box w="100%" display="flex" flexDirection="column" minHeight="100vh">
+      <Box position="relative" w="100%" zIndex={0}>
         <Image
           src={backgroundImage.src}
           h="auto"
@@ -62,23 +63,12 @@ export default function HomePage() {
             flexDirection="column"
           >
             <Text
-              color="#CECECE"
-              fontSize="14px"
-              fontStyle="normal"
-              fontWeight="500"
-              lineHeight="normal"
-              fontFamily="Plus Jakarta Sans"
-            >
-              Explore all
-            </Text>
-            <Text
-              fontFamily="Plus Jakarta Sans"
-              color="#33DBB8;"
+              color="#33DBB8"
               fontSize="32px"
               fontStyle="normal"
               fontWeight="800"
               lineHeight="normal"
-              marginTop="2px"
+              fontFamily="Plus Jakarta Sans"
             >
               LayerX Products
             </Text>
@@ -91,6 +81,7 @@ export default function HomePage() {
           display="flex"
           gap="14px"
           flexDirection="column"
+          pb="80px" // Add padding at the bottom to prevent content from being hidden under the menu
         >
           {features?.map((feature, i) => (
             <FeatureCard key={i} feature={feature} />
@@ -127,7 +118,7 @@ const FeatureCard = (props: FeatureCardProps) => {
             fontSize="16px"
             fontStyle="normal"
             fontWeight="800"
-            lineHeight=" normal"
+            lineHeight="normal"
           >
             {feature?.title}
           </Text>
@@ -137,7 +128,7 @@ const FeatureCard = (props: FeatureCardProps) => {
             fontSize="14px"
             fontStyle="normal"
             fontWeight="400"
-            lineHeight=" normal"
+            lineHeight="normal"
           >
             {feature?.description}
           </Text>
@@ -150,11 +141,10 @@ const FeatureCard = (props: FeatureCardProps) => {
         flexDirection="row"
         alignItems="center"
       >
-        <Divider border="1px solid rgba(255, 255, 255, 0.10) !important" />
+        <Divider border="1px solid #191916 !important" />
       </Box>
       <Box
-        borderRadius="
-        8px"
+        borderRadius="8px"
         border={`1px solid ${feature?.borderColor}`}
         height="42px"
         display="flex"
@@ -166,7 +156,7 @@ const FeatureCard = (props: FeatureCardProps) => {
           <Text
             fontFamily="Plus Jakarta Sans"
             color="#FFF"
-            fontSize=" 14px"
+            fontSize="14px"
             fontWeight="700"
           >
             {feature?.buttonText}
