@@ -15,6 +15,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const accessToken = useStore((state) => state.accessToken);
   const router = useRouter();
   const { telegram_user } = useTelegram();
+  const setTgId = useStore((state) => state.setCTgId);
   const searchParams = useSearchParams();
   const tgId = searchParams.get("tgId");
 
@@ -49,6 +50,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [user, fistTime]);
 
   console.log("user", user, accessToken);
+
+  useEffect(() => {
+    if (tgId) {
+      setTgId(tgId);
+    }
+  }, [tgId]);
 
   return (
     <Box

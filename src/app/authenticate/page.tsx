@@ -27,6 +27,7 @@ export default function Authenticate() {
   const setAccessToken = useSelector.use.setAccessToken();
   const setRefreshToken = useSelector.use.setRefreshToken();
   const [authorizedState, setAuthorizedState] = useState(false);
+  const cTgId = useStore((state) => state.cTgId);
 
   console.log("twUrls", twUrl);
 
@@ -49,10 +50,10 @@ export default function Authenticate() {
     console.log("inside login");
     console.log("telegram_user", telegram_user);
     console.log("tgId", tgId);
-    if (telegram_user && tgId)
+    if (telegram_user && (tgId || cTgId))
       try {
         const response = await twitterLogin(
-          tgId as string,
+          tgId ? tgId : (cTgId as string),
           telegram_user?.id.toString() as string,
         );
         console.log("response", response.data);
@@ -63,7 +64,7 @@ export default function Authenticate() {
             "https://xplay.baboons.tech/authenticate?codeVerifier=" +
               encodeURI(response?.code_verifier) +
               "&tgId=" +
-              encodeURI(tgId) +
+              encodeURI(tgId ? tgId : cTgId) +
               "&tId=" +
               encodeURI(telegram_user?.id.toString() as string),
           );
@@ -89,7 +90,7 @@ export default function Authenticate() {
   useEffect(() => {
     if (accessToken && user) {
       console.log("from this userEFFECT");
-      router.push("/?tgId=" + tgId);
+      router.push("/?tgId=" + (tgId ? tgId : cTgId));
     }
   }, [user, accessToken]);
 
