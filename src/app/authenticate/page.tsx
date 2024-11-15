@@ -69,6 +69,7 @@ export default function Authenticate() {
               encodeURI(telegram_user?.id.toString() as string),
           );
           // queryParams.toString();
+          setTwUrl(queryParams.toString());
           const newWindow = window.open(queryParams.toString(), "_blank");
           if (newWindow) newWindow.opener = null;
         } else if (response.data.access) {
