@@ -51,9 +51,6 @@ export const TelegramProvider = ({
     }
   }, [pathname]);
 
-  //
-  //
-  //
   // const statUser = {
   //   id: 8052122879,
   //   first_name: "Hasib2",

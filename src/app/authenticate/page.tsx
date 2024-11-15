@@ -7,11 +7,12 @@ import { useUser } from "@/hooks";
 import { twitterLogin } from "@/api/apiCalls/user";
 import { useTelegram } from "@/providers/TelegramProvider";
 import { useSelector, useStore } from "@/store";
-import { Box, Divider, Text } from "@chakra-ui/react";
+import { Box, Divider, Text, useToast } from "@chakra-ui/react";
 import UnionLogo from "@/icons/Union";
 import Logo from "@/icons/Logo";
 
 export default function Authenticate() {
+  const toast = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
   const state = searchParams.get("state");
@@ -26,6 +27,8 @@ export default function Authenticate() {
   const setAccessToken = useSelector.use.setAccessToken();
   const setRefreshToken = useSelector.use.setRefreshToken();
   const [authorizedState, setAuthorizedState] = useState(false);
+
+  console.log("twUrls", twUrl);
 
   useEffect(() => {
     if (state && code && tgId && tId && codeVerifier) {
@@ -87,12 +90,35 @@ export default function Authenticate() {
 
   const onTwitterLoginClick = () => {
     login();
-    // if (authorizedState) {
-    //   login();
-    // } else {
-    //   const newWindow = window.open(twUrl as string, "_blank");
-    //   if (newWindow) newWindow.opener = null;
-    // }
+  };
+
+  const onAuthenticateLink = () => {
+    const newWindow = window.open(twUrl as string, "_blank");
+    if (newWindow) newWindow.opener = null;
+  };
+
+  const copyLink = async (twUrl: string) => {
+    console.log("copyLink", twUrl);
+    try {
+      await navigator.clipboard.writeText(twUrl);
+      toast({
+        title: "Link copied!",
+        description: "You can now use the copied link",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+    } catch (err) {
+      toast({
+        title: "Failed to copy link",
+        description: "Something went wrong, please try again",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+    }
   };
 
   return (
@@ -126,6 +152,7 @@ export default function Authenticate() {
                 backgroundClip: "content-box, border-box",
               }}
               backgroundColor="#000"
+              cursor="pointer"
               onClick={() => onTwitterLoginClick()}
             >
               <Box
@@ -146,7 +173,7 @@ export default function Authenticate() {
               </Box>
             </Box>
           </Box>
-          {authorizedState ? (
+          {false ? (
             <Box marginTop="16px">
               <Text
                 color="rgba(255, 255, 255, 0.50)"
@@ -160,14 +187,13 @@ export default function Authenticate() {
                 whiteSpace="nowrap"
                 cursor="pointer"
                 fontFamily="Plus Jakarta Sans"
-                onClick={() => setAuthorizedState(false)}
+                // onClick={() => setAuthorizedState(false)}
               >
                 Or Go Back
               </Text>
             </Box>
           ) : (
             twUrl && (
-              //  &&
               <Box>
                 <Box
                   marginTop="16px"
@@ -208,10 +234,7 @@ export default function Authenticate() {
                     textAlign="center"
                     cursor="pointer"
                     fontFamily="Plus Jakarta Sans"
-                    onClick={async () => {
-                      await navigator.clipboard.writeText(twUrl);
-                      alert("copied");
-                    }}
+                    onClick={() => copyLink(twUrl)}
                   >
                     Copy link
                   </Text>
@@ -222,7 +245,8 @@ export default function Authenticate() {
                     textAlign="center"
                     fontFamily="Plus Jakarta Sans"
                     cursor="pointer"
-                    onClick={() => setAuthorizedState(true)}
+                    onClick={() => onAuthenticateLink()}
+                    // onClick={() => setAuthorizedState(true)}
                   >
                     Already authorized
                   </Text>
