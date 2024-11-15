@@ -68,7 +68,9 @@ export default function Authenticate() {
               "&tId=" +
               encodeURI(telegram_user?.id.toString() as string),
           );
-          setTwUrl(queryParams.toString());
+          // queryParams.toString();
+          const newWindow = window.open(queryParams.toString(), "_blank");
+          if (newWindow) newWindow.opener = null;
         } else if (response.data.access) {
           message.success("Login Success");
           localStorage.setItem("token", response.data.access);
@@ -199,7 +201,7 @@ export default function Authenticate() {
               </Text>
             </Box>
           ) : (
-            twUrl && (
+            false && (
               <Box>
                 <Box
                   marginTop="16px"
