@@ -1,90 +1,43 @@
 "use client";
 
-import { Heart, Share2 } from "lucide-react";
-import axios from "axios";
-import { Avatar, Spin } from "antd";
-import { useEffect, useState } from "react";
-import { AllNftsResponse, AllNftsResponseData } from "@/types/type";
-import { Box, Image, Text } from "@chakra-ui/react";
+import { Box, Image, Text, Divider } from "@chakra-ui/react";
 import backgroundImage from "../../assets/background.png";
-
-interface NftCardProps {
-  nft: AllNftsResponseData;
-}
-
-function NFTCard({ nft }: NftCardProps) {
-  return (
-    <div className="bg-black border border-[#33A7FF]/10 rounded-xl overflow-hidden">
-      {/* Tweet Image Container */}
-      <div className="aspect-square w-full bg-black">
-        <div className="w-full h-full flex items-center justify-center bg-black/100" style={{backgroundColor:"#000"}}>
-          <img
-            src={nft.image_url}
-            className="w-full h-full object-contain"
-            alt={nft.name}
-            loading="lazy"
-          />
-        </div>
-      </div>
-
-      {/* Card Footer */}
-      <div className="p-4 border-t border-[#33A7FF]/10 bg-black">
-        <div className="flex items-center justify-between">
-          {/* User Info */}
-          <div className="flex items-center space-x-2">
-            <Avatar
-              src={nft.owner.profile_picture}
-              className="h-8 w-8 ring-1 ring-[#33A7FF]/20"
-            />
-            <div className="flex flex-col">
-              <span className="text-sm font-medium text-white">
-                {nft.name}
-              </span>
-              <span className="text-xs text-[#33A7FF]">
-                @{nft.owner.twitter_username}
-              </span>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex items-center space-x-4">
-            <button className="text-white/60 hover:text-[#33A7FF] transition-colors">
-              <Heart className="h-5 w-5" />
-            </button>
-            <button className="text-white/60 hover:text-[#33A7FF] transition-colors">
-              <Share2 className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+import Link from "next/link";
+import { NftIcon, CompetitionIcon, MintIcon } from "@/components/LayerX/icons";
 
 export default function LayerXPage() {
-  const [allNfts, setAllNfts] = useState<AllNftsResponse | null>();
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const fetchAllNfts = async (page: number, recordsPerPage: number) => {
-    setLoading(true);
-    try {
-      const res = await axios.get<AllNftsResponse>(
-        `https://api.layerx.baboons.tech/api/nfts/?page=${page}&per_page=${recordsPerPage}`,
-      );
-      res && setAllNfts(res?.data);
-      setLoading(false);
-    } catch (error: any) {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchAllNfts(1, 9);
-  }, []);
+  const features = [
+    {
+      title: "NFTs",
+      icon: <NftIcon color="#33A7FF" />,
+      description: "Browse and collect unique digital assets",
+      href: "/layerx/nfts",
+      borderColor: "#33A7FF",
+      buttonText: "Explore NFTs",
+      disabled: false,
+    },
+    {
+      title: "Competitions",
+      icon: <CompetitionIcon color="#33A7FF" />,
+      description: "Participate in exciting NFT competitions",
+      href: "/layerx/competitions",
+      borderColor: "#33A7FF",
+      buttonText: "View Competitions",
+      disabled: false,
+    },
+    {
+      title: "Mint NFT",
+      icon: <MintIcon color="#33A7FF" />,
+      description: "Create your own digital collectibles",
+      href: "/layerx/mint",
+      borderColor: "#33A7FF",
+      buttonText: "Start Minting",
+      disabled: false,
+    },
+  ];
 
   return (
     <Box w="100%" display="flex" flexDirection="column" minHeight="100vh">
-
       <Box position="relative" w="100%" zIndex={0}>
         <Image
           src={backgroundImage.src}
@@ -107,24 +60,110 @@ export default function LayerXPage() {
               lineHeight="normal"
               fontFamily="Plus Jakarta Sans"
             >
-              LayerX NFTs
+              LayerX Products
             </Text>
           </Box>
         </Box>
-        <Box margin="0px 16px 24px 16px" position="relative">
-          {loading ? (
-            <div className="flex items-center justify-center w-full min-h-[200px]">
-              <Spin />
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {allNfts &&
-                allNfts.data?.length > 0 &&
-                allNfts.data.map((nft) => (
-                  <NFTCard key={nft.id} nft={nft} />
-                ))}
-            </div>
-          )}
+
+        <Box
+          margin="0px 16px 24px 16px"
+          position="relative"
+          display="flex"
+          gap="14px"
+          flexDirection="column"
+          pb="80px"
+        >
+          {features?.map((feature, i) => (
+            <Box
+              key={i}
+              borderRadius="12px"
+              border="1px solid rgba(255, 255, 255, 0.10)"
+              background="#191916"
+              padding="16px"
+              opacity={feature.disabled ? 0.5 : 1}
+              transition="all 0.3s"
+            >
+              <Box display="flex" flexDirection="row" gap="16px">
+                <Box
+                  height="60px"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  {feature?.icon}
+                </Box>
+
+                <Box display="flex" flexDirection="column" gap="6px">
+                  <Text
+                    fontFamily="Plus Jakarta Sans"
+                    color="#FFF"
+                    fontSize="16px"
+                    fontStyle="normal"
+                    fontWeight="800"
+                    lineHeight="normal"
+                  >
+                    {feature?.title}
+                  </Text>
+                  <Text
+                    fontFamily="Plus Jakarta Sans"
+                    color="#A0A0A0"
+                    fontSize="14px"
+                    fontStyle="normal"
+                    fontWeight="400"
+                    lineHeight="normal"
+                  >
+                    {feature?.description}
+                  </Text>
+                </Box>
+              </Box>
+              <Box
+                marginTop="16px"
+                marginBottom="16px"
+                display="flex"
+                flexDirection="row"
+                alignItems="center"
+              >
+                <Divider border="1px solid rgba(255, 255, 255, 0.10) !important" />
+              </Box>
+              <Box
+                borderRadius="8px"
+                border={`1px solid ${feature?.borderColor}`}
+                height="42px"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                cursor={feature.disabled ? "not-allowed" : "pointer"}
+                transition="all 0.3s"
+                _hover={
+                  !feature.disabled
+                    ? {
+                        bg: feature?.borderColor,
+                        color: "#000",
+                      }
+                    : {}
+                }
+                opacity={feature.disabled ? 0.5 : 1}
+              >
+                <Link href={feature.disabled ? "#" : feature.href}>
+                  <Text
+                    fontFamily="Plus Jakarta Sans"
+                    color={feature.disabled ? "#A0A0A0" : "#FFF"}
+                    fontSize="14px"
+                    fontWeight="700"
+                    _hover={
+                      !feature.disabled
+                        ? {
+                            color: "#000",
+                          }
+                        : {}
+                    }
+                  >
+                    {feature?.buttonText}
+                  </Text>
+                </Link>
+              </Box>
+            </Box>
+          ))}
         </Box>
       </Box>
     </Box>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Box, Divider, Image, Text } from "@chakra-ui/react";
+import { Box, Image, Text } from "@chakra-ui/react";
 import backgroundImage from "../assets/background.png";
 import NftMintingIcon from "@/icons/NftMinting";
 import { FeatureType } from "@/types/type";
@@ -84,104 +84,102 @@ export default function HomePage() {
           pb="80px"
         >
           {features?.map((feature, i) => (
-            <FeatureCard key={i} feature={feature} />
+            <Box
+              key={i}
+              borderRadius="12px"
+              border="1px solid rgba(255, 255, 255, 0.10)"
+              background="#191916"
+              padding="16px"
+              opacity={feature.disabled ? 0.5 : 1}
+              transition="all 0.3s"
+            >
+              <Box display="flex" flexDirection="row" gap="16px">
+                <Box
+                  height="60px"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  {feature?.icon}
+                </Box>
+
+                <Box display="flex" flexDirection="column" gap="6px">
+                  <Text
+                    fontFamily="Plus Jakarta Sans"
+                    color="#FFF"
+                    fontSize="16px"
+                    fontStyle="normal"
+                    fontWeight="800"
+                    lineHeight="normal"
+                  >
+                    {feature?.title}
+                  </Text>
+                  <Text
+                    fontFamily="Plus Jakarta Sans"
+                    color="#A0A0A0"
+                    fontSize="14px"
+                    fontStyle="normal"
+                    fontWeight="400"
+                    lineHeight="normal"
+                  >
+                    {feature?.description}
+                  </Text>
+                </Box>
+              </Box>
+              <Box
+                marginTop="16px"
+                marginBottom="16px"
+                display="flex"
+                flexDirection="row"
+                alignItems="center"
+              >
+                <Box
+                  as="hr"
+                  width="100%"
+                  border="1px solid rgba(255, 255, 255, 0.10)"
+                />
+              </Box>
+              <Box
+                borderRadius="8px"
+                border={`1px solid ${feature?.borderColor}`}
+                height="42px"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                cursor={feature.disabled ? "not-allowed" : "pointer"}
+                transition="all 0.3s"
+                _hover={
+                  !feature.disabled
+                    ? {
+                        bg: feature?.borderColor,
+                        color: "#000",
+                      }
+                    : {}
+                }
+                opacity={feature.disabled ? 0.5 : 1}
+              >
+                <Link href={feature.disabled ? "#" : feature.href}>
+                  <Text
+                    fontFamily="Plus Jakarta Sans"
+                    color={feature.disabled ? "#A0A0A0" : "#FFF"}
+                    fontSize="14px"
+                    fontWeight="700"
+                    _hover={
+                      !feature.disabled
+                        ? {
+                            color: "#000",
+                          }
+                        : {}
+                    }
+                  >
+                    {feature?.buttonText}
+                  </Text>
+                </Link>
+              </Box>
+            </Box>
           ))}
         </Box>
       </Box>
     </Box>
   );
 }
-
-const FeatureCard = (props: FeatureCardProps) => {
-  const { feature } = props;
-  return (
-    <Box
-      borderRadius="12px"
-      border="1px solid rgba(255, 255, 255, 0.10)"
-      background="#191916"
-      padding="16px"
-      opacity={feature.disabled ? 0.5 : 1}
-      transition="all 0.3s"
-    >
-      <Box display="flex" flexDirection="row" gap="16px">
-        <Box
-          height="60px"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          {feature?.icon}
-        </Box>
-
-        <Box display="flex" flexDirection="column" gap="6px">
-          <Text
-            fontFamily="Plus Jakarta Sans"
-            color="#FFF"
-            fontSize="16px"
-            fontStyle="normal"
-            fontWeight="800"
-            lineHeight="normal"
-          >
-            {feature?.title}
-          </Text>
-          <Text
-            fontFamily="Plus Jakarta Sans"
-            color="#A0A0A0"
-            fontSize="14px"
-            fontStyle="normal"
-            fontWeight="400"
-            lineHeight="normal"
-          >
-            {feature?.description}
-          </Text>
-        </Box>
-      </Box>
-      <Box
-        marginTop="16px"
-        marginBottom="16px"
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-      >
-        <Divider border="1px solid #191916 !important" />
-      </Box>
-      <Box
-        borderRadius="8px"
-        border={`1px solid ${feature?.borderColor}`}
-        height="42px"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        cursor={feature.disabled ? "not-allowed" : "pointer"}
-        transition="all 0.3s"
-        _hover={
-          !feature.disabled
-            ? {
-                bg: feature?.borderColor,
-                color: "#000",
-              }
-            : {}
-        }
-        opacity={feature.disabled ? 0.5 : 1}
-      >
-        <Link href={feature.disabled ? "#" : feature.href}>
-          <Text
-            fontFamily="Plus Jakarta Sans"
-            color={feature.disabled ? "#A0A0A0" : "#FFF"}
-            fontSize="14px"
-            fontWeight="700"
-            _hover={
-              !feature.disabled
-                ? {
-                    color: "#000",
-                  }
-                : {}
-            }
-          >
-            {feature?.buttonText}
-          </Text>
-        </Link>
-      </Box>
-    </Box>
-  );
-};
