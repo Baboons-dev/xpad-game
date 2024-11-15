@@ -110,24 +110,32 @@ export default function ProfilePage() {
             </Text>
           </Box>
 
-         <Box
-              position="absolute"
-              top="-10px"
-              right="-10px"
-              zIndex="1"
-              padding="4px 12px"
-              borderRadius="100px"
-              background="linear-gradient(90deg, #1ED1FC 0%, #47E473 100%)"
+          <Box
+              borderRadius="8px"
+              border="1px solid rgba(255, 255, 255, 0.2)"
+              height="42px"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              background="linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)"
+              backdropFilter="blur(10px)"
+              transition="all 0.3s ease"
+              cursor="default"
+              _hover={{
+                border: "1px solid rgba(255, 255, 255, 0.3)",
+                background: "linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.07) 100%)",
+              }}
             >
               <Text
-                color="black"
-                fontSize="12px"
-                fontWeight="600"
                 fontFamily="Plus Jakarta Sans"
+                color="rgba(255, 255, 255, 0.8)"
+                fontSize="14px"
+                fontWeight="700"
               >
-                Coming Soon
+                Connect Wallet
               </Text>
             </Box>
+          </Box>
           <Box
             marginTop="10px"
             display="flex"
