@@ -17,10 +17,10 @@ export default function HomePage() {
   const features = [
     {
       title: "LayerX",
-      icon: <NftMintingIcon />,
+      icon: <NftMintingIcon color="#33A7FF" />,
       description: "Explore the revolutionary LayerX ecosystem",
       href: "/layerx",
-      borderColor: "#33DBB8",
+      borderColor: "#33A7FF",
       buttonText: "Explore NFT Minting",
       disabled: false,
     },
@@ -36,7 +36,7 @@ export default function HomePage() {
     },
     {
       title: "xPlay - Play & Earn XP",
-      icon: <XplayIcon />,
+      icon: <XplayIcon color="#F6C942" />,
       description:
         "Play games with your collected XP. But watch out, you can also lose!",
       href: "/xplay",
@@ -81,7 +81,7 @@ export default function HomePage() {
           display="flex"
           gap="14px"
           flexDirection="column"
-          pb="80px" // Add padding at the bottom to prevent content from being hidden under the menu
+          pb="80px"
         >
           {features?.map((feature, i) => (
             <FeatureCard key={i} feature={feature} />
@@ -100,6 +100,8 @@ const FeatureCard = (props: FeatureCardProps) => {
       border="1px solid rgba(255, 255, 255, 0.10)"
       background="#191916"
       padding="16px"
+      opacity={feature.disabled ? 0.5 : 1}
+      transition="all 0.3s"
     >
       <Box display="flex" flexDirection="row" gap="16px">
         <Box
@@ -150,14 +152,31 @@ const FeatureCard = (props: FeatureCardProps) => {
         display="flex"
         justifyContent="center"
         alignItems="center"
-        cursor="pointer"
+        cursor={feature.disabled ? "not-allowed" : "pointer"}
+        transition="all 0.3s"
+        _hover={
+          !feature.disabled
+            ? {
+                bg: feature?.borderColor,
+                color: "#000",
+              }
+            : {}
+        }
+        opacity={feature.disabled ? 0.5 : 1}
       >
         <Link href={feature.disabled ? "#" : feature.href}>
           <Text
             fontFamily="Plus Jakarta Sans"
-            color="#FFF"
+            color={feature.disabled ? "#A0A0A0" : "#FFF"}
             fontSize="14px"
             fontWeight="700"
+            _hover={
+              !feature.disabled
+                ? {
+                    color: "#000",
+                  }
+                : {}
+            }
           >
             {feature?.buttonText}
           </Text>
