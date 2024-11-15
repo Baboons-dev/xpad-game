@@ -43,6 +43,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [telegram_user, accessToken, user, fistTime]);
 
   useEffect(() => {
+    if (user && !telegram_user) {
+      logout();
+    }
+  }, [user, telegram_user]);
+
+  useEffect(() => {
     console.log(searchParams.toString());
     if (!user && !accessToken) {
       router.push("/authenticate?" + searchParams.toString());
