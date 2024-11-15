@@ -153,7 +153,8 @@ const FeatureCard = (props: FeatureCardProps) => {
         <Divider border="1px solid rgba(255, 255, 255, 0.10) !important" />
       </Box>
       <Box
-        borderRadius="8px"
+        borderRadius="
+        8px"
         border={`1px solid ${feature?.borderColor}`}
         height="42px"
         display="flex"
