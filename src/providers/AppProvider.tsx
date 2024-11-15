@@ -44,6 +44,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (user && !telegram_user) {
+      const nextSearchParams = new URLSearchParams(searchParams.toString());
+      nextSearchParams.delete("tgId");
+      router.replace(`/?${nextSearchParams}`);
       logout();
     }
   }, [user, telegram_user]);
