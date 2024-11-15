@@ -48,6 +48,7 @@ export default function Authenticate() {
   const login = async () => {
     console.log("inside login");
     console.log("telegram_user", telegram_user);
+    console.log("tgId", tgId);
     if (telegram_user && tgId)
       try {
         const response = await twitterLogin(
