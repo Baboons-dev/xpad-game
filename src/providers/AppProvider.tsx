@@ -43,9 +43,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     console.log(searchParams.toString());
-    // if (!user && !accessToken) {
-    //   router.push("/authenticate?" + searchParams.toString());
-    // }
+    if (!user && !accessToken) {
+      router.push("/authenticate?" + searchParams.toString());
+    }
   }, [user, fistTime]);
 
   console.log("user", user, accessToken);
@@ -55,7 +55,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       height="inherit"
       // style={{ marginTop: "80px" }}
     >
-      <TopBar />
+      {/* <TopBar /> */}
       {user && accessToken && <TopBar />}
       {children}
       {user && accessToken && <MobileNav />}
