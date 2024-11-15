@@ -27,7 +27,7 @@ const initialState: State = {
 export const createUserSlice: StateCreator<UserSlice> = (set, get) => ({
   ...initialState,
   setUser: (user) => set({ user: user }),
-  logoutUser: () => set(initialState),
+  logoutUser: () => set({ accessToken: null, refreshToken: null, user: null }),
   setAccessToken: (accessToken) => set({ accessToken }),
   setRefreshToken: (refreshToken) => set({ refreshToken }),
   setCTgId: (tgId) => set(() => ({ cTgId: tgId })),

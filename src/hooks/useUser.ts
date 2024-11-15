@@ -19,7 +19,9 @@ const useUser = () => {
       const res = await twitterSave(payload);
       console.log("res final login", res);
       if (res.data) {
-        message.success("Login Success");
+        message.success(
+          "Login Success, Open the Bot again and click on Login with X",
+        );
         localStorage.setItem("token", res.data.data.access);
         localStorage.setItem("refreshToken", res.data.data.refresh);
         setAccessToken(res.data.data.access as string);
