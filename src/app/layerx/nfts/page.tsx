@@ -41,7 +41,7 @@ export default function NFTsPage() {
           </Box>
         </Box>
 
-        <Box margin="0px 16px 24px 16px" position="relative">
+        <Box margin="0px 16px 100px 16px" position="relative">
           <Tabs
             defaultActiveKey="1"
             className="layerx-tabs"
@@ -68,7 +68,7 @@ export default function NFTsPage() {
 
         .layerx-tabs .ant-tabs-tab {
           color: rgba(255, 255, 255, 0.5);
-          font-family: 'Plus Jakarta Sans';
+          font-family: "Plus Jakarta Sans";
         }
 
         .layerx-tabs .ant-tabs-tab:hover {
@@ -76,11 +76,11 @@ export default function NFTsPage() {
         }
 
         .layerx-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-          color: #33A7FF;
+          color: #33a7ff;
         }
 
         .layerx-tabs .ant-tabs-ink-bar {
-          background: #33A7FF;
+          background: #33a7ff;
         }
       `}</style>
     </Box>

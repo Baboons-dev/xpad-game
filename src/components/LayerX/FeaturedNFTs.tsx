@@ -5,6 +5,7 @@ import axios from "axios";
 import { Avatar, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { AllNftsResponse, AllNftsResponseData } from "@/types/type";
+import Pagination from "../common/Pagination";
 
 interface NftCardProps {
   nft: AllNftsResponseData;
@@ -32,9 +33,7 @@ function NFTCard({ nft }: NftCardProps) {
               className="h-8 w-8 ring-1 ring-[#33A7FF]/20"
             />
             <div className="flex flex-col">
-              <span className="text-sm font-medium text-white">
-                {nft.name}
-              </span>
+              <span className="text-sm font-medium text-white">{nft.name}</span>
               <span className="text-xs text-[#33A7FF]">
                 @{nft.owner.twitter_username}
               </span>
@@ -58,6 +57,7 @@ function NFTCard({ nft }: NftCardProps) {
 export default function FeaturedNFTs() {
   const [allNfts, setAllNfts] = useState<AllNftsResponse | null>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchAllNfts = async (page: number, recordsPerPage: number) => {
     setLoading(true);
@@ -76,15 +76,49 @@ export default function FeaturedNFTs() {
     fetchAllNfts(1, 9);
   }, []);
 
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (allNfts?.total_pages && currentPage < allNfts?.total_pages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const onPaginationItemClick = (pageToFetch: number) => {
+    setCurrentPage(pageToFetch);
+  };
+
+  console.log("allNfts", allNfts);
+
   return (
     <div className="space-y-4">
       {loading ? (
         <div className="flex items-center justify-center w-full min-h-[200px]">
           <Spin />
         </div>
+      ) : allNfts && allNfts?.data?.length > 0 ? (
+        allNfts?.data?.map((nft) => (
+          <>
+            <NFTCard key={nft.id} nft={nft} />
+            {allNfts?.data?.length ? (
+              <Pagination
+                handlePreviousPage={handlePrevPage}
+                totalPages={allNfts?.total_pages}
+                currentPage={currentPage}
+                onPaginationitemClick={onPaginationItemClick}
+                handleNextPage={handleNextPage}
+              />
+            ) : null}
+          </>
+        ))
       ) : (
-        allNfts?.data?.length > 0 &&
-        allNfts.data.map((nft) => <NFTCard key={nft.id} nft={nft} />)
+        <div className="text-center py-8">
+          <p className="text-white/60">You don't have any NFTs yet</p>
+        </div>
       )}
     </div>
   );

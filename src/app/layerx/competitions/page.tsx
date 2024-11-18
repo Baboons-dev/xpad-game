@@ -1,5 +1,4 @@
 "use client";
-
 import { Box, Image, Text } from "@chakra-ui/react";
 import backgroundImage from "../../../assets/background.png";
 import { Tabs } from "antd";
@@ -10,7 +9,13 @@ import BackArrowIcon from "@/icons/ArrowBack";
 
 export default function CompetitionsPage() {
   return (
-    <Box w="100%" display="flex" flexDirection="column" minHeight="100vh" pb="80px">
+    <Box
+      w="100%"
+      display="flex"
+      flexDirection="column"
+      minHeight="100vh"
+      pb="80px"
+    >
       <Box position="relative" w="100%" zIndex={0}>
         <Image
           src={backgroundImage.src}
@@ -67,7 +72,7 @@ export default function CompetitionsPage() {
 
         .layerx-tabs .ant-tabs-tab {
           color: rgba(255, 255, 255, 0.5);
-          font-family: 'Plus Jakarta Sans';
+          font-family: "Plus Jakarta Sans";
         }
 
         .layerx-tabs .ant-tabs-tab:hover {
@@ -75,11 +80,11 @@ export default function CompetitionsPage() {
         }
 
         .layerx-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-          color: #33A7FF;
+          color: #33a7ff;
         }
 
         .layerx-tabs .ant-tabs-ink-bar {
-          background: #33A7FF;
+          background: #33a7ff;
         }
       `}</style>
     </Box>
