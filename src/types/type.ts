@@ -124,9 +124,6 @@ export interface FeatureType {
 
 export interface HistoryResponse {
   results: HistoryObject[];
-  // page: number;
-  // records_per_page: number;
-  // total_count: number;
   total_pages: number;
   count: number;
   current_page: number;
@@ -143,4 +140,41 @@ export interface HistoryObject {
   awarded_from: string;
   transaction_timestamp: string;
   activity: string;
+}
+
+export interface TopNfts {
+  email: string;
+  first_name: string;
+  last_login: string;
+  last_name: string;
+  profile_picture: string;
+  twitter_id: string;
+  twitter_username: string;
+  username: string;
+  wallet_address: string;
+  total_votes: number;
+}
+
+export interface CompetitionObject {
+  competition_image: string;
+  competition_name: string;
+  end: string;
+  id: number;
+  top_nfts: TopNfts[];
+  is_subscribed: boolean;
+  nfts: AllNftsResponseData[];
+  start: string;
+  total_entries: number;
+  total_votes: number;
+  participation_starts: string;
+  voting_ends: string;
+  voting_starts: string;
+}
+
+export interface CompetitionResponse {
+  data: CompetitionObject[];
+  page: number;
+  records_per_page: number;
+  total_count: number;
+  total_pages: number;
 }

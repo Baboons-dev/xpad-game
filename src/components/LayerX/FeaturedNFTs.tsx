@@ -101,20 +101,20 @@ export default function FeaturedNFTs() {
           <Spin />
         </div>
       ) : allNfts && allNfts?.data?.length > 0 ? (
-        allNfts?.data?.map((nft) => (
-          <>
+        <>
+          {allNfts?.data?.map((nft) => (
             <NFTCard key={nft.id} nft={nft} />
-            {allNfts?.data?.length ? (
-              <Pagination
-                handlePreviousPage={handlePrevPage}
-                totalPages={allNfts?.total_pages}
-                currentPage={currentPage}
-                onPaginationitemClick={onPaginationItemClick}
-                handleNextPage={handleNextPage}
-              />
-            ) : null}
-          </>
-        ))
+          ))}
+          {allNfts?.data?.length ? (
+            <Pagination
+              handlePreviousPage={handlePrevPage}
+              totalPages={allNfts?.total_pages}
+              currentPage={currentPage}
+              onPaginationitemClick={onPaginationItemClick}
+              handleNextPage={handleNextPage}
+            />
+          ) : null}
+        </>
       ) : (
         <div className="text-center py-8">
           <p className="text-white/60">You don't have any NFTs yet</p>
