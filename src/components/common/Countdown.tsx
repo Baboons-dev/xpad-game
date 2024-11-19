@@ -39,7 +39,7 @@ function Countdown(props: CountdownInterface) {
     <>
       <Box display="flex" alignItems="center" gap={1}>
         <Text
-          fontFamily="Montserrat"
+          fontFamily="Plus Jakarta Sans"
           fontWeight={fontWeight ? fontWeight : "unset"}
           fontSize={fontSize ? fontSize : "13px"}
           color={color ? color : "unset"}

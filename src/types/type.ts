@@ -100,6 +100,7 @@ export interface AllNftsResponseData {
   updated_at: string;
   owner: OwnerObject;
   transaction: string;
+  votes?: string;
 }
 
 export interface OwnerObject {
@@ -184,4 +185,17 @@ export interface MyCompetitionResponse {
   current_page: number;
   data: CompetitionObject[];
   total_pages: number;
+}
+
+export interface TopNfts {
+  email: string;
+  first_name: string;
+  last_login: string;
+  last_name: string;
+  profile_picture: string;
+  twitter_id: string;
+  twitter_username: string;
+  username: string;
+  wallet_address: string;
+  total_votes: number;
 }
