@@ -10,6 +10,7 @@ import Link from "next/link";
 import backgroundImage from "../../assets/background.png";
 import ProfilePicture from "../../assets/profilePicture.png";
 import {useAccount, useConnect, useDisconnect} from "wagmi";
+import {useWalletInfo} from "@reown/appkit/react";
 // import { useAppKit } from "@reown/appkit/react";
 export default function ProfilePage() {
     const {connect, connectors} = useConnect();
@@ -18,12 +19,13 @@ export default function ProfilePage() {
 // const { open, close } = useAppKit();
     const {disconnect} = useDisconnect()
     const {address, isConnected, connector, chain} = useAccount();
-    const isIOS = () => {
-    // Refined iOS detection
-    return (
-      /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
-    );
-  };
+  //   const isIOS = () => {
+  //   // Refined iOS detection
+  //   return (
+  //     /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
+  //   );
+  // };
+
     return (
         <Box w="100%" display="flex" flexDirection="column">
             <Box position="absolute" w="100%" zIndex={0}>
@@ -122,16 +124,18 @@ export default function ProfilePage() {
                     </Box>
 
                     <div id="wallet-connect" className={'flex gap-3 flex-wrap flex-col items-center'}>
-                        <w3m-button/>
-                        {address ? <div className={'text-white'}>{address} <button onClick={() => disconnect()}>Disconnect</button></div> :
-                           isIOS() &&  connectors.map(item => (
-                                <button key={item.id}
-                                        onClick={() => connect({connector: connectors.find((connector) => connector.id === item.id)})}
-                                        className={'bg-primary px-5 py-3 w-fit'}>
-                                    {item.name}
-                                </button>
-                            ))
-                        }
+                        <appkit-button/>
+                        {/*{address ? <div className={'text-white'}>{address}*/}
+                        {/*        <button onClick={() => disconnect()}>Disconnect</button>*/}
+                        {/*    </div> :*/}
+                        {/*    isIOS() && connectors.map(item => (*/}
+                        {/*        <button key={item.id}*/}
+                        {/*                onClick={() => connect({connector: connectors.find((connector) => connector.id === item.id)})}*/}
+                        {/*                className={'bg-primary px-5 py-3 w-fit'}>*/}
+                        {/*            {item.name}*/}
+                        {/*        </button>*/}
+                        {/*    ))*/}
+                        {/*}*/}
 
                     </div>
 
