@@ -47,7 +47,7 @@ export default function NFTsPage() {
             className="layerx-tabs"
             items={[
               {
-                label: "Featured NFTs",
+                label: "All NFTs",
                 key: "1",
                 children: <FeaturedNFTs />,
               },
