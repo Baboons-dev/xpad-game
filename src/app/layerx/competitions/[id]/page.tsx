@@ -2,12 +2,12 @@
 
 import { Box, Image, Text, useToast } from "@chakra-ui/react";
 import backgroundImage from "../../../../assets/background.png";
-import { Avatar, Button, Modal } from "antd";
+import { Button, Modal } from "antd";
 import Link from "next/link";
 import BackArrowIcon from "@/icons/ArrowBack";
-import { ChevronRight, Crown, Users, Vote } from "lucide-react";
+import { ChevronRight, Users, Vote } from "lucide-react";
 import { useEffect, useState } from "react";
-import { CompetitionObject, CompetitionResponse } from "@/types/type";
+import { CompetitionObject } from "@/types/type";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { isAfter, isBefore, parseISO } from "date-fns";
@@ -330,7 +330,10 @@ export default function CompetitionDetailPage() {
 
           {/* Competing NFTs */}
           {competitionDetails && (
-            <CompetingNfts competitionDetails={competitionDetails} />
+            <CompetingNfts
+              competitionDetails={competitionDetails}
+              setCompetitionDetails={setCompetitionDetails}
+            />
           )}
         </Box>
       </Box>

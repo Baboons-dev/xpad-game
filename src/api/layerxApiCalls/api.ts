@@ -4,12 +4,9 @@ import axios from "axios";
 
 const SERVER_URL =
   process.env.REACT_APP_API_HOST || "https://api.layerx.baboons.tech";
-// const accessToken = useStore((state) => state.accessToken);
 
-// const accessToken =
-//   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMDQsIndhbGxldF9hZGRyZXNzIjpudWxsLCJlbWFpbCI6IiIsImV4cCI6MTc2MzE0OTI2MX0.LXWQMv8IsjMyVe-Ld26qYX0rb5IgEuwg4jSh97-8xvs";
-
-// const accessToken = localStorage.getItem("layerXToken");
+const accessToken =
+  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ3YWxsZXRfYWRkcmVzcyI6IjB4Nzg2ODkzM2EzNkZiNzc3MWY1ZDg3YzY1ODU3RjYzQzkyNjRkMjhhNCIsImV4cCI6MTc2MTU2NDMzOH0.BAPtuO7RVVUVDKAzG7WBi6NybfF2MtmtOCLakF8DCNQ";
 
 export const addVoteToCompetingNfts = async (
   id: number,
@@ -17,14 +14,14 @@ export const addVoteToCompetingNfts = async (
   //   accessToken: string,
 ): Promise<VoteToCompetitionResponse> => {
   try {
-    const accessToken =
-      typeof window !== "undefined"
-        ? localStorage.getItem("layerXToken")
-        : null;
+    // const accessToken =
+    //   typeof window !== "undefined"
+    //     ? localStorage.getItem("layerXToken")
+    //     : null;
 
-    if (!accessToken) {
-      throw new Error("Access token is not available");
-    }
+    // if (!accessToken) {
+    //   throw new Error("Access token is not available");
+    // }
     const endPoint = `${SERVER_URL}/api/nfts/competition/${id}/vote/`;
     const res = await axios.post(endPoint, data, {
       headers: {
@@ -45,14 +42,14 @@ export const getCompetitionDetails = async (
   //   accessToken: string,
 ): Promise<any> => {
   try {
-    const accessToken =
-      typeof window !== "undefined"
-        ? localStorage.getItem("layerXToken")
-        : null;
+    // const accessToken =
+    //   typeof window !== "undefined"
+    //     ? localStorage.getItem("layerXToken")
+    //     : null;
 
-    if (!accessToken) {
-      throw new Error("Access token is not available");
-    }
+    // if (!accessToken) {
+    //   throw new Error("Access token is not available");
+    // }
     const endPoint = `${SERVER_URL}/api/nfts/competitions/${id}`;
     const res = await axios.get(endPoint, {
       headers: {
@@ -73,14 +70,14 @@ export const removeVoteFromCompetingNfts = async (
   //   accessToken: string,
 ): Promise<VoteToCompetitionResponse> => {
   try {
-    const accessToken =
-      typeof window !== "undefined"
-        ? localStorage.getItem("layerXToken")
-        : null;
+    // const accessToken =
+    //   typeof window !== "undefined"
+    //     ? localStorage.getItem("layerXToken")
+    //     : null;
 
-    if (!accessToken) {
-      throw new Error("Access token is not available");
-    }
+    // if (!accessToken) {
+    //   throw new Error("Access token is not available");
+    // }
     const endPoint = `${SERVER_URL}/api/nfts/competition/${id}/unvote/`;
     const res = await axios.post(endPoint, data, {
       headers: {

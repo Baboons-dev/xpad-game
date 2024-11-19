@@ -43,27 +43,27 @@ export default function Authenticate() {
 
   const { telegram_user } = useTelegram();
 
-  const loginTwitForLayerX = async () => {
-    if (state && code) {
-      try {
-        const res = await twitterSaveLayerX({ state: state, code: code });
-        console.log("here is the response for layerX Date", res);
-        if (res.data) {
-          setAccessToken(res.data.access);
-          localStorage.setItem("layerXToken", res.data.access);
-          localStorage.setItem("refreshAccessToken", res.data.refresh);
-          return true;
-        }
-      } catch (e) {
-        toast({
-          title: "Login error",
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
-      }
-    }
-  };
+  // const loginTwitForLayerX = async () => {
+  //   if (state && code) {
+  //     try {
+  //       const res = await twitterSaveLayerX({ state: state, code: code });
+  //       console.log("here is the response for layerX Date", res);
+  //       if (res.data) {
+  //         setAccessToken(res.data.access);
+  //         localStorage.setItem("layerXToken", res.data.access);
+  //         localStorage.setItem("refreshAccessToken", res.data.refresh);
+  //         return true;
+  //       }
+  //     } catch (e) {
+  //       toast({
+  //         title: "Login error",
+  //         status: "error",
+  //         duration: 3000,
+  //         isClosable: true,
+  //       });
+  //     }
+  //   }
+  // };
 
   const login = async () => {
     if (telegram_user && (tgId || cTgId))
@@ -72,8 +72,6 @@ export default function Authenticate() {
           tgId ? tgId : (cTgId as string),
           telegram_user?.id.toString() as string,
         );
-        const layerData = await loginTwitForLayerX();
-        console.log("layerxData", layerData);
         console.log("response", response.data);
         if (response?.url && response?.code_verifier) {
           const queryParams = new URL(response?.url);
