@@ -7,7 +7,7 @@ import { useUser } from "@/hooks";
 import { twitterLogin } from "@/api/apiCalls/user";
 import { useTelegram } from "@/providers/TelegramProvider";
 import { useSelector, useStore } from "@/store";
-import { Box, Text, useToast } from "@chakra-ui/react";
+import {Box, Divider, Text, useToast} from "@chakra-ui/react";
 import UnionLogo from "@/icons/Union";
 import Logo from "@/icons/Logo";
 
@@ -152,7 +152,7 @@ export default function Authenticate() {
               }}
               backgroundColor="#000"
               cursor="pointer"
-              onClick={() => login()}
+              onClick={() => twUrl?onAuthenticateLink():login()}
             >
               <Box
                 padding="20px 90px"
@@ -167,25 +167,57 @@ export default function Authenticate() {
                   cursor="pointer"
                   fontFamily="Plus Jakarta Sans"
                 >
-                  Login using X
+                  {twUrl?'Continue':'Login using X'}
                 </Text>
-              </Box>
-            </Box>
-          </Box>
-          <Modal width={400}
-                 footer={false}
-                 open={!!twUrl}
-                 onCancel={()=>setTwUrl('')}
-                 title={'Login with X'}>
-            <div className={'flex flex-col gap-5'}>
-              <Button size={'large'} onClick={()=>onAuthenticateLink()}>Authorize twitter</Button>
-              <p>
-                If there is any issue in authorize twitter please copy link and paste in browser
-              </p>
-            <Button onClick={()=>copyLink()}>Copy Link</Button>
-            </div>
 
-          </Modal>
+              </Box>
+
+            </Box>
+
+          </Box>
+
+          <Box>
+                <Box
+                  marginTop="16px"
+                  marginBottom="16px"
+                  display="flex"
+                  flexDirection="row"
+                  alignItems="center"
+                >
+                  <Divider
+                    border="1px solid rgba(255, 255, 255, 0.30) !important"
+                    width={["45%", "45%", "50%"]}
+                  />
+                  <Text
+                    color="rgba(255, 255, 255, 0.50)"
+                    textAlign="center"
+                    fontSize="12px"
+                    fontStyle="normal"
+                    fontWeight="500"
+                    lineHeight="normal"
+                    paddingLeft="14px"
+                    paddingRight="14px"
+                    whiteSpace="nowrap"
+                    fontFamily="Plus Jakarta Sans"
+                    cursor="pointer"
+                  >
+                    Or
+                  </Text>
+                  <Divider
+                    border="1px solid rgba(255, 255, 255, 0.30) !important"
+                    width={["45%", "45%", "50%"]}
+                  />
+                </Box>
+                <Box display="flex" justifyContent="space-around">
+                  <button
+                   className={'text-white disabled:opacity-[0.3]'}
+                    onClick={() => copyLink()}
+                    disabled={!twUrl}
+                  >
+                    Copy link
+                  </button>
+                </Box>
+              </Box>
         </Box>
       )}
     </Box>
