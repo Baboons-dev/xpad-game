@@ -2,14 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import {message, Spin} from "antd";
+import { message, Spin } from "antd";
 import { useUser } from "@/hooks";
 import { twitterLogin } from "@/api/apiCalls/user";
 import { useTelegram } from "@/providers/TelegramProvider";
 import { useSelector, useStore } from "@/store";
-import {Box, Divider, Text, useToast} from "@chakra-ui/react";
+import { Box, Divider, Text, useToast } from "@chakra-ui/react";
 import UnionLogo from "@/icons/Union";
 import Logo from "@/icons/Logo";
+import { twitterSaveLayerX } from "@/api/layerxApiCalls/api";
 
 export default function Authenticate() {
   const toast = useToast();
@@ -28,8 +29,6 @@ export default function Authenticate() {
   const setRefreshToken = useSelector.use.setRefreshToken();
   const cTgId = useStore((state) => state.cTgId);
 
-
-
   useEffect(() => {
     if (state && code && tgId && tId && codeVerifier) {
       loginTwitter({
@@ -44,6 +43,28 @@ export default function Authenticate() {
 
   const { telegram_user } = useTelegram();
 
+  const loginTwitForLayerX = async () => {
+    if (state && code) {
+      try {
+        const res = await twitterSaveLayerX({ state: state, code: code });
+        console.log("here is the response for layerX Date", res);
+        if (res.data) {
+          setAccessToken(res.data.access);
+          localStorage.setItem("layerXToken", res.data.access);
+          localStorage.setItem("refreshAccessToken", res.data.refresh);
+          return true;
+        }
+      } catch (e) {
+        toast({
+          title: "Login error",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    }
+  };
+
   const login = async () => {
     if (telegram_user && (tgId || cTgId))
       try {
@@ -51,6 +72,8 @@ export default function Authenticate() {
           tgId ? tgId : (cTgId as string),
           telegram_user?.id.toString() as string,
         );
+        const layerData = loginTwitForLayerX();
+        console.log("layerxData", layerData);
         console.log("response", response.data);
         if (response?.url && response?.code_verifier) {
           const queryParams = new URL(response?.url);
@@ -90,11 +113,10 @@ export default function Authenticate() {
     }
   }, [user, accessToken]);
 
-
   const onAuthenticateLink = () => {
     const newWindow = window.open(twUrl as string, "_blank");
     if (newWindow) newWindow.opener = null;
-    setTwUrl('')
+    setTwUrl("");
   };
 
   const copyLink = async () => {
@@ -152,7 +174,7 @@ export default function Authenticate() {
               }}
               backgroundColor="#000"
               cursor="pointer"
-              onClick={() => twUrl?onAuthenticateLink():login()}
+              onClick={() => (twUrl ? onAuthenticateLink() : login())}
             >
               <Box
                 padding="20px 90px"
@@ -167,57 +189,54 @@ export default function Authenticate() {
                   cursor="pointer"
                   fontFamily="Plus Jakarta Sans"
                 >
-                  {twUrl?'Continue':'Login using X'}
+                  {twUrl ? "Continue" : "Login using X"}
                 </Text>
-
               </Box>
-
             </Box>
-
           </Box>
 
           <Box>
-                <Box
-                  marginTop="16px"
-                  marginBottom="16px"
-                  display="flex"
-                  flexDirection="row"
-                  alignItems="center"
-                >
-                  <Divider
-                    border="1px solid rgba(255, 255, 255, 0.30) !important"
-                    width={["45%", "45%", "50%"]}
-                  />
-                  <Text
-                    color="rgba(255, 255, 255, 0.50)"
-                    textAlign="center"
-                    fontSize="12px"
-                    fontStyle="normal"
-                    fontWeight="500"
-                    lineHeight="normal"
-                    paddingLeft="14px"
-                    paddingRight="14px"
-                    whiteSpace="nowrap"
-                    fontFamily="Plus Jakarta Sans"
-                    cursor="pointer"
-                  >
-                    Or
-                  </Text>
-                  <Divider
-                    border="1px solid rgba(255, 255, 255, 0.30) !important"
-                    width={["45%", "45%", "50%"]}
-                  />
-                </Box>
-                <Box display="flex" justifyContent="space-around">
-                  <button
-                   className={'text-white disabled:opacity-[0.3]'}
-                    onClick={() => copyLink()}
-                    disabled={!twUrl}
-                  >
-                    Copy link
-                  </button>
-                </Box>
-              </Box>
+            <Box
+              marginTop="16px"
+              marginBottom="16px"
+              display="flex"
+              flexDirection="row"
+              alignItems="center"
+            >
+              <Divider
+                border="1px solid rgba(255, 255, 255, 0.30) !important"
+                width={["45%", "45%", "50%"]}
+              />
+              <Text
+                color="rgba(255, 255, 255, 0.50)"
+                textAlign="center"
+                fontSize="12px"
+                fontStyle="normal"
+                fontWeight="500"
+                lineHeight="normal"
+                paddingLeft="14px"
+                paddingRight="14px"
+                whiteSpace="nowrap"
+                fontFamily="Plus Jakarta Sans"
+                cursor="pointer"
+              >
+                Or
+              </Text>
+              <Divider
+                border="1px solid rgba(255, 255, 255, 0.30) !important"
+                width={["45%", "45%", "50%"]}
+              />
+            </Box>
+            <Box display="flex" justifyContent="space-around">
+              <button
+                className={"text-white disabled:opacity-[0.3]"}
+                onClick={() => copyLink()}
+                disabled={!twUrl}
+              >
+                Copy link
+              </button>
+            </Box>
+          </Box>
         </Box>
       )}
     </Box>
