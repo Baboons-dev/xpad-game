@@ -47,7 +47,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const nextSearchParams = new URLSearchParams(searchParams.toString());
       nextSearchParams.delete("tgId");
       router.replace(`/?${nextSearchParams}`);
-      logout();
+      // logout();
     }
   }, [user, telegram_user]);
 

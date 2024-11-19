@@ -9,14 +9,15 @@ import Link from "next/link";
 // import { useConnect } from "wagmi";
 import backgroundImage from "../../assets/background.png";
 import ProfilePicture from "../../assets/profilePicture.png";
-import {useAccount} from "wagmi";
+import {useAccount, useConnect, useDisconnect} from "wagmi";
 // import { useAppKit } from "@reown/appkit/react";
 export default function ProfilePage() {
+    const {connect, connectors} = useConnect();
     const {logout} = useUser();
     const user = useStore((state) => state.user);
 // const { open, close } = useAppKit();
+    const {disconnect} = useDisconnect()
     const {address, isConnected, connector, chain} = useAccount();
-    console.log(address, isConnected, connector, chain)
     return (
         <Box w="100%" display="flex" flexDirection="column">
             <Box position="absolute" w="100%" zIndex={0}>
@@ -114,9 +115,19 @@ export default function ProfilePage() {
                         </Text>
                     </Box>
 
-                    <Box id="wallet-connect">
-                        <w3m-button/>
-                    </Box>
+                    <div id="wallet-connect" className={'flex gap-3 flex-wrap'}>
+                        {/*<w3m-button/>*/}
+                        {address ? <div className={'text-white'}>{address} <button onClick={() => disconnect()}>Disconnect</button></div> :
+                            connectors.map(item => (
+                                <button key={item.id}
+                                        onClick={() => connect({connector: connectors.find((connector) => connector.id === item.id)})}
+                                        className={'bg-primary px-5 py-3'}>
+                                    {item.name}
+                                </button>
+                            ))
+                        }
+
+                    </div>
 
                     {/*<Box*/}
                     {/*  position="relative"*/}
