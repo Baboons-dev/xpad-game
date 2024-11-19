@@ -28,7 +28,7 @@ const modal = createAppKit({
   projectId,
   networks: [mainnet],
   defaultNetwork: mainnet,
-  metadata: metadata,
+  metadata: metadata
 });
 
 function WalletProvider({
@@ -43,29 +43,29 @@ function WalletProvider({
     cookies,
   );
 
-  const isIOS = () => {
-    // Refined iOS detection
-    return (
-      /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
-    );
-  };
-
-  useEffect(() => {
-    if (window) {
-      window.open = (function (open) {
-        return function (url, _, features) {
-          if (isIOS() && typeof url === "string") {
-            // setLink(url);
-            // setOpen(true);
-
-            console.log("url>>>>>>>>>>>>>>>>>", url);
-            return null;
-          }
-          return open.call(window, url, "_blank", features);
-        };
-      })(window.open);
-    }
-  }, []);
+  // const isIOS = () => {
+  //   // Refined iOS detection
+  //   return (
+  //     /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
+  //   );
+  // };
+  //
+  // useEffect(() => {
+  //   if (window) {
+  //     window.open = (function (open) {
+  //       return function (url, _, features) {
+  //         if (isIOS() && typeof url === "string") {
+  //           // setLink(url);
+  //           // setOpen(true);
+  //
+  //           console.log("url>>>>>>>>>>>>>>>>>", url);
+  //           return null;
+  //         }
+  //         return open.call(window, url, "_blank", features);
+  //       };
+  //     })(window.open);
+  //   }
+  // }, []);
 
   return (
     <WagmiProvider

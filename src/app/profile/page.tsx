@@ -1,22 +1,18 @@
 "use client";
-
 import {useUser} from "@/hooks";
 import BackArrowIcon from "@/icons/ArrowBack";
 import BackRightIcon from "@/icons/ArrowRightGrey";
 import {useStore} from "@/store";
 import {Box, Image, Text} from "@chakra-ui/react";
 import Link from "next/link";
-// import { useConnect } from "wagmi";
 import backgroundImage from "../../assets/background.png";
 import ProfilePicture from "../../assets/profilePicture.png";
-import {useAccount} from "wagmi";
-// import { useAppKit } from "@reown/appkit/react";
+
 export default function ProfilePage() {
+
     const {logout} = useUser();
     const user = useStore((state) => state.user);
-// const { open, close } = useAppKit();
-    const {address, isConnected, connector, chain} = useAccount();
-    console.log(address, isConnected, connector, chain)
+
     return (
         <Box w="100%" display="flex" flexDirection="column">
             <Box position="absolute" w="100%" zIndex={0}>
@@ -114,65 +110,10 @@ export default function ProfilePage() {
                         </Text>
                     </Box>
 
-                    <Box id="wallet-connect">
-                        <w3m-button/>
-                    </Box>
+                    <div id="wallet-connect" className={'flex gap-3 flex-wrap flex-col items-center'}>
+                        <appkit-button/>
+                    </div>
 
-                    {/*<Box*/}
-                    {/*  position="relative"*/}
-                    {/*  marginTop="10px"*/}
-                    {/*  role="button"*/}
-                    {/*  onClick={() => {*/}
-                    {/*    open()*/}
-                    {/*    // console.log("connectors", connectors);*/}
-                    {/*    // connect({ connector: connectors[0] });*/}
-                    {/*  }}*/}
-                    {/*>*/}
-                    {/*  <Box*/}
-                    {/*    position="absolute"*/}
-                    {/*    top="-10px"*/}
-                    {/*    right="-10px"*/}
-                    {/*    zIndex="1"*/}
-                    {/*    padding="4px 12px"*/}
-                    {/*    borderRadius="100px"*/}
-                    {/*    background="linear-gradient(90deg, #1ED1FC 0%, #47E473 100%)"*/}
-                    {/*  >*/}
-                    {/*    <Text*/}
-                    {/*      color="black"*/}
-                    {/*      fontSize="12px"*/}
-                    {/*      fontWeight="600"*/}
-                    {/*      fontFamily="Plus Jakarta Sans"*/}
-                    {/*    >*/}
-                    {/*      Coming Soon*/}
-                    {/*    </Text>*/}
-                    {/*  </Box>*/}
-                    {/*  <Box*/}
-                    {/*    borderRadius="8px"*/}
-                    {/*    border="1px solid rgba(255, 255, 255, 0.2)"*/}
-                    {/*    height="42px"*/}
-                    {/*    display="flex"*/}
-                    {/*    justifyContent="center"*/}
-                    {/*    alignItems="center"*/}
-                    {/*    background="linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)"*/}
-                    {/*    backdropFilter="blur(10px)"*/}
-                    {/*    transition="all 0.3s ease"*/}
-                    {/*    cursor="default"*/}
-                    {/*    _hover={{*/}
-                    {/*      border: "1px solid rgba(255, 255, 255, 0.3)",*/}
-                    {/*      background:*/}
-                    {/*        "linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.07) 100%)",*/}
-                    {/*    }}*/}
-                    {/*  >*/}
-                    {/*    <Text*/}
-                    {/*      fontFamily="Plus Jakarta Sans"*/}
-                    {/*      color="rgba(255, 255, 255, 0.8)"*/}
-                    {/*      fontSize="14px"*/}
-                    {/*      fontWeight="700"*/}
-                    {/*    >*/}
-                    {/*      Connect Wallet*/}
-                    {/*    </Text>*/}
-                    {/*  </Box>*/}
-                    {/*</Box>*/}
                     <Box
                         marginTop="10px"
                         display="flex"
