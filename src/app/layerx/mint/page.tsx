@@ -1,17 +1,24 @@
 "use client";
 
-import { Box, Image, Text } from "@chakra-ui/react";
-import backgroundImage from "../../../assets/background.png";
-import Link from "next/link";
+import { addTweetScreenShot } from "@/api/apiCalls/nft";
 import BackArrowIcon from "@/icons/ArrowBack";
-import { Zap } from "lucide-react";
+import { ABI } from "@/utils/nft-contract-abi";
+import { config } from "@/utils/wallet-configs";
+import { Box, Image, Text } from "@chakra-ui/react";
 import { Button, Input, message } from "antd";
+import { Zap } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
+import { useAccount, useChainId, useWriteContract } from "wagmi";
+import { waitForTransactionReceipt } from "wagmi/actions";
+import backgroundImage from "../../../assets/background.png";
 
 export default function MintPage() {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const { data: hash, isPending, writeContractAsync } = useWriteContract();
+  const chaiId = useChainId();
+  const { address } = useAccount();
   const handleMint = async () => {
     if (!url) {
       message.error("Please enter a URL");
@@ -20,11 +27,37 @@ export default function MintPage() {
 
     setLoading(true);
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      if (!address) {
+        throw new Error("Connect your wallet");
+      }
+
+      const res = await addTweetScreenShot({ tweet_url: url });
+
+      const json_cid = res.data.json_cid;
+
+      if (!json_cid) {
+        throw new Error("json_cid not found");
+      }
+
+      const resMint = await writeContractAsync({
+        abi: ABI,
+        address,
+        functionName: "safeMint",
+        args: [`ipfs://${json_cid}`],
+      });
+      console.log("res mint url", res);
+
+      if (resMint) {
+        const rec = await waitForTransactionReceipt(config, {
+          chainId: chaiId,
+          hash: resMint,
+        });
+      }
+
       message.success("NFT minted successfully!");
       setUrl("");
     } catch (error) {
+      console.error("Error minting NFT", error);
       message.error("Failed to mint NFT");
     } finally {
       setLoading(false);
@@ -32,7 +65,13 @@ export default function MintPage() {
   };
 
   return (
-    <Box w="100%" display="flex" flexDirection="column" minHeight="100vh" pb="80px">
+    <Box
+      w="100%"
+      display="flex"
+      flexDirection="column"
+      minHeight="100vh"
+      pb="80px"
+    >
       <Box position="relative" w="100%" zIndex={0}>
         <Image
           src={backgroundImage.src}
