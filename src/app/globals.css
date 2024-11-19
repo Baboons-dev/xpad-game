@@ -80,3 +80,27 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* wui-connect-button {
+  width: 100% !important;
+  display: flex !important;
+  border: 5px solid red !important;
+}
+
+#wallet-connect button {
+  width: 100% !important;
+  display: flex !important;
+  border: 5px solid red !important;
+  box-shadow: 0 0 10px #2beb7c !important;
+  background-color: red !important;
+}
+
+wui-text {
+  color: red !important;
+}
+
+button > wui-text {
+  color: red !important;
+}
+
+ */

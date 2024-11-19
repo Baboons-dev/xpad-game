@@ -1,15 +1,14 @@
+import { AppProvider } from "@/providers/AppProvider";
+import { TelegramProvider } from "@/providers/TelegramProvider";
+import WalletProvider from "@/providers/WalletProvider";
+import { ChakraProvider } from "@chakra-ui/react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { headers } from "next/headers";
+import Script from "next/script";
 import { Suspense } from "react";
 import "./globals.css";
-import { ChakraProvider } from "@chakra-ui/react";
-import { TelegramProvider } from "@/providers/TelegramProvider";
-import { AppProvider } from "@/providers/AppProvider";
-import Script from "next/script";
-import { TopBar } from "@/components/top-bar";
-import { MobileNav } from "@/components/mobile-nav";
 import { Providers } from "./provider";
-import theme from "@/theme";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +22,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const cookies = headers().get("cookie");
+
   return (
     <html lang="en" className={`${inter.className} dark`}>
       <head>
@@ -51,11 +52,11 @@ export default function RootLayout({
         <ChakraProvider>
           <Providers>
             <Suspense>
-              <TelegramProvider>
-                <AppProvider>
-                  {children}
-                </AppProvider>
-              </TelegramProvider>
+              <WalletProvider cookies={cookies}>
+                <TelegramProvider>
+                  <AppProvider>{children}</AppProvider>
+                </TelegramProvider>
+              </WalletProvider>
             </Suspense>
           </Providers>
         </ChakraProvider>

@@ -1,17 +1,19 @@
 "use client";
 
-import Link from "next/link";
-import { Box, Image, Text } from "@chakra-ui/react";
 import { useUser } from "@/hooks";
-import { useStore } from "@/store";
-import ProfilePicture from "../../assets/profilePicture.png";
-import backgroundImage from "../../assets/background.png";
 import BackArrowIcon from "@/icons/ArrowBack";
 import BackRightIcon from "@/icons/ArrowRightGrey";
+import { useStore } from "@/store";
+import { Box, Image, Text } from "@chakra-ui/react";
+import Link from "next/link";
+import { useConnect } from "wagmi";
+import backgroundImage from "../../assets/background.png";
+import ProfilePicture from "../../assets/profilePicture.png";
 
 export default function ProfilePage() {
   const { logout } = useUser();
   const user = useStore((state) => state.user);
+  const { connectors, connect } = useConnect();
 
   return (
     <Box w="100%" display="flex" flexDirection="column">
@@ -110,9 +112,18 @@ export default function ProfilePage() {
             </Text>
           </Box>
 
+          <Box id="wallet-connect">
+            <appkit-connect-button />
+          </Box>
+
           <Box
             position="relative"
             marginTop="10px"
+            role="button"
+            onClick={() => {
+              console.log("connectors", connectors);
+              // connect({ connector: connectors[0] });
+            }}
           >
             <Box
               position="absolute"
@@ -145,7 +156,8 @@ export default function ProfilePage() {
               cursor="default"
               _hover={{
                 border: "1px solid rgba(255, 255, 255, 0.3)",
-                background: "linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.07) 100%)",
+                background:
+                  "linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.07) 100%)",
               }}
             >
               <Text
