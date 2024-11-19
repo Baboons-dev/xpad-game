@@ -72,7 +72,7 @@ export default function Authenticate() {
           tgId ? tgId : (cTgId as string),
           telegram_user?.id.toString() as string,
         );
-        const layerData = loginTwitForLayerX();
+        const layerData = await loginTwitForLayerX();
         console.log("layerxData", layerData);
         console.log("response", response.data);
         if (response?.url && response?.code_verifier) {
