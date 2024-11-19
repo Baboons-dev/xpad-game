@@ -4,8 +4,10 @@ import { useStore } from "@/store";
 import ProfilePicture from "../assets/profilePicture.png";
 import { Box, Image, Text } from "@chakra-ui/react";
 import XpIcon from "@/icons/XpIcon";
+import {useRouter} from "next/navigation";
 
 export function TopBar() {
+   const router = useRouter();
   const { logout } = useUser();
   const user = useStore((state) => state.user);
   return (
@@ -68,7 +70,7 @@ export function TopBar() {
             />
           </Box>
         )}
-        <Box display="flex" justifyContent="center" alignItems="center">
+        <Box display="flex" justifyContent="center" alignItems="center" onClick={()=>router.push('/profile')}>
           <Text
             color="#FFF"
             fontSize="16px"
