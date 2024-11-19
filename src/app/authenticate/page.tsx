@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import {Button, message, Modal, Spin} from "antd";
+import {message, Spin} from "antd";
 import { useUser } from "@/hooks";
 import { twitterLogin } from "@/api/apiCalls/user";
 import { useTelegram } from "@/providers/TelegramProvider";
