@@ -50,7 +50,7 @@ export default function HomePage() {
       );
       console.log("res", res);
       res && setHistoryItemsList(res?.data);
-      setCurrentPage(res?.data?.current_page);
+      setCurrentPage(res?.data?.current_page ? res?.data?.current_page : 1);
       setIsDataLoading(false);
     } catch (error: any) {
       setIsDataLoading(false);

@@ -2,15 +2,6 @@ import { useStore } from "@/store";
 import { VoteToCompetition, VoteToCompetitionResponse } from "@/types/type";
 import axios from "axios";
 
-// const res = await axios.get<HistoryResponse>(
-//   `https://api.xpad-extension.baboons.tech/api/account/xp-transactions/?page=${page}&per_page=${recordsPerPage}`,
-//   {
-//     headers: {
-//       Authorization: `Bearer ${accessToken}`,
-//     },
-//   },
-// );
-
 const SERVER_URL =
   process.env.REACT_APP_API_HOST || "https://api.layerx.baboons.tech";
 // const accessToken = useStore((state) => state.accessToken);
