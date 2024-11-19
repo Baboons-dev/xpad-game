@@ -1,10 +1,10 @@
 "use client";
 
 import { projectId, wagmiAdapter } from "@/utils/wallet-configs";
-import { mainnet } from "@reown/appkit/networks";
+import { sepolia } from "@reown/appkit/networks";
 import { createAppKit } from "@reown/appkit/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { cookieToInitialState, WagmiProvider, type Config } from "wagmi";
 
 // Set up queryClient
@@ -26,9 +26,10 @@ const metadata = {
 const modal = createAppKit({
   adapters: [wagmiAdapter],
   projectId,
-  networks: [mainnet],
-  defaultNetwork: mainnet,
-  metadata: metadata
+  // also change in utils/wallet-configs.ts
+  networks: [sepolia],
+  defaultNetwork: sepolia,
+  metadata: metadata,
 });
 
 function WalletProvider({
