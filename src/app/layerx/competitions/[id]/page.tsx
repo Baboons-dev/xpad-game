@@ -277,7 +277,7 @@ export default function CompetitionDetailPage() {
                 // onClick={() => setIsLeaderboardOpen(true)}
                 className="text-[#33A7FF] hover:text-[#33A7FF]/80 flex items-center gap-1 p-0"
               >
-                View All
+                {/* View All */}
                 <ChevronRight size={16} />
               </Button>
             </Box>
