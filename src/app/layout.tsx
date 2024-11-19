@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
 import Script from "next/script";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import "./globals.css";
 import { Providers } from "./provider";
 
