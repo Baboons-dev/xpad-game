@@ -58,11 +58,11 @@ export default function Pagination(props: PaginationProps) {
                 <Text
                   color={i + 1 === currentPage ? "#FFF" : "#7C7C82"}
                   textAlign="center"
-                  fontFamily="Inter"
                   fontSize="16px"
                   fontStyle="normal"
                   fontWeight="500"
                   lineHeight="20px"
+                  fontFamily="Plus Jakarta Sans"
                 >
                   {i + 1} {/* Display the correct page number */}
                 </Text>

@@ -7,32 +7,53 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import NFTCard from "./NFTCard";
 import Pagination from "../common/Pagination";
+import { useToast } from "@chakra-ui/react";
 
 export default function MyNFTs() {
+  const toast = useToast();
   const [myNfts, setMyNfts] = useState<AllNftsResponse | null>();
   const [loading, setLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentFavPage, setCurrentFavPage] = useState(1);
   const user = useStore((state) => state.user);
 
-  const fetchMyNfts = async () => {
+  const fetchMyNfts = async (
+    page: number,
+    recordsPerPage: number,
+    walletAddress: string,
+  ) => {
     setLoading(true);
     try {
-      const res = await axios.get<AllNftsResponse>(
-        `https://api.layerx.baboons.tech/api/nfts/my-nfts/`,
-      );
+      const endPoint = `https://api.layerx.baboons.tech/api/nfts/?page=${page}&per_page=${recordsPerPage}`;
+      const res = await axios.get(endPoint, {
+        params: {
+          // address: "0x7868933a36Fb7771f5d87c65857F63C9264d28a4",
+          address: walletAddress,
+        },
+      });
       res && setMyNfts(res?.data);
       setLoading(false);
-    } catch (error: any) {
+      return res.data;
+    } catch (err) {
       setLoading(false);
+      toast({
+        title: "Error",
+        description: "Something went wrong while fetching user's NFTs",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 
   useEffect(() => {
-    if (user) {
-      fetchMyNfts();
+    if (user?.wallet_address) {
+      fetchMyNfts(
+        currentPage,
+        9,
+        user?.wallet_address ? user?.wallet_address : "",
+      );
     }
-  }, [user]);
+  }, [currentPage]);
 
   if (!user) {
     return (
@@ -67,20 +88,20 @@ export default function MyNFTs() {
           <Spin />
         </div>
       ) : myNfts?.data?.length ? (
-        myNfts.data.map((nft) => (
-          <>
+        <>
+          {myNfts?.data?.map((nft) => (
             <NFTCard key={nft.id} nft={nft} />
-            {myNfts?.data?.length ? (
-              <Pagination
-                handlePreviousPage={handlePrevPage}
-                totalPages={myNfts?.total_pages}
-                currentPage={currentPage}
-                onPaginationitemClick={onPaginationItemClick}
-                handleNextPage={handleNextPage}
-              />
-            ) : null}
-          </>
-        ))
+          ))}
+          {myNfts?.data?.length ? (
+            <Pagination
+              handlePreviousPage={handlePrevPage}
+              totalPages={myNfts?.total_pages}
+              currentPage={currentPage}
+              onPaginationitemClick={onPaginationItemClick}
+              handleNextPage={handleNextPage}
+            />
+          ) : null}
+        </>
       ) : (
         <div className="text-center py-8">
           <p className="text-white/60">You don't have any NFTs yet</p>

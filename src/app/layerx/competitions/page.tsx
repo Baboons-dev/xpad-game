@@ -51,7 +51,7 @@ export default function CompetitionsPage() {
             className="layerx-tabs"
             items={[
               {
-                label: "Featured Competitions",
+                label: "All Competitions",
                 key: "1",
                 children: <FeaturedCompetitions />,
               },

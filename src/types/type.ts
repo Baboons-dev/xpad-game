@@ -178,3 +178,10 @@ export interface CompetitionResponse {
   total_count: number;
   total_pages: number;
 }
+
+export interface MyCompetitionResponse {
+  count: number;
+  current_page: number;
+  data: CompetitionObject[];
+  total_pages: number;
+}
