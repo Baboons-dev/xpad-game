@@ -199,3 +199,11 @@ export interface TopNfts {
   wallet_address: string;
   total_votes: number;
 }
+
+export interface VoteToCompetition {
+  token_id: string;
+}
+
+export interface VoteToCompetitionResponse {
+  message: string;
+}

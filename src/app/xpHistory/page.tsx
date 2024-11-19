@@ -35,7 +35,9 @@ export default function HomePage() {
     fetchHistory(currentPage, 10);
   }, [currentPage]);
 
+  // const accessToken = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMDQsIndhbGxldF9hZGRyZXNzIjpudWxsLCJlbWFpbCI6IiIsImV4cCI6MTc2MzE0OTI2MX0.LXWQMv8IsjMyVe-Ld26qYX0rb5IgEuwg4jSh97-8xvs`;
   const fetchHistory = async (page: number, recordsPerPage: number) => {
+    console.log("here is access token", accessToken);
     try {
       setIsDataLoading(true);
       const res = await axios.get<HistoryResponse>(

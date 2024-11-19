@@ -14,6 +14,7 @@ import { isAfter, isBefore, parseISO } from "date-fns";
 import Clock from "@/icons/Clock";
 import Countdown from "@/components/common/Countdown";
 import TopPlayers from "@/components/LayerX/TopPlayers";
+import CompetingNfts from "@/components/LayerX/CompetingNfts";
 
 interface TimeTextProps {
   text: string;
@@ -328,61 +329,9 @@ export default function CompetitionDetailPage() {
           </Box>
 
           {/* Competing NFTs */}
-          <Box>
-            <Text
-              color="white"
-              fontSize="18px"
-              fontWeight="700"
-              mb={4}
-              fontFamily="Plus Jakarta Sans"
-            >
-              Competing NFTs
-            </Text>
-            <Box className="space-y-4">
-              {competitionDetails?.nfts &&
-                competitionDetails?.nfts.map((nft) => (
-                  <Box
-                    key={nft.id}
-                    borderRadius="12px"
-                    border="1px solid rgba(255, 255, 255, 0.10)"
-                    background="#191916"
-                    overflow="hidden"
-                  >
-                    <Image
-                      src={nft.display_image_url}
-                      alt="NFT"
-                      width="100%"
-                      height="200px"
-                      objectFit="cover"
-                    />
-                    <Box p={4}>
-                      <Box
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        mb={4}
-                      >
-                        <Box display="flex" alignItems="center" gap={2}>
-                          <Avatar src={nft.owner.profile_picture} size={32} />
-                          <Text color="white" fontSize="14px">
-                            {nft.owner.username}
-                          </Text>
-                        </Box>
-                        <Box display="flex" alignItems="center" gap={2}>
-                          <Vote size={16} className="text-[#33A7FF]" />
-                          <Text color="#33A7FF" fontSize="14px">
-                            {nft.votes && nft.votes.toLocaleString()}
-                          </Text>
-                        </Box>
-                      </Box>
-                      <Button className="w-full bg-transparent border-[#33A7FF] hover:bg-[#33A7FF] hover:text-black text-[#33A7FF] transition-all">
-                        Vote
-                      </Button>
-                    </Box>
-                  </Box>
-                ))}
-            </Box>
-          </Box>
+          {competitionDetails && (
+            <CompetingNfts competitionDetails={competitionDetails} />
+          )}
         </Box>
       </Box>
 
