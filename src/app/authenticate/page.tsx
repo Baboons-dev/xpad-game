@@ -202,7 +202,8 @@ export default function Authenticate() {
               </Text>
             </Box>
           ) : (
-            twUrl && (
+            // twUrl
+            true && (
               <Box>
                 <Box
                   marginTop="16px"
