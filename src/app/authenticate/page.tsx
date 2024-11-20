@@ -26,6 +26,7 @@ export default function Authenticate() {
   const accessToken = useStore((state) => state.accessToken);
   const setAccessToken = useSelector.use.setAccessToken();
   const setRefreshToken = useSelector.use.setRefreshToken();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
   const cTgId = useStore((state) => state.cTgId);
 
   useEffect(() => {
@@ -41,28 +42,6 @@ export default function Authenticate() {
   }, [tId, code, tgId, state, codeVerifier]);
 
   const { telegram_user } = useTelegram();
-
-  // const loginTwitForLayerX = async () => {
-  //   if (state && code) {
-  //     try {
-  //       const res = await twitterSaveLayerX({ state: state, code: code });
-  //       console.log("here is the response for layerX Date", res);
-  //       if (res.data) {
-  //         setAccessToken(res.data.access);
-  //         localStorage.setItem("layerXToken", res.data.access);
-  //         localStorage.setItem("refreshAccessToken", res.data.refresh);
-  //         return true;
-  //       }
-  //     } catch (e) {
-  //       toast({
-  //         title: "Login error",
-  //         status: "error",
-  //         duration: 3000,
-  //         isClosable: true,
-  //       });
-  //     }
-  //   }
-  // };
 
   const login = async () => {
     if (telegram_user && (tgId || cTgId))
@@ -108,7 +87,7 @@ export default function Authenticate() {
     if (accessToken && user) {
       router.push("/?tgId=" + (tgId ? tgId : cTgId));
     }
-  }, [user, accessToken]);
+  }, [user, accessToken, callbackUrl]);
 
   const onAuthenticateLink = () => {
     const newWindow = window.open(twUrl as string, "_blank");
