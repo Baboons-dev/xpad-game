@@ -2,14 +2,16 @@
 
 import { addTweetScreenShot, saveNFT } from "@/api/apiCalls/nft";
 import BackArrowIcon from "@/icons/ArrowBack";
+import { useSelector } from "@/store";
 import { ABI, SMART_CONTRACT_ADDRESS } from "@/utils/nft-contract-abi";
 import { config } from "@/utils/wallet-configs";
 import { Box, Image, Text } from "@chakra-ui/react";
+import { useAppKit } from "@reown/appkit/react";
 import { Button, Input, message } from "antd";
 import { Zap } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { useChainId, useWriteContract } from "wagmi";
+import { useAccount, useChainId, useWriteContract } from "wagmi";
 import { waitForTransactionReceipt } from "wagmi/actions";
 import backgroundImage from "../../../assets/background.png";
 
@@ -17,7 +19,12 @@ export default function MintPage() {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const { data: hash, isPending, writeContractAsync } = useWriteContract();
+  const { address } = useAccount();
   const chaiId = useChainId();
+  const setIShowOpenWalletAppModal =
+    useSelector.use.setIShowOpenWalletAppModal();
+  const { open, close } = useAppKit();
+
   // const { address } = useAccount();
   const handleMint = async () => {
     if (!url) {
@@ -27,6 +34,13 @@ export default function MintPage() {
 
     setLoading(true);
     try {
+      if (!address) {
+        message.warning("Please connect your wallet first");
+        open({ view: "Connect" });
+        setLoading(false);
+        return;
+      }
+
       const res = await addTweetScreenShot({ tweet_url: url });
 
       const json_cid = res.data.json_cid;
@@ -35,6 +49,8 @@ export default function MintPage() {
         throw new Error("json_cid not found");
       }
 
+      setIShowOpenWalletAppModal(true);
+
       const resMint = await writeContractAsync({
         abi: ABI,
         address: SMART_CONTRACT_ADDRESS,
@@ -42,6 +58,8 @@ export default function MintPage() {
         args: [`ipfs://${json_cid}`],
       });
       console.log("res mint url", res);
+
+      setIShowOpenWalletAppModal(false);
 
       if (resMint) {
         const rec = await waitForTransactionReceipt(config, {

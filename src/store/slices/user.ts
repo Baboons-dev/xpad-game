@@ -5,6 +5,7 @@ type State = {
   refreshToken: string | null;
   user: any;
   cTgId: string;
+  isShowOpenWalletAppModal: boolean;
 };
 
 type Actions = {
@@ -13,6 +14,7 @@ type Actions = {
   setUser: (user: any) => void;
   logoutUser: () => void;
   setCTgId: (tgId: string) => void;
+  setIShowOpenWalletAppModal: (isShowOpenWalletAppModal: boolean) => void;
 };
 
 export interface UserSlice extends State, Actions {}
@@ -22,6 +24,7 @@ const initialState: State = {
   accessToken: null,
   refreshToken: null,
   cTgId: "",
+  isShowOpenWalletAppModal: false,
 };
 
 export const createUserSlice: StateCreator<UserSlice> = (set, get) => ({
@@ -31,4 +34,6 @@ export const createUserSlice: StateCreator<UserSlice> = (set, get) => ({
   setAccessToken: (accessToken) => set({ accessToken }),
   setRefreshToken: (refreshToken) => set({ refreshToken }),
   setCTgId: (tgId) => set(() => ({ cTgId: tgId })),
+  setIShowOpenWalletAppModal: (e: boolean) =>
+    set(() => ({ isShowOpenWalletAppModal: e })),
 });
