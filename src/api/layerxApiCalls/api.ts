@@ -5,9 +5,13 @@ import axios from "axios";
 const SERVER_URL =
   process.env.REACT_APP_API_HOST || "https://api.layerx.baboons.tech";
 
-const accessToken =
-  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ3YWxsZXRfYWRkcmVzcyI6IjB4Nzg2ODkzM2EzNkZiNzc3MWY1ZDg3YzY1ODU3RjYzQzkyNjRkMjhhNCIsImV4cCI6MTc2MTU2NDMzOH0.BAPtuO7RVVUVDKAzG7WBi6NybfF2MtmtOCLakF8DCNQ";
+// const accessToken1 =
+//   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ3YWxsZXRfYWRkcmVzcyI6IjB4Nzg2ODkzM2EzNkZiNzc3MWY1ZDg3YzY1ODU3RjYzQzkyNjRkMjhhNCIsImV4cCI6MTc2MTU2NDMzOH0.BAPtuO7RVVUVDKAzG7WBi6NybfF2MtmtOCLakF8DCNQ";
 
+// const accessToken =
+//   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMDQsIndhbGxldF9hZGRyZXNzIjpudWxsLCJlbWFpbCI6IiIsImV4cCI6MTc2MzE2MjIxMn0.lJ8nkQ11C-8_nLIL2bKxNB-aRCiDQ1mtADXsAHwbuD4";
+
+const accessToken = localStorage.getItem("token");
 export const addVoteToCompetingNfts = async (
   id: number,
   data: VoteToCompetition,
