@@ -67,10 +67,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [user, telegram_user]);
 
   useEffect(() => {
-    // console.log(searchParams.toString());
-    // if (!user && !accessToken) {
-    //   router.push("/authenticate?" + searchParams.toString());
-    // }
+    console.log(searchParams.toString());
+    if (!user && !accessToken) {
+      router.push("/authenticate?" + searchParams.toString());
+    }
   }, [user, fistTime]);
 
   console.log("user", user, accessToken);
