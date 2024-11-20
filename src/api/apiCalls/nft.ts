@@ -86,3 +86,23 @@ export const getNftDetails = async (
     return Promise.reject(err);
   }
 };
+
+export const saveNFT = async (transactionHash: `0x${string}`) => {
+  try {
+    const endPoint = `/api/nfts/save-nft/`;
+    const res = await axios.post<saveNFTResponse>(
+      endPoint,
+      { transactionHash },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    if (!res?.data) throw new Error("Something went wrong");
+    return res.data;
+  } catch (err: any) {
+    console.error("Error:", err.response ? err.response.data : err.message);
+    return Promise.reject(err);
+  }
+};

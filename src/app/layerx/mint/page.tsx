@@ -1,6 +1,6 @@
 "use client";
 
-import { addTweetScreenShot } from "@/api/apiCalls/nft";
+import { addTweetScreenShot, saveNFT } from "@/api/apiCalls/nft";
 import BackArrowIcon from "@/icons/ArrowBack";
 import { ABI } from "@/utils/nft-contract-abi";
 import { config } from "@/utils/wallet-configs";
@@ -53,6 +53,10 @@ export default function MintPage() {
           hash: resMint,
         });
       }
+
+      const resSaveDb = await saveNFT(resMint);
+
+      console.log("resSaveDb", resSaveDb);
 
       message.success("NFT minted successfully!");
       setUrl("");

@@ -86,3 +86,20 @@ declare interface FavoriteNftResponse {
   transaction: string;
   updated_at: string | null;
 }
+
+declare interface saveNFTResponse {
+  status: string;
+  data: {
+    identifier: string;
+    collection: string;
+    contract: string;
+    name: string;
+    description: string;
+    image_url: string;
+    display_image_url: string;
+    metadata_url: string;
+    updated_at: string;
+    owner: OwnerObject;
+    transaction: string;
+  };
+}
