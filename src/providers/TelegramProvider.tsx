@@ -1,4 +1,6 @@
 "use client";
+import type { ITelegramUser, IWebApp } from "@/types/type";
+import { usePathname } from "next/navigation";
 import React, {
   createContext,
   useContext,
@@ -6,8 +8,6 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import type { ITelegramUser, IWebApp } from "@/types/type";
-import { usePathname } from "next/navigation";
 
 export interface ITelegramContext {
   webApp?: IWebApp;
@@ -51,13 +51,19 @@ export const TelegramProvider = ({
     }
   }, [pathname]);
 
-  // const statUser = {
-  //   id: 8052122879,
-  //   first_name: "Hasib2",
-  //   last_name: "Arman2",
-  // };
+  // encrypted 8052122879 2468491469491883pDNHjx4wVPrVDvwOK/UDPQ==
+  // encrypted 6365928460 66439116385786910FTa6qr9SF/NL4fh2tS4Uw==
+  // encrypted 6365928461 4580006449179566bwxdo+4RogRCxjG1tcHeNg==
+  // encrypted 6365928462 2080198345424589ofhmstvDZXFCkJF2Q+dLJg==
+  // encrypted 6365928463 2395150315902941ZM2ZxX9iNs7U9jW6dA76Sg==
 
-  const statUser = null;
+  const statUser = {
+    id: 6365928460,
+    first_name: "Hasib2",
+    last_name: "Arman2",
+  };
+
+  // const statUser = null;
   const value = useMemo(() => {
     return webApp
       ? {

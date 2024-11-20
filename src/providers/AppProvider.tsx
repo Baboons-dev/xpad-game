@@ -1,5 +1,6 @@
 "use client";
 import { MobileNav } from "@/components/mobile-nav";
+import OpenWalletNotification from "@/components/OpenWalletNotification";
 import { TopBar } from "@/components/top-bar";
 import { useTelegram } from "@/providers/TelegramProvider";
 import { useStore } from "@/store";
@@ -85,6 +86,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       height="inherit"
       // style={{ marginTop: "80px" }}
     >
+      <OpenWalletNotification />
       {/* <TopBar /> */}
       {user && accessToken && <TopBar />}
       {children}

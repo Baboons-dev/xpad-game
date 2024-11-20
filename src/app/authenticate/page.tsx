@@ -1,23 +1,23 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { message, Spin } from "antd";
-import { useUser } from "@/hooks";
 import { twitterLogin } from "@/api/apiCalls/user";
+import { useUser } from "@/hooks";
+import Logo from "@/icons/Logo";
+import UnionLogo from "@/icons/Union";
 import { useTelegram } from "@/providers/TelegramProvider";
 import { useSelector, useStore } from "@/store";
 import { Box, Divider, Text, useToast } from "@chakra-ui/react";
-import UnionLogo from "@/icons/Union";
-import Logo from "@/icons/Logo";
-import { twitterSaveLayerX } from "@/api/layerxApiCalls/api";
+import { message, Spin } from "antd";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Authenticate() {
   const toast = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
   const state = searchParams.get("state");
-  const tgId = searchParams.get("tgId");
+  // const tgId = searchParams.get("tgId");
+  const tgId = "66439116385786910FTa6qr9SF/NL4fh2tS4Uw==";
   const code = searchParams.get("code");
   const tId = searchParams.get("tId");
   const codeVerifier = searchParams.get("codeVerifier");
