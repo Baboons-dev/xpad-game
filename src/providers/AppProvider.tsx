@@ -7,6 +7,7 @@ import { useStore } from "@/store";
 import { TopBar } from "@/components/top-bar";
 import { MobileNav } from "@/components/mobile-nav";
 import { Box } from "@chakra-ui/react";
+import { usePathname } from "next/navigation";
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const { getCurrentUser, logout } = useUser();
@@ -18,6 +19,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const setTgId = useStore((state) => state.setCTgId);
   const searchParams = useSearchParams();
   const tgId = searchParams.get("tgId");
+  const pathname = usePathname();
 
   useEffect(() => {
     if (
@@ -53,31 +55,21 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [user, telegram_user]);
 
   useEffect(() => {
-    console.log(searchParams.toString());
-    if (!user && !accessToken) {
-      router.push("/authenticate?" + searchParams.toString());
-    }
-  }, [user, fistTime]);
-
-  console.log("user", user, accessToken);
-
-  useEffect(() => {
     if (tgId) {
       setTgId(tgId);
     }
   }, [tgId]);
 
+  // Don't show navigation elements on authenticate page
+  if (pathname === "/authenticate") {
+    return <>{children}</>;
+  }
+
   return (
-    <Box
-      height="inherit"
-      // style={{ marginTop: "80px" }}
-    >
-      {/* <TopBar /> */}
+    <Box height="inherit">
       {user && accessToken && <TopBar />}
       {children}
       {user && accessToken && <MobileNav />}
-      {/* <MobileNav /> */}
-      {/* {user && accessToken && <MobileNav />} */}
     </Box>
   );
 }

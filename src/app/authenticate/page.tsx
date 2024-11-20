@@ -10,7 +10,6 @@ import { useSelector, useStore } from "@/store";
 import { Box, Divider, Text, useToast } from "@chakra-ui/react";
 import UnionLogo from "@/icons/Union";
 import Logo from "@/icons/Logo";
-import { twitterSaveLayerX } from "@/api/layerxApiCalls/api";
 
 export default function Authenticate() {
   const toast = useToast();
@@ -21,6 +20,7 @@ export default function Authenticate() {
   const code = searchParams.get("code");
   const tId = searchParams.get("tId");
   const codeVerifier = searchParams.get("codeVerifier");
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
   const [twUrl, setTwUrl] = useState("");
   const { loginTwitter, getCurrentUser } = useUser();
   const user = useStore((state) => state.user);
@@ -43,28 +43,6 @@ export default function Authenticate() {
 
   const { telegram_user } = useTelegram();
 
-  // const loginTwitForLayerX = async () => {
-  //   if (state && code) {
-  //     try {
-  //       const res = await twitterSaveLayerX({ state: state, code: code });
-  //       console.log("here is the response for layerX Date", res);
-  //       if (res.data) {
-  //         setAccessToken(res.data.access);
-  //         localStorage.setItem("layerXToken", res.data.access);
-  //         localStorage.setItem("refreshAccessToken", res.data.refresh);
-  //         return true;
-  //       }
-  //     } catch (e) {
-  //       toast({
-  //         title: "Login error",
-  //         status: "error",
-  //         duration: 3000,
-  //         isClosable: true,
-  //       });
-  //     }
-  //   }
-  // };
-
   const login = async () => {
     if (telegram_user && (tgId || cTgId))
       try {
@@ -72,7 +50,6 @@ export default function Authenticate() {
           tgId ? tgId : (cTgId as string),
           telegram_user?.id.toString() as string,
         );
-        console.log("response", response.data);
         if (response?.url && response?.code_verifier) {
           const queryParams = new URL(response?.url);
           queryParams.searchParams.set(
@@ -84,10 +61,7 @@ export default function Authenticate() {
               "&tId=" +
               encodeURI(telegram_user?.id.toString() as string),
           );
-          // queryParams.toString();
           setTwUrl(queryParams.toString());
-          // const newWindow = window.open(queryParams.toString(), "_blank");
-          // if (newWindow) newWindow.opener = null;
         } else if (response.data.access) {
           message.success("Login Success");
           localStorage.setItem("token", response.data.access);
@@ -107,9 +81,9 @@ export default function Authenticate() {
 
   useEffect(() => {
     if (accessToken && user) {
-      router.push("/?tgId=" + (tgId ? tgId : cTgId));
+      router.push(callbackUrl);
     }
-  }, [user, accessToken]);
+  }, [user, accessToken, callbackUrl]);
 
   const onAuthenticateLink = () => {
     const newWindow = window.open(twUrl as string, "_blank");

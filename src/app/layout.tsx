@@ -4,7 +4,6 @@ import WalletProvider from "@/providers/WalletProvider";
 import { ChakraProvider } from "@chakra-ui/react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { headers } from "next/headers";
 import Script from "next/script";
 import React, { Suspense } from "react";
 import "./globals.css";
@@ -17,13 +16,27 @@ export const metadata: Metadata = {
   description: "Ultimate Fighter Championship on Xpad",
 };
 
+function RootLayoutClient({ children }: { children: React.ReactNode }) {
+  return (
+    <ChakraProvider>
+      <Providers>
+        <Suspense>
+          <WalletProvider>
+            <TelegramProvider>
+              <AppProvider>{children}</AppProvider>
+            </TelegramProvider>
+          </WalletProvider>
+        </Suspense>
+      </Providers>
+    </ChakraProvider>
+  );
+}
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const cookies = headers().get("cookie");
-
   return (
     <html lang="en" className={`${inter.className} dark`}>
       <head>
@@ -45,21 +58,11 @@ export default function RootLayout({
         style={{
           height: "100vh",
           background: "#000",
-          paddingTop: "64px", // Add padding to account for fixed TopBar
-          paddingBottom: "80px", // Add padding to account for mobile navigation
+          paddingTop: "64px",
+          paddingBottom: "80px",
         }}
       >
-        <ChakraProvider>
-          <Providers>
-            <Suspense>
-              <WalletProvider cookies={cookies}>
-                <TelegramProvider>
-                  <AppProvider>{children}</AppProvider>
-                </TelegramProvider>
-              </WalletProvider>
-            </Suspense>
-          </Providers>
-        </ChakraProvider>
+        <RootLayoutClient>{children}</RootLayoutClient>
       </body>
     </html>
   );
