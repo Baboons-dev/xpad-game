@@ -1,14 +1,12 @@
 "use client";
-import { MobileNav } from "@/components/mobile-nav";
-import { TopBar } from "@/components/top-bar";
+import React, { useEffect, useState } from "react";
+import { useUser } from "../hooks";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useTelegram } from "@/providers/TelegramProvider";
 import { useStore } from "@/store";
+import { TopBar } from "@/components/top-bar";
+import { MobileNav } from "@/components/mobile-nav";
 import { Box } from "@chakra-ui/react";
-import { message } from "antd";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { useAccount, useDisconnect } from "wagmi";
-import { useUser } from "../hooks";
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const { getCurrentUser, logout } = useUser();
@@ -20,17 +18,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const setTgId = useStore((state) => state.setCTgId);
   const searchParams = useSearchParams();
   const tgId = searchParams.get("tgId");
-  const { address } = useAccount();
-  const { disconnect } = useDisconnect();
-
-  useEffect(() => {
-    if (address && user) {
-      if (address?.toLowerCase() !== user?.wallet_address?.toLowerCase()) {
-        disconnect();
-        message.error("Please connect with the correct wallet address");
-      }
-    }
-  }, [address, user?.wallet_address]);
 
   useEffect(() => {
     if (
@@ -60,10 +47,19 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const nextSearchParams = new URLSearchParams(searchParams.toString());
       nextSearchParams.delete("tgId");
       router.replace(`/?${nextSearchParams}`);
-      setTgId("");
+      setTgId('')
       logout();
     }
   }, [user, telegram_user]);
+
+  useEffect(() => {
+    console.log(searchParams.toString());
+    if (!user && !accessToken) {
+      router.push("/authenticate?" + searchParams.toString());
+    }
+  }, [user, fistTime]);
+
+  console.log("user", user, accessToken);
 
   useEffect(() => {
     if (tgId) {
@@ -72,10 +68,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [tgId]);
 
   return (
-    <Box height="inherit">
+    <Box
+      height="inherit"
+      // style={{ marginTop: "80px" }}
+    >
+      {/* <TopBar /> */}
       {user && accessToken && <TopBar />}
       {children}
       {user && accessToken && <MobileNav />}
+      {/* <MobileNav /> */}
+      {/* {user && accessToken && <MobileNav />} */}
     </Box>
   );
 }
