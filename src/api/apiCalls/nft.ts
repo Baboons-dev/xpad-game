@@ -106,3 +106,19 @@ export const saveNFT = async (transactionHash: `0x${string}`) => {
     return Promise.reject(err);
   }
 };
+
+export const getLeaderBoardData = async (competitionId: number) => {
+  console.log("form fetchLeaderBoardRanking");
+  try {
+    const endPoint = `/api/nfts/competition/leaderboard/`;
+    const res = await axios.get(endPoint, {
+      params: {
+        competition_id: competitionId,
+      },
+    });
+    if (!res?.data) throw "Something went wrong GetUser";
+    return res.data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};

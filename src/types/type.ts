@@ -207,3 +207,15 @@ export interface VoteToCompetition {
 export interface VoteToCompetitionResponse {
   message: string;
 }
+
+export interface LeaderBoardApiResponse {
+  email: string;
+  first_name: string;
+  id: number;
+  last_name: string;
+  profile_picture: string;
+  username: string;
+  vote_count: number;
+  wallet_address: string;
+  owner: OwnerObject;
+}

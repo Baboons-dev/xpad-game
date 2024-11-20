@@ -15,6 +15,7 @@ import Clock from "@/icons/Clock";
 import Countdown from "@/components/common/Countdown";
 import TopPlayers from "@/components/LayerX/TopPlayers";
 import CompetingNfts from "@/components/LayerX/CompetingNfts";
+import LeaderBoard from "@/components/LayerX/LeaderBoard";
 
 interface TimeTextProps {
   text: string;
@@ -22,6 +23,7 @@ interface TimeTextProps {
 
 export default function CompetitionDetailPage() {
   const params = useParams();
+  const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
   const id = params.id; // Extracts the 'id' from the dynamic route
   const [loading, setLoading] = useState(false);
   const toast = useToast();
@@ -275,10 +277,10 @@ export default function CompetitionDetailPage() {
               </Text>
               <Button
                 type="text"
-                // onClick={() => setIsLeaderboardOpen(true)}
-                className="text-[#33A7FF] hover:text-[#33A7FF]/80 flex items-center gap-1 p-0"
+                onClick={() => setIsLeaderboardOpen(true)}
+                className="text-[#33A7FF]  flex items-center gap-1 p-0"
               >
-                {/* View All */}
+                View All
                 <ChevronRight size={16} />
               </Button>
             </Box>
@@ -338,8 +340,13 @@ export default function CompetitionDetailPage() {
         </Box>
       </Box>
 
+      <LeaderBoard
+        isLeaderboardOpen={isLeaderboardOpen}
+        setIsLeaderboardOpen={setIsLeaderboardOpen}
+      />
+
       {/* Leaderboard Modal */}
-      <Modal
+      {/* <Modal
         title={
           <Text
             color="white"
@@ -350,68 +357,13 @@ export default function CompetitionDetailPage() {
             Competition Leaderboard
           </Text>
         }
-        // open={isLeaderboardOpen}
-        // onCancel={() => setIsLeaderboardOpen(false)}
+        open={isLeaderboardOpen}
+        onCancel={() => setIsLeaderboardOpen(false)}
         footer={null}
         className="leaderboard-modal"
       >
-        <Box className="space-y-3 mt-4">
-          {/* {allPlayers.map((player) => (
-            <Box
-              key={player.rank}
-              borderRadius="12px"
-              border="1px solid rgba(255, 255, 255, 0.10)"
-              background="#191916"
-              p={4}
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Box display="flex" alignItems="center" gap={3}>
-                <Box position="relative">
-                  <Avatar src={player.avatar} size={40} />
-                  {player.rank <= 3 && (
-                    <Box
-                      position="absolute"
-                      bottom={-2}
-                      right={-2}
-                      bg={
-                        player.rank === 1
-                          ? "gold"
-                          : player.rank === 2
-                          ? "silver"
-                          : "#CD7F32"
-                      }
-                      borderRadius="full"
-                      w={5}
-                      h={5}
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                    >
-                      <Crown size={12} className="text-black" />
-                    </Box>
-                  )}
-                </Box>
-                <Box>
-                  <Text color="white" fontSize="16px" fontWeight="600">
-                    {player.username}
-                  </Text>
-                  <Text color="whiteAlpha.600" fontSize="12px">
-                    Rank #{player.rank}
-                  </Text>
-                </Box>
-              </Box>
-              <Box display="flex" alignItems="center" gap={2}>
-                <Vote size={16} className="text-[#33A7FF]" />
-                <Text color="#33A7FF" fontSize="14px">
-                  {player.votes.toLocaleString()}
-                </Text>
-              </Box>
-            </Box>
-          ))} */}
-        </Box>
-      </Modal>
+        <Box className="space-y-3 mt-4"></Box>
+      </Modal> */}
 
       <style jsx global>{`
         .leaderboard-modal .ant-modal-content {

@@ -47,16 +47,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const nextSearchParams = new URLSearchParams(searchParams.toString());
       nextSearchParams.delete("tgId");
       router.replace(`/?${nextSearchParams}`);
-      setTgId('')
+      setTgId("");
       logout();
     }
   }, [user, telegram_user]);
 
   useEffect(() => {
-    console.log(searchParams.toString());
-    if (!user && !accessToken) {
-      router.push("/authenticate?" + searchParams.toString());
-    }
+    // console.log(searchParams.toString());
+    // if (!user && !accessToken) {
+    //   router.push("/authenticate?" + searchParams.toString());
+    // }
   }, [user, fistTime]);
 
   console.log("user", user, accessToken);
