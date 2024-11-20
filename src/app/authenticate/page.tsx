@@ -87,7 +87,7 @@ export default function Authenticate() {
     if (accessToken && user) {
       router.push("/?tgId=" + (tgId ? tgId : cTgId));
     }
-  }, [user, accessToken, callbackUrl]);
+  }, [user, accessToken]);
 
   const onAuthenticateLink = () => {
     const newWindow = window.open(twUrl as string, "_blank");
