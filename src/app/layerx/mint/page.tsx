@@ -2,14 +2,14 @@
 
 import { addTweetScreenShot, saveNFT } from "@/api/apiCalls/nft";
 import BackArrowIcon from "@/icons/ArrowBack";
-import { ABI } from "@/utils/nft-contract-abi";
+import { ABI, SMART_CONTRACT_ADDRESS } from "@/utils/nft-contract-abi";
 import { config } from "@/utils/wallet-configs";
 import { Box, Image, Text } from "@chakra-ui/react";
 import { Button, Input, message } from "antd";
 import { Zap } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { useAccount, useChainId, useWriteContract } from "wagmi";
+import { useChainId, useWriteContract } from "wagmi";
 import { waitForTransactionReceipt } from "wagmi/actions";
 import backgroundImage from "../../../assets/background.png";
 
@@ -18,7 +18,7 @@ export default function MintPage() {
   const [loading, setLoading] = useState(false);
   const { data: hash, isPending, writeContractAsync } = useWriteContract();
   const chaiId = useChainId();
-  const { address } = useAccount();
+  // const { address } = useAccount();
   const handleMint = async () => {
     if (!url) {
       message.error("Please enter a URL");
@@ -27,10 +27,6 @@ export default function MintPage() {
 
     setLoading(true);
     try {
-      if (!address) {
-        throw new Error("Connect your wallet");
-      }
-
       const res = await addTweetScreenShot({ tweet_url: url });
 
       const json_cid = res.data.json_cid;
@@ -41,7 +37,7 @@ export default function MintPage() {
 
       const resMint = await writeContractAsync({
         abi: ABI,
-        address,
+        address: SMART_CONTRACT_ADDRESS,
         functionName: "safeMint",
         args: [`ipfs://${json_cid}`],
       });
