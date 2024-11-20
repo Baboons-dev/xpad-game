@@ -10,27 +10,27 @@ export function middleware(request: NextRequest) {
   console.log("pathname", pathname);
 
   // List of public paths that don't require authentication
-  //   const publicPaths = ["/authenticate"];
+  const publicPaths = ["/authenticate"];
 
-  //   // Check if the current path is public
-  //   const isPublicPath = publicPaths.some((path) => pathname.startsWith(path));
-  //   // Handle public paths
-  //   if (isPublicPath) {
-  //     if (token) {
-  //       // If user is already logged in, redirect to home
-  //       return NextResponse.redirect(new URL("/", request.url));
-  //     }
-  //     return NextResponse.next();
-  //   }
-  //   // Protected routes
-  //   if (!token) {
-  //     // Save the attempted URL to redirect back after login
-  //     const searchParams = new URLSearchParams();
-  //     searchParams.set("callbackUrl", pathname);
-  //     return NextResponse.redirect(
-  //       new URL(`/authenticate?${searchParams.toString()}`, request.url),
-  //     );
-  //   }
+  // Check if the current path is public
+  const isPublicPath = publicPaths.some((path) => pathname.startsWith(path));
+  // Handle public paths
+  if (isPublicPath) {
+    if (token) {
+      // If user is already logged in, redirect to home
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+    return NextResponse.next();
+  }
+  // Protected routes
+  if (!token) {
+    // Save the attempted URL to redirect back after login
+    const searchParams = new URLSearchParams();
+    searchParams.set("callbackUrl", pathname);
+    return NextResponse.redirect(
+      new URL(`/authenticate?${searchParams.toString()}`, request.url),
+    );
+  }
   return NextResponse.next();
 }
 export const config = {
