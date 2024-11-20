@@ -160,7 +160,7 @@ export default function LeaderBoard(props: LeaderBoardProps) {
                           {data?.owner?.profile_picture ? (
                             <Box height="34px" width="34px">
                               <Image
-                                src={data?.profile_picture}
+                                src={data?.owner?.profile_picture}
                                 objectFit="cover"
                                 borderRadius="50%"
                                 height="inherit"
