@@ -66,31 +66,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [user, telegram_user]);
 
   useEffect(() => {
-    console.log(searchParams.toString());
-    if (!user && !accessToken) {
-      router.push("/authenticate?" + searchParams.toString());
-    }
-  }, [user, fistTime]);
-
-  console.log("user", user, accessToken);
-
-  useEffect(() => {
     if (tgId) {
       setTgId(tgId);
     }
   }, [tgId]);
 
   return (
-    <Box
-      height="inherit"
-      // style={{ marginTop: "80px" }}
-    >
-      {/* <TopBar /> */}
+    <Box height="inherit">
       {user && accessToken && <TopBar />}
       {children}
       {user && accessToken && <MobileNav />}
-      {/* <MobileNav /> */}
-      {/* {user && accessToken && <MobileNav />} */}
     </Box>
   );
 }

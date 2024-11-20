@@ -111,7 +111,7 @@ export default function ProfilePage() {
             </Text>
           </Box>
 
-          {user.wallet_address ? (
+          {user?.wallet_address ? (
             <div
               id="wallet-connect"
               className={"flex gap-3 flex-wrap flex-col items-center"}
