@@ -103,7 +103,9 @@ export default function BrowseNfts({ competitionId, onSuccess }: Props) {
             <Flex key={nft.id} flex={1 / 2}>
               <div
                 onClick={() => setSelectedNft(nft.identifier)}
-                className={`aspect-square w-full bg-black rounded-lg h-full flex items-center justify-center bg-black/100 border ${selectedNft === nft.identifier ? 'border-[#33A7FF]' : 'border-white/10'} hover:border-[#33A7FF]`}>
+                className={`aspect-square w-full bg-black rounded-lg h-full flex items-center justify-center bg-black/100 border ${
+                  selectedNft === nft.identifier ? 'border-[#33A7FF]' : 'border-white/10'
+                } hover:border-[#33A7FF]`}>
                 <img
                   src={nft.image_url}
                   className="object-contain"

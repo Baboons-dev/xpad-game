@@ -8,11 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import ParticipateModal from '@/components/LayerX/ParticipateModal';
 
-export function CompetitionCard({
-  competition,
-}: {
-  competition: CompetitionObject;
-}) {
+export function CompetitionCard({ competition }: { competition: CompetitionObject }) {
   const [participate, setParticipate] = useState(false);
   console.log('competition', competition);
   const router = useRouter();
@@ -26,8 +22,7 @@ export function CompetitionCard({
       borderRadius="12px"
       border="1px solid rgba(255, 255, 255, 0.10)"
       background="#191916"
-      overflow="hidden"
-    >
+      overflow="hidden">
       <Box position="relative">
         <img
           src={competition?.competition_image}
@@ -37,22 +32,11 @@ export function CompetitionCard({
       </Box>
 
       <Box p={4}>
-        <Text
-          color="white"
-          fontSize="16px"
-          fontWeight="700"
-          mb={3}
-          fontFamily="Plus Jakarta Sans"
-        >
+        <Text color="white" fontSize="16px" fontWeight="700" mb={3} fontFamily="Plus Jakarta Sans">
           {competition.competition_name}
         </Text>
 
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={4}
-        >
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
           <Box display="flex" alignItems="center" gap={2}>
             <Users size={16} className="text-[#33A7FF]" />
             <Text color="white" fontSize="14px" fontFamily="Plus Jakarta Sans">
@@ -72,35 +56,24 @@ export function CompetitionCard({
           justifyContent="space-between"
           alignItems="center"
           borderTop="1px solid rgba(255, 255, 255, 0.10)"
-          pt={4}
-        >
+          pt={4}>
           <Text color="#8C8C8C" fontSize="14px" fontFamily="Plus Jakarta Sans">
-            {competition &&
-            isAfter(parseISO(competition?.participation_starts), new Date())
+            {competition && isAfter(parseISO(competition?.participation_starts), new Date())
               ? 'Opens in ' // Announced Stage (before participation starts)
-              : isAfter(
-                    new Date(),
-                    parseISO(competition?.participation_starts),
-                  ) &&
-                  isBefore(new Date(), parseISO(competition?.voting_starts))
-                ? 'Entries close in' // Participation Phase (after participation starts and before voting starts)
-                : isAfter(new Date(), parseISO(competition?.voting_starts)) &&
-                    isBefore(new Date(), parseISO(competition?.voting_ends))
-                  ? 'Voting ends in' // Voting Phase (after voting starts and before voting ends)
-                  : isAfter(new Date(), parseISO(competition?.voting_ends))
-                    ? 'Closed' // Competition Closed Stage (after voting ends)
-                    : ''}
+              : isAfter(new Date(), parseISO(competition?.participation_starts)) &&
+                isBefore(new Date(), parseISO(competition?.voting_starts))
+              ? 'Entries close in' // Participation Phase (after participation starts and before voting starts)
+              : isAfter(new Date(), parseISO(competition?.voting_starts)) &&
+                isBefore(new Date(), parseISO(competition?.voting_ends))
+              ? 'Voting ends in' // Voting Phase (after voting starts and before voting ends)
+              : isAfter(new Date(), parseISO(competition?.voting_ends))
+              ? 'Closed' // Competition Closed Stage (after voting ends)
+              : ''}
           </Text>
           <Text color="#33A7FF" fontSize="14px" fontFamily="Plus Jakarta Sans">
-            {isAfter(
-              parseISO(competition?.participation_starts),
-              new Date(),
-            ) ? (
+            {isAfter(parseISO(competition?.participation_starts), new Date()) ? (
               <Countdown endDateString={competition?.participation_starts} />
-            ) : isAfter(
-                new Date(),
-                parseISO(competition?.participation_starts),
-              ) &&
+            ) : isAfter(new Date(), parseISO(competition?.participation_starts)) &&
               isBefore(new Date(), parseISO(competition?.voting_starts)) ? (
               <Countdown endDateString={competition?.voting_starts} />
             ) : isAfter(new Date(), parseISO(competition?.voting_starts)) &&
@@ -126,8 +99,7 @@ export function CompetitionCard({
                 color: 'black',
                 bg: '#fff',
               }}
-              onClick={onCompetitionClick}
-            >
+              onClick={onCompetitionClick}>
               View
             </Button>
             <Button
@@ -167,8 +139,7 @@ export function CompetitionCard({
                 color: 'black',
                 bg: '#fff',
               }}
-              onClick={() => setParticipate(true)}
-            >
+              onClick={() => setParticipate(true)}>
               Participate
             </Button>
             <Button
@@ -183,8 +154,7 @@ export function CompetitionCard({
                 color: 'black',
                 bg: '#fff',
               }}
-              onClick={onCompetitionClick}
-            >
+              onClick={onCompetitionClick}>
               Open
             </Button>
           </Box>
@@ -203,8 +173,7 @@ export function CompetitionCard({
                 color: 'black',
                 bg: '#fff',
               }}
-              onClick={onCompetitionClick}
-            >
+              onClick={onCompetitionClick}>
               Open & Vote
             </Button>
           </Box>
@@ -223,8 +192,7 @@ export function CompetitionCard({
                   color: 'black',
                   bg: '#fff',
                 }}
-                onClick={onCompetitionClick}
-              >
+                onClick={onCompetitionClick}>
                 View
               </Button>
             </Box>
