@@ -60,7 +60,7 @@ export default function ParticipateModal(props: Props) {
               }}
               cursor={'pointer'}
               onClick={() => {
-                if (type === 'Browse NFTs') setType(item);
+                if (item === 'Browse NFTs') setType(item);
                 else {
                   handleClose();
                   router.push('/layerx/mint');
