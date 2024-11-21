@@ -1,7 +1,6 @@
 import { GetUser, twitterSave } from "@/api/apiCalls/user";
 import { useSelector } from "@/store";
 import { message } from "antd";
-import Cookies from "js-cookie";
 
 const useUser = () => {
   const setAccessToken = useSelector.use.setAccessToken();
@@ -25,8 +24,6 @@ const useUser = () => {
         );
         localStorage.setItem("token", res.data.data.access);
         localStorage.setItem("refreshToken", res.data.data.refresh);
-        Cookies.set("token", res.data.data.access);
-        Cookies.set("refreshToken", res.data.data.refresh);
         setAccessToken(res.data.data.access as string);
         setRefreshToken(res.data.data.refresh as string);
         setTimeout(async () => {
@@ -56,8 +53,6 @@ const useUser = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
     // Remove cookies
-    Cookies.remove("token");
-    Cookies.remove("refreshToken");
   };
 
   return {

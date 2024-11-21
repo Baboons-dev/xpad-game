@@ -49,14 +49,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [telegram_user, accessToken, user, fistTime]);
 
   useEffect(() => {
-    if (user && !telegram_user) {
+    if (!!user && !telegram_user && accessToken && !fistTime) {
       const nextSearchParams = new URLSearchParams(searchParams.toString());
       nextSearchParams.delete('tgId');
       router.replace(`/?${nextSearchParams}`);
       setTgId('');
       logout();
     }
-  }, [user, telegram_user]);
+  }, [user, telegram_user,accessToken,fistTime]);
 
   useEffect(() => {
     console.log(searchParams.toString());
@@ -72,6 +72,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       setTgId(tgId);
     }
   }, [tgId]);
+
 
   return (
     <Box
