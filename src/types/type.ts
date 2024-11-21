@@ -67,6 +67,21 @@ export interface IWebApp {
 //   referralCode: string;
 //   referredById?: string | null;
 // }
+
+export interface CommentsResponse {
+  comment: string;
+  created_at: string;
+  id: number;
+  nft: number;
+  updated_at: string;
+  user: User;
+}
+
+export interface PostCompetitionCommentPayload {
+  competition: any;
+  comment: string;
+}
+
 export interface User {
   health: number;
   id: number;

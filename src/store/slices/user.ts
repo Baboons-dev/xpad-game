@@ -1,4 +1,4 @@
-import type { StateCreator } from "zustand";
+import type { StateCreator } from 'zustand';
 
 type State = {
   accessToken: string | null;
@@ -23,7 +23,7 @@ const initialState: State = {
   user: null,
   accessToken: null,
   refreshToken: null,
-  cTgId: "",
+  cTgId: '',
   isShowOpenWalletAppModal: false,
 };
 
@@ -34,6 +34,5 @@ export const createUserSlice: StateCreator<UserSlice> = (set, get) => ({
   setAccessToken: (accessToken) => set({ accessToken }),
   setRefreshToken: (refreshToken) => set({ refreshToken }),
   setCTgId: (tgId) => set(() => ({ cTgId: tgId })),
-  setIShowOpenWalletAppModal: (e: boolean) =>
-    set(() => ({ isShowOpenWalletAppModal: e })),
+  setIShowOpenWalletAppModal: (e: boolean) => set(() => ({ isShowOpenWalletAppModal: e })),
 });
