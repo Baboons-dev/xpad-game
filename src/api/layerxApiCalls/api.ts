@@ -1,5 +1,6 @@
 import {
   AddNftToCompetitionResponse,
+  PostCompetitionCommentPayload,
   VoteToCompetition,
   VoteToCompetitionResponse,
 } from '@/types/type';
@@ -106,6 +107,68 @@ export const addNftToFavorite = async (nftId: string) => {
     return res.data;
   } catch (err: any) {
     console.error('Error:', err.response ? err.response.data : err.message);
+    return Promise.reject(err);
+  }
+};
+
+export const addCompetitionComments = async (
+  id: number,
+  data: PostCompetitionCommentPayload
+): Promise<any> => {
+  try {
+    const endPoint = `/api/nfts/competition/${id}/comments/`;
+    const res = await axios.post(endPoint, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!res?.data) throw 'Something went wrong while adding NFT to competition';
+    return res.data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const getCompetitionComments = async (id: number): Promise<any> => {
+  try {
+    const endPoint = `/api/nfts/competition/${id}/comments`;
+    const res = await axios.get(endPoint);
+    if (!res?.data) throw 'Something went wrong GetUser';
+    return res.data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const updateCompetitionComment = async (
+  commentId: number,
+  comment: string,
+  selectedCompetitionId: number
+): Promise<any> => {
+  try {
+    const endPoint = `/api/nfts/competition/comment/${commentId}/`;
+    const res = await axios.put(
+      endPoint,
+      { comment: comment, competition: selectedCompetitionId },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    if (!res?.data) throw 'Something went wrong while adding NFT to competition';
+    return res.data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const deleteCompetitionComment = async (commentId: string): Promise<any> => {
+  try {
+    const endPoint = `/api/nfts/competition/comment/${commentId}/`;
+    const res = await axios.delete(endPoint);
+    return res.data;
+  } catch (err) {
     return Promise.reject(err);
   }
 };
