@@ -1,4 +1,4 @@
-import { GetUser, twitterSave } from "@/api/apiCalls/user";
+import {GetUser, twitterSave, userLoginWallet} from "@/api/apiCalls/user";
 import { useSelector } from "@/store";
 import { message } from "antd";
 
@@ -36,6 +36,17 @@ const useUser = () => {
       message.error("Something went wrong");
     }
   };
+const loginWallet = async (payload: { wallet_address: string, challenge: string, signature: string }) => {
+        try {
+            const res = await userLoginWallet(payload);
+            console.log('res final login', res);
+            await getCurrentUser()
+            return true;
+        } catch (error) {
+            console.error('error login', error);
+            message.error('Something went wrong');
+        }
+    };
 
   const getCurrentUser = async () => {
     try {
@@ -56,6 +67,7 @@ const useUser = () => {
   };
 
   return {
+    loginWallet,
     logout,
     getCurrentUser,
     loginTwitter,
