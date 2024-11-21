@@ -386,83 +386,88 @@ function CompetitionComments(props: CompetitionCommentsProps) {
                               </Text>
                             </Box>
 
-                            {comment?.user?.username === userName && (
-                              <Menu placement="bottom-end">
-                                {({ isOpen, onClose }) => (
-                                  <>
-                                    <MenuButton
-                                      display="flex"
-                                      width=" unset"
-                                      backgroundColor=" transparent"
-                                      rightIcon={isOpen ? <CommentDropDown /> : <CommentDropDown />}
-                                      height=" unset"
-                                      justifyContent="flex-end"
-                                      as={Button}
-                                      _hover={{
-                                        color: 'white',
-                                        bg: 'transparent',
-                                      }}
-                                      _active={{
-                                        color: 'white',
-                                        bg: 'transparent',
-                                      }}></MenuButton>
-                                    <MenuList
-                                      padding="8px"
-                                      borderRadius="8px"
-                                      backgroundColor="#585858"
-                                      boxShadow="0px 1px 2px 0px rgba(0, 0, 0, 0.03), 0px 1px 6px -1px rgba(0, 0, 0, 0.02), 0px 2px 4px 0px rgba(0, 0, 0, 0.02)"
-                                      borderWidth="none !important"
-                                      zIndex={2}>
-                                      <Box
+                            {
+                              // comment?.user?.username === userName
+                              true && (
+                                <Menu placement="bottom-end">
+                                  {({ isOpen, onClose }) => (
+                                    <>
+                                      <MenuButton
                                         display="flex"
-                                        alignItems="center"
-                                        height="36px"
-                                        paddingRight="12px"
-                                        paddingLeft="12px"
-                                        cursor="pointer"
-                                        onClick={() => {
-                                          setCommentToDeleteId(null);
-                                          handleEditClick(comment);
-                                          onClose(); // Close the menu after clicking
-                                        }}>
-                                        <Text
-                                          color="#FFF"
-                                          fontFamily="Plus Jakarta Sans"
-                                          fontSize=" 14px"
-                                          fontStyle=" normal"
-                                          fontWeight=" 500"
-                                          lineHeight="22px" /* 157.143% */
-                                        >
-                                          Edit comment
-                                        </Text>
-                                      </Box>
-                                      <Box
-                                        display="flex"
-                                        alignItems="center"
-                                        height="36px"
-                                        paddingRight="12px"
-                                        paddingLeft="12px"
-                                        cursor="pointer"
-                                        onClick={() => {
-                                          removeCommentToEditFromState();
-                                          setCommentToDeleteId(comment?.id);
-                                          onClose();
-                                        }}>
-                                        <Text
-                                          color="#FF4D4F"
-                                          fontFamily="Plus Jakarta Sans"
-                                          fontSize=" 14px"
-                                          fontStyle=" normal"
-                                          fontWeight=" 500"
-                                          lineHeight="22px">
-                                          Delete comment
-                                        </Text>
-                                      </Box>
-                                    </MenuList>
-                                  </>
-                                )}
-                              </Menu>
-                            )}
+                                        width=" unset"
+                                        backgroundColor=" transparent"
+                                        rightIcon={
+                                          isOpen ? <CommentDropDown /> : <CommentDropDown />
+                                        }
+                                        height=" unset"
+                                        justifyContent="flex-end"
+                                        as={Button}
+                                        _hover={{
+                                          color: 'white',
+                                          bg: 'transparent',
+                                        }}
+                                        _active={{
+                                          color: 'white',
+                                          bg: 'transparent',
+                                        }}></MenuButton>
+                                      <MenuList
+                                        padding="8px"
+                                        borderRadius="8px"
+                                        backgroundColor="#585858"
+                                        boxShadow="0px 1px 2px 0px rgba(0, 0, 0, 0.03), 0px 1px 6px -1px rgba(0, 0, 0, 0.02), 0px 2px 4px 0px rgba(0, 0, 0, 0.02)"
+                                        borderWidth="none !important"
+                                        zIndex={2}>
+                                        <Box
+                                          display="flex"
+                                          alignItems="center"
+                                          height="36px"
+                                          paddingRight="12px"
+                                          paddingLeft="12px"
+                                          cursor="pointer"
+                                          onClick={() => {
+                                            setCommentToDeleteId(null);
+                                            handleEditClick(comment);
+                                            onClose(); // Close the menu after clicking
+                                          }}>
+                                          <Text
+                                            color="#FFF"
+                                            fontFamily="Plus Jakarta Sans"
+                                            fontSize=" 14px"
+                                            fontStyle=" normal"
+                                            fontWeight=" 500"
+                                            lineHeight="22px" /* 157.143% */
+                                          >
+                                            Edit comment
+                                          </Text>
+                                        </Box>
+                                        <Box
+                                          display="flex"
+                                          alignItems="center"
+                                          height="36px"
+                                          paddingRight="12px"
+                                          paddingLeft="12px"
+                                          cursor="pointer"
+                                          onClick={() => {
+                                            removeCommentToEditFromState();
+                                            setCommentToDeleteId(comment?.id);
+                                            onClose();
+                                          }}>
+                                          <Text
+                                            color="#FF4D4F"
+                                            fontFamily="Plus Jakarta Sans"
+                                            fontSize=" 14px"
+                                            fontStyle=" normal"
+                                            fontWeight=" 500"
+                                            lineHeight="22px">
+                                            Delete comment
+                                          </Text>
+                                        </Box>
+                                      </MenuList>
+                                    </>
+                                  )}
+                                </Menu>
+                              )
+                            }
                           </Box>
 
                           <Box>
