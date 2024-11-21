@@ -1,15 +1,15 @@
-"use client";
-import { MobileNav } from "@/components/mobile-nav";
-import OpenWalletNotification from "@/components/OpenWalletNotification";
-import { TopBar } from "@/components/top-bar";
-import { useTelegram } from "@/providers/TelegramProvider";
-import { useStore } from "@/store";
-import { Box } from "@chakra-ui/react";
-import { message } from "antd";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { useAccount, useDisconnect } from "wagmi";
-import { useUser } from "../hooks";
+'use client';
+import { MobileNav } from '@/components/mobile-nav';
+import OpenWalletNotification from '@/components/OpenWalletNotification';
+import { TopBar } from '@/components/top-bar';
+import { useTelegram } from '@/providers/TelegramProvider';
+import { useStore } from '@/store';
+import { Box } from '@chakra-ui/react';
+import { message } from 'antd';
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { useAccount, useDisconnect } from 'wagmi';
+import { useUser } from '../hooks';
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const { getCurrentUser, logout } = useUser();
@@ -20,7 +20,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const { telegram_user } = useTelegram();
   const setTgId = useStore((state) => state.setCTgId);
   const searchParams = useSearchParams();
-  const tgId = searchParams.get("tgId");
+  const tgId = searchParams.get('tgId');
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
 
@@ -28,17 +28,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (address && user) {
       if (address?.toLowerCase() !== user?.wallet_address?.toLowerCase()) {
         disconnect();
-        message.error("Please connect with the correct wallet address");
+        message.error('Please connect with the correct wallet address');
       }
     }
   }, [address, user?.wallet_address]);
 
   useEffect(() => {
-    if (
-      !!user &&
-      !!telegram_user &&
-      user?.telegram_id !== telegram_user?.id.toString()
-    ) {
+    if (!!user && !!telegram_user && user?.telegram_id !== telegram_user?.id.toString()) {
       setFistTime(true);
       logout();
     } else if (accessToken && !user) {
@@ -46,11 +42,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       setFistTime(false);
     }
 
-    if (
-      accessToken &&
-      fistTime &&
-      user?.telegram_id === telegram_user?.id.toString()
-    ) {
+    if (accessToken && fistTime && user?.telegram_id === telegram_user?.id.toString()) {
       getCurrentUser();
       setFistTime(false);
     }
@@ -59,21 +51,21 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (user && !telegram_user) {
       const nextSearchParams = new URLSearchParams(searchParams.toString());
-      nextSearchParams.delete("tgId");
+      nextSearchParams.delete('tgId');
       router.replace(`/?${nextSearchParams}`);
-      setTgId("");
+      setTgId('');
       logout();
     }
   }, [user, telegram_user]);
 
   useEffect(() => {
     console.log(searchParams.toString());
-    if (!user && !accessToken) {
-      router.push("/authenticate?" + searchParams.toString());
-    }
+    // if (!user && !accessToken) {
+    //   router.push("/authenticate?" + searchParams.toString());
+    // }
   }, [user, fistTime]);
 
-  console.log("user", user, accessToken);
+  console.log('user', user, accessToken);
 
   useEffect(() => {
     if (tgId) {
