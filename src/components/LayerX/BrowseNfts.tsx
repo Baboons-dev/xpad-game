@@ -67,6 +67,7 @@ export default function BrowseNfts({ competitionId, onSuccess }: Props) {
           toast({
             title: 'Error!',
             description:
+              e?.response?.data?.message ??
               e?.response?.data?.error ??
               'Something went wrong while participating. Please try again',
             status: 'error',
