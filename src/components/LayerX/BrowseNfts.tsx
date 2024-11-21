@@ -17,6 +17,7 @@ export default function BrowseNfts({ competitionId, onSuccess }: Props) {
   const [myNfts, setMyNfts] = useState<AllNftsResponse | null>();
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState<boolean>(false);
+  const [selectedNft, setSelectedNft] = useState<string>();
 
   const fetchNfts = async () => {
     setLoading(true);
@@ -44,33 +45,37 @@ export default function BrowseNfts({ competitionId, onSuccess }: Props) {
     }
   }, [page]);
 
-  const onSelect = (selectedNft: string) => {
-    setLoading(true);
+  const onSelect = () => {
+    if (!!selectedNft) {
+      setLoading(true);
 
-    addNftToCompetition(competitionId, selectedNft)
-      .then(() => {
-        setLoading(false);
-        toast({
-          title: 'Success!',
-          description: 'You have participated in the competition',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top',
+      addNftToCompetition(competitionId, selectedNft)
+        .then(() => {
+          setLoading(false);
+          toast({
+            title: 'Success!',
+            description: 'You have participated in the competition',
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+            position: 'top',
+          });
+          onSuccess();
+        })
+        .catch((e) => {
+          setLoading(false);
+          toast({
+            title: 'Error!',
+            description:
+              e?.response?.data?.error ??
+              'Something went wrong while participating. Please try again',
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+            position: 'top',
+          });
         });
-        onSuccess();
-      })
-      .catch(() => {
-        setLoading(false);
-        toast({
-          title: 'Error!',
-          description: 'Something went wrong while participating. Please try again',
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top',
-        });
-      });
+    }
   };
 
   if (!user) {
@@ -97,22 +102,20 @@ export default function BrowseNfts({ competitionId, onSuccess }: Props) {
             <Flex key={nft.id} flex={1 / 2}>
               <div
                 onClick={() => setSelectedNft(nft.identifier)}
-                style={{
-                  position: 'relative',
-                }}
-                className="aspect-square w-full bg-black rounded-lg h-full flex items-center justify-center bg-black/100 nft-card">
+                className={`aspect-square w-full bg-black rounded-lg h-full flex items-center justify-center bg-black/100 border ${selectedNft === nft.identifier ? 'border-[#33A7FF]' : 'border-white/10'} hover:border-[#33A7FF]`}>
                 <img
                   src={nft.image_url}
-                  className="object-contain image"
+                  className="object-contain"
                   alt={nft.name}
                   style={{
                     height: '98%',
                     width: '98%',
+                    filter: selectedNft === nft.identifier ? 'blur(2px)' : 'unset',
                   }}
                   loading="lazy"
                 />
 
-                <span style={{ display: 'contents' }}>
+                {selectedNft === nft.identifier && (
                   <Button
                     className="button"
                     border="1px solid #33A7FF"
@@ -125,10 +128,10 @@ export default function BrowseNfts({ competitionId, onSuccess }: Props) {
                       color: '#33A7FF',
                       bg: '#000',
                     }}
-                    onClick={() => onSelect(nft.identifier)}>
+                    onClick={onSelect}>
                     Select
                   </Button>
-                </span>
+                )}
               </div>
             </Flex>
           ))}
@@ -138,18 +141,6 @@ export default function BrowseNfts({ competitionId, onSuccess }: Props) {
         )}
       </Flex>
       <style jsx global>{`
-        .nft-card .button {
-          display: none;
-        }
-
-        .nft-card:hover .button {
-          display: block;
-        }
-
-        .nft-card:hover .image {
-          filter: blur(2px);
-        }
-
         .nft-card:hover {
           border: 1px solid #33a7ff;
         }
