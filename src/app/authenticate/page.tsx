@@ -28,6 +28,7 @@ export default function Authenticate() {
   const setRefreshToken = useSelector.use.setRefreshToken();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
   const cTgId = useStore((state) => state.cTgId);
+  const [firstTime,setFirstTime]=useState(true)
 
   useEffect(() => {
     if (state && code && tgId && tId && codeVerifier) {
@@ -42,6 +43,11 @@ export default function Authenticate() {
   }, [tId, code, tgId, state, codeVerifier]);
 
   const { telegram_user } = useTelegram();
+  useEffect(() => {
+     if (telegram_user && (tgId || cTgId) && firstTime){
+       login()
+     }
+  }, [firstTime,telegram_user,tgId ,cTgId]);
 
   const login = async () => {
     if (telegram_user && (tgId || cTgId))
@@ -50,7 +56,6 @@ export default function Authenticate() {
           tgId ? tgId : (cTgId as string),
           telegram_user?.id.toString() as string,
         );
-        console.log("response", response.data);
         if (response?.url && response?.code_verifier) {
           const queryParams = new URL(response?.url);
           queryParams.searchParams.set(
@@ -81,6 +86,7 @@ export default function Authenticate() {
         message.error("Code error");
         console.log(e);
       }
+    setFirstTime(false)
   };
 
   useEffect(() => {
@@ -165,7 +171,7 @@ export default function Authenticate() {
                   cursor="pointer"
                   fontFamily="Plus Jakarta Sans"
                 >
-                  {twUrl ? "Continue" : "Login using X"}
+                  Login using X
                 </Text>
               </Box>
             </Box>

@@ -1,7 +1,6 @@
-import { GetUser, twitterSave } from "@/api/apiCalls/user";
+import {GetUser, twitterSave, userLoginWallet} from "@/api/apiCalls/user";
 import { useSelector } from "@/store";
 import { message } from "antd";
-import Cookies from "js-cookie";
 
 const useUser = () => {
   const setAccessToken = useSelector.use.setAccessToken();
@@ -25,8 +24,6 @@ const useUser = () => {
         );
         localStorage.setItem("token", res.data.data.access);
         localStorage.setItem("refreshToken", res.data.data.refresh);
-        Cookies.set("token", res.data.data.access);
-        Cookies.set("refreshToken", res.data.data.refresh);
         setAccessToken(res.data.data.access as string);
         setRefreshToken(res.data.data.refresh as string);
         setTimeout(async () => {
@@ -39,6 +36,17 @@ const useUser = () => {
       message.error("Something went wrong");
     }
   };
+const loginWallet = async (payload: { wallet_address: string, challenge: string, signature: string }) => {
+        try {
+            const res = await userLoginWallet(payload);
+            console.log('res final login', res);
+            await getCurrentUser()
+            return true;
+        } catch (error) {
+            console.error('error login', error);
+            message.error('Something went wrong');
+        }
+    };
 
   const getCurrentUser = async () => {
     try {
@@ -56,11 +64,10 @@ const useUser = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
     // Remove cookies
-    Cookies.remove("token");
-    Cookies.remove("refreshToken");
   };
 
   return {
+    loginWallet,
     logout,
     getCurrentUser,
     loginTwitter,
