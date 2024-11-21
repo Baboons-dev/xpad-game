@@ -97,3 +97,15 @@ export const addNftToCompetition = async (
     return Promise.reject(err);
   }
 };
+
+export const addNftToFavorite = async (nftId: string) => {
+  try {
+    const endPoint = `api/nfts/${nftId}/like/`;
+    const res = await axios.post<any>(endPoint);
+    if (!res?.data) throw new Error('Something went wrong');
+    return res.data;
+  } catch (err: any) {
+    console.error('Error:', err.response ? err.response.data : err.message);
+    return Promise.reject(err);
+  }
+};

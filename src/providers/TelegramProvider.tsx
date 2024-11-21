@@ -1,13 +1,7 @@
-"use client";
-import type { ITelegramUser, IWebApp } from "@/types/type";
-import { usePathname } from "next/navigation";
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+'use client';
+import type { ITelegramUser, IWebApp } from '@/types/type';
+import { usePathname } from 'next/navigation';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 export interface ITelegramContext {
   webApp?: IWebApp;
@@ -16,11 +10,7 @@ export interface ITelegramContext {
 
 export const TelegramContext = createContext<ITelegramContext>({});
 
-export const TelegramProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const TelegramProvider = ({ children }: { children: React.ReactNode }) => {
   const [webApp, setWebApp] = useState<IWebApp | null>(null);
   const pathname = usePathname();
   useEffect(() => {
@@ -30,7 +20,7 @@ export const TelegramProvider = ({
       setWebApp(app);
       setTimeout(() => {
         app.expand();
-        app.headerColor = "#0A0318";
+        app.headerColor = '#0A0318';
         app.isVerticalSwipesEnabled = false;
         app.disableVerticalSwipes();
         app.BackButton.show();
@@ -58,9 +48,9 @@ export const TelegramProvider = ({
   // encrypted 6365928463 2395150315902941ZM2ZxX9iNs7U9jW6dA76Sg==
 
   // const statUser = {
-  //   id: 6365928460,
-  //   first_name: "Hasib2",
-  //   last_name: "Arman2",
+  //   id: 8052122879,
+  //   first_name: 'Hasib2',
+  //   last_name: 'Arman2',
   // };
 
   const statUser = null;
