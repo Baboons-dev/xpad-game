@@ -17,7 +17,6 @@ export default function BrowseNfts({ competitionId, onSuccess }: Props) {
   const [myNfts, setMyNfts] = useState<AllNftsResponse | null>();
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedNft, setSelectedNft] = useState<string>();
 
   const fetchNfts = async () => {
     setLoading(true);
@@ -45,44 +44,39 @@ export default function BrowseNfts({ competitionId, onSuccess }: Props) {
     }
   }, [page]);
 
-  const onSelect = () => {
-    if (selectedNft) {
-      setLoading(true);
+  const onSelect = (selectedNft: string) => {
+    setLoading(true);
 
-      addNftToCompetition(competitionId, selectedNft)
-        .then(() => {
-          setLoading(false);
-          toast({
-            title: 'Success!',
-            description: 'You have participated in the competition',
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-            position: 'top',
-          });
-          onSuccess();
-        })
-        .catch(() => {
-          setLoading(false);
-          toast({
-            title: 'Error!',
-            description:
-              'Something went wrong while participating. Please try again',
-            status: 'error',
-            duration: 3000,
-            isClosable: true,
-            position: 'top',
-          });
+    addNftToCompetition(competitionId, selectedNft)
+      .then(() => {
+        setLoading(false);
+        toast({
+          title: 'Success!',
+          description: 'You have participated in the competition',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top',
         });
-    }
+        onSuccess();
+      })
+      .catch(() => {
+        setLoading(false);
+        toast({
+          title: 'Error!',
+          description: 'Something went wrong while participating. Please try again',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+          position: 'top',
+        });
+      });
   };
 
   if (!user) {
     return (
       <div className="text-center py-8">
-        <p className="text-white/60">
-          Please connect your wallet to view your NFTs
-        </p>
+        <p className="text-white/60">Please connect your wallet to view your NFTs</p>
       </div>
     );
   }
@@ -106,8 +100,7 @@ export default function BrowseNfts({ competitionId, onSuccess }: Props) {
                 style={{
                   position: 'relative',
                 }}
-                className="aspect-square w-full bg-black rounded-lg h-full flex items-center justify-center bg-black/100 nft-card"
-              >
+                className="aspect-square w-full bg-black rounded-lg h-full flex items-center justify-center bg-black/100 nft-card">
                 <img
                   src={nft.image_url}
                   className="object-contain image"
@@ -132,8 +125,7 @@ export default function BrowseNfts({ competitionId, onSuccess }: Props) {
                       color: '#33A7FF',
                       bg: '#000',
                     }}
-                    onClick={() => onSelect(nft.identifier)}
-                  >
+                    onClick={() => onSelect(nft.identifier)}>
                     Select
                   </Button>
                 </span>
@@ -142,11 +134,7 @@ export default function BrowseNfts({ competitionId, onSuccess }: Props) {
           ))}
         </Flex>
         {!!myNfts?.data?.length && (
-          <Pagination
-            totalPages={myNfts?.total_pages ?? 1}
-            page={page}
-            setPage={setPage}
-          />
+          <Pagination totalPages={myNfts?.total_pages ?? 1} page={page} setPage={setPage} />
         )}
       </Flex>
       <style jsx global>{`
@@ -160,6 +148,10 @@ export default function BrowseNfts({ competitionId, onSuccess }: Props) {
 
         .nft-card:hover .image {
           filter: blur(2px);
+        }
+
+        .nft-card:hover {
+          border: 1px solid #33a7ff;
         }
       `}</style>
     </>
