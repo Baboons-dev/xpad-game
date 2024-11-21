@@ -3,6 +3,7 @@ import { Flex, Modal } from 'antd';
 import { Box, Text } from '@chakra-ui/react';
 import BackArrowIcon from '@/icons/ArrowBack';
 import BrowseNfts from '@/components/LayerX/BrowseNfts';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   competitionId: number;
@@ -13,6 +14,7 @@ interface Props {
 type ParticipateType = 'Browse NFTs' | 'Mint NFT';
 
 export default function ParticipateModal(props: Props) {
+  const router = useRouter();
   const { competitionId, handleClose, onSuccess } = props;
   const [type, setType] = useState<ParticipateType>();
 
@@ -36,8 +38,6 @@ export default function ParticipateModal(props: Props) {
       className={'modal'}>
       {type === 'Browse NFTs' ? (
         <BrowseNfts competitionId={competitionId} onSuccess={onSuccess} />
-      ) : type === 'Mint NFT' ? (
-        <></>
       ) : (
         <Flex gap={12} style={{ paddingTop: 12 }}>
           {['Browse NFTs', 'Mint NFT'].map((item: ParticipateType) => (
@@ -59,7 +59,13 @@ export default function ParticipateModal(props: Props) {
                 color: '#33A7FF',
               }}
               cursor={'pointer'}
-              onClick={() => setType(item)}>
+              onClick={() => {
+                if (type === 'Browse NFTs') setType(item);
+                else {
+                  handleClose();
+                  router.push('/layerx/mint');
+                }
+              }}>
               <Text fontWeight={500} fontFamily="Plus Jakarta Sans">
                 {item}
               </Text>
