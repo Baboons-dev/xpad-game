@@ -45,9 +45,7 @@ export default function MyNFTs() {
   if (!user) {
     return (
       <div className="text-center py-8">
-        <p className="text-white/60">
-          Please connect your wallet to view your NFTs
-        </p>
+        <p className="text-white/60">Please connect your wallet to view your NFTs</p>
       </div>
     );
   }
@@ -60,7 +58,9 @@ export default function MyNFTs() {
         </div>
       ) : myNfts?.data?.length ? (
         <>
-          {myNfts?.data?.map((nft) => <NFTCard key={nft.id} nft={nft} />)}
+          {myNfts?.data?.map((nft) => (
+            <NFTCard key={nft.id} nft={nft} setAllNfts={setMyNfts} fetchAllNfts={fetchNfts} />
+          ))}
           {myNfts?.data?.length ? (
             <Pagination
               totalPages={myNfts?.total_pages ?? 1}

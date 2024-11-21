@@ -103,6 +103,7 @@ export interface AllNftsResponseData {
   owner: OwnerObject;
   transaction: string;
   votes?: string;
+  is_favorite?: boolean;
 }
 
 export interface OwnerObject {

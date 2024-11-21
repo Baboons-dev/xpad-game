@@ -39,7 +39,7 @@ export default function FeaturedNFTs() {
       ) : allNfts && allNfts?.data?.length > 0 ? (
         <>
           {allNfts?.data?.map((nft) => (
-            <NFTCard key={nft.id} nft={nft} />
+            <NFTCard key={nft.id} nft={nft} setAllNfts={setAllNfts} fetchAllNfts={fetchAllNfts} />
           ))}
           {allNfts?.data?.length ? (
             <Pagination

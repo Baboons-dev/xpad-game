@@ -109,3 +109,18 @@ export const addNftToFavorite = async (nftId: string) => {
     return Promise.reject(err);
   }
 };
+
+export const getNftDetails = async (tokenId: string): Promise<NftDetailsType> => {
+  try {
+    const endPoint = `/api/nfts/details`;
+    const res = await axios.get(endPoint, {
+      params: {
+        token_id: tokenId,
+      },
+    });
+    if (!res?.data) throw 'Something went wrong GetUser';
+    return res.data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
