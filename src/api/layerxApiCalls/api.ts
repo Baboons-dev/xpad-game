@@ -5,16 +5,14 @@ import {
 } from '@/types/type';
 import axios from 'axios';
 
-const SERVER_URL =
-  process.env.REACT_APP_API_HOST || 'https://api.layerx.baboons.tech';
+const SERVER_URL = process.env.REACT_APP_API_HOST || 'https://api.layerx.baboons.tech';
 
 const accessToken =
-  localStorage.getItem('token') ??
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ3YWxsZXRfYWRkcmVzcyI6IjB4Nzg2ODkzM2EzNkZiNzc3MWY1ZDg3YzY1ODU3RjYzQzkyNjRkMjhhNCIsImV4cCI6MTc2MTU2NDMzOH0.BAPtuO7RVVUVDKAzG7WBi6NybfF2MtmtOCLakF8DCNQ';
 
 export const addVoteToCompetingNfts = async (
   id: number,
-  data: VoteToCompetition,
+  data: VoteToCompetition
   //   accessToken: string,
 ): Promise<VoteToCompetitionResponse> => {
   try {
@@ -33,8 +31,7 @@ export const addVoteToCompetingNfts = async (
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    if (!res?.data)
-      throw 'Something went wrong while adding NFT to competition';
+    if (!res?.data) throw 'Something went wrong while adding NFT to competition';
     return res.data;
   } catch (err) {
     return Promise.reject(err);
@@ -42,7 +39,7 @@ export const addVoteToCompetingNfts = async (
 };
 
 export const getCompetitionDetails = async (
-  id: number,
+  id: number
   //   accessToken: string,
 ): Promise<any> => {
   try {
@@ -70,7 +67,7 @@ export const getCompetitionDetails = async (
 
 export const removeVoteFromCompetingNfts = async (
   id: number,
-  data: VoteToCompetition,
+  data: VoteToCompetition
   //   accessToken: string,
 ): Promise<VoteToCompetitionResponse> => {
   try {
@@ -89,8 +86,7 @@ export const removeVoteFromCompetingNfts = async (
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    if (!res?.data)
-      throw 'Something went wrong while adding NFT to competition';
+    if (!res?.data) throw 'Something went wrong while adding NFT to competition';
     return res.data;
   } catch (err) {
     return Promise.reject(err);
@@ -110,7 +106,7 @@ export const twitterSaveLayerX = async (payload: any): Promise<any> => {
 export const fetchMyNfts = async (
   page: number,
   take: number,
-  walletAddress: string,
+  walletAddress: string
 ): Promise<any> => {
   try {
     const endPoint = `${SERVER_URL}/api/nfts/?page=${page}&per_page=${take}`;
@@ -128,22 +124,23 @@ export const fetchMyNfts = async (
 
 export const addNftToCompetition = async (
   competitionId: number,
-  nftId: string,
+  nftId: string
 ): Promise<AddNftToCompetitionResponse> => {
   try {
     const endPoint = `${SERVER_URL}/api/nfts/competitions/${competitionId}/add-nft/`;
+
+    const token = localStorage.getItem('token');
     const res = await axios.post(
       endPoint,
       { token_id: nftId },
       {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${token}`,
         },
-      },
+      }
     );
-    if (!res?.data)
-      throw 'Something went wrong while adding NFT to competition';
+    if (!res?.data) throw 'Something went wrong while adding NFT to competition';
     return res.data;
   } catch (err) {
     return Promise.reject(err);
