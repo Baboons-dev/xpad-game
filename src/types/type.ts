@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 export interface ITelegramUser {
   id: number;
@@ -54,6 +54,7 @@ export interface IWebApp {
   };
   HapticFeedback: any;
 }
+
 // export interface User {
 //   id: string;
 //   firstName: string;
@@ -78,6 +79,7 @@ export interface User {
   attack: number;
   defense: number;
 }
+
 export interface AllNftsResponse {
   data: AllNftsResponseData[];
   page: string;
@@ -218,4 +220,8 @@ export interface LeaderBoardApiResponse {
   vote_count: number;
   wallet_address: string;
   owner: OwnerObject;
+}
+
+export interface AddNftToCompetitionResponse {
+  message: string;
 }

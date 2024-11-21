@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { Box, Text, useToast } from "@chakra-ui/react";
-import { useStore } from "@/store";
-import { MyCompetitionResponse } from "@/types/type";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { CompetitionCard } from "./CompetitionCard";
-import Pagination from "../common/Pagination";
+import { Box, Text, useToast } from '@chakra-ui/react';
+import { useStore } from '@/store';
+import { MyCompetitionResponse } from '@/types/type';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { CompetitionCard } from './CompetitionCard';
+import Pagination from '../common/Pagination';
 
 export default function MyCompetitions() {
   const user = useStore((state) => state.user);
@@ -30,9 +30,9 @@ export default function MyCompetitions() {
     } catch (error: any) {
       setLoading(false);
       toast({
-        title: "Something went wrong while fetching competition",
+        title: 'Something went wrong while fetching competition',
         description: error.message,
-        status: "error",
+        status: 'error',
         duration: 3000,
         isClosable: true,
       });
@@ -54,25 +54,6 @@ export default function MyCompetitions() {
     );
   }
 
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const onPaginationitemClick = (pageToFetch: number) => {
-    setCurrentPage(pageToFetch);
-  };
-
-  const handleNextPage = () => {
-    if (
-      myCompetitionList?.total_pages &&
-      currentPage < myCompetitionList?.total_pages
-    ) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
   return (
     <>
       {myCompetitionList && myCompetitionList?.data.length > 0 ? (
@@ -82,11 +63,9 @@ export default function MyCompetitions() {
           ))}
           {myCompetitionList?.total_pages && (
             <Pagination
-              handlePreviousPage={handlePrevPage}
-              totalPages={myCompetitionList?.total_pages}
-              currentPage={currentPage}
-              onPaginationitemClick={onPaginationitemClick}
-              handleNextPage={handleNextPage}
+              totalPages={myCompetitionList?.total_pages ?? 1}
+              page={currentPage}
+              setPage={setCurrentPage}
             />
           )}
         </>

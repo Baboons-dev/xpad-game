@@ -93,6 +93,25 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       {user && accessToken && <MobileNav />}
       {/* <MobileNav /> */}
       {/* {user && accessToken && <MobileNav />} */}
+      <style jsx global>{`
+        .modal .ant-modal-content {
+          background: #191916;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal .ant-modal-header {
+          background: #191916;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal .ant-modal-close {
+          color: rgba(255, 255, 255, 0.45);
+        }
+
+        .modal .ant-modal-close:hover {
+          color: rgba(255, 255, 255, 0.75);
+        }
+      `}</style>
     </Box>
   );
 }

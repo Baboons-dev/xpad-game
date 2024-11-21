@@ -1,20 +1,23 @@
-"use client";
-import { CompetitionObject } from "@/types/type";
-import { isAfter, parseISO, isBefore } from "date-fns";
-import { Users, Vote } from "lucide-react";
-import Countdown from "../common/Countdown";
-import { Box, Button, Text } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+'use client';
+import { CompetitionObject } from '@/types/type';
+import { isAfter, parseISO, isBefore } from 'date-fns';
+import { Users, Vote } from 'lucide-react';
+import Countdown from '../common/Countdown';
+import { Box, Button, Text } from '@chakra-ui/react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import ParticipateModal from '@/components/LayerX/ParticipateModal';
 
 export function CompetitionCard({
   competition,
 }: {
   competition: CompetitionObject;
 }) {
-  console.log("competition", competition);
+  const [participate, setParticipate] = useState(false);
+  console.log('competition', competition);
   const router = useRouter();
 
-  const onCompetitionClick = (competition: CompetitionObject) => {
+  const onCompetitionClick = () => {
     router.push(`/layerx/competitions/${competition?.id}`);
   };
 
@@ -74,18 +77,19 @@ export function CompetitionCard({
           <Text color="#8C8C8C" fontSize="14px" fontFamily="Plus Jakarta Sans">
             {competition &&
             isAfter(parseISO(competition?.participation_starts), new Date())
-              ? "Opens in " // Announced Stage (before participation starts)
+              ? 'Opens in ' // Announced Stage (before participation starts)
               : isAfter(
-                  new Date(),
-                  parseISO(competition?.participation_starts),
-                ) && isBefore(new Date(), parseISO(competition?.voting_starts))
-              ? "Entries close in" // Participation Phase (after participation starts and before voting starts)
-              : isAfter(new Date(), parseISO(competition?.voting_starts)) &&
-                isBefore(new Date(), parseISO(competition?.voting_ends))
-              ? "Voting ends in" // Voting Phase (after voting starts and before voting ends)
-              : isAfter(new Date(), parseISO(competition?.voting_ends))
-              ? "Closed" // Competition Closed Stage (after voting ends)
-              : ""}
+                    new Date(),
+                    parseISO(competition?.participation_starts),
+                  ) &&
+                  isBefore(new Date(), parseISO(competition?.voting_starts))
+                ? 'Entries close in' // Participation Phase (after participation starts and before voting starts)
+                : isAfter(new Date(), parseISO(competition?.voting_starts)) &&
+                    isBefore(new Date(), parseISO(competition?.voting_ends))
+                  ? 'Voting ends in' // Voting Phase (after voting starts and before voting ends)
+                  : isAfter(new Date(), parseISO(competition?.voting_ends))
+                    ? 'Closed' // Competition Closed Stage (after voting ends)
+                    : ''}
           </Text>
           <Text color="#33A7FF" fontSize="14px" fontFamily="Plus Jakarta Sans">
             {isAfter(
@@ -103,7 +107,7 @@ export function CompetitionCard({
               isBefore(new Date(), parseISO(competition?.voting_ends)) ? (
               <Countdown endDateString={competition?.voting_ends} />
             ) : (
-              isAfter(new Date(), parseISO(competition?.voting_ends)) && ""
+              isAfter(new Date(), parseISO(competition?.voting_ends)) && ''
             )}
           </Text>
         </Box>
@@ -116,13 +120,13 @@ export function CompetitionCard({
               border="1px solid #33A7FF"
               color="#33A7FF"
               backgroundColor="transparent"
-              fontSize={["16px", "16px", "16px"]}
+              fontSize={['16px', '16px', '16px']}
               fontWeight="600"
               _hover={{
-                color: "black",
-                bg: "#fff",
+                color: 'black',
+                bg: '#fff',
               }}
-              onClick={() => onCompetitionClick(competition)}
+              onClick={onCompetitionClick}
             >
               View
             </Button>
@@ -132,11 +136,11 @@ export function CompetitionCard({
               border="1px solid #33A7FF"
               color="#33A7FF"
               backgroundColor="transparent"
-              fontSize={["16px", "16px", "16px"]}
+              fontSize={['16px', '16px', '16px']}
               fontWeight="600"
               _hover={{
-                color: "black",
-                bg: "#fff",
+                color: 'black',
+                bg: '#fff',
               }}
               // onClick={(event) => {
               //   competition.is_subscribed
@@ -145,7 +149,7 @@ export function CompetitionCard({
               //   event.stopPropagation();
               // }}
             >
-              {competition.is_subscribed ? "Unsubscribe" : " Get notified"}
+              {competition.is_subscribed ? 'Unsubscribe' : ' Get notified'}
             </Button>
           </Box>
         ) : isAfter(new Date(), parseISO(competition?.participation_starts)) &&
@@ -157,13 +161,13 @@ export function CompetitionCard({
               border="1px solid #33A7FF"
               color="#33A7FF"
               backgroundColor="transparent"
-              fontSize={["16px", "16px", "16px"]}
+              fontSize={['16px', '16px', '16px']}
               fontWeight="600"
               _hover={{
-                color: "black",
-                bg: "#fff",
+                color: 'black',
+                bg: '#fff',
               }}
-              // onClick={() => onParticipateClick(competition)}
+              onClick={() => setParticipate(true)}
             >
               Participate
             </Button>
@@ -173,13 +177,13 @@ export function CompetitionCard({
               border="1px solid #33A7FF"
               color="#33A7FF"
               backgroundColor="transparent"
-              fontSize={["16px", "16px", "16px"]}
+              fontSize={['16px', '16px', '16px']}
               fontWeight="600"
               _hover={{
-                color: "black",
-                bg: "#fff",
+                color: 'black',
+                bg: '#fff',
               }}
-              onClick={() => onCompetitionClick(competition)}
+              onClick={onCompetitionClick}
             >
               Open
             </Button>
@@ -193,13 +197,13 @@ export function CompetitionCard({
               border="1px solid #33A7FF"
               color="#33A7FF"
               backgroundColor="transparent"
-              fontSize={["16px", "16px", "16px"]}
+              fontSize={['16px', '16px', '16px']}
               fontWeight="600"
               _hover={{
-                color: "black",
-                bg: "#fff",
+                color: 'black',
+                bg: '#fff',
               }}
-              onClick={() => onCompetitionClick(competition)}
+              onClick={onCompetitionClick}
             >
               Open & Vote
             </Button>
@@ -213,13 +217,13 @@ export function CompetitionCard({
                 border="1px solid #33A7FF"
                 color="#33A7FF"
                 backgroundColor="transparent"
-                fontSize={["16px", "16px", "16px"]}
+                fontSize={['16px', '16px', '16px']}
                 fontWeight="600"
                 _hover={{
-                  color: "black",
-                  bg: "#fff",
+                  color: 'black',
+                  bg: '#fff',
                 }}
-                onClick={() => onCompetitionClick(competition)}
+                onClick={onCompetitionClick}
               >
                 View
               </Button>
@@ -227,6 +231,16 @@ export function CompetitionCard({
           )
         )}
       </Box>
+      {participate && (
+        <ParticipateModal
+          competitionId={competition.id}
+          onSuccess={() => {
+            onCompetitionClick();
+            setParticipate(false);
+          }}
+          handleClose={() => setParticipate(false)}
+        />
+      )}
     </Box>
   );
 }

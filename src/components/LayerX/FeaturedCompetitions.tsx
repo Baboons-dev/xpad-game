@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { Box, useToast } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { CompetitionResponse } from "@/types/type";
-import Pagination from "../common/Pagination";
-import { CompetitionCard } from "./CompetitionCard";
+import { Box, useToast } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { CompetitionResponse } from '@/types/type';
+import Pagination from '../common/Pagination';
+import { CompetitionCard } from './CompetitionCard';
 
 export default function FeaturedCompetitions() {
   const toast = useToast();
@@ -25,9 +25,9 @@ export default function FeaturedCompetitions() {
     } catch (error: any) {
       setLoading(false);
       toast({
-        title: "Something went wrong while fetching competition",
+        title: 'Something went wrong while fetching competition',
         description: error.message,
-        status: "error",
+        status: 'error',
         duration: 3000,
         isClosable: true,
       });
@@ -38,25 +38,6 @@ export default function FeaturedCompetitions() {
     fetchAllCompetitions(currentPage, 9);
   }, []);
 
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const onPaginationitemClick = (pageToFetch: number) => {
-    setCurrentPage(pageToFetch);
-  };
-
-  const handleNextPage = () => {
-    if (
-      competitionList?.total_pages &&
-      currentPage < competitionList?.total_pages
-    ) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
   return (
     <Box className="space-y-4 pb-20">
       {competitionList &&
@@ -65,11 +46,9 @@ export default function FeaturedCompetitions() {
         ))}
       {competitionList?.total_pages && (
         <Pagination
-          handlePreviousPage={handlePrevPage}
-          totalPages={competitionList?.total_pages}
-          currentPage={currentPage}
-          onPaginationitemClick={onPaginationitemClick}
-          handleNextPage={handleNextPage}
+          totalPages={competitionList?.total_pages ?? 1}
+          page={currentPage}
+          setPage={setCurrentPage}
         />
       )}
     </Box>

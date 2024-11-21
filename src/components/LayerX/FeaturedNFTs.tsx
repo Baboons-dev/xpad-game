@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { Heart, Share2 } from "lucide-react";
-import axios from "axios";
-import { Avatar, Spin } from "antd";
-import { useEffect, useState } from "react";
-import { AllNftsResponse, AllNftsResponseData } from "@/types/type";
-import Pagination from "../common/Pagination";
+import { Heart, Share2 } from 'lucide-react';
+import axios from 'axios';
+import { Avatar, Spin } from 'antd';
+import { useEffect, useState } from 'react';
+import { AllNftsResponse, AllNftsResponseData } from '@/types/type';
+import Pagination from '../common/Pagination';
 
 interface NftCardProps {
   nft: AllNftsResponseData;
@@ -76,24 +76,6 @@ export default function FeaturedNFTs() {
     fetchAllNfts(1, 9);
   }, []);
 
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (allNfts?.total_pages && currentPage < allNfts?.total_pages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const onPaginationItemClick = (pageToFetch: number) => {
-    setCurrentPage(pageToFetch);
-  };
-
-  console.log("allNfts", allNfts);
-
   return (
     <div className="space-y-4">
       {loading ? (
@@ -102,16 +84,12 @@ export default function FeaturedNFTs() {
         </div>
       ) : allNfts && allNfts?.data?.length > 0 ? (
         <>
-          {allNfts?.data?.map((nft) => (
-            <NFTCard key={nft.id} nft={nft} />
-          ))}
+          {allNfts?.data?.map((nft) => <NFTCard key={nft.id} nft={nft} />)}
           {allNfts?.data?.length ? (
             <Pagination
-              handlePreviousPage={handlePrevPage}
-              totalPages={allNfts?.total_pages}
-              currentPage={currentPage}
-              onPaginationitemClick={onPaginationItemClick}
-              handleNextPage={handleNextPage}
+              totalPages={allNfts?.total_pages ?? 1}
+              page={currentPage}
+              setPage={setCurrentPage}
             />
           ) : null}
         </>
