@@ -171,7 +171,7 @@ export default function Authenticate() {
                   cursor="pointer"
                   fontFamily="Plus Jakarta Sans"
                 >
-                  {twUrl ? "Continue" : "Login using X"}
+                  Login using X
                 </Text>
               </Box>
             </Box>
