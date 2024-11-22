@@ -122,12 +122,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }, [user, telegram_user, accessToken, fistTime]);
 
-  // useEffect(() => {
-  //     console.log(searchParams.toString());
-  //     if (!user && !accessToken) {
-  //         router.push('/authenticate?' + searchParams.toString());
-  //     }
-  // }, [user, fistTime]);
+  useEffect(() => {
+      console.log(searchParams.toString());
+      if (!user && !accessToken) {
+          router.push('/authenticate?' + searchParams.toString());
+      }
+  }, [user, fistTime]);
 
   console.log('user', user, accessToken);
 
