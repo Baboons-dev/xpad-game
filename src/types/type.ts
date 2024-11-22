@@ -96,7 +96,7 @@ export interface User {
 }
 
 export interface AllNftsResponse {
-  data: AllNftsResponseData[];
+  results: AllNftsResponseData[];
   page: string;
   records_per_page: string;
   total_count: number;

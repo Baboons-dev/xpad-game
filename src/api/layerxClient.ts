@@ -38,7 +38,6 @@ instance.interceptors.response.use(
     const originalConfig = err?.config;
     if (originalConfig?.url === '/api/current/' && err.response) {
       //todo --> refresh the refresh token
-      console.log('refresh token expired');
       return Promise.reject(err);
     }
     console.log(err?.response);

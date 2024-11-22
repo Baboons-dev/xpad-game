@@ -94,9 +94,9 @@ export default function FavoriteNfts({ activeTab }: { activeTab: string }) {
         <div className="flex items-center justify-center w-full min-h-[200px]">
           <Spin />
         </div>
-      ) : favNfts?.data?.length ? (
+      ) : favNfts?.results?.length ? (
         <>
-          {favNfts?.data?.map((nft) => (
+          {favNfts?.results?.map((nft) => (
             <div className="bg-black border border-[#33A7FF]/10 rounded-xl overflow-hidden">
               <div className="aspect-square w-full bg-black">
                 <div className="w-full h-full flex items-center justify-center bg-black/100">
@@ -143,7 +143,7 @@ export default function FavoriteNfts({ activeTab }: { activeTab: string }) {
               </div>
             </div>
           ))}
-          {favNfts?.data.length ? (
+          {favNfts?.results.length ? (
             <Pagination
               totalPages={favNfts?.total_pages ?? 1}
               page={currentPage}

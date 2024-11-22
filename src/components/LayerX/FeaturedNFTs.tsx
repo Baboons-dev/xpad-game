@@ -35,12 +35,12 @@ export default function FeaturedNFTs({ activeTab }: { activeTab: string }) {
         <div className="flex items-center justify-center w-full min-h-[200px]">
           <Spin />
         </div>
-      ) : allNfts && allNfts?.data?.length > 0 ? (
+      ) : allNfts && allNfts?.results?.length > 0 ? (
         <>
-          {allNfts?.data?.map((nft) => (
+          {allNfts?.results?.map((nft) => (
             <NFTCard key={nft.id} nft={nft} setAllNfts={setAllNfts} fetchAllNfts={fetchAllNfts} />
           ))}
-          {allNfts?.data?.length ? (
+          {allNfts?.results?.length ? (
             <Pagination
               totalPages={allNfts?.total_pages}
               page={currentPage}

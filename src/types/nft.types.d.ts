@@ -57,7 +57,7 @@ declare interface NftType {
 }
 
 declare interface AllNftsResponse {
-  data: AllNftsResponseData[];
+  results: AllNftsResponseData[];
   page: string;
   records_per_page: string;
   total_count: number;
@@ -65,7 +65,7 @@ declare interface AllNftsResponse {
 }
 
 declare interface AllFavNftsResponse {
-  data: FavoriteNftResponse[];
+  results: FavoriteNftResponse[];
   current_page: string;
   count: number;
   total_pages: number;

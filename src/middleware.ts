@@ -1,16 +1,14 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
-  console.log("request");
+  console.log('request');
   //   const token =
   //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMDQsIndhbGxldF9hZGRyZXNzIjoiMHg3ODY4OTMzYTM2ZmI3NzcxZjVkODdjNjU4NTdmNjNjOTI2NGQyOGE0IiwiZW1haWwiOiIiLCJleHAiOjE3NjMyMTEzMTN9.HzdwFGmV33y2PQEH9_jeRd69wLEL-HRBhNuFpkCAyHM";
-  const token = request.cookies.get("token")?.value;
+  const token = request.cookies.get('token')?.value;
   const { pathname } = request.nextUrl;
-  console.log("token", token);
-  console.log("pathname", pathname);
 
   // List of public paths that don't require authentication
-  const publicPaths = ["/authenticate"];
+  const publicPaths = ['/authenticate'];
 
   //   // Check if the current path is public
   //   const isPublicPath = publicPaths.some((path) => pathname.startsWith(path));
@@ -43,6 +41,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public files (public/*)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|public).*)",
+    '/((?!api|_next/static|_next/image|favicon.ico|public).*)',
   ],
 };

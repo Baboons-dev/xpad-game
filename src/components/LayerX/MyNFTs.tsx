@@ -56,12 +56,12 @@ export default function MyNFTs({ activeTab }: { activeTab: string }) {
         <div className="flex items-center justify-center w-full min-h-[200px]">
           <Spin />
         </div>
-      ) : myNfts?.data?.length ? (
+      ) : myNfts?.results?.length ? (
         <>
-          {myNfts?.data?.map((nft) => (
+          {myNfts?.results?.map((nft) => (
             <NFTCard key={nft.id} nft={nft} setAllNfts={setMyNfts} fetchAllNfts={fetchNfts} />
           ))}
-          {myNfts?.data?.length ? (
+          {myNfts?.results?.length ? (
             <Pagination
               totalPages={myNfts?.total_pages ?? 1}
               page={currentPage}
