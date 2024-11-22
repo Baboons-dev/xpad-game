@@ -1,8 +1,8 @@
-import { TopNfts } from "@/types/type";
-import { Box, Button, Image, Text, Icon } from "@chakra-ui/react";
-import ProfilePicture from "../../assets/profilePicture.png";
-import { Spin } from "antd";
-import React from "react";
+import { TopNfts } from '@/types/type';
+import { Box, Button, Image, Text, Icon } from '@chakra-ui/react';
+import ProfilePicture from '../../assets/profilePicture.png';
+import { Spin } from 'antd';
+import React from 'react';
 
 interface TopPlayersProps {
   topNfts: TopNfts[];
@@ -11,6 +11,8 @@ interface TopPlayersProps {
 
 export default function TopPlayers(props: TopPlayersProps) {
   const { topNfts, loading } = props;
+
+  console.log('topNfts', topNfts);
   return (
     <>
       {loading ? (
@@ -23,20 +25,18 @@ export default function TopPlayers(props: TopPlayersProps) {
         <>
           <Box
             display="flex"
-            flexDirection={["column", "column", "row"]}
+            flexDirection={['column', 'column', 'row']}
             gap="24px"
-            marginTop="24px"
-          >
+            marginTop="24px">
             {topNfts.map((player: any, i: any) => (
               <Box
                 borderRadius="12px"
                 border="1px solid rgba(255, 255, 255, 0.10)"
                 background="#191916"
-                width={["100%", "100%", "33%"]}
+                width={['100%', '100%', '33%']}
                 padding="16px"
                 key={i}
-                position="relative"
-              >
+                position="relative">
                 {/* <Box position="absolute" top="-30px" right=" 14px">
                   <Icon as={icons[i % icons.length]} />
                 </Box> */}
@@ -44,8 +44,7 @@ export default function TopPlayers(props: TopPlayersProps) {
                   borderRadius="12px"
                   objectFit="cover"
                   overflow="auto"
-                  width="-webkit-fill-available"
-                >
+                  width="-webkit-fill-available">
                   <Image
                     maxHeight="214px"
                     height="214px"
@@ -56,19 +55,9 @@ export default function TopPlayers(props: TopPlayersProps) {
                   />
                 </Box>
 
-                <Box
-                  marginTop="28px"
-                  display="flex"
-                  gap="6px"
-                  alignItems="center"
-                >
+                <Box marginTop="28px" display="flex" gap="6px" alignItems="center">
                   {player?.owner?.profile_picture ? (
-                    <Box
-                      width="40px"
-                      height="40px"
-                      borderRadius="50%"
-                      marginRight="4px"
-                    >
+                    <Box width="40px" height="40px" borderRadius="50%" marginRight="4px">
                       <Image
                         src={player?.owner?.profile_picture}
                         objectFit="cover"
@@ -102,22 +91,13 @@ export default function TopPlayers(props: TopPlayersProps) {
                       {player?.owner?.twitter_username}
                     </Text>
                   ) : (
-                    <Text
-                      color=" rgba(255, 255, 255, 0.10)"
-                      fontSize="14px"
-                      fontWeight="600"
-                    >
+                    <Text color=" rgba(255, 255, 255, 0.10)" fontSize="14px" fontWeight="600">
                       Anonymous
                     </Text>
                   )}
                   {/* <VerifiedLogo /> */}
                 </Box>
-                <Box
-                  marginTop="14px"
-                  display="flex"
-                  gap="16px"
-                  alignItems="center"
-                >
+                <Box marginTop="14px" display="flex" gap="16px" alignItems="center">
                   <Box
                     padding="0px 24px"
                     borderRadius="15px"
@@ -127,9 +107,8 @@ export default function TopPlayers(props: TopPlayersProps) {
                     alignItems="center"
                     display="flex"
                     style={{
-                      aspectRatio: "1",
-                    }}
-                  >
+                      aspectRatio: '1',
+                    }}>
                     <Text
                       color=" #FFF"
                       textAlign="center"
@@ -137,8 +116,7 @@ export default function TopPlayers(props: TopPlayersProps) {
                       fontSize="36px"
                       fontStyle="normal"
                       fontWeight="700"
-                      lineHeight="normal"
-                    >
+                      lineHeight="normal">
                       {i + 1}
                     </Text>
                   </Box>
@@ -151,15 +129,13 @@ export default function TopPlayers(props: TopPlayersProps) {
                     borderRadius="15px"
                     background=" rgba(255, 255, 255, 0.05)"
                     justifyContent="center"
-                    alignItems="center"
-                  >
+                    alignItems="center">
                     <Box
                       display="flex"
                       flexDirection="row"
                       justifyContent="center"
                       alignItems="center"
-                      gap="3px"
-                    >
+                      gap="3px">
                       {/* <VotesIcon color={"#FFFFFF"} /> */}
                       <Text
                         color="#FFF"
@@ -168,8 +144,7 @@ export default function TopPlayers(props: TopPlayersProps) {
                         fontSize="16px"
                         fontStyle="normal"
                         fontWeight="600"
-                        lineHeight="normal"
-                      >
+                        lineHeight="normal">
                         Votes
                       </Text>
                     </Box>
@@ -180,8 +155,7 @@ export default function TopPlayers(props: TopPlayersProps) {
                       fontSize="24px"
                       fontStyle="normal"
                       fontWeight="600"
-                      lineHeight="normal"
-                    >
+                      lineHeight="normal">
                       {player?.votes && player?.votes}
                     </Text>
                   </Box>

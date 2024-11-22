@@ -17,6 +17,7 @@ import TopPlayers from '@/components/LayerX/TopPlayers';
 import CompetingNfts from '@/components/LayerX/CompetingNfts';
 import LeaderBoard from '@/components/LayerX/LeaderBoard';
 import CompetitionComments from '@/components/LayerX/CompetitionComments';
+import { getCompetitionDetails } from '@/api/layerxApiCalls/api';
 
 interface TimeTextProps {
   text: string;
@@ -40,11 +41,9 @@ export default function CompetitionDetailPage() {
   const fetchCompetitionById = async (competitionId: string) => {
     try {
       setLoading(true);
-      const res = await axios.get<CompetitionObject>(
-        `https://api.layerx.baboons.tech/api/nfts/competitions/${competitionId}`
-      );
+      const res = await getCompetitionDetails(Number(competitionId));
       console.log('ress', res);
-      res?.data && setCompetitionDetails(res?.data);
+      res && setCompetitionDetails(res);
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
@@ -78,6 +77,8 @@ export default function CompetitionDetailPage() {
       </Text>
     );
   };
+
+  console.log('competitionDetails?.top_nfts', competitionDetails?.top_nfts);
 
   return (
     <Box w="100%" display="flex" flexDirection="column" minHeight="100vh" pb="80px">
@@ -215,35 +216,80 @@ export default function CompetitionDetailPage() {
             </Box>
           </Box>
 
-          {/* Top Players */}
           <Box mb={6}>
-            <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
-              <Text color="white" fontSize="18px" fontWeight="700" fontFamily="Plus Jakarta Sans">
-                Top Players
-              </Text>
-              <Button
-                type="text"
-                onClick={() => setIsLeaderboardOpen(true)}
-                className="text-[#33A7FF]  flex items-center gap-1 p-0">
-                View All
-                <ChevronRight size={16} />
-              </Button>
-            </Box>
             <Box className="space-y-3">
               {competitionDetails?.top_nfts && (
                 <>
                   {isAfter(parseISO(competitionDetails?.participation_starts), new Date()) ? (
-                    <TopPlayers topNfts={competitionDetails?.top_nfts} loading={loading} />
+                    <>
+                      <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+                        <Text
+                          color="white"
+                          fontSize="18px"
+                          fontWeight="700"
+                          fontFamily="Plus Jakarta Sans">
+                          Top Players
+                        </Text>
+                        <Button
+                          type="text"
+                          onClick={() => setIsLeaderboardOpen(true)}
+                          className="text-[#33A7FF]  flex items-center gap-1 p-0">
+                          View All
+                          <ChevronRight size={16} />
+                        </Button>
+                      </Box>
+                      <TopPlayers topNfts={competitionDetails?.top_nfts} loading={loading} />
+                    </>
                   ) : isAfter(new Date(), parseISO(competitionDetails?.participation_starts)) &&
                     isBefore(
                       new Date(),
                       parseISO(competitionDetails?.voting_starts)
                     ) ? null : isAfter(new Date(), parseISO(competitionDetails?.voting_starts)) &&
                     isBefore(new Date(), parseISO(competitionDetails?.voting_ends)) ? (
-                    <TopPlayers topNfts={competitionDetails?.top_nfts} loading={loading} />
+                    <>
+                      <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+                        <Text
+                          color="white"
+                          fontSize="18px"
+                          fontWeight="700"
+                          fontFamily="Plus Jakarta Sans">
+                          Top Players
+                        </Text>
+                        <Button
+                          type="text"
+                          onClick={() => setIsLeaderboardOpen(true)}
+                          className="text-[#33A7FF]  flex items-center gap-1 p-0">
+                          View All
+                          <ChevronRight size={16} />
+                        </Button>
+                      </Box>
+                      <TopPlayers topNfts={competitionDetails?.top_nfts} loading={loading} />
+                    </>
                   ) : (
                     isAfter(new Date(), parseISO(competitionDetails?.voting_ends)) && (
-                      <TopPlayers topNfts={competitionDetails?.top_nfts} loading={loading} />
+                      <>
+                        <Box
+                          display="flex"
+                          justifyContent="space-between"
+                          alignItems="center"
+                          mb={4}>
+                          <Text
+                            color="white"
+                            fontSize="18px"
+                            fontWeight="700"
+                            fontFamily="Plus Jakarta Sans">
+                            Top Players
+                          </Text>
+                          <Button
+                            type="text"
+                            onClick={() => setIsLeaderboardOpen(true)}
+                            className="text-[#33A7FF]  flex items-center gap-1 p-0">
+                            View All
+                            <ChevronRight size={16} />
+                          </Button>
+                        </Box>
+                        <TopPlayers topNfts={competitionDetails?.top_nfts} loading={loading} />
+                      </>
                     )
                   )}
                 </>

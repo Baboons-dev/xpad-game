@@ -9,18 +9,22 @@ import {
 } from '@/api/layerxApiCalls/api';
 import { AllNftsResponseData, CompetitionObject } from '@/types/type';
 import { Box, Button, useToast, Text } from '@chakra-ui/react';
-import { Avatar, Spin } from 'antd';
+import { Avatar, Divider, Spin } from 'antd';
 import { Heart, Share2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import VotesIcon from '@/icons/Votes';
 import HeartFilledIcon from '@/icons/HeartFilledIcon';
 import HeartIcon from '@/icons/HeartcIcon';
 import { useState } from 'react';
+import { isAfter, isBefore, parseISO } from 'date-fns';
+import { useStore } from '@/store';
 
 interface NFTCardProps {
   nft: AllNftsResponseData;
   singleCompetitionPage?: boolean;
   loading?: boolean;
+  votingStarts?: string;
+  votingEnds?: string;
   setAllNfts?: (allNfts: AllNftsResponse | null) => void;
   setLoading?: (loading: boolean) => void;
   setCompetitionDetails?: (competition: CompetitionObject) => void;
@@ -35,11 +39,14 @@ export default function NFTCard({
   setCompetitionDetails,
   setAllNfts,
   fetchAllNfts,
+  votingEnds,
+  votingStarts,
 }: NFTCardProps) {
   const [nftLoading, setNftLoading] = useState(false);
   const toast = useToast();
   const params = useParams();
   const selectedCompetitionId = params.id; // Extracts the 'id' from the dynamic
+  const user = useStore((state) => state.user);
 
   const onAddToFavClick = async (nftDetail: AllNftsResponseData) => {
     try {
@@ -47,10 +54,6 @@ export default function NFTCard({
       console.log('res', res);
       if (res?.message) {
         fetchAllNfts && fetchAllNfts(1, 9);
-        // const nftDetailResponse = await fetchNftDetail(nftDetail?.identifier);
-        // const tokenId = location && location?.pathname?.split('/').pop();
-        // tokenId && fetchData(tokenId);
-        // setNftLiked(true);
       }
     } catch (error: unknown) {
       toast({
@@ -67,9 +70,6 @@ export default function NFTCard({
       const res = await addNftToFavorite(nftDetail?.identifier || '');
       if (res?.message) {
         fetchAllNfts && fetchAllNfts(1, 9);
-        // const tokenId = location && location?.pathname?.split('/').pop();
-        // tokenId && fetchData(tokenId);
-        // setNftLiked(false);
       }
     } catch (error: unknown) {
       toast({
@@ -211,37 +211,45 @@ export default function NFTCard({
               )}
             </div>
           </div>
-          {singleCompetitionPage && (
-            <Box display="flex" justifyContent="center" alignItems="center" marginBottom="16px">
-              <Button
-                width="80%"
-                borderTop={
-                  !nft?.has_logged_in_user_voted ? '1px solid #04D3FF' : 'rgba(255, 255, 255, 0.20)'
-                }
-                padding="16px 32px"
-                color="#FFF"
-                backgroundColor={
-                  !nft?.has_logged_in_user_voted ? '#118BCF' : 'rgba(255, 255, 255, 0.05)'
-                }
-                h={['44px']}
-                _hover={{
-                  color: 'white',
-                  bg: !nft?.has_logged_in_user_voted ? '#43BDD7' : 'rgba(255, 255, 255, 0.20)',
-                }}
-                fontFamily="Plus Jakarta Sans"
-                fontSize="16px"
-                fontStyle="normal"
-                fontWeight="600"
-                lineHeight="normal"
-                onClick={(event) => {
-                  event?.stopPropagation();
-                  onVoteNowClick(nft);
-                }}
-                leftIcon={<VotesIcon color={'#FFFFFF'} />}>
-                {nft?.has_logged_in_user_voted ? 'Unvote' : 'Vote'}
-              </Button>
-            </Box>
-          )}
+          {singleCompetitionPage &&
+            votingStarts &&
+            votingEnds &&
+            isAfter(new Date(), parseISO(votingStarts)) &&
+            isBefore(new Date(), parseISO(votingEnds)) && (
+              <>
+                <Box display="flex" justifyContent="center" alignItems="center" marginBottom="16px">
+                  <Button
+                    width="80%"
+                    borderTop={
+                      !nft?.has_logged_in_user_voted
+                        ? '1px solid #04D3FF'
+                        : 'rgba(255, 255, 255, 0.20)'
+                    }
+                    padding="16px 32px"
+                    color="#FFF"
+                    backgroundColor={
+                      !nft?.has_logged_in_user_voted ? '#118BCF' : 'rgba(255, 255, 255, 0.05)'
+                    }
+                    h={['44px']}
+                    _hover={{
+                      color: 'white',
+                      bg: !nft?.has_logged_in_user_voted ? '#43BDD7' : 'rgba(255, 255, 255, 0.20)',
+                    }}
+                    fontFamily="Plus Jakarta Sans"
+                    fontSize="16px"
+                    fontStyle="normal"
+                    fontWeight="600"
+                    lineHeight="normal"
+                    onClick={(event) => {
+                      event?.stopPropagation();
+                      onVoteNowClick(nft);
+                    }}
+                    leftIcon={<VotesIcon color={'#FFFFFF'} />}>
+                    {nft?.has_logged_in_user_voted ? 'Unvote' : 'Vote'}
+                  </Button>
+                </Box>
+              </>
+            )}
         </div>
       )}
     </>

@@ -48,6 +48,8 @@ export default function CompetingNfts(props: CompetingNftsProps) {
                   loading={loading}
                   setLoading={setLoading}
                   setCompetitionDetails={setCompetitionDetails}
+                  votingStarts={competitionDetails?.voting_starts}
+                  votingEnds={competitionDetails?.voting_ends}
                 />
               ))}
           </Box>

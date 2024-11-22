@@ -1,5 +1,6 @@
 import {
   AddNftToCompetitionResponse,
+  CompetitionObject,
   PostCompetitionCommentPayload,
   VoteToCompetition,
   VoteToCompetitionResponse,
@@ -20,7 +21,7 @@ export const addVoteToCompetingNfts = async (
   }
 };
 
-export const getCompetitionDetails = async (id: number): Promise<any> => {
+export const getCompetitionDetails = async (id: number): Promise<CompetitionObject> => {
   try {
     const endPoint = `/api/nfts/competitions/${id}`;
     const res = await axios.get(endPoint);
