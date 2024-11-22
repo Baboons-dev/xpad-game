@@ -187,3 +187,17 @@ export const deleteCompetitionComment = async (commentId: string): Promise<any> 
     return Promise.reject(err);
   }
 };
+
+export const getMyFavoriteNfts = async (
+  walletAddress: string,
+  page: number,
+  recordsPerPage: number
+): Promise<AllFavNftsResponse> => {
+  try {
+    const endPoint = `/api/nfts/favorites/?wallet_address=${walletAddress}/?page=${page}&per_page=${recordsPerPage}`;
+    const res = await axios.get(endPoint);
+    return res.data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};

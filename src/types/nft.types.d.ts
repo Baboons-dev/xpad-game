@@ -65,13 +65,14 @@ declare interface AllNftsResponse {
 }
 
 declare interface AllFavNftsResponse {
-  results: FavoriteNftResponse[];
+  data: FavoriteNftResponse[];
   current_page: string;
   count: number;
   total_pages: number;
 }
 
 declare interface FavoriteNftResponse {
+  is_favorite: any;
   collection: string;
   contract: string;
   description: string;
@@ -84,6 +85,7 @@ declare interface FavoriteNftResponse {
   name: string;
   owner: OwnerObject;
   transaction: string;
+  has_logged_in_user_voted: boolean;
   updated_at: string | null;
 }
 

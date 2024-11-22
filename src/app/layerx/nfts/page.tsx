@@ -1,24 +1,22 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Box, Image, Text } from "@chakra-ui/react";
-import backgroundImage from "../../../assets/background.png";
-import { Tabs } from "antd";
-import FeaturedNFTs from "@/components/LayerX/FeaturedNFTs";
-import MyNFTs from "@/components/LayerX/MyNFTs";
-import Link from "next/link";
-import BackArrowIcon from "@/icons/ArrowBack";
+import { Box, Image, Text } from '@chakra-ui/react';
+import backgroundImage from '../../../assets/background.png';
+import { Tabs } from 'antd';
+import FeaturedNFTs from '@/components/LayerX/FeaturedNFTs';
+import MyNFTs from '@/components/LayerX/MyNFTs';
+import Link from 'next/link';
+import BackArrowIcon from '@/icons/ArrowBack';
+import FavoriteNfts from '@/components/LayerX/FavoriteNfts';
+import { useState } from 'react';
 
 export default function NFTsPage() {
+  const [activeTab, setActiveTab] = useState('1');
+
   return (
     <Box w="100%" display="flex" flexDirection="column" minHeight="100vh">
       <Box position="relative" w="100%" zIndex={0}>
-        <Image
-          src={backgroundImage.src}
-          h="auto"
-          objectFit="contain"
-          position="absolute"
-        />
+        <Image src={backgroundImage.src} h="auto" objectFit="contain" position="absolute" />
         <Box position="relative" margin="24px 16px 29px 16px">
           <Box display="flex" alignItems="center">
             <Link href="/layerx">
@@ -33,8 +31,7 @@ export default function NFTsPage() {
                 fontStyle="normal"
                 fontWeight="800"
                 lineHeight="normal"
-                fontFamily="Plus Jakarta Sans"
-              >
+                fontFamily="Plus Jakarta Sans">
                 NFTs
               </Text>
             </Box>
@@ -45,16 +42,22 @@ export default function NFTsPage() {
           <Tabs
             defaultActiveKey="1"
             className="layerx-tabs"
+            onChange={(key) => setActiveTab(key)}
             items={[
               {
-                label: "All NFTs",
-                key: "1",
-                children: <FeaturedNFTs />,
+                label: 'All NFTs',
+                key: '1',
+                children: <FeaturedNFTs activeTab={activeTab} />,
               },
               {
-                label: "My NFTs",
-                key: "2",
-                children: <MyNFTs />,
+                label: 'My NFTs',
+                key: '2',
+                children: <MyNFTs activeTab={activeTab} />,
+              },
+              {
+                label: 'Favorite NFTs',
+                key: '3',
+                children: <FavoriteNfts activeTab={activeTab} />,
               },
             ]}
           />
@@ -68,7 +71,7 @@ export default function NFTsPage() {
 
         .layerx-tabs .ant-tabs-tab {
           color: rgba(255, 255, 255, 0.5);
-          font-family: "Plus Jakarta Sans";
+          font-family: 'Plus Jakarta Sans';
         }
 
         .layerx-tabs .ant-tabs-tab:hover {

@@ -9,7 +9,7 @@ import Pagination from '../common/Pagination';
 import { useToast } from '@chakra-ui/react';
 import { fetchMyNfts } from '@/api/layerxApiCalls/api';
 
-export default function MyNFTs() {
+export default function MyNFTs({ activeTab }: { activeTab: string }) {
   const toast = useToast();
   const [myNfts, setMyNfts] = useState<AllNftsResponse | null>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -37,10 +37,10 @@ export default function MyNFTs() {
   };
 
   useEffect(() => {
-    if (user?.wallet_address) {
+    if (user?.wallet_address && activeTab === '2') {
       fetchNfts();
     }
-  }, [currentPage]);
+  }, [currentPage, activeTab]);
 
   if (!user) {
     return (
