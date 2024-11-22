@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Button, Modal, Spin } from "antd";
-import { Box, Divider, Image, Text, useToast } from "@chakra-ui/react";
-import { useParams } from "next/navigation";
-import { LeaderBoardApiResponse } from "@/types/type";
-import { getLeaderBoardData } from "@/api/apiCalls/nft";
-import ProfileIconGrey from "@/icons/ProfileGrey";
+import React, { useEffect, useState } from 'react';
+import { Button, Modal, Spin } from 'antd';
+import { Box, Divider, Image, Text, useToast } from '@chakra-ui/react';
+import { useParams } from 'next/navigation';
+import { LeaderBoardApiResponse } from '@/types/type';
+import { getLeaderBoardData } from '@/api/apiCalls/nft';
+import ProfileIconGrey from '@/icons/ProfileGrey';
 
 interface LeaderBoardProps {
   isLeaderboardOpen: boolean;
@@ -17,11 +17,10 @@ export default function LeaderBoard(props: LeaderBoardProps) {
   const toast = useToast();
   const selectedCompetitionId = params.id;
   const [isDataLoading, setIsDataLoading] = useState(false);
-  const [leaderBoardData, setLeaderBoardData] =
-    useState<LeaderBoardApiResponse[]>();
+  const [leaderBoardData, setLeaderBoardData] = useState<LeaderBoardApiResponse[]>();
 
   const fetchLeaderBoardRanking = async (competitionId: number) => {
-    console.log("fetchLeaderBoardRankings");
+    console.log('fetchLeaderBoardRankings');
     try {
       setIsDataLoading(true);
       const res = await getLeaderBoardData(competitionId);
@@ -57,14 +56,14 @@ export default function LeaderBoard(props: LeaderBoardProps) {
       //       wallet_address: "jddjjdjdj",
       //     },
       //   ];
-      setLeaderBoardData(res?.results);
+      setLeaderBoardData(res?.data);
       setIsDataLoading(false);
     } catch (error: any) {
       setIsDataLoading(false);
       toast({
-        title: "Something went wrong while fetching leaderboard",
+        title: 'Something went wrong while fetching leaderboard',
         description: error.message,
-        status: "error",
+        status: 'error',
         duration: 3000,
         isClosable: true,
       });
@@ -72,15 +71,14 @@ export default function LeaderBoard(props: LeaderBoardProps) {
   };
 
   useEffect(() => {
-    selectedCompetitionId &&
-      fetchLeaderBoardRanking(Number(selectedCompetitionId));
+    selectedCompetitionId && fetchLeaderBoardRanking(Number(selectedCompetitionId));
   }, [isLeaderboardOpen]);
 
   const onOwnerClick = (owner: LeaderBoardApiResponse) => {
-    console.log("owner", owner);
+    console.log('owner', owner);
   };
 
-  console.log("leaderBoardDate", leaderBoardData);
+  console.log('leaderBoardDate', leaderBoardData);
 
   return (
     <>
@@ -91,24 +89,17 @@ export default function LeaderBoard(props: LeaderBoardProps) {
             fontSize="20px"
             fontWeight="800"
             fontFamily="Plus Jakarta Sans"
-            marginBottom="20px"
-          >
+            marginBottom="20px">
             Competition Leaderboard
           </Text>
         }
         open={isLeaderboardOpen}
         onCancel={() => setIsLeaderboardOpen(false)}
         footer={null}
-        className="leaderboard-modal"
-      >
+        className="leaderboard-modal">
         <>
           {isDataLoading ? (
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              marginTop="10px"
-            >
+            <Box display="flex" justifyContent="center" alignItems="center" marginTop="10px">
               <Spin />
             </Box>
           ) : leaderBoardData && leaderBoardData?.length > 0 ? (
@@ -121,32 +112,29 @@ export default function LeaderBoard(props: LeaderBoardProps) {
                       padding="20px"
                       display="flex"
                       justifyContent="space-between"
-                      alignItems="center"
-                    >
+                      alignItems="center">
                       <Box display="flex" gap="18px">
                         <Box
                           display="flex"
                           justifyContent="flex-start"
                           alignItems="center"
-                          width="30px"
-                        >
+                          width="30px">
                           <Text
                             color={
                               i === 0
-                                ? "#FFBC00"
+                                ? '#FFBC00'
                                 : i === 1
-                                ? "#B8B8B8"
+                                ? '#B8B8B8'
                                 : i === 2
-                                ? "#FF993A"
-                                : "#FFF"
+                                ? '#FF993A'
+                                : '#FFF'
                             }
                             textAlign="center"
                             fontFamily="Plus Jakarta Sans"
                             fontSize="18px"
                             fontStyle="normal"
                             fontWeight="800"
-                            lineHeight="normal"
-                          >
+                            lineHeight="normal">
                             {i + 1}
                           </Text>
                         </Box>
@@ -155,8 +143,7 @@ export default function LeaderBoard(props: LeaderBoardProps) {
                           flexDirection="row"
                           gap="10px"
                           justifyContent="center"
-                          alignItems="center"
-                        >
+                          alignItems="center">
                           {data?.owner?.profile_picture ? (
                             <Box height="34px" width="34px">
                               <Image
@@ -182,13 +169,12 @@ export default function LeaderBoard(props: LeaderBoardProps) {
                             cursor="pointer"
                             textDecoration="none" // Ensure the bg on hover works
                             _hover={{
-                              textDecoration: "underline",
-                              color: "#04D3FF",
+                              textDecoration: 'underline',
+                              color: '#04D3FF',
                             }}
                             onClick={() => {
                               onOwnerClick(data);
-                            }}
-                          >
+                            }}>
                             {data?.owner?.twitter_username}
                           </Text>
                         </Box>
@@ -201,8 +187,7 @@ export default function LeaderBoard(props: LeaderBoardProps) {
                           fontSize="16px"
                           fontStyle=" normal"
                           fontWeight="600"
-                          lineHeight="normal"
-                        >
+                          lineHeight="normal">
                           {data?.vote_count}
                         </Text>
                       </Box>
