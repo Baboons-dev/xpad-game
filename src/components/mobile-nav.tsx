@@ -77,10 +77,10 @@ export function MobileNav() {
       icon: (active: boolean) => (
         <Icon w={6} h={6}  viewBox="0 0 24 24" color={active ? "#F6C942" : "#595959"}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 11H10" stroke="currentColor" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M8 9V13" stroke="currentColor" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M15 12H15.01" stroke="currentColor" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M18 10H18.01" stroke="currentColor" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 11H10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M8 9V13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M15 12H15.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M18 10H18.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             <g clipPath="url(#clip0_85_213)">
               <path d="M10 10H9V9C9 8.45 8.55 8 8 8C7.45 8 7 8.45 7 9V10H6C5.45 10 5 10.45 5 11C5 11.55 5.45 12 6 12H7V13C7 13.55 7.45 14 8 14C8.55 14 9 13.55 9 13V12H10C10.55 12 11 11.55 11 11C11 10.45 10.55 10 10 10Z" fill="currentColor"/>
               <path d="M15.01 11C14.46 11 14.01 11.45 14.01 12C14.01 12.55 14.46 13 15.01 13C15.56 13 16.01 12.55 16.01 12C16.01 11.45 15.56 11 15.01 11Z" fill="currentColor"/>
@@ -130,7 +130,7 @@ export function MobileNav() {
         return (
           <Link
             key={item.href}
-            href={item.disabled ? "#" : item.href}
+            href={item?.disabled ? "#" : item.href}
             style={{ textDecoration: "none" }}
           >
             <Box
@@ -138,7 +138,7 @@ export function MobileNav() {
               flexDirection="column"
               alignItems="center"
               gap="2px"
-              opacity={item.disabled ? 0.5 : 1}
+              opacity={item?.disabled ? 0.5 : 1}
               position="relative"
             >
               <NavIcon active={isActive} color={item.color}>{item.icon(isActive)}</NavIcon>

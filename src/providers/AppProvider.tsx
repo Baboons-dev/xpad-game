@@ -104,6 +104,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     } else if (accessToken && !user) {
       getCurrentUser();
       setFistTime(false);
+    }else if (!user && !accessToken) {
+          router.push('/authenticate?' + searchParams.toString());
     }
 
     if (accessToken && fistTime && user?.telegram_id === telegram_user?.id.toString()) {
@@ -122,12 +124,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }, [user, telegram_user, accessToken, fistTime]);
 
-  useEffect(() => {
-      console.log(searchParams.toString());
-      if (!user && !accessToken) {
-          router.push('/authenticate?' + searchParams.toString());
-      }
-  }, [user, fistTime]);
 
   console.log('user', user, accessToken);
 
