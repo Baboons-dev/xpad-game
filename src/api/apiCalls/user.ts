@@ -149,3 +149,15 @@ export const getMyHistory = async (
     return Promise.reject(err);
   }
 };
+
+export const getLotteryResults = async (id: number): Promise<any> => {
+  try {
+    const endPoint = `/lottery-results/${id}`;
+    const res = await axios.get<any>(endPoint);
+    if (!res?.data) throw 'Something went wrong getting lottery results';
+    return res.data;
+  } catch (err) {
+    console.log('error getting lottery results', err);
+    return Promise.reject(err);
+  }
+};
