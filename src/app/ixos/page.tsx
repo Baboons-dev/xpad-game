@@ -3,6 +3,7 @@
 import { Box, Image, Text } from "@chakra-ui/react";
 import backgroundImage from "../../assets/background.png";
 import { useRouter } from "next/navigation";
+import { Swords, Coins } from "lucide-react";
 
 export default function IXOsPage() {
   const router = useRouter();
@@ -10,17 +11,21 @@ export default function IXOsPage() {
   const cards = [
     {
       title: "Fundraise",
+      icon: <Coins className="w-6 h-6 text-[#BEF642]" />,
       description: "Explore and participate in upcoming fundraising opportunities",
       buttonText: "Explore all IXOs",
       onClick: () => router.push("/ixos/fundraise"),
-      gradient: "from-[#BEF642] to-[#96C42D]",
+      borderColor: "#BEF642",
+      iconBg: "#BEF642",
     },
     {
       title: "Portfolio",
+      icon: <Swords className="w-6 h-6 text-[#BEF642]" />,
       description: "Track and manage your IXO investments",
       buttonText: "View my investments",
       onClick: () => router.push("/ixos/portfolio"),
-      gradient: "from-[#BEF642] to-[#96C42D]",
+      borderColor: "#BEF642",
+      iconBg: "#BEF642",
     },
   ];
 
@@ -67,37 +72,87 @@ export default function IXOsPage() {
               borderRadius="12px"
               border="1px solid rgba(255, 255, 255, 0.10)"
               background="#191916"
-              padding="24px"
+              padding="16px"
               transition="all 0.3s"
             >
-              <Text
-                color="#FFF"
-                fontSize="24px"
-                fontStyle="normal"
-                fontWeight="800"
-                lineHeight="normal"
-                fontFamily="Plus Jakarta Sans"
-                mb={4}
+              <Box display="flex" flexDirection="row" gap="16px">
+                <Box
+                  width="44px"
+                  height="44px"
+                  borderRadius="8px"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  bg={`${card.iconBg}15`}
+                >
+                  {card.icon}
+                </Box>
+
+                <Box display="flex" flexDirection="column" gap="6px">
+                  <Text
+                    fontFamily="Plus Jakarta Sans"
+                    color="#FFF"
+                    fontSize="16px"
+                    fontStyle="normal"
+                    fontWeight="800"
+                    lineHeight="normal"
+                  >
+                    {card.title}
+                  </Text>
+                  <Text
+                    fontFamily="Plus Jakarta Sans"
+                    color="#A0A0A0"
+                    fontSize="14px"
+                    fontStyle="normal"
+                    fontWeight="400"
+                    lineHeight="normal"
+                  >
+                    {card.description}
+                  </Text>
+                </Box>
+              </Box>
+
+              <Box
+                marginTop="16px"
+                marginBottom="16px"
+                display="flex"
+                flexDirection="row"
+                alignItems="center"
               >
-                {card.title}
-              </Text>
-              <Text
-                color="#A0A0A0"
-                fontSize="16px"
-                fontStyle="normal"
-                fontWeight="400"
-                lineHeight="normal"
-                fontFamily="Plus Jakarta Sans"
-                mb={6}
-              >
-                {card.description}
-              </Text>
-              <button
+                <Box
+                  as="hr"
+                  width="100%"
+                  border="1px solid rgba(255, 255, 255, 0.10)"
+                />
+              </Box>
+
+              <Box
+                borderRadius="8px"
+                border={`1px solid ${card.borderColor}`}
+                height="42px"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                cursor="pointer"
+                transition="all 0.3s"
+                _hover={{
+                  bg: card.borderColor,
+                  color: "#000",
+                }}
                 onClick={card.onClick}
-                className={`w-full py-3 rounded-lg bg-gradient-to-r ${card.gradient} text-black font-semibold hover:opacity-90 transition-opacity`}
               >
-                {card.buttonText}
-              </button>
+                <Text
+                  fontFamily="Plus Jakarta Sans"
+                  color="#FFF"
+                  fontSize="14px"
+                  fontWeight="700"
+                  _hover={{
+                    color: "#000",
+                  }}
+                >
+                  {card.buttonText}
+                </Text>
+              </Box>
             </Box>
           ))}
         </Box>

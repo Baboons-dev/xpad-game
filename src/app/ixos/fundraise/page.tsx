@@ -5,6 +5,7 @@ import backgroundImage from "../../../assets/background.png";
 import { Tabs } from "antd";
 import Link from "next/link";
 import BackArrowIcon from "@/icons/ArrowBack";
+import { ChevronRight, Users, Vote, Coins } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface IXO {
@@ -64,28 +65,66 @@ function IXOCard({ ixo }: { ixo: IXO }) {
       borderRadius="12px"
       border="1px solid rgba(255, 255, 255, 0.10)"
       background="#191916"
-      padding="24px"
+      padding="16px"
       mb={4}
     >
-      <Text
-        color="#FFF"
-        fontSize="20px"
-        fontWeight="800"
-        mb={2}
-        fontFamily="Plus Jakarta Sans"
+      <Box display="flex" flexDirection="row" gap="16px">
+        <Box
+          width="44px"
+          height="44px"
+          borderRadius="8px"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          bg="#BEF64215"
+        >
+          <Coins className="w-6 h-6 text-[#BEF642]" />
+        </Box>
+
+        <Box display="flex" flexDirection="column" gap="6px">
+          <Text
+            fontFamily="Plus Jakarta Sans"
+            color="#FFF"
+            fontSize="16px"
+            fontStyle="normal"
+            fontWeight="800"
+            lineHeight="normal"
+          >
+            {ixo.title}
+          </Text>
+          <Text
+            fontFamily="Plus Jakarta Sans"
+            color="#A0A0A0"
+            fontSize="14px"
+            fontStyle="normal"
+            fontWeight="400"
+            lineHeight="normal"
+          >
+            {ixo.description}
+          </Text>
+        </Box>
+      </Box>
+
+      <Box
+        marginTop="16px"
+        marginBottom="16px"
+        display="flex"
+        flexDirection="row"
+        alignItems="center"
       >
-        {ixo.title}
-      </Text>
-      <Text color="#A0A0A0" fontSize="14px" mb={4}>
-        {ixo.description}
-      </Text>
-      
+        <Box
+          as="hr"
+          width="100%"
+          border="1px solid rgba(255, 255, 255, 0.10)"
+        />
+      </Box>
+
       <Box mb={4}>
         <Box display="flex" justifyContent="space-between" mb={2}>
-          <Text color="#FFF" fontSize="14px">
+          <Text color="#FFF" fontSize="14px" fontFamily="Plus Jakarta Sans">
             {ixo.raised.toLocaleString()} USDC
           </Text>
-          <Text color="#A0A0A0" fontSize="14px">
+          <Text color="#A0A0A0" fontSize="14px" fontFamily="Plus Jakarta Sans">
             {ixo.target.toLocaleString()} USDC
           </Text>
         </Box>
@@ -99,19 +138,42 @@ function IXOCard({ ixo }: { ixo: IXO }) {
           <Box
             w={`${progress}%`}
             h="100%"
-            bg="brand-lime"
+            bg="#BEF642"
             transition="width 0.5s ease-in-out"
           />
         </Box>
       </Box>
 
-      <button className="w-full py-3 rounded-lg bg-gradient-to-r from-[#BEF642] to-[#96C42D] text-black font-semibold hover:opacity-90 transition-opacity">
-        {ixo.status === "upcoming"
-          ? "Get Notified"
-          : ixo.status === "current"
-          ? "Invest Now"
-          : "View Details"}
-      </button>
+      <Box
+        borderRadius="8px"
+        border="1px solid #BEF642"
+        height="42px"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        cursor="pointer"
+        transition="all 0.3s"
+        _hover={{
+          bg: "#BEF642",
+          color: "#000",
+        }}
+      >
+        <Text
+          fontFamily="Plus Jakarta Sans"
+          color="#FFF"
+          fontSize="14px"
+          fontWeight="700"
+          _hover={{
+            color: "#000",
+          }}
+        >
+          {ixo.status === "upcoming"
+            ? "Get Notified"
+            : ixo.status === "current"
+            ? "Invest Now"
+            : "View Details"}
+        </Text>
+      </Box>
     </Box>
   );
 }
