@@ -98,20 +98,20 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    // if (!!user && !!telegram_user && user?.telegram_id !== telegram_user?.id.toString()) {
-    //   setFistTime(true);
-    //   logout();
-    // } else if (accessToken && !user) {
-    //   getCurrentUser();
-    //   setFistTime(false);
-    // }else if (!user && !accessToken) {
-    //       router.push('/authenticate?' + searchParams.toString());
-    // }
+    if (!!user && !!telegram_user && user?.telegram_id !== telegram_user?.id.toString()) {
+      setFistTime(true);
+      logout();
+    } else if (accessToken && !user) {
+      getCurrentUser();
+      setFistTime(false);
+    }else if (!user && !accessToken) {
+          router.push('/authenticate?' + searchParams.toString());
+    }
 
-    // if (accessToken && fistTime && user?.telegram_id === telegram_user?.id.toString()) {
-    //   getCurrentUser();
-    //   setFistTime(false);
-    // }
+    if (accessToken && fistTime && user?.telegram_id === telegram_user?.id.toString()) {
+      getCurrentUser();
+      setFistTime(false);
+    }
   }, [telegram_user, accessToken, user, fistTime]);
 
   useEffect(() => {
