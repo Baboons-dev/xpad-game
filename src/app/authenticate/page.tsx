@@ -84,7 +84,6 @@ export default function Authenticate() {
         }
       } catch (e) {
         message.error('Code error');
-        console.log(e);
       }
     setFirstTime(false);
   };

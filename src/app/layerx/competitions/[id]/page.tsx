@@ -36,13 +36,10 @@ export default function CompetitionDetailPage() {
   const toast = useToast();
   const [competitionDetails, setCompetitionDetails] = useState<CompetitionObject>();
 
-  console.log('id', id);
-
   const fetchCompetitionById = async (competitionId: string) => {
     try {
       setLoading(true);
       const res = await getCompetitionDetails(Number(competitionId));
-      console.log('ress', res);
       res && setCompetitionDetails(res);
       setLoading(false);
     } catch (error: any) {
@@ -61,8 +58,6 @@ export default function CompetitionDetailPage() {
     id && fetchCompetitionById(id as string);
   }, []);
 
-  console.log('competitionDetails', competitionDetails);
-
   const TimeText = (props: TimeTextProps) => {
     const { text } = props;
     return (
@@ -77,8 +72,6 @@ export default function CompetitionDetailPage() {
       </Text>
     );
   };
-
-  console.log('competitionDetails?.top_nfts', competitionDetails?.top_nfts);
 
   return (
     <Box w="100%" display="flex" flexDirection="column" minHeight="100vh" pb="80px">

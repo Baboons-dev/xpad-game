@@ -105,7 +105,6 @@ export const saveNFT = async (transactionHash: `0x${string}`) => {
 };
 
 export const getLeaderBoardData = async (competitionId: number) => {
-  console.log('form fetchLeaderBoardRanking');
   try {
     const endPoint = `/api/nfts/competition/leaderboard/`;
     const res = await axios.get(endPoint, {

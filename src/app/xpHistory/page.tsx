@@ -1,22 +1,21 @@
-"use client";
-import Link from "next/link";
-import { Box, Divider, Image, Text, useToast } from "@chakra-ui/react";
-import backgroundImage from "../../assets/background.png";
-import { HistoryObject, HistoryResponse } from "@/types/type";
-import { useUser } from "@/hooks";
-import { useEffect, useState } from "react";
-import XpHistoryDetails from "@/components/XpHistory/XpHistoryDetails";
-import BackArrowIcon from "@/icons/ArrowBack";
-import axios from "axios";
-import { useStore } from "@/store";
-import { Spin } from "antd";
+'use client';
+import Link from 'next/link';
+import { Box, Divider, Image, Text, useToast } from '@chakra-ui/react';
+import backgroundImage from '../../assets/background.png';
+import { HistoryObject, HistoryResponse } from '@/types/type';
+import { useUser } from '@/hooks';
+import { useEffect, useState } from 'react';
+import XpHistoryDetails from '@/components/XpHistory/XpHistoryDetails';
+import BackArrowIcon from '@/icons/ArrowBack';
+import axios from 'axios';
+import { useStore } from '@/store';
+import { Spin } from 'antd';
 
 export default function HomePage() {
   const { logout } = useUser();
   const [isDataLoading, setIsDataLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [historyItemsList, setHistoryItemsList] =
-    useState<HistoryResponse | null>();
+  const [historyItemsList, setHistoryItemsList] = useState<HistoryResponse | null>();
   const accessToken = useStore((state) => state.accessToken);
   // const accessToken =
   //   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozMiwid2FsbGV0X2FkZHJlc3MiOiIweDc4Njg5MzNhMzZGYjc3NzFmNWQ4N2M2NTg1N0Y2M0M5MjY0ZDI4YTQiLCJlbWFpbCI6IiIsImV4cCI6MTc2MjY5Nzg0Nn0.c1t7t9GI39SEqGfH4F_gchkhxtj0iYXBqvQ_T-qEIgA";
@@ -26,7 +25,7 @@ export default function HomePage() {
   const formatDate = (timestamp: string): string => {
     const date = new Date(timestamp);
     const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "short" });
+    const month = date.toLocaleString('default', { month: 'short' });
     const year = date.getFullYear();
     return `${day}, ${month}, ${year}`;
   };
@@ -37,7 +36,6 @@ export default function HomePage() {
 
   // const accessToken = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMDQsIndhbGxldF9hZGRyZXNzIjpudWxsLCJlbWFpbCI6IiIsImV4cCI6MTc2MzE0OTI2MX0.LXWQMv8IsjMyVe-Ld26qYX0rb5IgEuwg4jSh97-8xvs`;
   const fetchHistory = async (page: number, recordsPerPage: number) => {
-    console.log("here is access token", accessToken);
     try {
       setIsDataLoading(true);
       const res = await axios.get<HistoryResponse>(
@@ -46,18 +44,17 @@ export default function HomePage() {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        },
+        }
       );
-      console.log("res", res);
       res && setHistoryItemsList(res?.data);
       setCurrentPage(res?.data?.current_page ? res?.data?.current_page : 1);
       setIsDataLoading(false);
     } catch (error: any) {
       setIsDataLoading(false);
       toast({
-        title: "Something went wrong while xp history",
+        title: 'Something went wrong while xp history',
         description: error.message,
-        status: "error",
+        status: 'error',
         duration: 3000,
         isClosable: true,
       });
@@ -78,15 +75,10 @@ export default function HomePage() {
   return (
     <Box w="100%" display="flex" flexDirection="column" minHeight="100vh">
       <Box position="relative" w="100%" zIndex={0}>
-        <Image
-          src={backgroundImage.src}
-          h="auto"
-          objectFit="contain"
-          position="absolute"
-        />
+        <Image src={backgroundImage.src} h="auto" objectFit="contain" position="absolute" />
         <Box position="relative" margin="24px 16px 29px 16px">
           <Box display="flex" alignItems="center">
-            <Link href={"/profile"}>
+            <Link href={'/profile'}>
               <Box>
                 <BackArrowIcon />
               </Box>
@@ -100,8 +92,7 @@ export default function HomePage() {
                 fontWeight="800"
                 lineHeight="normal"
                 fontFamily="Plus Jakarta Sans"
-                mb="4"
-              >
+                mb="4">
                 XP Overview
               </Text>
             </Box>
@@ -120,15 +111,9 @@ export default function HomePage() {
             flexDirection="column"
             pb="80px" // Add bottom padding to prevent content from being hidden under the menu
           >
-            {Object.entries(historyItemsGroupedByDate).map(
-              ([date, historyItems], i) => (
-                <XpHistoryDetails
-                  key={i}
-                  date={date}
-                  historyItems={historyItems}
-                />
-              ),
-            )}
+            {Object.entries(historyItemsGroupedByDate).map(([date, historyItems], i) => (
+              <XpHistoryDetails key={i} date={date} historyItems={historyItems} />
+            ))}
           </Box>
         )}
       </Box>

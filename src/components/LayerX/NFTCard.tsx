@@ -47,13 +47,14 @@ export default function NFTCard({
   const params = useParams();
   const selectedCompetitionId = params.id; // Extracts the 'id' from the dynamic
   const user = useStore((state) => state.user);
+  const [isNftFav, setIsNftFav] = useState(false);
 
   const onAddToFavClick = async (nftDetail: AllNftsResponseData) => {
     try {
       const res = await addNftToFavorite(nftDetail?.identifier || '');
-      console.log('res', res);
       if (res?.message) {
-        fetchAllNfts && fetchAllNfts(1, 9);
+        setIsNftFav(res?.is_favorite);
+        // fetchAllNfts && fetchAllNfts(1, 9);
       }
     } catch (error: unknown) {
       toast({
@@ -69,7 +70,8 @@ export default function NFTCard({
     try {
       const res = await addNftToFavorite(nftDetail?.identifier || '');
       if (res?.message) {
-        fetchAllNfts && fetchAllNfts(1, 9);
+        setIsNftFav(!res?.is_favorite);
+        // fetchAllNfts && fetchAllNfts(1, 9);
       }
     } catch (error: unknown) {
       toast({
@@ -136,7 +138,6 @@ export default function NFTCard({
     try {
       setLoading && setLoading(true);
       const res = await getCompetitionDetails(competitionId);
-      console.log('res', res);
       setCompetitionDetails && setCompetitionDetails(res);
       //   setCompetitionDetails(res);
       setLoading && setLoading(false);
@@ -192,8 +193,14 @@ export default function NFTCard({
               ) : (
                 <div className="flex items-center space-x-4">
                   <button className="text-[#33A7FF]/60 hover:text-[#33A7FF] transition-colors">
-                    {/* <Heart className="h-5 w-5" /> */}
-                    {nft?.is_favorite ? (
+                    {isNftFav ? (
+                      <HeartFilledIcon
+                        onClick={() => removeFromFavorites(nft)}
+                        color="#D9D9D9"
+                        width="20px"
+                        height="20px"
+                      />
+                    ) : nft?.is_favorite ? (
                       <HeartFilledIcon
                         onClick={() => removeFromFavorites(nft)}
                         color="#D9D9D9"
@@ -203,10 +210,20 @@ export default function NFTCard({
                     ) : (
                       <HeartIcon onClick={() => onAddToFavClick(nft)} color="red" />
                     )}
+                    {/* {nft?.is_favorite ? (
+                      <HeartFilledIcon
+                        onClick={() => removeFromFavorites(nft)}
+                        color="#D9D9D9"
+                        width="20px"
+                        height="20px"
+                      />
+                    ) : (
+                      <HeartIcon onClick={() => onAddToFavClick(nft)} color="red" />
+                    )} */}
                   </button>
-                  <button className="text-[#33A7FF]/60 hover:text-[#33A7FF] transition-colors">
+                  {/* <button className="text-[#33A7FF]/60 hover:text-[#33A7FF] transition-colors">
                     <Share2 className="h-5 w-5" />
-                  </button>
+                  </button> */}
                 </div>
               )}
             </div>

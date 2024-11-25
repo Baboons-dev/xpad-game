@@ -21,7 +21,6 @@ export default function FeaturedNFTs({ activeTab }: { activeTab: string }) {
       setLoading(false);
     }
   };
-  console.log('activeTab', activeTab);
 
   useEffect(() => {
     if (activeTab === '1') {

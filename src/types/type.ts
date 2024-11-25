@@ -241,3 +241,8 @@ export interface LeaderBoardApiResponse {
 export interface AddNftToCompetitionResponse {
   message: string;
 }
+
+export interface FavoriteNftResponse {
+  message: string;
+  is_favorite: boolean;
+}

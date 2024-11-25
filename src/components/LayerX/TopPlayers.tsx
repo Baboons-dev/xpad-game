@@ -12,7 +12,6 @@ interface TopPlayersProps {
 export default function TopPlayers(props: TopPlayersProps) {
   const { topNfts, loading } = props;
 
-  console.log('topNfts', topNfts);
   return (
     <>
       {loading ? (

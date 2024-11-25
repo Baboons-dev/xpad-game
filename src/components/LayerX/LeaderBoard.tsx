@@ -20,7 +20,6 @@ export default function LeaderBoard(props: LeaderBoardProps) {
   const [leaderBoardData, setLeaderBoardData] = useState<LeaderBoardApiResponse[]>();
 
   const fetchLeaderBoardRanking = async (competitionId: number) => {
-    console.log('fetchLeaderBoardRankings');
     try {
       setIsDataLoading(true);
       const res = await getLeaderBoardData(competitionId);
@@ -77,8 +76,6 @@ export default function LeaderBoard(props: LeaderBoardProps) {
   const onOwnerClick = (owner: LeaderBoardApiResponse) => {
     console.log('owner', owner);
   };
-
-  console.log('leaderBoardDate', leaderBoardData);
 
   return (
     <>

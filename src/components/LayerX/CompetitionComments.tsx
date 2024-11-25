@@ -200,10 +200,6 @@ function CompetitionComments(props: CompetitionCommentsProps) {
     }
   };
 
-  console.log('user', user);
-
-  console.log('allComments', allComments);
-
   return (
     <>
       {loading ? (

@@ -1,11 +1,11 @@
-"use client";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useSearchParams } from "next/navigation";
-import { User } from "@/types/type";
-import BattleArena from "@/components/Battle/BattleArena";
-import { Spin } from "antd";
-import { useStore } from "@/store";
+'use client';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useSearchParams } from 'next/navigation';
+import { User } from '@/types/type';
+import BattleArena from '@/components/Battle/BattleArena';
+import { Spin } from 'antd';
+import { useStore } from '@/store';
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -14,29 +14,25 @@ export default function Home() {
   const [battleLog, setBattleLog] = useState<string[]>([]);
   const [isFighting, setIsFighting] = useState(false);
   const [winner, setWinner] = useState<User | null>(null);
-  const playerFighterId = searchParams.get("fighter");
+  const playerFighterId = searchParams.get('fighter');
   const user = useStore((state) => state.user);
 
   useEffect(() => {
     setLoading(true);
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(
-          "https://api.xpad-extension.baboons.tech/api/user/list/",
-        );
+        const response = await axios.get('https://api.xpad-extension.baboons.tech/api/user/list/');
 
         const fighters = response?.data?.results;
         // Filter to find the fighter with the matching `id`
         if (playerFighterId) {
           const matchingFighter = fighters?.find(
-            (f: { id: number }) => f.id === parseInt(playerFighterId),
+            (f: { id: number }) => f.id === parseInt(playerFighterId)
           );
 
           const loggedInFighter = fighters?.find(
-            (f: { username: string }) => f.username === user?.username,
+            (f: { username: string }) => f.username === user?.username
           );
-
-          console.log([matchingFighter, loggedInFighter]);
 
           // give same points for fair fight
           playerFighterId &&
@@ -48,8 +44,7 @@ export default function Home() {
         }
       } catch (err: any) {
         setLoading(false);
-        console.log("err", err);
-        console.error("Error fetching users:", err);
+        console.error('Error fetching users:', err);
       }
     };
 
@@ -73,9 +68,6 @@ export default function Home() {
 
       const battleInterval = setInterval(() => {
         // Check for end conditions: either fighter has zero health or max turns reached
-
-        console.log("fighters[0]", currentFighters[0]);
-        console.log("fighters[1]", currentFighters[1]);
 
         // turnCounter >= 6 - use this for tun based fair gameplay
 
@@ -102,22 +94,16 @@ export default function Home() {
         const attackerIndex = turnCounter % 2 === 0 ? 0 : 1;
         const defenderIndex = attackerIndex === 0 ? 1 : 0;
 
-        const moves = ["punched", "kicked", "struck", "attacked"];
+        const moves = ['punched', 'kicked', 'struck', 'attacked'];
         const move = moves[Math.floor(Math.random() * moves.length)];
 
         // Ensure attacker points contribute to damage calculation even if they're 0
-        const attackerPoints = Math.max(
-          currentFighters[attackerIndex].points,
-          1,
-        );
+        const attackerPoints = Math.max(currentFighters[attackerIndex].points, 1);
 
         // Calculate damage with a base factor and minimum damage threshold
         const baseDamageFactor = 0.1 + Math.random() * 0.4;
         const minimumDamage = 5;
-        const damage = Math.max(
-          Math.floor(attackerPoints * baseDamageFactor),
-          minimumDamage,
-        );
+        const damage = Math.max(Math.floor(attackerPoints * baseDamageFactor), minimumDamage);
 
         // Update defender's health in `currentFighters`
         currentFighters = currentFighters.map((fighter, index) => {

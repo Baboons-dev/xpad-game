@@ -21,7 +21,6 @@ export default function FavoriteNfts({ activeTab }: { activeTab: string }) {
   const onAddToFavClick = async (nftDetail: FavoriteNftResponse) => {
     try {
       const res = await addNftToFavorite(nftDetail?.identifier || '');
-      console.log('res', res);
       if (res?.message) {
         if (user?.wallet_address) {
           fetchMyFavoriteNfts(user?.wallet_address, currentPage, 9);
@@ -56,11 +55,9 @@ export default function FavoriteNfts({ activeTab }: { activeTab: string }) {
   };
 
   const fetchMyFavoriteNfts = async (walletAddress: string, page: number, perPage: number) => {
-    console.log('form fetchMyFavoriteNfts');
     try {
       setLoading(true);
       const res = await getMyFavoriteNfts(walletAddress, page, perPage);
-      console.log('getMyFavoriteNfts res', res);
       res && setFavNfts(res);
       setLoading(false);
     } catch (error: any) {

@@ -10,7 +10,6 @@ import ParticipateModal from '@/components/LayerX/ParticipateModal';
 
 export function CompetitionCard({ competition }: { competition: CompetitionObject }) {
   const [participate, setParticipate] = useState(false);
-  console.log('competition', competition);
   const router = useRouter();
 
   const onCompetitionClick = () => {
