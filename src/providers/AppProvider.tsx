@@ -143,7 +143,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       {user && accessToken && <TopBar />}
       {children}
       {user && accessToken && <MobileNav />}
-      <MobileNav />
+      {/* <MobileNav /> */}
       {/* {user && accessToken && <MobileNav />} */}
       <style jsx global>{`
         .modal .ant-modal-content {
