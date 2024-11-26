@@ -4,7 +4,15 @@ import Icons from '@/config/icon';
 //import '../../../assets/scss/participate-page.scss';
 import { GetSingleClient, patchFund, sendFund } from '@/api/apiCalls/user';
 import { useParams, useRouter } from 'next/navigation';
-import { Button, InputNumber, InputNumberProps, message, Modal, Slider } from 'antd';
+import {
+  Button,
+  ConfigProvider,
+  InputNumber,
+  InputNumberProps,
+  message,
+  Modal,
+  Slider,
+} from 'antd';
 import {
   useAccount,
   useBalance,
@@ -19,6 +27,7 @@ import { getLotteryResults } from '@/api/apiCalls/user';
 import { useSelector, useStore } from '@/store';
 import styled from '@emotion/styled';
 import { useAppKit } from '@reown/appkit/react';
+import Image from 'next/image';
 
 const ParticipatePageWrapper = styled.div`
   display: flex;
@@ -258,227 +267,440 @@ export default function ParticipatePage() {
   }, [isConnected, address]);
 
   return (
-    <ParticipatePageWrapper>
-      <CardContainer>
-        <div className="card-header-wrap">
-          <Icons name="kinetix-icon"></Icons>
-          <div className="intro">
-            <p>Initial X Offering (IXO) powered by</p> <Icons name="xpad-icon"></Icons>
-          </div>
-        </div>
-        {initialLoading ? (
-          <div className="card-main">
-            <div className="skeleton-loader">
-              <div
-                className="skeleton-item"
-                style={{ width: '100%', height: '24px', marginBottom: '16px' }}></div>
-              <div
-                className="skeleton-item"
-                style={{ width: '80%', height: '20px', marginBottom: '12px' }}></div>
-              <div
-                className="skeleton-item"
-                style={{ width: '60%', height: '20px', marginBottom: '12px' }}></div>
-              <div
-                className="skeleton-item"
-                style={{ width: '40%', height: '20px', marginBottom: '12px' }}></div>
-              <div
-                className="skeleton-item"
-                style={{ width: '100%', height: '40px', marginBottom: '16px' }}></div>
-              <div className="skeleton-item" style={{ width: '100%', height: '48px' }}></div>
+    <ConfigProvider
+      theme={{
+        components: {
+          InputNumber: {
+            addonBg: 'transparent',
+            colorBgContainer: 'transparent',
+            colorBorder: 'transparent',
+            activeBorderColor: 'transparent',
+            hoverBorderColor: 'transparent',
+            colorText: '#BEF642',
+            colorTextPlaceholder: 'rgba(190, 246, 66, 0.25)',
+            controlOutline: 'none',
+            algorithm: true,
+            fontFamily: "'Plus Jakarta Sans'",
+            fontSize: 12,
+          },
+          Button: {
+            colorPrimary: '#BEF642',
+            colorPrimaryHover: '#BEF642',
+            colorPrimaryActive: '#BEF642',
+            primaryColor: '#000000',
+            borderRadius: 50,
+            controlHeight: 44,
+            fontSize: 14,
+
+            colorTextLightSolid: '#000000',
+          },
+        },
+      }}>
+      <ParticipatePageWrapper>
+        <CardContainer>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              justifyContent: 'center',
+              flexDirection: 'column',
+            }}>
+            <Icons name="kinetix-icon"></Icons>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <p style={{ fontSize: '14px', fontWeight: '500', color: '#BEF642' }}>
+                Initial X Offering (IXO) powered by
+              </p>{' '}
+              <Icons name="xpad-icon"></Icons>
             </div>
           </div>
-        ) : client ? (
-          isConnected ? (
-            client.status === 'Live' &&
-            !client.is_blacklisted &&
-            chain &&
-            chain.id === client.participate_chain_id ? (
-              isLotteryWinner ? (
-                <div className="card-main">
-                  <div className="stats">
-                    <div className="text-wrap">
-                      <h3>
-                        {client.sale_progress} /{' '}
-                        {client.detail_launch_price * client.detail_token_for_sale} USD
-                      </h3>
-                      <h4>
-                        Your Allocation: {client.max_user_deposit} {balance?.symbol}
-                      </h4>
-                    </div>
-                    <div className="progress-bar-wrap">
-                      <div
-                        className="progress-bar-item max-w-[100%]"
-                        style={{
-                          width:
-                            (client.sale_progress * 100) /
-                              (client.detail_launch_price * client.detail_token_for_sale) +
-                            `%`,
-                        }}></div>
-                    </div>
-                    <div className="balance-wrap">
-                      <p>
-                        Balance: {balance?.formatted} {balance?.symbol}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="input-wrap">
-                    <InputNumber min={0} max={maxReal()} value={inputValue} onChange={onChange} />
+
+          {initialLoading ? (
+            <div className="card-main">
+              <div className="skeleton-loader">
+                <div
+                  className="skeleton-item"
+                  style={{ width: '100%', height: '24px', marginBottom: '16px' }}></div>
+                <div
+                  className="skeleton-item"
+                  style={{ width: '80%', height: '20px', marginBottom: '12px' }}></div>
+                <div
+                  className="skeleton-item"
+                  style={{ width: '60%', height: '20px', marginBottom: '12px' }}></div>
+                <div
+                  className="skeleton-item"
+                  style={{ width: '40%', height: '20px', marginBottom: '12px' }}></div>
+                <div
+                  className="skeleton-item"
+                  style={{ width: '100%', height: '40px', marginBottom: '16px' }}></div>
+                <div className="skeleton-item" style={{ width: '100%', height: '48px' }}></div>
+              </div>
+            </div>
+          ) : client ? (
+            isConnected ? (
+              client.status === 'Live' &&
+              !client.is_blacklisted &&
+              chain &&
+              chain.id === client.participate_chain_id ? (
+                isLotteryWinner ? (
+                  <>
                     <div
-                      style={{ cursor: 'pointer' }}
-                      className="max max-button"
-                      onClick={() => setInputValue(maxReal())}>
-                      <p>
-                        Max: {maxReal()} {balance?.symbol}
-                      </p>
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '10px',
+                        backgroundColor: '#191916',
+                        padding: '30px 15px',
+                        borderRadius: '15px',
+                        width: '100%',
+                        marginTop: '20px',
+                        position: 'relative',
+                      }}>
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                          }}>
+                          <p
+                            style={{
+                              fontSize: '10px',
+                              fontWeight: '700',
+                              color: '#BEF642',
+                              fontFamily: 'Plus Jakarta Sans',
+                            }}>
+                            {client.sale_progress} /{' '}
+                            {client.detail_launch_price * client.detail_token_for_sale} USD
+                          </p>
+                          <p
+                            style={{
+                              fontSize: '10px',
+                              fontWeight: '700',
+                              color: '#FFF',
+                              fontFamily: 'Plus Jakarta Sans',
+                            }}>
+                            Your Allocation: {client.max_user_deposit} {balance?.symbol}
+                          </p>
+                        </div>
+                        <div
+                          style={{
+                            width: '100%',
+                            height: '4px',
+                            borderRadius: '20px',
+                            backgroundColor: '#000',
+                            position: 'relative',
+                            marginTop: '8px',
+                          }}>
+                          <div
+                            style={{
+                              width: `${
+                                (client.sale_progress * 100) /
+                                (client.detail_launch_price * client.detail_token_for_sale)
+                              }%`,
+                              height: '8px',
+                              borderRadius: '20px',
+                              marginTop: '-2px',
+                              backgroundColor: '#BEF642',
+                            }}></div>
+                        </div>
+
+                        <div
+                          style={{
+                            marginTop: '15px',
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                          }}>
+                          <p
+                            style={{
+                              fontSize: '10px',
+                              fontWeight: '300',
+                              color: '#FFF',
+                              fontFamily: 'Plus Jakarta Sans',
+                            }}>
+                            Balance: {balance?.formatted} {balance?.symbol}
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          backgroundColor: '#000',
+                          borderRadius: '50px',
+                          padding: '14px 20px 14px 17px',
+                        }}>
+                        <InputNumber
+                          min={0}
+                          max={maxReal()}
+                          value={inputValue}
+                          onChange={onChange}
+                          placeholder="0"
+                        />
+                        <div
+                          style={{ cursor: 'pointer' }}
+                          className="max max-button"
+                          onClick={() => setInputValue(maxReal())}>
+                          <p style={{ fontSize: '10px', fontWeight: '500', color: '#BEF642' }}>
+                            Max: {maxReal()} {balance?.symbol}
+                          </p>
+                        </div>
+                      </div>
+                      <div style={{ marginTop: '15px' }}>
+                        {client.sold_out ? (
+                          <Button disabled type="primary">
+                            <span style={{ fontWeight: '800', fontFamily: 'Plus Jakarta Sans' }}>
+                              {' '}
+                              Sold Out
+                            </span>
+                          </Button>
+                        ) : (
+                          <Button
+                            className="confirm-btn"
+                            onClick={() => sendToken()}
+                            loading={transactionLoading}
+                            style={{ width: '100%' }}
+                            type="primary"
+                            disabled={
+                              inputValue > client.allocation ||
+                              transactionLoading ||
+                              inputValue === 0
+                            }>
+                            <span style={{ fontWeight: '800', fontFamily: 'Plus Jakarta Sans' }}>
+                              Confirm
+                            </span>
+                          </Button>
+                        )}
+                      </div>
+                      {transactionLoading && (
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexDirection: 'column',
+                            gap: '15px',
+                            backgroundColor: 'rgba(25, 25, 22, 0.95)',
+                            borderRadius: '15px',
+                            padding: '0px 28px',
+                          }}>
+                          <Icons name="loading-spin-icon"></Icons>
+                          <p
+                            style={{
+                              fontSize: '14px',
+                              fontWeight: '800',
+                              fontFamily: 'Plus Jakarta Sans',
+                              color: '#fff',
+                            }}>
+                            Processing...
+                          </p>
+                          <p
+                            style={{
+                              fontSize: '14px',
+                              fontWeight: '500',
+                              fontFamily: 'Plus Jakarta Sans',
+                              color: '#fff',
+                              textAlign: 'center',
+                            }}>
+                            We are processing your deposit request, please wait patiently.
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <div className="card-main">
+                    <div className="not-winner-message">
+                      <p>Not a lottery winner</p>
+                      <p>You are not eligible to participate in this IXO.</p>
                     </div>
                   </div>
-                  <div className="btn-wrap">
-                    {client.sold_out ? (
-                      <button disabled>
-                        <p>Sold Out</p>
-                      </button>
-                    ) : (
-                      <Button
-                        className="confirm-btn"
-                        onClick={() => sendToken()}
-                        loading={transactionLoading}
-                        disabled={
-                          inputValue > client.allocation || transactionLoading || inputValue === 0
-                        }>
-                        <p>Confirm</p>
-                      </Button>
-                    )}
-                  </div>
-                  {transactionLoading && (
-                    <div className="loading-event-wrap">
-                      <Icons name="loading-spin-icon"></Icons>
-                      <h4>Processing...</h4>
-                      <h4 style={{ fontSize: '14px', fontWeight: '400', opacity: '0.5' }}>
-                        We are processing your deposit request, please wait patiently.
-                      </h4>
-                    </div>
-                  )}
-                </div>
+                )
               ) : (
                 <div className="card-main">
-                  <div className="not-winner-message">
-                    <p>Not a lottery winner</p>
-                    <p>You are not eligible to participate in this IXO.</p>
+                  <div className="error-message">
+                    {client.is_blacklisted
+                      ? 'Not whitelisted'
+                      : isConnected
+                      ? 'Please change your network to participate in this IXO'
+                      : 'Please connect your wallet to participate in this IXO'}
                   </div>
                 </div>
               )
             ) : (
               <div className="card-main">
-                <div className="error-message">
-                  {client.is_blacklisted
-                    ? 'Not whitelisted'
-                    : isConnected
-                    ? 'Please change your network to participate in this IXO'
-                    : 'Please connect your wallet to participate in this IXO'}
-                </div>
+                <div className="error-message">Connecting to wallet...</div>
               </div>
             )
           ) : (
             <div className="card-main">
-              <div className="error-message">Connecting to wallet...</div>
+              <div className="error-message">Failed to load client data</div>
             </div>
-          )
-        ) : (
-          <div className="card-main">
-            <div className="error-message">Failed to load client data</div>
+          )}
+        </CardContainer>
+
+        {/* Success Modal */}
+        <Modal
+          centered
+          wrapClassName="ModalWrap"
+          className="ModalElement"
+          open={successModal}
+          //open={true}
+          footer={false}
+          closable={false}
+          height={343}
+          width="100%"
+          styles={{
+            body: {
+              padding: 0,
+              borderRadius: '15px',
+            },
+            content: {
+              padding: 0,
+              borderRadius: '15px',
+            },
+          }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              gap: '15px',
+              alignItems: 'center',
+              backgroundImage: 'url("/Vector.svg")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              height: '343px',
+              width: '100%',
+              backgroundColor: '#191916',
+              borderRadius: '13px',
+              paddingBottom: '30px',
+              paddingLeft: '15px',
+              paddingRight: '15px',
+            }}>
+            <Image src="/img.svg" alt="success" width={100} height={100}></Image>
+            <p
+              style={{
+                fontSize: '18px',
+                fontWeight: '700',
+                color: '#BEF642',
+                fontFamily: 'Plus Jakarta Sans',
+              }}>
+              Investment Completed!
+            </p>
+            <h3
+              style={{
+                fontSize: '12px',
+                fontWeight: '700',
+                color: '#FFF',
+                fontFamily: 'Plus Jakarta Sans',
+                marginTop: '-10px',
+              }}>
+              Your Allocation: 400 USD
+            </h3>
+
+            <Button
+              type="primary"
+              className="modal-btn"
+              style={{ width: '100%' }}
+              onClick={() => {
+                setSuccessModal(false); // Close the modal
+                router.push('/'); // Redirect to homepage
+              }}>
+              <p style={{ fontSize: '14px', fontWeight: '600', fontFamily: 'Plus Jakarta Sans' }}>
+                Close
+              </p>
+            </Button>
           </div>
-        )}
-      </CardContainer>
+        </Modal>
 
-      {/* Success Modal */}
-      <Modal
-        centered
-        wrapClassName="ModalWrap"
-        className="ModalElement"
-        open={successModal}
-        footer={false}
-        closable={false}>
-        <div className="ModalInnerWrap">
-          <div className="modal-header-wrap">
-            <Icons name="kinetix-icon"></Icons>
-            <div className="intro">
-              <p>Initial X Offering (IXO) powered by</p> <Icons name="xpad-icon"></Icons>
-            </div>
+        {/* Error Modal */}
+        <Modal
+          centered
+          wrapClassName="ModalWrap"
+          className="ModalElement"
+          open={errorModal}
+          //open={true}
+          footer={false}
+          closable={false}
+          height={357}
+          width="100%"
+          styles={{
+            body: {
+              padding: 0,
+              borderRadius: '15px',
+            },
+            content: {
+              padding: 0,
+              borderRadius: '15px',
+            },
+          }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              gap: '15px',
+              alignItems: 'center',
+              backgroundImage: 'url("/Vector.svg")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              height: '357px',
+              width: '100%',
+              backgroundColor: '#191916',
+              borderRadius: '13px',
+              paddingBottom: '30px',
+              paddingLeft: '15px',
+              paddingRight: '15px',
+            }}>
+            <Image src="/SHIT..svg" alt="success" width={197} height={160}></Image>
+            <p
+              style={{
+                fontSize: '18px',
+                fontWeight: '700',
+                color: '#FF527B',
+                fontFamily: 'Plus Jakarta Sans',
+              }}>
+              Error Occurred!
+            </p>
+            <h3
+              style={{
+                fontSize: '12px',
+                fontWeight: '700',
+                color: '#FFF',
+                fontFamily: 'Plus Jakarta Sans',
+                marginTop: '-10px',
+                textAlign: 'center',
+              }}>
+              Sh*t. The pool was filled before your transaction was processed by the network. Better
+              luck next time!
+            </h3>
+
+            <Button
+              type="primary"
+              className="modal-btn"
+              style={{ width: '100%' }}
+              onClick={() => {
+                setErrorModal(false); // Close the modal
+                router.push('/'); // Redirect to homepage
+              }}>
+              <p style={{ fontSize: '14px', fontWeight: '600', fontFamily: 'Plus Jakarta Sans' }}>
+                Back to home
+              </p>
+            </Button>
           </div>
-
-          <div className="modal-body-wrap">
-            <div className="kinetix-modal-bg">
-              <Icons name="kinetix-modal-bg"></Icons>
-            </div>
-
-            <div className="modal-row-wrap">
-              <div className="text-wrap">
-                <p>Investment Completed!</p>
-                <h3>The transaction has been completed successfully!</h3>
-                <h3
-                  style={{
-                    opacity: '0.5',
-                    marginTop: '10px',
-                    fontWeight: '500',
-                  }}>
-                  Note: In can take up to 3 minutes before your transaction will appear. Please
-                  relax.
-                </h3>
-              </div>
-              <button
-                className="modal-btn"
-                onClick={() => {
-                  setSuccessModal(false); // Close the modal
-                  router.push('/'); // Redirect to homepage
-                }}>
-                <p>Close</p>
-              </button>
-            </div>
-          </div>
-        </div>
-      </Modal>
-
-      {/* Error Modal */}
-      <Modal
-        centered
-        wrapClassName="ModalWrap"
-        className="ModalElement"
-        open={errorModal}
-        footer={false}
-        closable={false}>
-        <div className="ModalInnerWrap">
-          <div className="modal-header-wrap">
-            <Icons name="kinetix-icon"></Icons>
-            <div className="intro">
-              <p>Initial X Offering (IXO) powered by</p> <Icons name="xpad-icon"></Icons>
-            </div>
-          </div>
-
-          <div className="modal-body-wrap">
-            <div className="kinetix-modal-bg error-bg">
-              <Icons name="kinetix-error-modal-bg"></Icons>
-            </div>
-
-            <div className="modal-row-wrap error-modal">
-              <div className="text-wrap">
-                <p> Error Occurred!</p>
-                <h3>
-                  Sh*t. The pool was filled before your transaction was processed by the network.
-                  Better luck next time!
-                </h3>
-              </div>
-              <button
-                className="modal-btn"
-                onClick={() => {
-                  setErrorModal(false); // Close the modal
-                  router.push('/'); // Redirect to homepage
-                }}>
-                <p>Back to home</p>
-              </button>
-            </div>
-          </div>
-        </div>
-      </Modal>
-    </ParticipatePageWrapper>
+        </Modal>
+      </ParticipatePageWrapper>
+    </ConfigProvider>
   );
 }

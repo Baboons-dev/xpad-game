@@ -21,7 +21,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const { telegram_user } = useTelegram();
   const setTgId = useStore((state) => state.setCTgId);
   const searchParams = useSearchParams();
-  const tgId = searchParams.get('tgId');
+  //const tgId = searchParams.get('tgId');
+  const tgId = '66439116385786910FTa6qr9SF/NL4fh2tS4Uw==';
 
   const { disconnect } = useDisconnect();
   const { address, isConnected, connector, chain } = useAccount();
