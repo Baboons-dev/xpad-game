@@ -16,8 +16,9 @@ import {
 import abi from '../../../utils/erc20.json';
 import { parseEther } from 'viem';
 import { getLotteryResults } from '@/api/apiCalls/user';
-import { useSelector } from '@/store';
+import { useSelector, useStore } from '@/store';
 import styled from '@emotion/styled';
+import { useAppKit } from '@reown/appkit/react';
 
 const ParticipatePageWrapper = styled.div`
   display: flex;
@@ -42,12 +43,12 @@ export default function ParticipatePage() {
   const { connect, connectors } = useConnect();
   const { switchChain } = useSwitchChain();
   const [client, setClient] = useState<any>(null);
-
-  const { user, token, isAuthenticated } = useSelector((state: any) => state.user);
+  const { open, close } = useAppKit();
+  const { isAuthenticated } = useSelector((state: any) => state.user);
   const router = useRouter();
   const [inputValue, setInputValue] = useState(1);
   const [isLotteryWinner, setIsLotteryWinner] = useState<boolean>(false);
-
+  const user = useStore((state) => state.user);
   const { slug }: any = useParams();
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
   const [transactionLoading, setTransactionLoading] = useState<boolean>(false);
@@ -124,6 +125,12 @@ export default function ParticipatePage() {
   }, [isAuthenticated, address]);
 
   const sendToken = async () => {
+    if (!address) {
+      message.warning('Please connect your wallet first');
+      open({ view: 'Connect' });
+      return;
+    }
+
     if (inputValue <= max() && chain && client.wallet) {
       setTransactionLoading(true);
       try {
@@ -244,13 +251,11 @@ export default function ParticipatePage() {
   };
 
   useEffect(() => {
-    if (!isConnected && connectors.length > 0) {
-      const connector = connectors.find((c) => c.name === 'MetaMask') || connectors[0];
-      if (connector) {
-        connect({ connector });
-      }
+    if (!isConnected && !address) {
+      message.warning('Please connect your wallet first');
+      open({ view: 'Connect' });
     }
-  }, [isConnected, connectors, connect]);
+  }, [isConnected, address]);
 
   return (
     <ParticipatePageWrapper>
