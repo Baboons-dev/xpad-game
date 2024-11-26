@@ -22,6 +22,36 @@ export default function FeaturedNFTs({ activeTab }: { activeTab: string }) {
     }
   };
 
+  const updateFavoriteStatus = (nftIdentifier: string) => {
+    setAllNfts((prevState) => {
+      if (!prevState) return null; // If the state is null, return early
+
+      const updatedResults = prevState.results.map((nft) =>
+        nft.identifier === nftIdentifier ? { ...nft, is_favorite: true } : nft
+      );
+
+      return {
+        ...prevState,
+        results: updatedResults,
+      };
+    });
+  };
+
+  const updateUnFavoriteStatus = (nftIdentifier: string) => {
+    setAllNfts((prevState) => {
+      if (!prevState) return null; // If the state is null, return early
+
+      const updatedResults = prevState.results.map((nft) =>
+        nft.identifier === nftIdentifier ? { ...nft, is_favorite: false } : nft
+      );
+
+      return {
+        ...prevState,
+        results: updatedResults,
+      };
+    });
+  };
+
   useEffect(() => {
     if (activeTab === '1') {
       fetchAllNfts(1, 9);
@@ -37,7 +67,12 @@ export default function FeaturedNFTs({ activeTab }: { activeTab: string }) {
       ) : allNfts && allNfts?.results?.length > 0 ? (
         <>
           {allNfts?.results?.map((nft) => (
-            <NFTCard key={nft.id} nft={nft} setAllNfts={setAllNfts} fetchAllNfts={fetchAllNfts} />
+            <NFTCard
+              key={nft.id}
+              nft={nft}
+              favoriteNft={(nftIdentifier) => updateFavoriteStatus(nftIdentifier)}
+              unFavoriteNft={(nftIdentifier) => updateUnFavoriteStatus(nftIdentifier)}
+            />
           ))}
           {allNfts?.results?.length ? (
             <Pagination
