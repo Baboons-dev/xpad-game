@@ -47,13 +47,13 @@ export const TelegramProvider = ({ children }: { children: React.ReactNode }) =>
   // encrypted 6365928462 2080198345424589ofhmstvDZXFCkJF2Q+dLJg==
   // encrypted 6365928463 2395150315902941ZM2ZxX9iNs7U9jW6dA76Sg==
 
-  const statUser = {
-    id: 6365928460,
-    first_name: 'Hasib2',
-    last_name: 'Arman2',
-  };
+  // const statUser = {
+  //   id: 6365928460,
+  //   first_name: 'Hasib2',
+  //   last_name: 'Arman2',
+  // };
 
-  // const statUser = null;
+  const statUser = null;
   const value = useMemo(() => {
     return webApp
       ? {
