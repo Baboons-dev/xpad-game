@@ -1,6 +1,6 @@
-import { Icon, IconProps } from "@chakra-ui/react";
+import { Icon, IconProps } from '@chakra-ui/react';
 
-export function NftIcon({ color = "#33A7FF", ...props }: IconProps & { color?: string }) {
+export function NftIcon({ color = '#33A7FF', ...props }: IconProps & { color?: string }) {
   return (
     <Icon width="44px" height="44px" viewBox="0 0 44 44" fill="none" {...props}>
       <rect width="44" height="44" rx="8" fill={color} fillOpacity="0.15" />
@@ -29,9 +29,9 @@ export function NftIcon({ color = "#33A7FF", ...props }: IconProps & { color?: s
   );
 }
 
-export function CompetitionIcon({ color = "#33A7FF", ...props }: IconProps & { color?: string }) {
+export function CompetitionIcon({ color = '#33A7FF', ...props }: IconProps & { color?: string }) {
   return (
-    <Icon width="44px" height="44px" viewBox="0 0 44 44" fill="none" {...props}>
+    <Icon width="61px" height="60px" viewBox="0 0 44 44" fill="none" {...props}>
       <rect width="44" height="44" rx="8" fill={color} fillOpacity="0.15" />
       <path
         d="M28 16H16C14.8954 16 14 16.8954 14 18V20C14 22.2091 15.7909 24 18 24H26C28.2091 24 30 22.2091 30 20V18C30 16.8954 29.1046 16 28 16Z"
@@ -72,7 +72,7 @@ export function CompetitionIcon({ color = "#33A7FF", ...props }: IconProps & { c
   );
 }
 
-export function MintIcon({ color = "#33A7FF", ...props }: IconProps & { color?: string }) {
+export function MintIcon({ color = '#33A7FF', ...props }: IconProps & { color?: string }) {
   return (
     <Icon width="44px" height="44px" viewBox="0 0 44 44" fill="none" {...props}>
       <rect width="44" height="44" rx="8" fill={color} fillOpacity="0.15" />
