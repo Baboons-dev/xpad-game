@@ -1,17 +1,15 @@
 'use client';
 
-import { Box, Image, Text } from '@chakra-ui/react';
-import backgroundImage from '../../../assets/background.png';
-import Link from 'next/link';
-import BackArrowIcon from '@/icons/ArrowBack';
-import { useEffect, useState } from 'react';
-import { GetFundraiseData, ClaimTokens, getClaimedTokens } from '@/api/apiCalls/user';
-import { Modal } from 'antd';
-import Icons from '@/config/icon';
-//import { filePath } from '@/api/axios';
-import router from 'next/router';
-import { useSelector, useStore } from '@/store';
+import React, { useEffect, useState } from 'react';
 import { Decimal } from 'decimal.js';
+//import '../../assets/scss/portfolio-page.scss';
+import { GetFundraiseData, ClaimTokens, getClaimedTokens } from '@/api/apiCalls/user';
+import Icons from '@/config/icon';
+import filePath from '@/api/axios';
+import { Modal } from 'antd';
+import { useSelector } from '@/store';
+import router from 'next/router';
+
 interface ClientData {
   title: string;
   avatar_url: string | null;
@@ -25,7 +23,9 @@ interface ClaimRequest {
   payout_part: number;
   amount: string;
   claimed: boolean;
+  payout_requested: boolean;
   unlock_date: string;
+  percentage: number;
 }
 
 interface FundraiseData {
@@ -55,14 +55,10 @@ interface TokensClaimed {
 }
 
 export default function PortfolioPage() {
-  const user = useStore((state) => state.user);
-  const [fundraiseData, setFundraiseData] = useState<FundraiseData[]>([]);
+  const { user } = useSelector((state: any) => state.user || {});
+  const [vestedPotfolioData, setVestedPotfolioData] = useState<FundraiseData[]>([]);
+  const [claimedPotfolioData, setClaimedPotfolioData] = useState<FundraiseData[]>([]);
   const [countdown, setCountdown] = useState<{ [key: number]: string }>({});
-  const [claimedTokensData, setClaimedTokensData] = useState<{ [key: number]: TokensClaimed[] }>(
-    {}
-  );
-  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
-  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -71,41 +67,39 @@ export default function PortfolioPage() {
   useEffect(() => {
     const timer = setInterval(updateCountdown, 1000);
     return () => clearInterval(timer);
-  }, [fundraiseData]);
+  }, [vestedPotfolioData]);
 
   const fetchData = async () => {
     try {
       const data = await GetFundraiseData();
-      setFundraiseData(data);
-      initializeCountdown(data);
+      // Filter claimedPotfolioData
+      const claimedPotfolioData = data.filter((item: FundraiseData) =>
+        item.claim_requests.every(
+          (request) =>
+            request.claimed &&
+            request.payout_requested &&
+            new Date(request.unlock_date) < new Date()
+        )
+      );
 
-      const claimedTokensPromises = data.map((project: any) => getClaimedTokens(project.client_id));
-      const claimedTokensResults = await Promise.all(claimedTokensPromises);
+      // Filter vestedPotfolioData
+      const vestedPotfolioData = data.filter((item: FundraiseData) =>
+        item.claim_requests.some(
+          (request) => !request.claimed && new Date(request.unlock_date) < new Date()
+        )
+      );
 
-      const claimedTokensMap = data.reduce((acc: any, project: any, index: number) => {
-        acc[project.client_id] = claimedTokensResults[index];
-        return acc;
-      }, {} as { [key: number]: TokensClaimed[] });
-
-      setClaimedTokensData(claimedTokensMap);
+      setClaimedPotfolioData(claimedPotfolioData);
+      setVestedPotfolioData(vestedPotfolioData);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-  const initializeCountdown = (data: FundraiseData[]) => {
-    const initialCountdown: { [key: number]: string } = {};
-    data.forEach((item) => {
-      const nextClaimDate = getNextClaimDate(item);
-      initialCountdown[item.client_id] = calculateCountdown(nextClaimDate);
-    });
-    setCountdown(initialCountdown);
-  };
-
   const updateCountdown = () => {
     setCountdown((prevCountdown) => {
       const newCountdown: { [key: number]: string } = {};
-      fundraiseData.forEach((data) => {
+      vestedPotfolioData.forEach((data) => {
         const nextClaimDate = getNextClaimDate(data);
         newCountdown[data.client_id] = calculateCountdown(nextClaimDate);
       });
@@ -146,35 +140,31 @@ export default function PortfolioPage() {
   };
 
   const isClaimingLocked = (data: FundraiseData) => {
-    const unclaimedRequest = data.claim_requests?.find((request) => !request.claimed);
+    const unclaimedRequest = data.claim_requests?.find(
+      (request) => !request.claimed && !request.payout_requested
+    );
 
-    if (!unclaimedRequest) {
+    // Check for current claimable requests
+    const currentClaimableRequests = data.claim_requests?.filter(
+      (request) =>
+        new Date(request.unlock_date) <= new Date() && !request.claimed && !request.payout_requested
+    );
+
+    if (!unclaimedRequest && (!currentClaimableRequests || currentClaimableRequests.length === 0)) {
       return true;
     }
+
+    if (!unclaimedRequest) return false;
 
     const unlockDate = new Date(unclaimedRequest.unlock_date);
     return new Date() < unlockDate;
   };
 
-  const calculateClaimableAmount = (
-    data: FundraiseData
-  ): { amount: Decimal; percentage: Decimal } => {
-    const claimableRequest = data.claim_requests?.find(
-      (request) => !request.claimed && new Date(request.unlock_date) <= new Date()
-    );
+  // State for success modal visibility
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
 
-    if (!claimableRequest) {
-      return {
-        amount: new Decimal(0),
-        percentage: new Decimal(0),
-      };
-    }
-
-    return {
-      amount: new Decimal(claimableRequest.amount),
-      percentage: new Decimal(claimableRequest.payout_part),
-    };
-  };
+  // State for error modal visibility
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
   // Function to show the success modal
   const showSuccessModal = () => {
@@ -196,24 +186,17 @@ export default function PortfolioPage() {
     setIsErrorModalVisible(false);
   };
 
-  const handleClaim = async (clientId: number) => {
+  const handleClaim = async (fundraiseData: FundraiseData) => {
     try {
-      const projectData = fundraiseData.find((data) => data.client_id === clientId);
-      if (!projectData) {
-        throw new Error('Project not found');
-      }
+      const unclaimedRequests = fundraiseData.claim_requests.filter(
+        (request: ClaimRequest) => !request.claimed
+      );
 
-      const unclaimedRequest = projectData.claim_requests.find((request) => !request.claimed);
-      if (!unclaimedRequest) {
+      if (!unclaimedRequests.length) {
         throw new Error('No unclaimed requests available');
       }
 
-      if (new Date(unclaimedRequest.unlock_date) > new Date()) {
-        throw new Error('Claim not yet available');
-      }
-
-      const response = await ClaimTokens(clientId);
-      console.log(response.message);
+      const response = await ClaimTokens(fundraiseData.client_id);
       await fetchData();
       showSuccessModal();
     } catch (error) {
@@ -226,381 +209,360 @@ export default function PortfolioPage() {
     <>
       <h2 className="card-title">Vested Portfolio</h2>
       <div className="IXO-card-container vested-portfolio">
-        {fundraiseData
-          ?.filter((data) => {
-            const claimedTokens = claimedTokensData[data.client_id] || [];
-            const latestClaim = claimedTokens[claimedTokens.length - 1];
+        {vestedPotfolioData.map((data: FundraiseData) => {
+          const claimedAmount = data.claim_requests
+            .filter((request) => request.claimed)
+            .reduce((total, request) => total + parseFloat(request.amount), 0);
 
-            const [claimedValue] = latestClaim
-              ? latestClaim.totalsent.split(' ')
-              : ['0', '(0.00%)'];
+          const remainingVested = data.claim_requests
+            .filter((request) => !request.claimed)
+            .reduce((total, request) => total + parseFloat(request.amount), 0);
 
-            const franske = new Decimal(data.tokens_to_receive);
-            const franskeee = franske.toFixed(6);
+          const currentClaimableRequests: ClaimRequest[] =
+            data.claim_requests?.filter(
+              (request) =>
+                new Date(request.unlock_date) <= new Date() &&
+                !request.claimed &&
+                !request.payout_requested
+            ) || [];
 
-            const franskee = new Decimal(claimedValue);
-            const remainingToPay = new Decimal(franskeee).minus(franskee);
+          const upcomingClaimRequest: ClaimRequest | undefined = data.claim_requests?.find(
+            (request) =>
+              new Date(request.unlock_date) > new Date() &&
+              !request.claimed &&
+              !request.payout_requested
+          );
 
-            // Filter projects where remainingToPay is equal to or less than 0
-            return remainingToPay.greaterThan(0);
-          })
-          .map((data) => {
-            const { amount: claimableAmount, percentage: claimablePercentage } =
-              calculateClaimableAmount(data);
-            const totalClaimed = data?.claim_requests?.reduce(
-              (acc, cr) => acc.plus(new Decimal(cr?.amount || 0)),
-              new Decimal(0)
-            );
+          const requestedClaims: ClaimRequest[] = data.claim_requests?.filter(
+            (request) =>
+              new Date(request.unlock_date) <= new Date() &&
+              !request.claimed &&
+              request.payout_requested
+          );
 
-            const nextClaimDate = getNextClaimDate(data);
+          const totalTokensToReceive = parseFloat(data.tokens_to_receive);
 
-            const claimedTokens = claimedTokensData[data.client_id] || [];
-            const latestClaim = claimedTokens[claimedTokens.length - 1];
+          const claimedPercentage =
+            totalTokensToReceive > 0 ? (claimedAmount / totalTokensToReceive) * 100 : 0;
 
-            const [claimedValue, claimedPercentage] = latestClaim
-              ? latestClaim.totalsent.split(' ')
-              : ['0', '(0.00%)'];
+          const totalVestedPercentage =
+            remainingVested > 0 ? (remainingVested / totalTokensToReceive) * 100 : 0;
 
-            const totalVested = new Decimal(data.tokens_to_receive);
-            const remainingVested = totalVested
-              .minus(new Decimal(claimedValue))
-              .minus(claimableAmount);
-
-            const totalInvested = new Decimal(data.total_deposit);
-
-            const dataWithoutPercent = claimedPercentage.replace('%', '');
-            const dataWithoutPercentFix = dataWithoutPercent.replace(/[()]/g, '');
-            const totalClaimedClean = parseFloat(dataWithoutPercentFix);
-
-            const claimableFormatted = claimablePercentage.toFixed(2);
-
-            const startValue = new Decimal(100);
-
-            const totalVestedPercent = startValue
-              .minus(totalClaimedClean)
-              .minus(claimableFormatted);
-
-            const payoutParts = data?.detail_vesting + 1;
-
-            return (
-              <div key={data.client_id} className="IXO-card-item">
-                <div className="profile-info-wrap">
-                  <div className="profile-img-container">
-                    <div className="profile-img-wrap">
-                      {/* <img
-                        src={
-                          filePath(data.client_data.avatar_url)
-                            ? filePath(data.client_data.avatar_url)
-                            : '/xpad_logo'
-                        }
-                        alt=""
-                      /> */}
-                    </div>
-                  </div>
-
-                  <div className="text-wrap">
-                    <div className="flex-wrap">
-                      <p>{data.client_title}</p>
-                    </div>
-                    <div className="socials">
-                      {data.client_data.website_url && (
-                        <>
-                          {data.client_data.website_url.startsWith('') ? (
-                            <a href={data.client_data.website_url}>
-                              <div className="icon-wrap">
-                                <Icons name="globe-icon-socials" />
-                              </div>
-                            </a>
-                          ) : data.client_data.website_url.startsWith('www.') ? (
-                            <a href={'https://' + data.client_data.website_url}>
-                              <div className="icon-wrap">
-                                <Icons name="globe-icon-socials" />
-                              </div>
-                            </a>
-                          ) : (
-                            <a href={'https://www.' + data.client_data.website_url}>
-                              <div className="icon-wrap">
-                                <Icons name="globe-icon-socials" />
-                              </div>
-                            </a>
-                          )}
-                        </>
-                      )}
-
-                      {data.client_data.twitter_url && (
-                        <>
-                          {data.client_data.twitter_url.startsWith('') ? (
-                            <a href={data.client_data.twitter_url}>
-                              <div className="icon-wrap">
-                                <Icons name="x-icon-socials" />
-                              </div>
-                            </a>
-                          ) : data.client_data.twitter_url.startsWith('www.') ? (
-                            <a href={'https://' + data.client_data.twitter_url}>
-                              <div className="icon-wrap">
-                                <Icons name="x-icon-socials" />
-                              </div>
-                            </a>
-                          ) : (
-                            <a href={'https://www.' + data.client_data.twitter_url}>
-                              <div className="icon-wrap">
-                                <Icons name="x-icon-socials" />
-                              </div>
-                            </a>
-                          )}
-                        </>
-                      )}
-
-                      {data.client_data.discord_url && (
-                        <>
-                          {data.client_data.discord_url.startsWith('') ? (
-                            <a href={data.client_data.discord_url}>
-                              <div className="icon-wrap">
-                                <Icons name="discord-icon-socials" />
-                              </div>
-                            </a>
-                          ) : data.client_data.discord_url.startsWith('www.') ? (
-                            <a href={'https://' + data.client_data.discord_url}>
-                              <div className="icon-wrap">
-                                <Icons name="discord-icon-socials" />
-                              </div>
-                            </a>
-                          ) : (
-                            <a href={'https://www.' + data.client_data.discord_url}>
-                              <div className="icon-wrap">
-                                <Icons name="discord-icon-socials" />
-                              </div>
-                            </a>
-                          )}
-                        </>
-                      )}
-
-                      {data.client_data.telegram_url && (
-                        <>
-                          {data.client_data.telegram_url.startsWith('') ? (
-                            <a href={data.client_data.telegram_url}>
-                              <div className="icon-wrap">
-                                <Icons name="telegram-icon-socials" />
-                              </div>
-                            </a>
-                          ) : data.client_data.telegram_url.startsWith('www.') ? (
-                            <a href={'https://' + data.client_data.telegram_url}>
-                              <div className="icon-wrap">
-                                <Icons name="telegram-icon-socials" />
-                              </div>
-                            </a>
-                          ) : (
-                            <a href={'https://www.' + data.client_data.telegram_url}>
-                              <div className="icon-wrap">
-                                <Icons name="telegram-icon-socials" />
-                              </div>
-                            </a>
-                          )}
-                        </>
-                      )}
-                    </div>
+          return (
+            <div key={data.client_id} className="IXO-card-item">
+              <div className="profile-info-wrap">
+                <div className="profile-img-container">
+                  <div className="profile-img-wrap">
+                    {/* <img
+                      src={
+                        filePath(data.client_data.avatar_url)
+                          ? filePath(data.client_data.avatar_url)
+                          : '/xpad_logo'
+                      }
+                      alt=""
+                    /> */}
                   </div>
                 </div>
-                <div className="profile-data-wrap">
-                  <div className="profile-data-item">
-                    <h2>Invested</h2>
-                    <h3>{totalInvested.toFixed(2)} USD</h3>
+
+                <div className="text-wrap">
+                  <div className="flex-wrap">
+                    <p>{data.client_title}</p>
                   </div>
-                  <div className="profile-data-item">
-                    <h2>Total Vested ({totalVestedPercent.toFixed(2)}%)</h2>
-                    {payoutParts === data?.claim_requests?.filter((r) => r.claimed).length ? (
-                      <h3>0 {data.detail_token_symbol} </h3>
-                    ) : (
-                      <h3>
-                        {remainingVested.toFixed(2)} {data.detail_token_symbol}{' '}
-                      </h3>
+                  <div className="socials">
+                    {data.client_data.website_url && (
+                      <>
+                        {data.client_data.website_url.startsWith('') ? (
+                          <a href={data.client_data.website_url}>
+                            <div className="icon-wrap">
+                              <Icons name="globe-icon-socials" />
+                            </div>
+                          </a>
+                        ) : data.client_data.website_url.startsWith('www.') ? (
+                          <a href={'https://' + data.client_data.website_url}>
+                            <div className="icon-wrap">
+                              <Icons name="globe-icon-socials" />
+                            </div>
+                          </a>
+                        ) : (
+                          <a href={'https://www.' + data.client_data.website_url}>
+                            <div className="icon-wrap">
+                              <Icons name="globe-icon-socials" />
+                            </div>
+                          </a>
+                        )}
+                      </>
+                    )}
+
+                    {data.client_data.twitter_url && (
+                      <>
+                        {data.client_data.twitter_url.startsWith('') ? (
+                          <a href={data.client_data.twitter_url}>
+                            <div className="icon-wrap">
+                              <Icons name="x-icon-socials" />
+                            </div>
+                          </a>
+                        ) : data.client_data.twitter_url.startsWith('www.') ? (
+                          <a href={'https://' + data.client_data.twitter_url}>
+                            <div className="icon-wrap">
+                              <Icons name="x-icon-socials" />
+                            </div>
+                          </a>
+                        ) : (
+                          <a href={'https://www.' + data.client_data.twitter_url}>
+                            <div className="icon-wrap">
+                              <Icons name="x-icon-socials" />
+                            </div>
+                          </a>
+                        )}
+                      </>
+                    )}
+
+                    {data.client_data.discord_url && (
+                      <>
+                        {data.client_data.discord_url.startsWith('') ? (
+                          <a href={data.client_data.discord_url}>
+                            <div className="icon-wrap">
+                              <Icons name="discord-icon-socials" />
+                            </div>
+                          </a>
+                        ) : data.client_data.discord_url.startsWith('www.') ? (
+                          <a href={'https://' + data.client_data.discord_url}>
+                            <div className="icon-wrap">
+                              <Icons name="discord-icon-socials" />
+                            </div>
+                          </a>
+                        ) : (
+                          <a href={'https://www.' + data.client_data.discord_url}>
+                            <div className="icon-wrap">
+                              <Icons name="discord-icon-socials" />
+                            </div>
+                          </a>
+                        )}
+                      </>
+                    )}
+
+                    {data.client_data.telegram_url && (
+                      <>
+                        {data.client_data.telegram_url.startsWith('') ? (
+                          <a href={data.client_data.telegram_url}>
+                            <div className="icon-wrap">
+                              <Icons name="telegram-icon-socials" />
+                            </div>
+                          </a>
+                        ) : data.client_data.telegram_url.startsWith('www.') ? (
+                          <a href={'https://' + data.client_data.telegram_url}>
+                            <div className="icon-wrap">
+                              <Icons name="telegram-icon-socials" />
+                            </div>
+                          </a>
+                        ) : (
+                          <a href={'https://www.' + data.client_data.telegram_url}>
+                            <div className="icon-wrap">
+                              <Icons name="telegram-icon-socials" />
+                            </div>
+                          </a>
+                        )}
+                      </>
                     )}
                   </div>
-                  <div className="profile-data-item">
-                    <h2>Claimed {claimedPercentage}</h2>
-                    <h3>
-                      {Number(claimedValue).toFixed(2)} {data.detail_token_symbol}
-                    </h3>
-                  </div>
-                  <div className="profile-data-item Claimable">
-                    {isClaimingLocked(data) ? (
-                      <h2>
-                        {payoutParts === data?.claim_requests?.filter((r) => r.claimed).length
-                          ? `Requested Claim`
-                          : `Upcoming Claim`}{' '}
-                        ({claimablePercentage.toFixed(2)}%)
-                      </h2>
-                    ) : (
-                      <h2>Claimable ({claimablePercentage.toFixed(2)}%)</h2>
-                    )}
-                    <h3>
-                      {claimableAmount.toFixed(2)} {data.detail_token_symbol}
-                    </h3>
-                  </div>
-                </div>
-                <div className="profile-btn-wrap">
-                  {payoutParts === data?.claim_requests?.filter((r) => r.claimed).length ? (
-                    <button disabled={true} className={'btn-style-2'}>
-                      No Upcoming Claims
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => handleClaim(data.client_id)}
-                      disabled={isClaimingLocked(data)}
-                      className={isClaimingLocked(data) ? 'btn-style-2' : 'btn-style-1'}>
-                      {data.claim_requests.every((request) => request.claimed)
-                        ? 'No Upcoming Claims'
-                        : isClaimingLocked(data)
-                        ? `Vesting ${countdown[data.client_id] || 'Calculating...'}`
-                        : `Claim ${claimableAmount.toFixed(2)} ${data.detail_token_symbol}`}
-                    </button>
-                  )}
-
-                  {/* Success Modal */}
-                  <Modal
-                    centered
-                    wrapClassName="ModalWrap"
-                    className="ModalElement"
-                    visible={isSuccessModalVisible}
-                    footer={null} // Remove default footer
-                    onCancel={handleSuccessOk} // Close modal when clicking outside or on the X button
-                  >
-                    <div className="ModalInnerWrap">
-                      <div className="modal-header-wrap">
-                        <Icons name="kinetix-icon"></Icons>
-                        <div className="intro">
-                          <p>Initial X Offering (IXO) powered by</p>{' '}
-                          <Icons name="xpad-icon"></Icons>
-                        </div>
-                      </div>
-
-                      <div className="modal-body-wrap">
-                        <div className="kinetix-modal-bg">
-                          <Icons name="kinetix-modal-bg"></Icons>
-                        </div>
-
-                        <div className="modal-row-wrap">
-                          <div className="text-wrap">
-                            <p>You&apos;ve Requested a Claim!</p>
-                            <h3>We have received your claim request successfully.</h3>
-                            <h3
-                              style={{
-                                opacity: '0.5',
-                                marginTop: '10px',
-                                fontWeight: '500',
-                              }}>
-                              Note: It can take up to 48 hours to receive your tokens. Please be
-                              patient.
-                            </h3>
-                          </div>
-                          <button className="modal-btn" onClick={handleSuccessOk}>
-                            <p>Close</p>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </Modal>
-
-                  {/* Error Modal */}
-                  <Modal
-                    centered
-                    wrapClassName="ModalWrap"
-                    className="ModalElement"
-                    visible={isErrorModalVisible}
-                    footer={null} // Remove default footer
-                    onCancel={handleErrorOk} // Close modal when clicking outside or on the X button
-                  >
-                    <div className="ModalInnerWrap">
-                      <div className="modal-header-wrap">
-                        <Icons name="kinetix-icon"></Icons>
-                        <div className="intro">
-                          <p>Initial X Offering (IXO) powered by</p>{' '}
-                          <Icons name="xpad-icon"></Icons>
-                        </div>
-                      </div>
-
-                      <div className="modal-body-wrap">
-                        <div className="kinetix-modal-bg error-bg">
-                          <Icons name="kinetix-error-modal-bg"></Icons>
-                        </div>
-
-                        <div className="modal-row-wrap error-modal">
-                          <div className="text-wrap">
-                            <p> Error Occurred!</p>
-                            <h3>
-                              Sh*t. An error occurred while submitting your claim request. Please
-                              try again later.
-                            </h3>
-                          </div>
-                          <button className="modal-btn" onClick={handleErrorOk}>
-                            <p>Close</p>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </Modal>
-
-                  <Modal
-                    title="Error"
-                    visible={isErrorModalVisible}
-                    onOk={handleErrorOk}
-                    onCancel={handleErrorOk} // Close modal on cancel too
-                  >
-                    <p>There was an error claiming the tokens. Please try again.</p>
-                  </Modal>
                 </div>
               </div>
-            );
-          })}
+              <div className="profile-data-wrap">
+                <div className="profile-data-item">
+                  <h2>Invested</h2>
+                  <h3>{data.total_deposit} USD</h3>
+                </div>
+                <div className="profile-data-item">
+                  <h2>Total Vested ({totalVestedPercentage})%</h2>
+
+                  <h3>
+                    {remainingVested.toFixed(2)} {data.detail_token_symbol}{' '}
+                  </h3>
+                </div>
+                <div className="profile-data-item">
+                  <h2>Claimed ({claimedPercentage}%)</h2>
+                  <h3>
+                    {claimedAmount} {data.detail_token_symbol}
+                  </h3>
+                </div>
+
+                <div className="profile-data-item">
+                  {requestedClaims.length > 0 && (
+                    <>
+                      <h2>
+                        Requested Claims (
+                        {requestedClaims
+                          .reduce((total, request) => total + request.percentage, 0)
+                          .toFixed(2)}
+                        %)
+                      </h2>
+
+                      <h3>
+                        {requestedClaims
+                          .reduce((total, request) => total + parseFloat(request.amount), 0)
+                          .toFixed(2)}{' '}
+                        {data.detail_token_symbol}
+                      </h3>
+                    </>
+                  )}
+                </div>
+
+                <div className="profile-data-item">
+                  {currentClaimableRequests.length == 0 && upcomingClaimRequest && (
+                    <>
+                      <h2>Upcoming Claim ({upcomingClaimRequest.percentage}%)</h2>
+
+                      <h3 key={upcomingClaimRequest.amount}>
+                        {upcomingClaimRequest.amount} {data.detail_token_symbol}
+                      </h3>
+                    </>
+                  )}
+                </div>
+
+                <div className="profile-data-item Claimable">
+                  {currentClaimableRequests.length > 0 && (
+                    <>
+                      <h2>
+                        Claimable (
+                        {currentClaimableRequests
+                          .reduce((total, request) => total + request.percentage, 0)
+                          .toFixed(2)}
+                        %)
+                      </h2>
+                      <h3>
+                        {currentClaimableRequests
+                          .reduce((total, request) => total + parseFloat(request.amount), 0)
+                          .toFixed(2)}{' '}
+                        {data.detail_token_symbol}
+                      </h3>
+                    </>
+                  )}
+                </div>
+              </div>
+              <div className="profile-btn-wrap">
+                <button
+                  onClick={() => handleClaim(data)}
+                  disabled={isClaimingLocked(data)}
+                  className={isClaimingLocked(data) ? 'btn-style-2' : 'btn-style-1'}>
+                  {getButtonLabel(data, currentClaimableRequests)}
+                </button>
+
+                {/* Success Modal */}
+                <Modal
+                  centered
+                  wrapClassName="ModalWrap"
+                  className="ModalElement"
+                  visible={isSuccessModalVisible}
+                  footer={null} // Remove default footer
+                  onCancel={handleSuccessOk} // Close modal when clicking outside or on the X button
+                >
+                  <div className="ModalInnerWrap">
+                    <div className="modal-header-wrap">
+                      <Icons name="kinetix-icon"></Icons>
+                      <div className="intro">
+                        <p>Initial X Offering (IXO) powered by</p> <Icons name="xpad-icon"></Icons>
+                      </div>
+                    </div>
+
+                    <div className="modal-body-wrap">
+                      <div className="kinetix-modal-bg">
+                        <Icons name="kinetix-modal-bg"></Icons>
+                      </div>
+
+                      <div className="modal-row-wrap">
+                        <div className="text-wrap">
+                          <p>You&apos;ve Requested a Claim!</p>
+                          <h3>We have received your claim request successfully.</h3>
+                          <h3
+                            style={{
+                              opacity: '0.5',
+                              marginTop: '10px',
+                              fontWeight: '500',
+                            }}>
+                            Note: It can take up to 48 hours to receive your tokens. Please be
+                            patient.
+                          </h3>
+                        </div>
+                        <button className="modal-btn" onClick={handleSuccessOk}>
+                          <p>Close</p>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </Modal>
+
+                {/* Error Modal */}
+                <Modal
+                  centered
+                  wrapClassName="ModalWrap"
+                  className="ModalElement"
+                  visible={isErrorModalVisible}
+                  footer={null} // Remove default footer
+                  onCancel={handleErrorOk} // Close modal when clicking outside or on the X button
+                >
+                  <div className="ModalInnerWrap">
+                    <div className="modal-header-wrap">
+                      <Icons name="kinetix-icon"></Icons>
+                      <div className="intro">
+                        <p>Initial X Offering (IXO) powered by</p> <Icons name="xpad-icon"></Icons>
+                      </div>
+                    </div>
+
+                    <div className="modal-body-wrap">
+                      <div className="kinetix-modal-bg error-bg">
+                        <Icons name="kinetix-error-modal-bg"></Icons>
+                      </div>
+
+                      <div className="modal-row-wrap error-modal">
+                        <div className="text-wrap">
+                          <p> Error Occurred!</p>
+                          <h3>
+                            Sh*t. An error occurred while submitting your claim request. Please try
+                            again later.
+                          </h3>
+                        </div>
+                        <button className="modal-btn" onClick={handleErrorOk}>
+                          <p>Close</p>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </Modal>
+
+                <Modal
+                  title="Error"
+                  visible={isErrorModalVisible}
+                  onOk={handleErrorOk}
+                  onCancel={handleErrorOk} // Close modal on cancel too
+                >
+                  <p>There was an error claiming the tokens. Please try again.</p>
+                </Modal>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </>
   );
 
   const renderClaimedPortfolio = () => {
-    // Filtered portfolio items
-    const filteredPortfolio = fundraiseData?.filter((data) => {
-      const claimedTokens = claimedTokensData[data.client_id] || [];
-      const latestClaim = claimedTokens[claimedTokens.length - 1];
-
-      const [claimedValue] = latestClaim ? latestClaim.totalsent.split(' ') : ['0', '(0.00%)'];
-
-      const franske = new Decimal(data.tokens_to_receive).toFixed(6);
-      const franskee = new Decimal(claimedValue);
-      const remainingToPay = new Decimal(franske).minus(franskee);
-
-      // Filter projects where remainingToPay is equal to or less than 0
-      return remainingToPay.lessThanOrEqualTo(0);
-    });
     return (
       <>
         <h2 className="card-title mt-[60px]">Claimed Portfolio</h2>
         <div className="IXO-card-container claimed-portfolio">
           {/* Render portfolio items if there are any */}
-          {filteredPortfolio.length > 0 ? (
-            filteredPortfolio.map((data) => {
-              const { amount: claimableAmount, percentage: claimablePercentage } =
-                calculateClaimableAmount(data);
-
+          {claimedPotfolioData.length > 0 ? (
+            claimedPotfolioData.map((data) => {
               const totalInvested = new Decimal(data.total_deposit);
-              const claimedTokens = claimedTokensData[data.client_id] || [];
-              const latestClaim = claimedTokens[claimedTokens.length - 1];
-              const [claimedValue, claimedPercentage] = latestClaim
-                ? latestClaim.totalsent.split(' ')
-                : ['0', '(0.00%)'];
 
-              const franske = new Decimal(data.tokens_to_receive).toFixed(6);
-              const franskee = new Decimal(claimedValue);
-              const remainingToPay = new Decimal(franske).minus(franskee);
+              const claimedAmount = data.claim_requests
+                .filter((request) => request.claimed)
+                .reduce((total, request) => total + parseFloat(request.amount), 0);
 
-              const dataWithoutPercent = claimedPercentage.replace('%', '');
-              const dataWithoutPercentFix = dataWithoutPercent.replace(/[()]/g, '');
-              const totalClaimedClean = parseFloat(dataWithoutPercentFix);
-              const claimableFormatted = claimablePercentage.toFixed(2);
+              const totalTokensToReceive = parseFloat(data.tokens_to_receive);
 
-              const startValue = new Decimal(100);
-              const totalVestedPercent = startValue
-                .minus(totalClaimedClean)
-                .minus(claimableFormatted);
+              const claimedPercentage =
+                totalTokensToReceive > 0 ? (claimedAmount / totalTokensToReceive) * 100 : 0;
 
               return (
                 <div key={data.client_id} className="IXO-card-item">
@@ -727,13 +689,13 @@ export default function PortfolioPage() {
                       <h3>{totalInvested.toFixed(2)} USDT</h3>
                     </div>
                     <div className="profile-data-item">
-                      <h2>Total Vested 0%</h2>
+                      <h2>Total Vested (0%)</h2>
                       <h3>0 {data.detail_token_symbol}</h3>
                     </div>
                     <div className="profile-data-item">
                       <h2>Claimed {claimedPercentage}</h2>
                       <h3>
-                        {Number(claimedValue).toFixed(2)} {data.detail_token_symbol}
+                        {totalTokensToReceive} {data.detail_token_symbol}
                       </h3>
                     </div>
                   </div>
@@ -804,6 +766,29 @@ export default function PortfolioPage() {
       default:
         return null;
     }
+  };
+
+  // New helper function to determine button label
+  const getButtonLabel = (data: FundraiseData, currentClaimableRequests: ClaimRequest[]) => {
+    if (data.claim_requests.every((request) => request.claimed)) {
+      return 'No Upcoming Claims';
+    }
+
+    if (data.claim_requests.some((request) => !request.claimed)) {
+      if (isClaimingLocked(data)) {
+        return data.claim_requests.every((request) => request.payout_requested)
+          ? 'No Upcoming Claims'
+          : `Vesting ${countdown[data.client_id] || 'Calculating...'}`;
+      }
+
+      if (currentClaimableRequests.length > 0) {
+        return `Claim ${currentClaimableRequests
+          .reduce((total, request) => total + parseFloat(request.amount), 0)
+          .toFixed(2)} ${data.detail_token_symbol}`;
+      }
+    }
+
+    return 'No Upcoming Claims';
   };
 
   return (
