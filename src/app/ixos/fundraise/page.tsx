@@ -39,6 +39,10 @@ function IXOCard({
     router.push(`/Invest/${id}`);
   };
 
+  useEffect(() => {
+    console.log('lotteryWinnersMap>>>', lotteryWinnersMap);
+  }, [lotteryWinnersMap]);
+
   return (
     <Box
       borderRadius="12px"
@@ -81,7 +85,16 @@ function IXOCard({
                 color: '#fff',
               }}>
               <span>{ixo?.title}</span>
-              <Status task={ixo} />
+
+              <Status
+                task={ixo}
+                lotteryWinner={
+                  address && lotteryWinnersMap[ixo?.id]
+                    ? lotteryWinnersMap[ixo?.id].includes(address as string)
+                    : false
+                }
+                loading={isLoading}
+              />
             </div>
           </Box>
           <div className="socials">
@@ -624,16 +637,19 @@ export default function FundraisePage() {
                 key: '3',
                 children: (
                   <Box className="space-y-4">
-                    {filteredIXOs.map((ixo) => (
-                      <IXOCard
-                        key={ixo.id}
-                        ixo={ixo}
-                        lotteryWinnersMap={lotteryWinnersMap}
-                        isLoading={isLoading}
-                        type="past"
-                        participants={investorsData[ixo?.id]?.total_investors}
-                      />
-                    ))}
+                    {filteredIXOs.map((ixo) => {
+                      const clientInvestors = investorsData[ixo?.id];
+                      return (
+                        <IXOCard
+                          key={ixo.id}
+                          ixo={ixo}
+                          lotteryWinnersMap={lotteryWinnersMap}
+                          isLoading={isLoading}
+                          type="past"
+                          participants={clientInvestors?.total_investors}
+                        />
+                      );
+                    })}
                   </Box>
                 ),
               },
@@ -670,7 +686,7 @@ export default function FundraisePage() {
 
 const Status = ({
   task,
-  lotteryWinner = true,
+  lotteryWinner = false,
   loading = false,
 }: {
   task: any;
