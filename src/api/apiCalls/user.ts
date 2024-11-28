@@ -7,9 +7,9 @@ interface TokensClaimed {
   tokensent: string;
   totalsent: string;
   tx: {
-      hash: string;
-      chain_id: number;
-  }
+    hash: string;
+    chain_id: number;
+  };
 }
 
 export const userLoginWallet = async (payload: {
@@ -197,9 +197,7 @@ export const ClaimTokens = async (clientId: number): Promise<any> => {
   }
 };
 
-export const getClaimedTokens = async (
-  clientId: number,
-): Promise<TokensClaimed[]> => {
+export const getClaimedTokens = async (clientId: number): Promise<TokensClaimed[]> => {
   try {
     const endPoint = `/api/claimed-requests/${clientId}/`;
     const res = await axios.get<TokensClaimed[]>(endPoint);
@@ -208,6 +206,30 @@ export const getClaimedTokens = async (
     return res.data;
   } catch (err) {
     console.error('Error fetching claimed tokens', err);
+    return Promise.reject(err);
+  }
+};
+
+interface Investor {
+  username: string;
+  total_deposit: number;
+  tokens_to_receive: number;
+  total_claimed: number;
+}
+
+interface InvestorsResponse {
+  total_investors: number;
+  investors: Investor[];
+}
+
+export const getInvestors = async (clientId: number): Promise<InvestorsResponse> => {
+  try {
+    const endPoint = `/investors/${clientId}/`;
+    const res = await axios.get<InvestorsResponse>(endPoint);
+    if (!res?.data) throw 'Something went wrong getInvestors';
+    return res.data;
+  } catch (err) {
+    console.error('Error fetching investors', err);
     return Promise.reject(err);
   }
 };
