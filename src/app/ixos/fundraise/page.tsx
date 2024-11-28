@@ -73,16 +73,16 @@ function IXOCard({
         </Box>
         <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <Box style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-            <p
+            <div
               style={{
                 fontSize: '18px',
                 fontWeight: '800',
                 fontFamily: 'Plus Jakarta Sans',
                 color: '#fff',
               }}>
-              {ixo?.title}
+              <span>{ixo?.title}</span>
               <Status task={ixo} />
-            </p>
+            </div>
           </Box>
           <div className="socials">
             {ixo?.website_url && (
@@ -670,7 +670,7 @@ export default function FundraisePage() {
 
 const Status = ({
   task,
-  lotteryWinner = false,
+  lotteryWinner = true,
   loading = false,
 }: {
   task: any;
