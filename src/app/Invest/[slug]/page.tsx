@@ -388,7 +388,7 @@ export default function ParticipatePage() {
                             }}>
                             <p
                               style={{
-                                fontSize: '10px',
+                                fontSize: '12px',
                                 fontWeight: '700',
                                 color: '#BEF642',
                                 fontFamily: 'Plus Jakarta Sans',
@@ -398,7 +398,7 @@ export default function ParticipatePage() {
                             </p>
                             <p
                               style={{
-                                fontSize: '10px',
+                                fontSize: '12px',
                                 fontWeight: '700',
                                 color: '#FFF',
                                 fontFamily: 'Plus Jakarta Sans',
@@ -436,7 +436,7 @@ export default function ParticipatePage() {
                             }}>
                             <p
                               style={{
-                                fontSize: '10px',
+                                fontSize: '12px',
                                 fontWeight: '300',
                                 color: '#FFF',
                                 fontFamily: 'Plus Jakarta Sans',
@@ -465,7 +465,7 @@ export default function ParticipatePage() {
                             style={{ cursor: 'pointer' }}
                             className="max max-button"
                             onClick={() => setInputValue(maxReal())}>
-                            <p style={{ fontSize: '10px', fontWeight: '500', color: '#BEF642' }}>
+                            <p style={{ fontSize: '12px', fontWeight: '500', color: '#BEF642' }}>
                               Max: {maxReal()} {balance?.symbol}
                             </p>
                           </div>
@@ -542,8 +542,8 @@ export default function ParticipatePage() {
                   ) : (
                     <div className="card-main">
                       <div className="not-winner-message">
-                        <p>Not a lottery winner</p>
-                        <p>You are not eligible to participate in this IXO.</p>
+                        <p style={{color:"#FFF"}}>Not a lottery winner</p>
+                        <p style={{color:"#FFF"}}>You are not eligible to participate in this IXO.</p>
                       </div>
                     </div>
                   )
