@@ -22,11 +22,13 @@ function IXOCard({
   lotteryWinnersMap,
   isLoading,
   type,
+  participants,
 }: {
   ixo: any;
   lotteryWinnersMap: Record<number, string[]>;
   isLoading: boolean;
   type: 'current' | 'upcoming' | 'past';
+  participants?: any;
 }) {
   const router = useRouter();
 
@@ -244,41 +246,65 @@ function IXOCard({
         </div>
       )}
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', width: '100%' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: type === 'past' ? '20px' : '5px',
+          width: '100%',
+        }}>
         <div style={{ display: 'flex', gap: '5px', alignItems: 'center', width: '100%' }}>
-          <div className="details-item">
+          <div className={`${type === 'past' ? 'details-item-past' : 'details-item'}`}>
             <h3>Launch Price</h3>
             <p>{parseFloat(ixo?.detail_launch_price)} USD</p>
-            <div className="icon-wrap">
-              <Icons name="LaunchPrice-icon" />
-            </div>
+            {type !== 'past' && (
+              <div className="icon-wrap">
+                <Icons name="LaunchPrice-icon" />
+              </div>
+            )}
           </div>
-          <div className="details-item">
+          <div className={`${type === 'past' ? 'details-item-past' : 'details-item'}`}>
             <h3>Tokens for Sale</h3>
             <p>
               {parseFloat(ixo?.detail_token_for_sale)} {ixo?.detail_token_symbol}
             </p>
-            <div className="icon-wrap">
-              <Icons name="TokensForSale-icon" />
-            </div>
+            {type !== 'past' && (
+              <div className="icon-wrap">
+                <Icons name="TokensForSale-icon" />
+              </div>
+            )}
           </div>
         </div>
-        <div style={{ display: 'flex', gap: '5px', alignItems: 'center', width: '100%' }}>
-          <div className="details-item">
-            <h3>Winning Tickets</h3>
-            <p>{parseFloat(ixo?.detail_winning_ticket)}</p>
-            <div className="icon-wrap">
-              <Icons name="WinningTickets-icon" />
+        {type !== 'past' && (
+          <div style={{ display: 'flex', gap: '5px', alignItems: 'center', width: '100%' }}>
+            <div className="details-item">
+              <h3>Winning Tickets</h3>
+              <p>{parseFloat(ixo?.detail_winning_ticket)}</p>
+              <div className="icon-wrap">
+                <Icons name="WinningTickets-icon" />
+              </div>
+            </div>
+            <div className="details-item">
+              <h3>Amount / Ticket</h3>
+              <p>{parseFloat(ixo?.max_user_deposit)} USD</p>
+              <div className="icon-wrap">
+                <Icons name="AmountTicket-icon" />
+              </div>
             </div>
           </div>
-          <div className="details-item">
-            <h3>Amount / Ticket</h3>
-            <p>{parseFloat(ixo?.max_user_deposit)} USD</p>
-            <div className="icon-wrap">
-              <Icons name="AmountTicket-icon" />
+        )}
+        {type === 'past' && (
+          <div style={{ display: 'flex', gap: '5px', alignItems: 'center', width: '100%' }}>
+            <div className="details-item-past">
+              <h3>Total Raised</h3>
+              <p>{ixo?.sale_progress} USD</p>
+            </div>
+            <div className="details-item-past">
+              <h3>Participants</h3>
+              <p>{participants ? participants : 'Loading...'}</p>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {type === 'current' && (
@@ -605,6 +631,7 @@ export default function FundraisePage() {
                         lotteryWinnersMap={lotteryWinnersMap}
                         isLoading={isLoading}
                         type="past"
+                        participants={investorsData[ixo?.id]?.total_investors}
                       />
                     ))}
                   </Box>
