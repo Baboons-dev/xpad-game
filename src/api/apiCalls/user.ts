@@ -187,7 +187,7 @@ export const GetFundraiseData = async (): Promise<any> => {
 
 export const ClaimTokens = async (clientId: number): Promise<any> => {
   try {
-    const endPoint = 'claim-token/';
+    const endPoint = 'claim-tokens/';
     const res = await axios.post<any>(endPoint, { client_id: clientId });
     if (!res?.data) throw 'Something went wrong ClaimTokens';
     return res.data;
