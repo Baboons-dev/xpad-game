@@ -1,12 +1,9 @@
 'use client';
-
 import { Box, Image, Text, Divider } from '@chakra-ui/react';
 import backgroundImage from '../../assets/background.png';
 import MintBannerImage from '../../assets/MintBanner.png';
 import Link from 'next/link';
-import { NftIcon, CompetitionIcon, MintIcon } from '@/components/LayerX/icons';
 import MintContent from '@/components/LayerX/MintContent';
-import HomePageOptions from '@/components/LayerX/HomePageOptions';
 import HomePageOption from '@/components/LayerX/HomePageOptions';
 import HomeMasonary from '@/components/LayerX/HomeMasonary';
 
