@@ -45,9 +45,9 @@ export default function NFTShowcase() {
         <Image borderRadius="10px" width="150px" height="150px" src={row2Image1.src} />
       </Box>
       <Box display="flex" alignItems="center" gap={2} width={['185%', '125%']} key="row3">
-        <Image borderRadius="10px" width="150px" height="150px" src={row1Image4.src} />
-        <Image borderRadius="10px" width="150px" height="150px" src={row2Image4.src} />
         <Image borderRadius="10px" width="150px" height="150px" src={row2Image3.src} />
+        <Image borderRadius="10px" width="150px" height="150px" src={row2Image4.src} />
+        <Image borderRadius="10px" width="150px" height="150px" src={row1Image4.src} />
         <Image borderRadius="10px" width="150px" height="150px" src={row1Image1.src} />
         <Image borderRadius="10px" width="150px" height="150px" src={row1Image1.src} />
         <Image borderRadius="10px" width="150px" height="150px" src={row2Image4.src} />
