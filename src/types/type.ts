@@ -83,6 +83,7 @@ export interface PostCompetitionCommentPayload {
 }
 
 export interface User {
+  profile_picture: any;
   health: number;
   id: number;
   username: string;

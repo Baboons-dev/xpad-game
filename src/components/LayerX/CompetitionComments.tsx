@@ -200,6 +200,8 @@ function CompetitionComments(props: CompetitionCommentsProps) {
     }
   };
 
+  console.log('allCommenst', allComments);
+
   return (
     <>
       {loading ? (
@@ -212,7 +214,7 @@ function CompetitionComments(props: CompetitionCommentsProps) {
             border="1px solid #2C2C2C"
             width={['95% !important', '95% !important']}
             height={['97% !important', '97% !important']}
-            borderRadius={['44px', '44px']}
+            borderRadius={['20px', '20px']}
             left={['unset !important', 'unset !important']}
             right={['unset !important', 'unset !important']}
             marginTop={['13px', '13px', 'unset']}>
@@ -282,15 +284,10 @@ function CompetitionComments(props: CompetitionCommentsProps) {
             </DrawerHeader>
             <DrawerBody p={0} className="custom-scroll">
               <Box
-                margin={['23px 20px 20px 20px', '23px 20px 20px 20px', '23px 0px 0px 0px']}
-                // marginTop="23px"
+                margin={['23px 20px 50px 20px', '23px 20px 50px 20px', '23px 0px 0px 0px']}
                 display="flex"
                 flexDirection="column"
                 gap="15px"
-                // minH={allComments && allComments?.length === 0 ? 'unset' : '-webkit-fill-available'}
-                // height={
-                //   allComments && allComments?.length === 0 ? '520px' : '-webkit-fill-available'
-                // }
                 height="-webkit-fill-available">
                 <Box
                   display="flex"
@@ -313,10 +310,10 @@ function CompetitionComments(props: CompetitionCommentsProps) {
                     allComments.map((comment, i) => (
                       <Box display="flex" gap="10px" key={i}>
                         <Box>
-                          {comment?.user?.avatar ? (
+                          {comment?.user?.profile_picture ? (
                             <Box height="40px" width="40px">
                               <Image
-                                src={comment?.user?.avatar}
+                                src={comment?.user?.profile_picture}
                                 objectFit="cover"
                                 borderRadius="50%"
                                 height="inherit"
@@ -348,7 +345,7 @@ function CompetitionComments(props: CompetitionCommentsProps) {
                           background="rgba(255, 255, 255, 0.09)"
                           width="-webkit-fill-available">
                           <Box display="flex" flexDirection="row" justifyContent="space-between">
-                            <Box display="flex" gap="10px">
+                            <Box display="flex" gap="4px">
                               <Text
                                 color="#FFF"
                                 fontFamily="Plus Jakarta Sans"
@@ -585,48 +582,7 @@ function CompetitionComments(props: CompetitionCommentsProps) {
                     </Box>
                   )}
                 </Box>
-                <Box position="relative" width="100%" marginTop="auto">
-                  {/* {!accessToken ? (
-                    <Box
-                      borderRadius="16px"
-                      background="rgba(255, 255, 255, 0.09)"
-                      height="64px"
-                      paddingLeft="40px"
-                      paddingRight="40px"
-                      fontStyle=" normal"
-                      fontWeight=" 500"
-                      lineHeight="22px"
-                      display="flex"
-                      justifyContent="center"
-                      alignItems="center"
-                      gap={['5px', '5px', '5px', '10px', '10px']}>
-                      <Text
-                        color=" rgba(255, 255, 255, 0.50)"
-                        textAlign="center"
-                        fontFamily="Plus Jakarta Sans"
-                        fontSize="16px"
-                        fontStyle=" normal"
-                        fontWeight="500">
-                        Please login to comment
-                      </Text>
-                      <Button
-                        width="113px"
-                        borderRadius="15px"
-                        backgroundColor="#118BCF"
-                        padding="16px 32px"
-                        color=" #FFF"
-                        fontSize="16px"
-                        fontWeight=" 600"
-                        h="44px"
-                        _hover={{
-                          color: 'white',
-                          bg: '#43BDD7',
-                        }}
-                        onClick={loginWithXpad}>
-                        Login
-                      </Button>
-                    </Box>
-                  ) : ( */}
+                <Box position="relative" width="100%" marginTop={'auto'}>
                   <Box>
                     {user?.avatar ? (
                       <Image
@@ -698,7 +654,6 @@ function CompetitionComments(props: CompetitionCommentsProps) {
                       />
                     </Box>
                   </Box>
-                  {/* // )} */}
                 </Box>
               </Box>
             </DrawerBody>

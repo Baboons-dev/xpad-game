@@ -8,6 +8,7 @@ import { NftIcon, CompetitionIcon, MintIcon } from '@/components/LayerX/icons';
 import MintContent from '@/components/LayerX/MintContent';
 import HomePageOptions from '@/components/LayerX/HomePageOptions';
 import HomePageOption from '@/components/LayerX/HomePageOptions';
+import HomeMasonary from '@/components/LayerX/HomeMasonary';
 
 export default function LayerXPage() {
   return (
@@ -36,6 +37,46 @@ export default function LayerXPage() {
           buttonText="View Competitions"
           subHeading="Join the excitement! Enter your NFTs, gather votes, and compete for the top 3 spots. Show off your creations and win!"
         />
+        <Box>
+          <Text
+            color="#FFF"
+            fontFamily="Plus Jakarta Sans"
+            fontSize=" 24px"
+            fontStyle="normal"
+            textAlign="center"
+            marginBottom="6px"
+            fontWeight="800"
+            lineHeight="normal">
+            NFT Showcase
+          </Text>
+          <HomeMasonary />
+          <Box display="flex" justifyContent="center" marginTop="6px">
+            <Box
+              borderRadius="8px"
+              background="#337BFF"
+              height="42px"
+              display="flex"
+              width="165px"
+              justifyContent="center"
+              alignItems="center"
+              cursor={'pointer'}
+              transition="all 0.3s"
+              _hover={{
+                bg: '#337BFF',
+                color: '#000',
+              }}>
+              <Link href={'/layerx/nfts'}>
+                <Text
+                  fontFamily="Plus Jakarta Sans"
+                  color={'#FFF'}
+                  fontSize="14px"
+                  fontWeight="700">
+                  Explore all NFTs
+                </Text>
+              </Link>
+            </Box>
+          </Box>
+        </Box>
       </Box>
     </Box>
   );
