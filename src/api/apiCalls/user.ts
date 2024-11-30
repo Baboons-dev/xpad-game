@@ -1,5 +1,17 @@
 import { AllNftsResponse, HistoryResponse } from '@/types/type';
 import { axios } from '..';
+
+interface TokensClaimed {
+  client_id: number;
+  wallet_address: string;
+  tokensent: string;
+  totalsent: string;
+  tx: {
+      hash: string;
+      chain_id: number;
+  }
+}
+
 export const userLoginWallet = async (payload: {
   wallet_address: string;
   challenge: string;
@@ -158,6 +170,44 @@ export const getLotteryResults = async (id: number): Promise<any> => {
     return res.data;
   } catch (err) {
     console.log('error getting lottery results', err);
+    return Promise.reject(err);
+  }
+};
+export const GetFundraiseData = async (): Promise<any> => {
+  try {
+    const endPoint = 'fundraise/';
+    const res = await axios.get<any>(endPoint);
+    if (!res?.data) throw 'Something went wrong GetFundraiseData';
+    return res.data;
+  } catch (err) {
+    console.log('error get GetFundraiseData', err);
+    return Promise.reject(err);
+  }
+};
+
+export const ClaimTokens = async (clientId: number): Promise<any> => {
+  try {
+    const endPoint = 'claim-token/';
+    const res = await axios.post<any>(endPoint, { client_id: clientId });
+    if (!res?.data) throw 'Something went wrong ClaimTokens';
+    return res.data;
+  } catch (err) {
+    console.log('error post ClaimTokens', err);
+    return Promise.reject(err);
+  }
+};
+
+export const getClaimedTokens = async (
+  clientId: number,
+): Promise<TokensClaimed[]> => {
+  try {
+    const endPoint = `/api/claimed-requests/${clientId}/`;
+    const res = await axios.get<TokensClaimed[]>(endPoint);
+    if (!res?.data) throw new Error('No data received from getClaimedTokens');
+    console.log('getClaimedTokens response:', res.data);
+    return res.data;
+  } catch (err) {
+    console.error('Error fetching claimed tokens', err);
     return Promise.reject(err);
   }
 };
