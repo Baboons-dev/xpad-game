@@ -276,3 +276,68 @@ button > wui-text {
   top: 0;
   text-indent: 10000px;
 }
+
+.profile-data-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+}
+
+.profile-data-item h2 {
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Plus Jakarta Sans';
+  color: #5e5e5e;
+}
+
+.profile-data-item h3 {
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Plus Jakarta Sans';
+  color: #fff;
+}
+
+.profile-btn-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.profile-btn-wrap button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 44px;
+  padding: 15px;
+  border-radius: 50px;
+  width: 100%;
+  background: #47473b;
+}
+
+.profile-btn-wrap button p {
+  color: #000;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 14px;
+}
+
+.profile-btn-wrap button.btn-style-1 {
+  background: #bef642;
+  color: #000;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 14px;
+}
+
+.profile-btn-wrap button.btn-style-2,
+.profile-btn-wrap button.btn-style-3 {
+  pointer-events: none;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 14px;
+  color: #000;
+}

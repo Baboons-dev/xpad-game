@@ -5,10 +5,16 @@ import { Decimal } from 'decimal.js';
 //import '../../assets/scss/portfolio-page.scss';
 import { GetFundraiseData, ClaimTokens, getClaimedTokens } from '@/api/apiCalls/user';
 import Icons from '@/config/icon';
-import filePath from '@/api/axios';
+import { filePath } from '@/api/axios';
 import { Modal } from 'antd';
 import { useSelector } from '@/store';
 import router from 'next/router';
+import { Box, Text, Image } from '@chakra-ui/react';
+import backgroundImage from '../../../assets/background.png';
+
+import Link from 'next/link';
+import BackArrowIcon from '@/icons/ArrowBack';
+import { Tabs } from 'antd';
 
 interface ClientData {
   title: string;
@@ -59,6 +65,7 @@ export default function PortfolioPage() {
   const [vestedPotfolioData, setVestedPotfolioData] = useState<FundraiseData[]>([]);
   const [claimedPotfolioData, setClaimedPotfolioData] = useState<FundraiseData[]>([]);
   const [countdown, setCountdown] = useState<{ [key: number]: string }>({});
+  const [activeTab, setActiveTab] = useState('1');
 
   useEffect(() => {
     fetchData();
@@ -207,8 +214,7 @@ export default function PortfolioPage() {
 
   const renderVestedPortfolio = () => (
     <>
-      <h2 className="card-title">Vested Portfolio</h2>
-      <div className="IXO-card-container vested-portfolio">
+      <div style={{ width: '100%' }}>
         {vestedPotfolioData.map((data: FundraiseData) => {
           const claimedAmount = data.claim_requests
             .filter((request) => request.claimed)
@@ -249,26 +255,49 @@ export default function PortfolioPage() {
             remainingVested > 0 ? (remainingVested / totalTokensToReceive) * 100 : 0;
 
           return (
-            <div key={data.client_id} className="IXO-card-item">
-              <div className="profile-info-wrap">
-                <div className="profile-img-container">
-                  <div className="profile-img-wrap">
-                    {/* <img
-                      src={
-                        filePath(data.client_data.avatar_url)
-                          ? filePath(data.client_data.avatar_url)
-                          : '/xpad_logo'
-                      }
-                      alt=""
-                    /> */}
-                  </div>
+            <div
+              key={data.client_id}
+              style={{
+                width: '100%',
+                padding: '20px 15px',
+                borderRadius: '12px',
+                border: '1px solid #363D22',
+              }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                <div
+                  style={{
+                    width: '74px',
+                    height: '74px',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                  }}>
+                  <img
+                    src={
+                      filePath(data.client_data.avatar_url)
+                        ? filePath(data.client_data.avatar_url)
+                        : '/xpad_ico.pn'
+                    }
+                    alt=""
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover', // This ensures the image covers the container while maintaining aspect ratio
+                    }}
+                  />
                 </div>
 
-                <div className="text-wrap">
-                  <div className="flex-wrap">
-                    <p>{data.client_title}</p>
-                  </div>
-                  <div className="socials">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <p
+                    style={{
+                      fontSize: '18px',
+                      fontWeight: '800',
+                      color: '#fff',
+                      fontFamily: 'Plus Jakarta Sans',
+                    }}>
+                    {data.client_title}
+                  </p>
+
+                  <div style={{ display: 'flex', gap: '10px' }}>
                     {data.client_data.website_url && (
                       <>
                         {data.client_data.website_url.startsWith('') ? (
@@ -367,7 +396,14 @@ export default function PortfolioPage() {
                   </div>
                 </div>
               </div>
-              <div className="profile-data-wrap">
+
+              <div
+                style={{
+                  marginTop: '30px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px',
+                }}>
                 <div className="profile-data-item">
                   <h2>Invested</h2>
                   <h3>{data.total_deposit} USD</h3>
@@ -412,15 +448,15 @@ export default function PortfolioPage() {
                     <>
                       <h2>Upcoming Claim ({upcomingClaimRequest.percentage}%)</h2>
 
-                      <h3 key={upcomingClaimRequest.amount}>
+                      <h3 key={upcomingClaimRequest.amount} style={{ color: '#BEF642' }}>
                         {upcomingClaimRequest.amount} {data.detail_token_symbol}
                       </h3>
                     </>
                   )}
                 </div>
 
-                <div className="profile-data-item Claimable">
-                  {currentClaimableRequests.length > 0 && (
+                {currentClaimableRequests.length > 0 && (
+                  <div className="profile-data-item Claimable">
                     <>
                       <h2>
                         Claimable (
@@ -429,16 +465,17 @@ export default function PortfolioPage() {
                           .toFixed(2)}
                         %)
                       </h2>
-                      <h3>
+                      <h3 style={{}}>
                         {currentClaimableRequests
                           .reduce((total, request) => total + parseFloat(request.amount), 0)
                           .toFixed(2)}{' '}
                         {data.detail_token_symbol}
                       </h3>
                     </>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
+
               <div className="profile-btn-wrap">
                 <button
                   onClick={() => handleClaim(data)}
@@ -548,7 +585,6 @@ export default function PortfolioPage() {
   const renderClaimedPortfolio = () => {
     return (
       <>
-        <h2 className="card-title mt-[60px]">Claimed Portfolio</h2>
         <div className="IXO-card-container claimed-portfolio">
           {/* Render portfolio items if there are any */}
           {claimedPotfolioData.length > 0 ? (
@@ -565,26 +601,52 @@ export default function PortfolioPage() {
                 totalTokensToReceive > 0 ? (claimedAmount / totalTokensToReceive) * 100 : 0;
 
               return (
-                <div key={data.client_id} className="IXO-card-item">
-                  <div className="profile-info-wrap">
-                    <div className="profile-img-container">
-                      <div className="profile-img-wrap">
-                        {/* <img
-                          src={
-                            filePath(data.client_data.avatar_url)
-                              ? filePath(data.client_data.avatar_url)
-                              : '/xpad_logo'
-                          }
-                          alt=""
-                        /> */}
-                      </div>
+                <div
+                  key={data.client_id}
+                  className="IXO-card-item"
+                  style={{
+                    padding: '20px 15px',
+                    borderRadius: '12px',
+                    border: '1px solid #363D22',
+                  }}>
+                  <div
+                    className="profile-info-wrap"
+                    style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                    <div
+                      className="profile-img-container"
+                      style={{
+                        width: '74px',
+                        height: '74px',
+                        borderRadius: '12px',
+                        overflow: 'hidden',
+                      }}>
+                      <img
+                        src={
+                          filePath(data.client_data.avatar_url)
+                            ? filePath(data.client_data.avatar_url)
+                            : '/xpad_logo'
+                        }
+                        alt=""
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover', // Ensures the image covers the container while maintaining aspect ratio
+                        }}
+                      />
                     </div>
 
-                    <div className="text-wrap">
-                      <div className="flex-wrap">
-                        <p>{data.client_title}</p>
-                      </div>
-                      <div className="socials">
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      <p
+                        style={{
+                          fontSize: '18px',
+                          fontWeight: '800',
+                          color: '#fff',
+                          fontFamily: 'Plus Jakarta Sans',
+                        }}>
+                        {data.client_title}
+                      </p>
+
+                      <div style={{ display: 'flex', gap: '10px' }}>
                         {data.client_data.website_url && (
                           <>
                             {data.client_data.website_url.startsWith('') ? (
@@ -683,7 +745,15 @@ export default function PortfolioPage() {
                       </div>
                     </div>
                   </div>
-                  <div className="profile-data-wrap">
+
+                  <div
+                    className="profile-data-wrap"
+                    style={{
+                      marginTop: '30px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '12px',
+                    }}>
                     <div className="profile-data-item">
                       <h2>Invested</h2>
                       <h3>{totalInvested.toFixed(2)} USDT</h3>
@@ -699,8 +769,16 @@ export default function PortfolioPage() {
                       </h3>
                     </div>
                   </div>
+
                   <div className="profile-btn-wrap">
-                    <button className="btn-style-3">
+                    <button
+                      className="btn-style-3"
+                      style={{
+                        padding: '10px 20px',
+                        borderRadius: '8px',
+                        backgroundColor: '#28a745',
+                        color: '#fff',
+                      }}>
                       <p>Claimed 100%</p>
                     </button>
                   </div>
@@ -709,7 +787,14 @@ export default function PortfolioPage() {
             })
           ) : (
             // Render message if no projects to display
-            <p style={{ opacity: '0.4', marginTop: '-10px' }}>
+            <p
+              style={{
+                opacity: '0.4',
+                marginTop: '40px',
+                color: '#fff',
+                width: '100%',
+                textAlign: 'center',
+              }}>
               All 100% paid out IXOs are shown here.
             </p>
           )}
@@ -792,11 +877,99 @@ export default function PortfolioPage() {
   };
 
   return (
-    <div className="portfolio-page">
-      <div className="kyc-status-banner-warp">{renderKycNotice()}</div>
+    <>
+      <Box position="relative" w="100%" zIndex={0}>
+        <Image
+          src={backgroundImage.src}
+          alt="background"
+          h="auto"
+          objectFit="contain"
+          position="absolute"
+        />
+        <Box position="relative" margin="0px 16px 29px 16px">
+          <Box display="flex" alignItems="center" padding="36px 0px 0px 0px">
+            <Link href="/ixos">
+              <Box>
+                <BackArrowIcon />
+              </Box>
+            </Link>
+            <Box width="100%" display="flex" justifyContent="center">
+              <Text
+                color="#BEF642"
+                fontSize="20px"
+                fontStyle="normal"
+                fontWeight="800"
+                lineHeight="normal"
+                fontFamily="Plus Jakarta Sans">
+                IXO Portfolio
+              </Text>
+            </Box>
+          </Box>
+        </Box>
 
-      {renderVestedPortfolio()}
-      {renderClaimedPortfolio()}
-    </div>
+        <Box
+          padding="0px 16px 0px 16px"
+          w="100%"
+          position="relative"
+          style={{ display: 'flex', justifyContent: 'center' }}>
+          <Tabs
+            defaultActiveKey="1"
+            className="ixo-tabs"
+            style={{ width: '100%' }}
+            onChange={(key) => setActiveTab(key)}
+            items={[
+              {
+                label: 'Vested Portfolio',
+                key: '1',
+                children: (
+                  <Box className="space-y-4" style={{ width: '100%' }}>
+                    {renderVestedPortfolio()}
+                  </Box>
+                ),
+              },
+              {
+                label: 'Claimed portfolio',
+                key: '2',
+                children: (
+                  <Box className="space-y-4" style={{ width: '100%' }}>
+                    {renderClaimedPortfolio()}
+                  </Box>
+                ),
+              },
+            ]}
+          />
+        </Box>
+      </Box>
+      <style jsx global>{`
+        .ixo-tabs .ant-tabs-nav::before {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ixo-tabs .ant-tabs-tab {
+          color: rgba(255, 255, 255, 0.5);
+          font-family: 'Plus Jakarta Sans';
+        }
+
+        .ixo-tabs .ant-tabs-tab:hover {
+          color: rgba(255, 255, 255, 0.8);
+        }
+
+        .ixo-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+          color: #bef642;
+        }
+
+        .ixo-tabs .ant-tabs-ink-bar {
+          background: #bef642;
+        }
+      `}</style>
+    </>
   );
 }
+
+//  <div className="portfolio-page">
+//    <div className="kyc-status-banner-warp">{renderKycNotice()}</div>
+//    <h2 style={{ color: 'white' }}>Hello</h2>
+
+//
+//    {renderClaimedPortfolio()}
+//  </div>;
