@@ -79,25 +79,20 @@ export default function PortfolioPage() {
   const fetchData = async () => {
     try {
       const data = await GetFundraiseData();
-      // Filter claimedPotfolioData
-      const claimedPotfolioData = data.filter((item: FundraiseData) =>
-        item.claim_requests.every(
-          (request) =>
-            request.claimed &&
-            request.payout_requested &&
-            new Date(request.unlock_date) < new Date()
-        )
-      );
 
       // Filter vestedPotfolioData
-      const vestedPotfolioData = data.filter((item: FundraiseData) =>
+      const vestedPortfolioData = data.filter((item: FundraiseData) =>
         item.claim_requests.some(
-          (request) => !request.claimed && new Date(request.unlock_date) < new Date()
+          (request) => !request.claimed || (request.payout_requested && !request.claimed)
         )
       );
 
-      setClaimedPotfolioData(claimedPotfolioData);
-      setVestedPotfolioData(vestedPotfolioData);
+      const claimedPortfolioData = data.filter((item: FundraiseData) =>
+        item.claim_requests.every((request) => request.claimed)
+      );
+
+      setVestedPotfolioData(vestedPortfolioData);
+      setClaimedPotfolioData(claimedPortfolioData);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -115,9 +110,7 @@ export default function PortfolioPage() {
   };
 
   const calculateCountdown = (targetDate: Date | null) => {
-    if (!targetDate) {
-      return 'No upcoming claims';
-    }
+    if (!targetDate) return 'No upcoming claims';
 
     const now = new Date().getTime();
     const timeLeft = targetDate.getTime() - now;
@@ -135,15 +128,11 @@ export default function PortfolioPage() {
   };
 
   const getNextClaimDate = (data: FundraiseData) => {
-    const nextClaimRequest = data.claim_requests?.find(
-      (request) => !request.claimed && new Date(request.unlock_date) > new Date()
-    );
+    const unclaimedRequests = data.claim_requests
+      .filter((request) => !request.claimed && !request.payout_requested)
+      .sort((a, b) => new Date(a.unlock_date).getTime() - new Date(b.unlock_date).getTime());
 
-    if (!nextClaimRequest) {
-      return null;
-    }
-
-    return new Date(nextClaimRequest.unlock_date);
+    return unclaimedRequests.length > 0 ? new Date(unclaimedRequests[0].unlock_date) : null;
   };
 
   const isClaimingLocked = (data: FundraiseData) => {
@@ -481,7 +470,7 @@ export default function PortfolioPage() {
                   onClick={() => handleClaim(data)}
                   disabled={isClaimingLocked(data)}
                   className={isClaimingLocked(data) ? 'btn-style-2' : 'btn-style-1'}>
-                  {getButtonLabel(data, currentClaimableRequests)}
+                  {getButtonLabel(data)}
                 </button>
 
                 {/* Success Modal */}
@@ -854,26 +843,25 @@ export default function PortfolioPage() {
   };
 
   // New helper function to determine button label
-  const getButtonLabel = (data: FundraiseData, currentClaimableRequests: ClaimRequest[]) => {
-    if (data.claim_requests.every((request) => request.claimed)) {
+  const getButtonLabel = (data: FundraiseData) => {
+    const nextClaimDate = getNextClaimDate(data);
+
+    if (!nextClaimDate) {
       return 'No Upcoming Claims';
     }
 
-    if (data.claim_requests.some((request) => !request.claimed)) {
-      if (isClaimingLocked(data)) {
-        return data.claim_requests.every((request) => request.payout_requested)
-          ? 'No Upcoming Claims'
-          : `Vesting ${countdown[data.client_id] || 'Calculating...'}`;
-      }
-
-      if (currentClaimableRequests.length > 0) {
-        return `Claim ${currentClaimableRequests
-          .reduce((total, request) => total + parseFloat(request.amount), 0)
-          .toFixed(2)} ${data.detail_token_symbol}`;
+    const now = new Date();
+    if (nextClaimDate <= now) {
+      const claimableRequest = data.claim_requests.find(
+        (request) =>
+          !request.claimed && !request.payout_requested && new Date(request.unlock_date) <= now
+      );
+      if (claimableRequest) {
+        return `Claim ${claimableRequest.amount} ${data.detail_token_symbol}`;
       }
     }
 
-    return 'No Upcoming Claims';
+    return `Next claim in ${calculateCountdown(nextClaimDate)}`;
   };
 
   return (
