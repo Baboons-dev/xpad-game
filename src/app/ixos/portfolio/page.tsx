@@ -203,7 +203,14 @@ export default function PortfolioPage() {
 
   const renderVestedPortfolio = () => (
     <>
-      <div style={{ width: '100%' }}>
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '16px',
+          paddingBottom: '70px',
+        }}>
         {vestedPotfolioData.map((data: FundraiseData) => {
           const claimedAmount = data.claim_requests
             .filter((request) => request.claimed)
@@ -574,7 +581,9 @@ export default function PortfolioPage() {
   const renderClaimedPortfolio = () => {
     return (
       <>
-        <div className="IXO-card-container claimed-portfolio">
+        <div
+          className="IXO-card-container claimed-portfolio"
+          style={{ display: 'flex', flexDirection: 'column', gap: '16px', paddingBottom: '70px' }}>
           {/* Render portfolio items if there are any */}
           {claimedPotfolioData.length > 0 ? (
             claimedPotfolioData.map((data) => {
