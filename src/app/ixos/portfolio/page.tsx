@@ -476,7 +476,10 @@ export default function PortfolioPage() {
                 <button
                   onClick={() => handleClaim(data)}
                   disabled={isClaimingLocked(data)}
-                  className={isClaimingLocked(data) ? 'btn-style-2' : 'btn-style-1'}>
+                  className={isClaimingLocked(data) ? 'btn-style-2' : 'btn-style-1'}
+                  style={{
+                    borderRadius: '50px',
+                  }}>
                   {getButtonLabel(data)}
                 </button>
 
@@ -773,9 +776,9 @@ export default function PortfolioPage() {
                       className="btn-style-3"
                       style={{
                         padding: '10px 20px',
-                        borderRadius: '8px',
-                        backgroundColor: '#28a745',
-                        color: '#fff',
+                        borderRadius: '50px',
+                        backgroundColor: '#47473B',
+                        color: '#000000',
                       }}>
                       <p>Claimed 100%</p>
                     </button>
