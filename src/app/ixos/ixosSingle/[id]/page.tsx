@@ -317,9 +317,9 @@ const Whitelist = (props: { ixo: any }) => {
         flexDirection: 'column',
         gap: '16px',
       }}>
-      <WhitelistSubComponent />
-      <WhitelistSubComponent />
-      <WhitelistSubComponent />
+      {ixo.tasks.map((task: any) => (
+        <WhitelistSubComponent title={task.title} link={task.link} />
+      ))}
     </Box>
   );
 };
@@ -336,41 +336,53 @@ const IXODetails = (props: { ixo: any }) => {
         backgroundColor: '#191916',
       }}>
       <Box style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <IXODetailsSubComponent
-          title="Launch Price"
-          value={`${parseFloat(ixo?.detail_launch_price)} USD`}
-          icon={<Icons name="LaunchPrice-icon" />}
-        />
-        <IXODetailsSubComponent
-          title="XPAD Raise"
-          value={`${(ixo?.detail_launch_price * ixo?.detail_token_for_sale).toFixed(0)} USD`}
-          icon={<Icons name="XPADRaise-icon" />}
-        />
+        {ixo?.detail_launch_price && (
+          <IXODetailsSubComponent
+            title="Launch Price"
+            value={`${parseFloat(ixo?.detail_launch_price)} USD`}
+            icon={<Icons name="LaunchPrice-icon" />}
+          />
+        )}
+        {ixo?.detail_launch_price && ixo?.detail_token_for_sal && (
+          <IXODetailsSubComponent
+            title="XPAD Raise"
+            value={`${(ixo?.detail_launch_price * ixo?.detail_token_for_sale).toFixed(0)} USD`}
+            icon={<Icons name="XPADRaise-icon" />}
+          />
+        )}
       </Box>
       <Box style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <IXODetailsSubComponent
-          title="Ticket Size"
-          value={`${parseFloat(ixo?.max_user_deposit)} USD`}
-          icon={<Icons name="AmountTicket-icon" />}
-        />
-        <IXODetailsSubComponent
-          title="Winning Tickets"
-          value={`${parseFloat(ixo.detail_winning_ticket)}`}
-          icon={<Icons name="WinningTickets-icon" />}
-        />
+        {ixo?.max_user_deposit && (
+          <IXODetailsSubComponent
+            title="Ticket Size"
+            value={`${parseFloat(ixo?.max_user_deposit)} USD`}
+            icon={<Icons name="AmountTicket-icon" />}
+          />
+        )}
+        {ixo.detail_winning_ticket && (
+          <IXODetailsSubComponent
+            title="Winning Tickets"
+            value={`${parseFloat(ixo.detail_winning_ticket)}`}
+            icon={<Icons name="WinningTickets-icon" />}
+          />
+        )}
       </Box>
       <Box style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <IXODetailsSubComponent
-          title="Tokens for Sale"
-          value={`  ${parseFloat(ixo?.detail_token_for_sale)}
+        {ixo?.detail_token_for_sale && (
+          <IXODetailsSubComponent
+            title="Tokens for Sale"
+            value={`  ${parseFloat(ixo?.detail_token_for_sale)}
                       ${ixo?.detail_token_symbol}`}
-          icon={<Icons name="TokensForSale-icon" />}
-        />
-        <IXODetailsSubComponent
-          title="Participants"
-          value={`${ixo?.total_joined_users}`}
-          icon={<Icons name="Participants-icon" />}
-        />
+            icon={<Icons name="TokensForSale-icon" />}
+          />
+        )}
+        {ixo?.total_joined_users && (
+          <IXODetailsSubComponent
+            title="Participants"
+            value={`${ixo?.total_joined_users}`}
+            icon={<Icons name="Participants-icon" />}
+          />
+        )}
       </Box>
       <Box
         style={{
@@ -393,31 +405,35 @@ const IXODetails = (props: { ixo: any }) => {
           Vesting
         </Text>
         <Box style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <Box style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <Image src={statusOn.src} h="auto" w="auto" alt="Img" />
-            <Text
-              style={{
-                fontSize: '12px',
-                fontWeight: '700',
-                color: '#fff',
-                fontFamily: 'Plus Jakarta Sans',
-              }}>
-              {`${parseFloat(ixo?.detail_tge_percent)}% TGE`}
-            </Text>
-          </Box>
-          <Box style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <Image src={statusOff.src} h="auto" w="auto" alt="Img" />
-            <Text
-              style={{
-                fontSize: '12px',
-                fontWeight: '700',
-                color: '#fff',
-                fontFamily: 'Plus Jakarta Sans',
-              }}>
-              {((100 - ixo?.detail_tge_percent) / ixo?.detail_vesting).toFixed(2)}% Monthly for{' '}
-              {parseFloat(ixo?.detail_vesting)} Months
-            </Text>
-          </Box>
+          {ixo?.detail_tge_percent && (
+            <Box style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <Image src={statusOn.src} h="auto" w="auto" alt="Img" />
+              <Text
+                style={{
+                  fontSize: '12px',
+                  fontWeight: '700',
+                  color: '#fff',
+                  fontFamily: 'Plus Jakarta Sans',
+                }}>
+                {`${parseFloat(ixo?.detail_tge_percent)}% TGE`}
+              </Text>
+            </Box>
+          )}
+          {ixo?.detail_tge_percent && ixo?.detail_vesting && (
+            <Box style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <Image src={statusOff.src} h="auto" w="auto" alt="Img" />
+              <Text
+                style={{
+                  fontSize: '12px',
+                  fontWeight: '700',
+                  color: '#fff',
+                  fontFamily: 'Plus Jakarta Sans',
+                }}>
+                {((100 - ixo?.detail_tge_percent) / ixo?.detail_vesting).toFixed(2)}% Monthly for{' '}
+                {parseFloat(ixo?.detail_vesting)} Months
+              </Text>
+            </Box>
+          )}
         </Box>
         <Box style={{ position: 'absolute', right: '12px', top: '12px' }}>
           <Icons name="Vesting-icon" />
@@ -445,90 +461,101 @@ const About = (props: { ixo: any }) => {
   }
   return (
     <Box style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-      <Text
-        style={{
-          fontSize: '14px',
-          fontWeight: '700',
-          fontFamily: 'Plus Jakarta Sans',
-          color: '#fff',
-        }}>
-        Project Description
-      </Text>
-      <Text
-        style={{
-          fontSize: '12px',
-          fontWeight: '400',
-          fontFamily: 'Plus Jakarta Sans',
-          color: 'rgba(255, 255, 255, 0.50)',
-          marginBottom: '10px',
-        }}
-        dangerouslySetInnerHTML={{ __html: ixo?.about }}></Text>
-      <Box style={{ display: 'flex', gap: '15px', alignItems: 'center', marginBottom: '15px' }}>
-        <a
-          style={{
-            fontSize: '12px',
-            fontWeight: '500',
-            fontFamily: 'Plus Jakarta Sans',
-            color: '#5FA8FF',
-            textDecoration: 'none',
-            cursor: 'pointer',
-          }}
-          href={ixo?.about_white_paper_url ? ixo?.about_white_paper_url : '#'}
-          target="_blank">
-          Whitepaper
-        </a>
-        <a
-          style={{
-            fontSize: '12px',
-            fontWeight: '500',
-            fontFamily: 'Plus Jakarta Sans',
-            color: '#5FA8FF',
-            textDecoration: 'none',
-            cursor: 'pointer',
-          }}
-          href={ixo?.about_deck_url ? ixo?.about_deck_url : '#'}
-          target="_blank">
-          Deck
-        </a>
-      </Box>
-      <Box
-        style={{
-          width: '100%',
-          display: 'flex',
-          gap: '15px',
-          alignItems: 'center',
-          marginBottom: '15px',
-        }}>
-        <Image
-          src={`${ixo?.about_video_placeholder ? ixo?.about_video_placeholder : ''}`}
-          w="100px"
-          h="56px"
-          alt="vedio"
-          borderRadius="5px"
-          style={{ cursor: 'pointer' }}
-          onClick={() => gotoLink(ixo?.about_video_url)}
-        />
-        <Box style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+      {ixo?.about && (
           <Text
             style={{
-              fontSize: '12px',
+              fontSize: '14px',
               fontWeight: '700',
               fontFamily: 'Plus Jakarta Sans',
               color: '#fff',
             }}>
-            {ixo?.about_video_title}
+            Project Description
           </Text>
+        ) && (
           <Text
             style={{
-              fontSize: '10px',
+              fontSize: '12px',
+              fontWeight: '400',
+              fontFamily: 'Plus Jakarta Sans',
+              color: 'rgba(255, 255, 255, 0.50)',
+              marginBottom: '10px',
+            }}
+            dangerouslySetInnerHTML={{ __html: ixo?.about }}></Text>
+        )}
+      <Box style={{ display: 'flex', gap: '15px', alignItems: 'center', marginBottom: '15px' }}>
+        {ixo?.about_white_paper_url && (
+          <a
+            style={{
+              fontSize: '12px',
               fontWeight: '500',
               fontFamily: 'Plus Jakarta Sans',
-              color: '#82827E',
-            }}>
-            {ixo?.about_video_duration}
-          </Text>
-        </Box>
+              color: '#5FA8FF',
+              textDecoration: 'none',
+              cursor: 'pointer',
+            }}
+            href={ixo?.about_white_paper_url ? ixo?.about_white_paper_url : '#'}
+            target="_blank">
+            Whitepaper
+          </a>
+        )}
+        {ixo?.about_deck_url && (
+          <a
+            style={{
+              fontSize: '12px',
+              fontWeight: '500',
+              fontFamily: 'Plus Jakarta Sans',
+              color: '#5FA8FF',
+              textDecoration: 'none',
+              cursor: 'pointer',
+            }}
+            href={ixo?.about_deck_url ? ixo?.about_deck_url : '#'}
+            target="_blank">
+            Deck
+          </a>
+        )}
       </Box>
+
+      {ixo?.about_video_placeholder && ixo?.about_video_title && ixo?.about_video_duration && (
+        <Box
+          style={{
+            width: '100%',
+            display: 'flex',
+            gap: '15px',
+            alignItems: 'center',
+            marginBottom: '15px',
+          }}>
+          <Image
+            src={`${ixo?.about_video_placeholder ? ixo?.about_video_placeholder : ''}`}
+            w="100px"
+            h="56px"
+            alt="vedio"
+            borderRadius="5px"
+            style={{ cursor: 'pointer' }}
+            onClick={() => gotoLink(ixo?.about_video_url)}
+          />
+          <Box style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+            <Text
+              style={{
+                fontSize: '12px',
+                fontWeight: '700',
+                fontFamily: 'Plus Jakarta Sans',
+                color: '#fff',
+              }}>
+              {ixo?.about_video_title}
+            </Text>
+            <Text
+              style={{
+                fontSize: '10px',
+                fontWeight: '500',
+                fontFamily: 'Plus Jakarta Sans',
+                color: '#82827E',
+              }}>
+              {ixo?.about_video_duration}
+            </Text>
+          </Box>
+        </Box>
+      )}
+
       <Text
         style={{
           fontSize: '12px',
@@ -540,35 +567,52 @@ const About = (props: { ixo: any }) => {
       </Text>
       <Box style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <Box style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <IXODetailsSubComponent
-            title="Blockchain"
-            value={getChainName(ixo?.participate_chain_id)}
-          />
-          <IXODetailsSubComponent
-            title="Total Supply"
-            value={`${ixo?.about_total_supply ? parseFloat(ixo?.about_total_supply) : 0}`}
-          />
+          {ixo?.participate_chain_id && (
+            <IXODetailsSubComponent
+              title="Blockchain"
+              value={getChainName(ixo?.participate_chain_id)}
+            />
+          )}
+          {ixo?.about_total_supply && (
+            <IXODetailsSubComponent
+              title="Total Supply"
+              value={`${ixo?.about_total_supply ? parseFloat(ixo?.about_total_supply) : 0}`}
+            />
+          )}
         </Box>{' '}
         <Box style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <IXODetailsSubComponent
-            title="Project Valuation"
-            value={`$${
-              ixo?.about_project_valuation ? parseFloat(ixo?.about_project_valuation) : 0
-            }`}
-          />
-          <IXODetailsSubComponent
-            title="Initial Market Cap"
-            value={`$${
-              ixo?.about_initial_market_cap ? parseFloat(ixo?.about_initial_market_cap) : 0
-            }`}
-          />
+          {ixo?.about_project_valuation && ixo?.about_project_valuation && (
+            <IXODetailsSubComponent
+              title="Project Valuation"
+              value={`$${
+                ixo?.about_project_valuation ? parseFloat(ixo?.about_project_valuation) : 0
+              }`}
+            />
+          )}
+          {ixo?.about_initial_market_cap && (
+            <IXODetailsSubComponent
+              title="Initial Market Cap"
+              value={`$${
+                ixo?.about_initial_market_cap ? parseFloat(ixo?.about_initial_market_cap) : 0
+              }`}
+            />
+          )}
         </Box>
       </Box>
     </Box>
   );
 };
 
-const WhitelistSubComponent = () => {
+interface WhitelistSubComponentProps {
+  title: string;
+
+  link: string;
+}
+const WhitelistSubComponent = (props: WhitelistSubComponentProps) => {
+  const { title, link } = props;
+  const gotoLink = (link: string) => {
+    window.location.href = link;
+  };
   return (
     <Box style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
       <Image src={checked.src} alt="checked" h="18px" w="18px" />
@@ -579,9 +623,16 @@ const WhitelistSubComponent = () => {
           fontFamily: 'Plus Jakarta Sans',
           color: '#fff',
         }}>
-        Like post
+        {title}
       </Text>
-      <Image src={linkIcon.src} alt="checked" h="18px" w="12px" style={{ cursor: 'pointer' }} />
+      <Image
+        src={linkIcon.src}
+        alt="checked"
+        h="18px"
+        w="12px"
+        style={{ cursor: 'pointer' }}
+        onClick={() => gotoLink(link)}
+      />
     </Box>
   );
 };
