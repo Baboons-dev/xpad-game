@@ -1,0 +1,29 @@
+.NFTShowcase {
+  .box-row-item {
+    .img-row-wrap {
+      &.row1 {
+        animation: TickerMoveX_L 31s linear 0s infinite forwards;
+      }
+
+      &.row2 {
+        animation: TickerMoveX_R 31s linear 0s infinite forwards;
+      }
+
+      &.row3 {
+        animation: TickerMoveX_L 40s linear 0s infinite forwards;
+      }
+    }
+  }
+
+  @keyframes TickerMoveX_L {
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes TickerMoveX_R {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+}
