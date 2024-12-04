@@ -25,6 +25,8 @@ export function TopBar() {
       borderBottom="1px solid"
       borderColor="rgba(255, 255, 255, 0.1)"
       backdropFilter="blur(10px)"
+      maxWidth={"500px"}
+      margin={"auto"}
     >
       <Box display="flex" gap="13px" flexDirection="row">
         {user?.avatar ? (
