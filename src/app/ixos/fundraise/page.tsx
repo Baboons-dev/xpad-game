@@ -424,6 +424,10 @@ function IXOCard({
             width: '100%',
             textAlign: 'center',
             marginTop: '-5px',
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            router.push(`/ixos/ixosSingle/${ixo?.id}`);
           }}>
           View project
         </p>
@@ -684,7 +688,7 @@ export default function FundraisePage() {
   );
 }
 
-const Status = ({
+export const Status = ({
   task,
   lotteryWinner = false,
   loading = false,

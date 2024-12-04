@@ -341,3 +341,29 @@ button > wui-text {
   line-height: 14px;
   color: #000;
 }
+
+.tab-item {
+  padding: 0px 15px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 10px 10px 0px 0px;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.tab-item p {
+  color: #82827e;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'Plus Jakarta Sans';
+}
+
+.tab-item-active {
+  background: #191916 !important;
+}
+
+.tab-item-active p {
+  color: #bef642 !important;
+}
