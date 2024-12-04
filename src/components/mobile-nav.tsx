@@ -123,6 +123,8 @@ export function MobileNav() {
       px={4}
       backdropFilter="blur(10px)"
       zIndex={50}
+      maxWidth={"500px"}
+      margin={"auto"}
     >
       {navItems.map((item) => {
         const isActive = pathname === item.href;

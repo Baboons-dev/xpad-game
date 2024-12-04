@@ -40,6 +40,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           background: '#000',
           paddingTop: '64px', // Add padding to account for fixed TopBar
           paddingBottom: '80px', // Add padding to account for mobile navigation
+          maxWidth: '500px',
+          margin: 'auto',
         }}>
         <ChakraProvider>
           <Providers>
