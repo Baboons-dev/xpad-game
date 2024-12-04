@@ -290,9 +290,9 @@ const page = () => {
                   backgroundColor: '#191916',
                   borderRadius: '0px 0px 15px 15px',
                 }}>
-                {activeTab === 'whitelist' && <Whitelist />}
-                {activeTab === 'ixoDetails' && <IXODetails />}
-                {activeTab === 'about' && <About />}
+                {activeTab === 'whitelist' && <Whitelist ixo={ixo} />}
+                {activeTab === 'ixoDetails' && <IXODetails ixo={ixo} />}
+                {activeTab === 'about' && <About ixo={ixo} />}
               </Box>
             </Box>
           </Box>
@@ -304,7 +304,8 @@ const page = () => {
 
 export default page;
 
-const Whitelist = () => {
+const Whitelist = (props: { ixo: any }) => {
+  const { ixo } = props;
   return (
     <Box
       style={{
@@ -323,7 +324,8 @@ const Whitelist = () => {
   );
 };
 
-const IXODetails = () => {
+const IXODetails = (props: { ixo: any }) => {
+  const { ixo } = props;
   return (
     <div
       style={{
@@ -334,16 +336,41 @@ const IXODetails = () => {
         backgroundColor: '#191916',
       }}>
       <Box style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <IXODetailsSubComponent title="Launch Price" value="0.0001 USD" />
-        <IXODetailsSubComponent title="XPAD Raise" value="250,000 USD" />
+        <IXODetailsSubComponent
+          title="Launch Price"
+          value={`${parseFloat(ixo?.detail_launch_price)} USD`}
+          icon={<Icons name="LaunchPrice-icon" />}
+        />
+        <IXODetailsSubComponent
+          title="XPAD Raise"
+          value={`${(ixo?.detail_launch_price * ixo?.detail_token_for_sale).toFixed(0)} USD`}
+          icon={<Icons name="XPADRaise-icon" />}
+        />
       </Box>
       <Box style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <IXODetailsSubComponent title="Ticket Size" value="500 USD" />
-        <IXODetailsSubComponent title="Winning Tickets" value="2,000" />
+        <IXODetailsSubComponent
+          title="Ticket Size"
+          value={`${parseFloat(ixo?.max_user_deposit)} USD`}
+          icon={<Icons name="AmountTicket-icon" />}
+        />
+        <IXODetailsSubComponent
+          title="Winning Tickets"
+          value={`${parseFloat(ixo.detail_winning_ticket)}`}
+          icon={<Icons name="WinningTickets-icon" />}
+        />
       </Box>
       <Box style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <IXODetailsSubComponent title="Tokens for Sale" value="123,500,000 NGMI" />
-        <IXODetailsSubComponent title="Participants" value="85,233" />
+        <IXODetailsSubComponent
+          title="Tokens for Sale"
+          value={`  ${parseFloat(ixo?.detail_token_for_sale)}
+                      ${ixo?.detail_token_symbol}`}
+          icon={<Icons name="TokensForSale-icon" />}
+        />
+        <IXODetailsSubComponent
+          title="Participants"
+          value={`${ixo?.total_joined_users}`}
+          icon={<Icons name="Participants-icon" />}
+        />
       </Box>
       <Box
         style={{
@@ -375,7 +402,7 @@ const IXODetails = () => {
                 color: '#fff',
                 fontFamily: 'Plus Jakarta Sans',
               }}>
-              25% TGE
+              {`${parseFloat(ixo?.detail_tge_percent)}% TGE`}
             </Text>
           </Box>
           <Box style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
@@ -387,23 +414,35 @@ const IXODetails = () => {
                 color: '#fff',
                 fontFamily: 'Plus Jakarta Sans',
               }}>
-              4.16% Monthly for 18 Months
+              {((100 - ixo?.detail_tge_percent) / ixo?.detail_vesting).toFixed(2)}% Monthly for{' '}
+              {parseFloat(ixo?.detail_vesting)} Months
             </Text>
           </Box>
         </Box>
-        <Image
-          src={'/ICON.png'}
-          alt="checked"
-          h="auto"
-          w="auto"
-          style={{ position: 'absolute', right: '12px', top: '12px' }}
-        />
+        <Box style={{ position: 'absolute', right: '12px', top: '12px' }}>
+          <Icons name="Vesting-icon" />
+        </Box>
       </Box>
     </div>
   );
 };
 
-const About = () => {
+const About = (props: { ixo: any }) => {
+  const { ixo } = props;
+  const gotoLink = (link: string) => {
+    window.location.href = link;
+  };
+  function getChainName(chainId: any) {
+    const chainNames: any = {
+      97: 'BSC Testnet',
+      56: 'Binance Smart Chain',
+      11155111: 'Sepolia ETH',
+      1: 'Ethereum',
+      900: 'Solana',
+    };
+
+    return chainNames[chainId] || 'Unknown Chain';
+  }
   return (
     <Box style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
       <Text
@@ -422,31 +461,35 @@ const About = () => {
           fontFamily: 'Plus Jakarta Sans',
           color: 'rgba(255, 255, 255, 0.50)',
           marginBottom: '10px',
-        }}>
-        Max 2 paragphs lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-        nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim
-        veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea
-        commodo consequat.
-      </Text>
+        }}
+        dangerouslySetInnerHTML={{ __html: ixo?.about }}></Text>
       <Box style={{ display: 'flex', gap: '15px', alignItems: 'center', marginBottom: '15px' }}>
-        <Text
+        <a
           style={{
             fontSize: '12px',
             fontWeight: '500',
             fontFamily: 'Plus Jakarta Sans',
             color: '#5FA8FF',
-          }}>
+            textDecoration: 'none',
+            cursor: 'pointer',
+          }}
+          href={ixo?.about_white_paper_url ? ixo?.about_white_paper_url : '#'}
+          target="_blank">
           Whitepaper
-        </Text>{' '}
-        <Text
+        </a>
+        <a
           style={{
             fontSize: '12px',
             fontWeight: '500',
             fontFamily: 'Plus Jakarta Sans',
             color: '#5FA8FF',
-          }}>
+            textDecoration: 'none',
+            cursor: 'pointer',
+          }}
+          href={ixo?.about_deck_url ? ixo?.about_deck_url : '#'}
+          target="_blank">
           Deck
-        </Text>
+        </a>
       </Box>
       <Box
         style={{
@@ -456,7 +499,15 @@ const About = () => {
           alignItems: 'center',
           marginBottom: '15px',
         }}>
-        <Image src="/vedioSS.png" />
+        <Image
+          src={`${ixo?.about_video_placeholder ? ixo?.about_video_placeholder : ''}`}
+          w="100px"
+          h="56px"
+          alt="vedio"
+          borderRadius="5px"
+          style={{ cursor: 'pointer' }}
+          onClick={() => gotoLink(ixo?.about_video_url)}
+        />
         <Box style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
           <Text
             style={{
@@ -465,7 +516,7 @@ const About = () => {
               fontFamily: 'Plus Jakarta Sans',
               color: '#fff',
             }}>
-            Intro to NOVA Real Chain
+            {ixo?.about_video_title}
           </Text>
           <Text
             style={{
@@ -474,7 +525,7 @@ const About = () => {
               fontFamily: 'Plus Jakarta Sans',
               color: '#82827E',
             }}>
-            02:34
+            {ixo?.about_video_duration}
           </Text>
         </Box>
       </Box>
@@ -489,12 +540,28 @@ const About = () => {
       </Text>
       <Box style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <Box style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <IXODetailsSubComponent title="Blockchain" value="Solana" />
-          <IXODetailsSubComponent title="Total Supply" value="1,000,000,000,000" />
+          <IXODetailsSubComponent
+            title="Blockchain"
+            value={getChainName(ixo?.participate_chain_id)}
+          />
+          <IXODetailsSubComponent
+            title="Total Supply"
+            value={`${ixo?.about_total_supply ? parseFloat(ixo?.about_total_supply) : 0}`}
+          />
         </Box>{' '}
         <Box style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <IXODetailsSubComponent title="Project Valuation" value="$10,000,000" />
-          <IXODetailsSubComponent title="Initial Market Cap" value="$1,000,000" />
+          <IXODetailsSubComponent
+            title="Project Valuation"
+            value={`$${
+              ixo?.about_project_valuation ? parseFloat(ixo?.about_project_valuation) : 0
+            }`}
+          />
+          <IXODetailsSubComponent
+            title="Initial Market Cap"
+            value={`$${
+              ixo?.about_initial_market_cap ? parseFloat(ixo?.about_initial_market_cap) : 0
+            }`}
+          />
         </Box>
       </Box>
     </Box>
@@ -522,9 +589,10 @@ const WhitelistSubComponent = () => {
 interface IXODetailsSubComponentProps {
   title: string;
   value: string;
+  icon?: React.ReactNode;
 }
 const IXODetailsSubComponent = (props: IXODetailsSubComponentProps) => {
-  const { title, value } = props;
+  const { title, value, icon } = props;
   return (
     <Box
       style={{
@@ -556,13 +624,7 @@ const IXODetailsSubComponent = (props: IXODetailsSubComponentProps) => {
         }}>
         {value}
       </Text>
-      <Image
-        src={'/ICON.png'}
-        alt="checked"
-        h="auto"
-        w="auto"
-        style={{ position: 'absolute', right: '12px', top: '12px' }}
-      />
+      {icon && <Box style={{ position: 'absolute', right: '12px', top: '12px' }}>{icon}</Box>}
     </Box>
   );
 };
