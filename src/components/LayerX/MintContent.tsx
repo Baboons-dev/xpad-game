@@ -4,10 +4,19 @@ import MintStaticImg1 from '../../assets/MintStaticImg1.png';
 import MintStaticImg2 from '../../assets/MintStaticImg2.png';
 import MintStaticImg3 from '../../assets/MintStaticImg3.png';
 
-export default function MintContent() {
+interface MintContentProps {
+  buttonText: string;
+  redirectUrl: string;
+}
+
+export default function MintContent(props: MintContentProps) {
+  const {
+    buttonText,
+    redirectUrl,
+  } = props;
   return (
     <>
-      <Box marginBottom="46px" marginTop="46px" display="flex" flexDirection="column" gap="6px" style={{justifyContent:'center', display:'flex', alignItems:'center'}}>
+      <Box marginBottom="46px" marginTop="46px" display="flex" flexDirection="column" gap="6px" justifyContent="center" alignItems="center">
         <Text
           color="#337BFF"
           fontFamily="Plus Jakarta Sans"
@@ -16,7 +25,7 @@ export default function MintContent() {
           fontStyle="normal"
           fontWeight="800"
           lineHeight="normal">
-          NFT Minting
+          X NFTs
         </Text>
         <Text
           color="#A0A0A0"
@@ -29,13 +38,13 @@ export default function MintContent() {
           Convert X posts into unique, ownable NFTs. Participate in competitions with your
           collectibles! Start minting now!
         </Text>
-        <Link href={'/layerx/nfts'} style={{height:'42px', background:'#00000000', border:'1px solid #337BFF', borderRadius:'8px', width:'165px', display:'flex', justifyContent:'center', alignItems:'center', marginTop:'16px' }}>
+        <Link href={redirectUrl} height='42px' background='#00000000' border='1px solid #337BFF' borderRadius='8px' width='165px' display='flex' justifyContent='center' alignItems='center' marginTop='16px'>
                 <Text
                   fontFamily="Plus Jakarta Sans"
                   color={'#337BFF'}
                   fontSize="14px"
                   fontWeight="700">
-                  Explore all NFTs
+                  {buttonText}
                 </Text>
               </Link>
       </Box>

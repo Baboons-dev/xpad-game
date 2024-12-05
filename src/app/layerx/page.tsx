@@ -14,7 +14,10 @@ export default function LayerXPage() {
         <Image src={backgroundImage.src} h="auto" objectFit="contain" position="absolute" />
         <Box position="relative" margin="36px 16px 0px 16px">
           <Image src={MintBannerImage.src} h="auto" objectFit="contain" />
-          <MintContent />
+          <MintContent
+          buttonText='Explore all NFTs'
+          redirectUrl='/layerx/nfts'
+          />
         </Box>
 
         <HomePageOption
