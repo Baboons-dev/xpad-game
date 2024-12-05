@@ -191,9 +191,9 @@ export default function NFTCard({
                     {nft.is_favorite ? (
                       <HeartFilledIcon
                         onClick={() => removeFromFavorites(nft)}
-                        color="#D9D9D9"
-                        width="20px"
-                        height="20px"
+                        color="#f91880"
+                        width="24px"
+                        height="24px"
                       />
                     ) : (
                       <HeartIcon onClick={() => onAddToFavClick(nft)} color="red" />

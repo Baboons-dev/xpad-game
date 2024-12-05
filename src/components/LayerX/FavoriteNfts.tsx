@@ -94,9 +94,9 @@ export default function FavoriteNfts({ activeTab }: { activeTab: string }) {
       ) : favNfts?.results?.length ? (
         <>
           {favNfts?.results?.map((nft) => (
-            <div className="bg-black border border-[#33A7FF]/10 rounded-xl overflow-hidden">
-              <div className="aspect-square w-full bg-black">
-                <div className="w-full h-full flex items-center justify-center bg-black/100">
+            <div className="bg-[#000000]/100 border border-[#33A7FF]/30 rounded-xl overflow-hidden">
+              <div className="aspect-square w-full">
+                <div className="w-full h-full py-2 flex items-center justify-center">
                   <img
                     src={nft.image_url}
                     className="w-full h-full object-contain"
@@ -106,7 +106,7 @@ export default function FavoriteNfts({ activeTab }: { activeTab: string }) {
                 </div>
               </div>
 
-              <div className="p-4 border-t border-[#33A7FF]/10 bg-black">
+              <div className="p-4 border-t border-[#33A7FF]/10 bg-[#FFFFFF]/10">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <Avatar
@@ -124,12 +124,12 @@ export default function FavoriteNfts({ activeTab }: { activeTab: string }) {
                       {nft?.is_favorite ? (
                         <HeartFilledIcon
                           onClick={() => removeFromFavorites(nft)}
-                          color="#D9D9D9"
-                          width="20px"
-                          height="20px"
+                          color="#f91880"
+                          width="24px"
+                          height="24px"
                         />
                       ) : (
-                        <HeartIcon onClick={() => onAddToFavClick(nft)} color="red" />
+                        <HeartIcon onClick={() => onAddToFavClick(nft)} color="#f91880" />
                       )}
                     </button>
                     {/* <button className="text-[#33A7FF]/60 hover:text-[#33A7FF] transition-colors">
