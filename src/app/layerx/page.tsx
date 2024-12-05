@@ -27,7 +27,7 @@ export default function LayerXPage() {
         />
         <HomePageOption
           showIcon={true}
-          backgroundColor="rgba(255, 255, 255, 0.05)"
+          backgroundColor="rgba(255, 255, 255, 0.10)"
           heading={'Compete with Your NFTs'}
           paddingTopMain="30px"
           redirectUrl="/layerx/competitions"

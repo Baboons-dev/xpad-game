@@ -153,9 +153,9 @@ export default function NFTCard({
       {loading ? (
         <Spin />
       ) : (
-        <div className="bg-black border border-[#33A7FF]/10 rounded-xl overflow-hidden">
-          <div className="aspect-square w-full bg-black">
-            <div className="w-full h-full flex items-center justify-center bg-black/100">
+        <div className="bg-[#000000]/100 border border-[#33A7FF]/30 rounded-xl overflow-hidden">
+          <div className="aspect-square w-full">
+            <div className="w-full h-full py-2 flex items-center justify-center ">
               <img
                 src={nft.image_url}
                 className="w-full h-full object-contain"
@@ -165,7 +165,7 @@ export default function NFTCard({
             </div>
           </div>
 
-          <div className="p-4 border-t border-[#33A7FF]/10 bg-black">
+          <div className="p-4 border-t border-[#33A7FF]/10 bg-[#FFFFFF]/10">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Avatar
