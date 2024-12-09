@@ -28,16 +28,17 @@ export function TopBar() {
       maxWidth={"500px"}
       margin={"auto"}
     >
-      <Box display="flex" gap="13px" flexDirection="row">
+      <Box display="flex" gap="10px" flexDirection="row" alignItems="center">
         {user?.avatar ? (
           <Box
-            padding="1px"
-            height="40px"
-            width="40px"
+            padding="0px"
+            height="30px"
+            width="30px"
             zIndex="2"
-            borderRadius="8px"
-            backgroundImage="linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)"
-            backgroundClip="content-box, border-box"
+            borderRadius="100px"
+            border="1px solid rgba(255, 255, 255, 0.16)"
+            // backgroundImage="linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)"
+            // backgroundClip="content-box, border-box"
             overflow="hidden"
           >
             <Image
@@ -52,13 +53,14 @@ export function TopBar() {
           </Box>
         ) : (
           <Box
-            padding="1px"
-            height="40px"
-            width="40px"
+            padding="0px"
+            height="30px"
+            width="30px"
             zIndex="2"
-            borderRadius="8px"
-            backgroundImage="linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)"
-            backgroundClip="content-box, border-box"
+            borderRadius="100px"
+            border="1px solid rgba(255, 255, 255, 0.16)"
+            // backgroundImage="linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)"
+            // backgroundClip="content-box, border-box"
             overflow="hidden"
           >
             <Image
@@ -68,14 +70,14 @@ export function TopBar() {
               height="100%"
               objectFit="cover"
               objectPosition="center"
-              borderRadius="7px"
+              borderRadius="700px"
             />
           </Box>
         )}
         <Box display="flex" justifyContent="center" alignItems="center" onClick={()=>router.push('/profile')}>
           <Text
             color="#FFF"
-            fontSize="16px"
+            fontSize="14px"
             fontStyle="normal"
             fontWeight="800"
             fontFamily="Plus Jakarta Sans"
@@ -91,10 +93,9 @@ export function TopBar() {
         </Box>
         <Box display="flex" justifyContent="center" alignItems="center">
           <Text
-            color=" #33DBB8"
+            color=" #fff"
             fontSize="16px"
-            fontStyle="normal"
-            fontWeight="600"
+            fontWeight="700"
             fontFamily="Plus Jakarta Sans"
             lineHeight="normal"
           >
