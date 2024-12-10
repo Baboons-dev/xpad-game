@@ -15,6 +15,7 @@ export default function ProfilePage() {
   const { logout } = useUser();
   const user = useStore((state) => state.user);
   const { address } = useAccount();
+
   return (
     <Box w="100%" display="flex" flexDirection="column">
       <Box position="absolute" w="100%" zIndex={0}>
@@ -143,53 +144,6 @@ export default function ProfilePage() {
                 <BackRightIcon />
               </Box>
             </Link>
-          </Box>
-          <Box>
-          <button
-  onClick={() => {
-    // Try opening MetaMask using the deep link
-    window.location.href = 'metamask://';
-    
-    // Set a fallback message if MetaMask doesn't open
-    setTimeout(() => {
-      alert('MetaMask did not open. Please open the MetaMask app manually.');
-    }, 1500);
-  }}
-  style={{
-    padding: '10px 20px',
-    backgroundColor: '#f6851b',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    fontSize: '14px',
-  }}
->
-  Open MetaMask 1
-</button>
-<button
-  onClick={() => {
-    // Try opening MetaMask app link
-    if (window.location.href.includes('telegram')) {
-      alert('Please open this link in your browser to interact with MetaMask.');
-    } else {
-      window.location.href = 'metamask://';
-    }
-  }}
-  style={{
-    padding: '10px 20px',
-    backgroundColor: '#f6851b',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    fontSize: '14px',
-  }}
->
-  Open MetaMask2
-</button>
-
-
           </Box>
           <Box marginTop="36px" display="flex" justifyContent="center" alignItems="center">
             <Link href={'/authenticate'}>

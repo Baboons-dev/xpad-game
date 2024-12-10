@@ -262,23 +262,7 @@ export default function ParticipatePage() {
     }
     return 0;
   };
-
-  const isIOS = /iPad|iPhone|iPod/i.test(navigator.userAgent);
-  const isAndroid = /android/i.test(navigator.userAgent);
   
-
-  const openMetaMaskApp = () => {
-    if (isIOS) {
-      window.location.href = 'metamask://';
-    } else if (isAndroid) {
-      window.location.href = 'https://metamask.app.link/';
-    } else {
-      alert('MetaMask is only supported on iOS and Android devices.');
-    }
-  };
-  
-
-
   useEffect(() => {
     if (!isConnected && !address) {
       message.warning('Please connect your wallet first');
@@ -574,20 +558,6 @@ export default function ParticipatePage() {
                               }}>
                               Please open your Metamask app to approve the transaction and keep this app open until it's complete.
                             </p>
-                            <button
-                              onClick={openMetaMaskApp}
-                              style={{
-                                padding: '10px 20px',
-                                backgroundColor: '#f6851b',
-                                color: '#fff',
-                                border: 'none',
-                                borderRadius: '5px',
-                                cursor: 'pointer',
-                                fontSize: '14px',
-                              }}
-                            >
-                              Open MetaMask
-                            </button>
                           </div>
                         )}
                       </div>
