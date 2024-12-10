@@ -16,6 +16,7 @@ import { useAccount } from 'wagmi';
 import { useSelector } from '@/store';
 import * as ReactDOMServer from 'react-dom/server';
 import { getInvestors, getLotteryResults } from '@/api/apiCalls/user';
+import { useConnect } from 'wagmi';
 
 function IXOCard({
   ixo,
@@ -34,10 +35,19 @@ function IXOCard({
 
   const { address, isConnected } = useAccount();
   const progress = (ixo.raised / ixo.target) * 100;
+  const { connect, connectors } = useConnect();
+  const user = useSelector((state) => state.user);
 
   const handleClick = (id: any) => {
     router.push(`/Invest/${id}`);
   };
+
+  // Remove or modify this console.log
+  // console.log('Lottery Winner Check:', {
+  //   userId: user?.id,
+  //   winners: lotteryWinnersMap[ixo?.id],
+  //   isWinner: lotteryWinnersMap[ixo?.id]?.includes(user?.id as string),
+  // });
 
   useEffect(() => {
     console.log('lotteryWinnersMap>>>', lotteryWinnersMap);
@@ -89,8 +99,8 @@ function IXOCard({
               <Status
                 task={ixo}
                 lotteryWinner={
-                  address && lotteryWinnersMap[ixo?.id]
-                    ? lotteryWinnersMap[ixo?.id].includes(address as string)
+                  lotteryWinnersMap[ixo?.id]
+                    ? lotteryWinnersMap[ixo?.id].includes(user?.id as string)
                     : false
                 }
                 loading={isLoading}
@@ -327,9 +337,8 @@ function IXOCard({
               <p>Not Available</p>
             </button>
           ) : ixo?.is_blacklisted ||
-            (address &&
-              lotteryWinnersMap[ixo?.id] &&
-              !lotteryWinnersMap[ixo?.id].includes(address as string)) ? (
+            (lotteryWinnersMap[ixo?.id] &&
+              !lotteryWinnersMap[ixo?.id].includes(user?.id as string)) ? (
             <button className="disable">
               <p>Not Available</p>
             </button>
@@ -344,10 +353,17 @@ function IXOCard({
                     className="main"
                     onClick={() => {
                       console.log('Id>>>', ixo?.id);
-                      handleClick(ixo?.id);
+                      if (address) {
+                        handleClick(ixo?.id);
+                      } else {
+                        const connector = connectors[0];
+                        if (connector) {
+                          connect({ connector });
+                        }
+                      }
                     }}>
                     <Icons name="lightning-icon"></Icons>
-                    <p>Participate</p>
+                    <p>{address ? 'Participate' : 'Connect Wallet'}</p>
                   </button>
                 ) : (
                   <div
@@ -460,11 +476,15 @@ export default function FundraisePage() {
   const [lotteryWinnersMap, setLotteryWinnersMap] = useState<Record<number, string[]>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [investorsData, setInvestorsData] = useState<Record<number, InvestorsResponse>>({});
+  const user = useSelector((state) => state.user);
 
   const fetchLotteryWinners = async (clientId: number) => {
     try {
       const results = await getLotteryResults(clientId);
-      return results.winners.map((winner: any) => winner.wallet_address);
+      console.log('results>>>>>>>>>>>>>>>', results);
+      console.log('user>>>>>>>>>>>>>>>', user);
+
+      return results.winners.map((winner: any) => winner?.id);
     } catch (error) {
       console.error(`Error fetching lottery winners for client ${clientId}:`, error);
       return [];

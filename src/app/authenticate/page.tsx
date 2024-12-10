@@ -16,8 +16,8 @@ export default function Authenticate() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const state = searchParams.get('state');
-  const tgId = searchParams.get('tgId');
-  //const tgId = '66439116385786910FTa6qr9SF/NL4fh2tS4Uw==';
+  //const tgId = searchParams.get('tgId');
+  const tgId = '66439116385786910FTa6qr9SF/NL4fh2tS4Uw==';
   const code = searchParams.get('code');
   const tId = searchParams.get('tId');
   const codeVerifier = searchParams.get('codeVerifier');
