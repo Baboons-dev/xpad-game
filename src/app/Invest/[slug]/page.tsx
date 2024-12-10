@@ -513,7 +513,7 @@ export default function ParticipatePage() {
                             </Button>
                           )}
                         </div>
-                        {!transactionLoading && (
+                        {transactionLoading && (
                           <div
                             style={{
                               position: 'absolute',
