@@ -31,6 +31,7 @@ import { useAppKit } from '@reown/appkit/react';
 import Image from 'next/image';
 import { Box } from '@chakra-ui/react';
 
+
 const ParticipatePageWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -261,6 +262,22 @@ export default function ParticipatePage() {
     }
     return 0;
   };
+
+  const isIOS = /iPad|iPhone|iPod/i.test(navigator.userAgent);
+  const isAndroid = /android/i.test(navigator.userAgent);
+  
+
+  const openMetaMaskApp = () => {
+    if (isIOS) {
+      window.location.href = 'metamask://';
+    } else if (isAndroid) {
+      window.location.href = 'https://metamask.app.link/';
+    } else {
+      alert('MetaMask is only supported on iOS and Android devices.');
+    }
+  };
+  
+
 
   useEffect(() => {
     if (!isConnected && !address) {
@@ -496,7 +513,7 @@ export default function ParticipatePage() {
                             </Button>
                           )}
                         </div>
-                        {transactionLoading && (
+                        {!transactionLoading && (
                           <div
                             style={{
                               position: 'absolute',
@@ -505,20 +522,32 @@ export default function ParticipatePage() {
                               right: 0,
                               bottom: 0,
                               width: '100%',
-                              height: '100%',
+                              height: '120%',
                               display: 'flex',
                               justifyContent: 'center',
                               alignItems: 'center',
                               flexDirection: 'column',
                               gap: '15px',
-                              backgroundColor: 'rgba(25, 25, 22, 0.95)',
+                              backgroundColor: 'rgba(25, 25, 22, 0.97)',
                               borderRadius: '15px',
                               padding: '0px 28px',
+                              backdropFilter:'blur(2px)'
                             }}>
-                            <Icons name="loading-spin-icon"></Icons>
+                            <div
+                              style={{
+                                animation: 'rotateAndFade 2s infinite',
+                                width: '30px', // Adjust size if needed
+                                height: '30px',
+                                display: 'flex', // To ensure alignment for the icon
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                              }}
+                            >
+                              <Icons name="loading-spin-icon" />
+                            </div>
                             <p
                               style={{
-                                fontSize: '14px',
+                                fontSize: '18px',
                                 fontWeight: '800',
                                 fontFamily: 'Plus Jakarta Sans',
                                 color: '#fff',
@@ -533,8 +562,32 @@ export default function ParticipatePage() {
                                 color: '#fff',
                                 textAlign: 'center',
                               }}>
-                              We are processing your deposit request, please wait patiently.
+                              We are processing your deposit request. This may take up to 1 minute.
                             </p>
+                            <p
+                              style={{
+                                fontSize: '14px',
+                                fontWeight: '600',
+                                fontFamily: 'Plus Jakarta Sans',
+                                color: '#bef642',
+                                textAlign: 'center',
+                              }}>
+                              Please open your Metamask app to approve the transaction and keep this app open until it's complete.
+                            </p>
+                            <button
+                              onClick={openMetaMaskApp}
+                              style={{
+                                padding: '10px 20px',
+                                backgroundColor: '#f6851b',
+                                color: '#fff',
+                                border: 'none',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '14px',
+                              }}
+                            >
+                              Open MetaMask
+                            </button>
                           </div>
                         )}
                       </div>

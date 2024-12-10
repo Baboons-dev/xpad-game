@@ -367,3 +367,18 @@ button > wui-text {
 .tab-item-active p {
   color: #bef642 !important;
 }
+
+/* Infinite processing icon animation */
+@keyframes rotateAndFade {
+  0% {
+    transform: rotate(0deg);
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 0.5;
+  }
+}
