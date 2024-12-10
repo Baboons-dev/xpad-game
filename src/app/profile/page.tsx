@@ -147,14 +147,13 @@ export default function ProfilePage() {
           <Box>
           <button
   onClick={() => {
-    const metamaskUrl = 'metamask://';
-    const appStoreUrl = 'https://apps.apple.com/app/metamask/id1438144202';
-    // Try to open MetaMask app
-    window.location.href = metamaskUrl;
-    // Redirect to App Store after a short delay if MetaMask is not installed
+    // Try opening MetaMask using the deep link
+    window.location.href = 'metamask://';
+    
+    // Set a fallback message if MetaMask doesn't open
     setTimeout(() => {
-      window.location.href = appStoreUrl;
-    }, 1500); // Adjust delay as needed
+      alert('MetaMask did not open. Please open the MetaMask app manually.');
+    }, 1500);
   }}
   style={{
     padding: '10px 20px',
@@ -166,8 +165,30 @@ export default function ProfilePage() {
     fontSize: '14px',
   }}
 >
-  Open MetaMask
+  Open MetaMask 1
 </button>
+<button
+  onClick={() => {
+    // Try opening MetaMask app link
+    if (window.location.href.includes('telegram')) {
+      alert('Please open this link in your browser to interact with MetaMask.');
+    } else {
+      window.location.href = 'metamask://';
+    }
+  }}
+  style={{
+    padding: '10px 20px',
+    backgroundColor: '#f6851b',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '14px',
+  }}
+>
+  Open MetaMask2
+</button>
+
 
           </Box>
           <Box marginTop="36px" display="flex" justifyContent="center" alignItems="center">
