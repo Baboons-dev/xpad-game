@@ -17,6 +17,7 @@ import { useSelector } from '@/store';
 import * as ReactDOMServer from 'react-dom/server';
 import { getInvestors, getLotteryResults } from '@/api/apiCalls/user';
 import { useConnect } from 'wagmi';
+import JumpToTaskModel from '@/components/LayerX/JumpToTaskModel';
 
 function IXOCard({
   ixo,
@@ -37,6 +38,7 @@ function IXOCard({
   const progress = (ixo.raised / ixo.target) * 100;
   const { connect, connectors } = useConnect();
   const user = useSelector((state) => state.user);
+  const [isJumpToTaskModel, setIsJumpToTaskModel] = useState(false);
 
   const handleClick = (id: any) => {
     router.push(`/Invest/${id}`);
@@ -54,401 +56,413 @@ function IXOCard({
   }, [lotteryWinnersMap]);
 
   return (
-    <Box
-      borderRadius="12px"
-      border="1px solid #363D22"
-      background="#000"
-      padding="20px 15px 15px 15px"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      gap={'20px'}
-      mb={'16px'}
-      width={'100%'}>
-      <Box display={'flex'} gap={'22px'} width={'100%'}>
-        <Box style={{ width: '74px', height: '74px', position: 'relative', borderRadius: '12px' }}>
-          <img
-            src={ixo?.avatar ? ixo?.avatar : ''}
-            alt=""
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              borderRadius: '8px',
-            }}
-          />
-          <div style={{ position: 'absolute', bottom: '-4px', right: '-4px' }}>
-            {ixo?.participate_chain_id == 97 && <Icons name="bsc_test_icon_97"></Icons>}
-            {ixo?.participate_chain_id == 56 && <Icons name="bsc_icon_56"></Icons>}
-            {ixo?.participate_chain_id == 11155111 && <Icons name="eth_sep_icon_11155111"></Icons>}
-            {ixo?.participate_chain_id == 1 && <Icons name="eth_icon_1"></Icons>}
-            {ixo?.participate_chain_id == 900 && <Icons name="solana_icon_900"></Icons>}
-          </div>
-        </Box>
-        <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-          <Box style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-            <div
+    <>
+      <Box
+        borderRadius="12px"
+        border="1px solid #363D22"
+        background="#000"
+        padding="20px 15px 15px 15px"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        gap={'20px'}
+        mb={'16px'}
+        width={'100%'}>
+        <Box display={'flex'} gap={'22px'} width={'100%'}>
+          <Box
+            style={{ width: '74px', height: '74px', position: 'relative', borderRadius: '12px' }}>
+            <img
+              src={ixo?.avatar ? ixo?.avatar : ''}
+              alt=""
               style={{
-                fontSize: '18px',
-                fontWeight: '800',
-                fontFamily: 'Plus Jakarta Sans',
-                color: '#fff',
-              }}>
-              <span>{ixo?.title}</span>
-
-              <Status
-                task={ixo}
-                lotteryWinner={
-                  lotteryWinnersMap[ixo?.id]
-                    ? lotteryWinnersMap[ixo?.id].includes(user?.id as string)
-                    : false
-                }
-                loading={isLoading}
-              />
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: '8px',
+              }}
+            />
+            <div style={{ position: 'absolute', bottom: '-4px', right: '-4px' }}>
+              {ixo?.participate_chain_id == 97 && <Icons name="bsc_test_icon_97"></Icons>}
+              {ixo?.participate_chain_id == 56 && <Icons name="bsc_icon_56"></Icons>}
+              {ixo?.participate_chain_id == 11155111 && (
+                <Icons name="eth_sep_icon_11155111"></Icons>
+              )}
+              {ixo?.participate_chain_id == 1 && <Icons name="eth_icon_1"></Icons>}
+              {ixo?.participate_chain_id == 900 && <Icons name="solana_icon_900"></Icons>}
             </div>
           </Box>
-          <div className="socials">
-            {ixo?.website_url && (
-              <>
-                {ixo?.website_url.startsWith('https://www.') ? (
-                  <a href={ixo?.website_url}>
-                    <div className="icon-wrap">
-                      <Icons name="globe-icon-socials" />
-                    </div>
-                  </a>
-                ) : ixo?.website_url.startsWith('www.') ? (
-                  <a href={'https://' + ixo?.website_url}>
-                    <div className="icon-wrap">
-                      <Icons name="globe-icon-socials" />
-                    </div>
-                  </a>
-                ) : (
-                  <a href={'https://www.' + ixo?.website_url}>
-                    <div className="icon-wrap">
-                      <Icons name="globe-icon-socials" />
-                    </div>
-                  </a>
-                )}
-              </>
-            )}
-
-            {ixo?.twitter_url && (
-              <>
-                {ixo?.twitter_url.startsWith('https://www.') ? (
-                  <a href={ixo?.twitter_url}>
-                    <div className="icon-wrap">
-                      <Icons name="x-icon-socials" />
-                    </div>
-                  </a>
-                ) : ixo?.twitter_url.startsWith('www.') ? (
-                  <a href={'https://' + ixo?.twitter_url}>
-                    <div className="icon-wrap">
-                      <Icons name="x-icon-socials" />
-                    </div>
-                  </a>
-                ) : (
-                  <a href={'https://www.' + ixo?.twitter_url}>
-                    <div className="icon-wrap">
-                      <Icons name="x-icon-socials" />
-                    </div>
-                  </a>
-                )}
-              </>
-            )}
-
-            {ixo?.discord_url && (
-              <>
-                {ixo?.discord_url.startsWith('https://www.') ? (
-                  <a href={ixo?.discord_url}>
-                    <div className="icon-wrap">
-                      <Icons name="discord-icon-socials" />
-                    </div>
-                  </a>
-                ) : ixo?.discord_url.startsWith('www.') ? (
-                  <a href={'https://' + ixo?.discord_url}>
-                    <div className="icon-wrap">
-                      <Icons name="discord-icon-socials" />
-                    </div>
-                  </a>
-                ) : (
-                  <a href={'https://www.' + ixo?.discord_url}>
-                    <div className="icon-wrap">
-                      <Icons name="discord-icon-socials" />
-                    </div>
-                  </a>
-                )}
-              </>
-            )}
-
-            {ixo?.telegram_url && (
-              <>
-                {ixo?.telegram_url.startsWith('https://www.') ? (
-                  <a href={ixo?.telegram_url}>
-                    <div className="icon-wrap">
-                      <Icons name="telegram-icon-socials" />
-                    </div>
-                  </a>
-                ) : ixo?.telegram_url.startsWith('www.') ? (
-                  <a href={'https://' + ixo?.telegram_url}>
-                    <div className="icon-wrap">
-                      <Icons name="telegram-icon-socials" />
-                    </div>
-                  </a>
-                ) : (
-                  <a href={'https://www.' + ixo?.telegram_url}>
-                    <div className="icon-wrap">
-                      <Icons name="telegram-icon-socials" />
-                    </div>
-                  </a>
-                )}
-              </>
-            )}
-          </div>
-        </Box>
-      </Box>
-
-      {type !== 'past' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              width: '100%',
-            }}>
-            <p
-              style={{
-                color: '#fff',
-                fontSize: '12px',
-                fontWeight: '400',
-                fontFamily: 'Plus Jakarta Sans',
-              }}>
-              {type === 'current'
-                ? 'Sale Progress'
-                : type === 'upcoming'
-                ? `Score:${ixo?.completed_percent}%`
-                : ''}
-            </p>
-            {type === 'current' && (
-              <h4
+          <Box
+            style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <Box style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <div
                 style={{
-                  color: '#BEF642',
+                  fontSize: '18px',
+                  fontWeight: '800',
+                  fontFamily: 'Plus Jakarta Sans',
+                  color: '#fff',
+                }}>
+                <span>{ixo?.title}</span>
+
+                <Status
+                  task={ixo}
+                  lotteryWinner={
+                    lotteryWinnersMap[ixo?.id]
+                      ? lotteryWinnersMap[ixo?.id].includes(user?.id as string)
+                      : false
+                  }
+                  loading={isLoading}
+                />
+              </div>
+            </Box>
+            <div className="socials">
+              {ixo?.website_url && (
+                <>
+                  {ixo?.website_url.startsWith('https://www.') ? (
+                    <a href={ixo?.website_url}>
+                      <div className="icon-wrap">
+                        <Icons name="globe-icon-socials" />
+                      </div>
+                    </a>
+                  ) : ixo?.website_url.startsWith('www.') ? (
+                    <a href={'https://' + ixo?.website_url}>
+                      <div className="icon-wrap">
+                        <Icons name="globe-icon-socials" />
+                      </div>
+                    </a>
+                  ) : (
+                    <a href={'https://www.' + ixo?.website_url}>
+                      <div className="icon-wrap">
+                        <Icons name="globe-icon-socials" />
+                      </div>
+                    </a>
+                  )}
+                </>
+              )}
+
+              {ixo?.twitter_url && (
+                <>
+                  {ixo?.twitter_url.startsWith('https://www.') ? (
+                    <a href={ixo?.twitter_url}>
+                      <div className="icon-wrap">
+                        <Icons name="x-icon-socials" />
+                      </div>
+                    </a>
+                  ) : ixo?.twitter_url.startsWith('www.') ? (
+                    <a href={'https://' + ixo?.twitter_url}>
+                      <div className="icon-wrap">
+                        <Icons name="x-icon-socials" />
+                      </div>
+                    </a>
+                  ) : (
+                    <a href={'https://www.' + ixo?.twitter_url}>
+                      <div className="icon-wrap">
+                        <Icons name="x-icon-socials" />
+                      </div>
+                    </a>
+                  )}
+                </>
+              )}
+
+              {ixo?.discord_url && (
+                <>
+                  {ixo?.discord_url.startsWith('https://www.') ? (
+                    <a href={ixo?.discord_url}>
+                      <div className="icon-wrap">
+                        <Icons name="discord-icon-socials" />
+                      </div>
+                    </a>
+                  ) : ixo?.discord_url.startsWith('www.') ? (
+                    <a href={'https://' + ixo?.discord_url}>
+                      <div className="icon-wrap">
+                        <Icons name="discord-icon-socials" />
+                      </div>
+                    </a>
+                  ) : (
+                    <a href={'https://www.' + ixo?.discord_url}>
+                      <div className="icon-wrap">
+                        <Icons name="discord-icon-socials" />
+                      </div>
+                    </a>
+                  )}
+                </>
+              )}
+
+              {ixo?.telegram_url && (
+                <>
+                  {ixo?.telegram_url.startsWith('https://www.') ? (
+                    <a href={ixo?.telegram_url}>
+                      <div className="icon-wrap">
+                        <Icons name="telegram-icon-socials" />
+                      </div>
+                    </a>
+                  ) : ixo?.telegram_url.startsWith('www.') ? (
+                    <a href={'https://' + ixo?.telegram_url}>
+                      <div className="icon-wrap">
+                        <Icons name="telegram-icon-socials" />
+                      </div>
+                    </a>
+                  ) : (
+                    <a href={'https://www.' + ixo?.telegram_url}>
+                      <div className="icon-wrap">
+                        <Icons name="telegram-icon-socials" />
+                      </div>
+                    </a>
+                  )}
+                </>
+              )}
+            </div>
+          </Box>
+        </Box>
+
+        {type !== 'past' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}>
+              <p
+                style={{
+                  color: '#fff',
                   fontSize: '12px',
                   fontWeight: '400',
                   fontFamily: 'Plus Jakarta Sans',
                 }}>
-                {ixo?.sale_progress} / {ixo?.detail_launch_price * ixo?.detail_token_for_sale} USD
-              </h4>
-            )}
-            {type === 'upcoming' && <Rating percent={ixo?.completed_percent} />}
-          </div>
-          <div
-            style={{
-              width: '100%',
-              height: '3px',
-              background: '#191916',
-              borderRadius: '3px',
-              position: 'relative',
-            }}>
+                {type === 'current'
+                  ? 'Sale Progress'
+                  : type === 'upcoming'
+                  ? `Score:${ixo?.completed_percent}%`
+                  : ''}
+              </p>
+              {type === 'current' && (
+                <h4
+                  style={{
+                    color: '#BEF642',
+                    fontSize: '12px',
+                    fontWeight: '400',
+                    fontFamily: 'Plus Jakarta Sans',
+                  }}>
+                  {ixo?.sale_progress} / {ixo?.detail_launch_price * ixo?.detail_token_for_sale} USD
+                </h4>
+              )}
+              {type === 'upcoming' && <Rating percent={ixo?.completed_percent} />}
+            </div>
             <div
               style={{
-                width:
-                  type === 'current'
-                    ? (ixo?.sale_progress * 100) /
-                        (ixo?.detail_launch_price * ixo?.detail_token_for_sale) +
-                      '%'
-                    : type === 'upcoming'
-                    ? ixo?.completed_percent + '%'
-                    : '',
-                position: 'absolute',
+                width: '100%',
                 height: '3px',
-                background: '#BEF642',
+                background: '#191916',
                 borderRadius: '3px',
-              }}></div>
-          </div>
-        </div>
-      )}
-
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: type === 'past' ? '20px' : '5px',
-          width: '100%',
-        }}>
-        <div style={{ display: 'flex', gap: '5px', alignItems: 'center', width: '100%' }}>
-          <div className={`${type === 'past' ? 'details-item-past' : 'details-item'}`}>
-            <h3>Launch Price</h3>
-            <p>{parseFloat(ixo?.detail_launch_price)} USD</p>
-            {type !== 'past' && (
-              <div className="icon-wrap">
-                <Icons name="LaunchPrice-icon" />
-              </div>
-            )}
-          </div>
-          <div className={`${type === 'past' ? 'details-item-past' : 'details-item'}`}>
-            <h3>Tokens for Sale</h3>
-            <p>
-              {parseFloat(ixo?.detail_token_for_sale)} {ixo?.detail_token_symbol}
-            </p>
-            {type !== 'past' && (
-              <div className="icon-wrap">
-                <Icons name="TokensForSale-icon" />
-              </div>
-            )}
-          </div>
-        </div>
-        {type !== 'past' && (
-          <div style={{ display: 'flex', gap: '5px', alignItems: 'center', width: '100%' }}>
-            <div className="details-item">
-              <h3>Winning Tickets</h3>
-              <p>{parseFloat(ixo?.detail_winning_ticket)}</p>
-              <div className="icon-wrap">
-                <Icons name="WinningTickets-icon" />
-              </div>
-            </div>
-            <div className="details-item">
-              <h3>Amount / Ticket</h3>
-              <p>{parseFloat(ixo?.max_user_deposit)} USD</p>
-              <div className="icon-wrap">
-                <Icons name="AmountTicket-icon" />
-              </div>
-            </div>
-          </div>
-        )}
-        {type === 'past' && (
-          <div style={{ display: 'flex', gap: '5px', alignItems: 'center', width: '100%' }}>
-            <div className="details-item-past">
-              <h3>Total Raised</h3>
-              <p>{ixo?.sale_progress} USD</p>
-            </div>
-            <div className="details-item-past">
-              <h3>Participants</h3>
-              <p>{participants ? participants : 'Loading...'}</p>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {type === 'current' && (
-        <div className="btn-wrap">
-          {isLoading ? (
-            <button className="disable">
-              <p>Not Available</p>
-            </button>
-          ) : ixo?.is_blacklisted ||
-            (lotteryWinnersMap[ixo?.id] &&
-              !lotteryWinnersMap[ixo?.id].includes(user?.id as string)) ? (
-            <button className="disable">
-              <p>Not Available</p>
-            </button>
-          ) : (
-            <Countdown
-              date={ixo.sale_start}
-              intervalDelay={0}
-              precision={3}
-              renderer={(props) =>
-                props.completed ? (
-                  <button
-                    className="main"
-                    onClick={() => {
-                      console.log('Id>>>', ixo?.id);
-                      if (address) {
-                        handleClick(ixo?.id);
-                      } else {
-                        const connector = connectors[0];
-                        if (connector) {
-                          connect({ connector });
-                        }
-                      }
-                    }}>
-                    <Icons name="lightning-icon"></Icons>
-                    <p>{address ? 'Participate' : 'Connect Wallet'}</p>
-                  </button>
-                ) : (
-                  <div
-                    className="flex items-center justify-center gap-x-1"
-                    style={{
-                      width: '100%',
-                      minHeight: '44px',
-                      background: '#47473B',
-                      borderRadius: '100px',
-                    }}>
-                    <p className="" style={{ color: 'black', fontWeight: '700' }}>
-                      {props.days}d
-                    </p>
-                    <p className="" style={{ color: 'black', fontWeight: '700' }}>
-                      {props.hours}h
-                    </p>
-                    <p className="" style={{ color: 'black', fontWeight: '700' }}>
-                      {props.minutes}m
-                    </p>
-                    <p className="" style={{ color: 'black', fontWeight: '700' }}>
-                      {props.seconds}s
-                    </p>
-                  </div>
-                )
-              }></Countdown>
-          )}
-        </div>
-      )}
-
-      {type === 'upcoming' && (
-        <div className="btn-wrap">
-          {ixo?.status === 'Open' && (
-            <button className="main" onClick={() => window.open(ixo.profile_link, '_blank')}>
-              <p>Jump to Tasks</p>
-            </button>
-          )}
-          {ixo?.status === 'TBA' && (
-            <button className="disable">
-              <p>TBA</p>
-            </button>
-          )}
-        </div>
-      )}
-
-      {type === 'past' && (
-        <div className="btn-wrap">
-          <button
-            onClick={() => window.open(ixo.profile_link, '_blank')}
-            style={{
-              border: '1px solid #BEF642',
-              borderRadius: '50px',
-              backgroundColor: 'transparent',
-            }}>
-            <p
-              style={{
-                color: '#FFF',
-                fontSize: '14px',
-                fontWeight: '800',
-                fontFamily: 'Plus Jakarta Sans',
+                position: 'relative',
               }}>
-              View project
-            </p>
-          </button>
-        </div>
-      )}
+              <div
+                style={{
+                  width:
+                    type === 'current'
+                      ? (ixo?.sale_progress * 100) /
+                          (ixo?.detail_launch_price * ixo?.detail_token_for_sale) +
+                        '%'
+                      : type === 'upcoming'
+                      ? ixo?.completed_percent + '%'
+                      : '',
+                  position: 'absolute',
+                  height: '3px',
+                  background: '#BEF642',
+                  borderRadius: '3px',
+                }}></div>
+            </div>
+          </div>
+        )}
 
-      {type !== 'past' && (
-        <p
+        <div
           style={{
-            color: '#82827E',
-            fontSize: '12px',
-            fontWeight: '400',
-            fontFamily: 'Plus Jakarta Sans',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: type === 'past' ? '20px' : '5px',
             width: '100%',
-            textAlign: 'center',
-            marginTop: '-5px',
-            cursor: 'pointer',
-          }}
-          onClick={() => {
-            router.push(`/ixos/ixosSingle/${ixo?.id}`);
           }}>
-          View project
-        </p>
-      )}
-    </Box>
+          <div style={{ display: 'flex', gap: '5px', alignItems: 'center', width: '100%' }}>
+            <div className={`${type === 'past' ? 'details-item-past' : 'details-item'}`}>
+              <h3>Launch Price</h3>
+              <p>{parseFloat(ixo?.detail_launch_price)} USD</p>
+              {type !== 'past' && (
+                <div className="icon-wrap">
+                  <Icons name="LaunchPrice-icon" />
+                </div>
+              )}
+            </div>
+            <div className={`${type === 'past' ? 'details-item-past' : 'details-item'}`}>
+              <h3>Tokens for Sale</h3>
+              <p>
+                {parseFloat(ixo?.detail_token_for_sale)} {ixo?.detail_token_symbol}
+              </p>
+              {type !== 'past' && (
+                <div className="icon-wrap">
+                  <Icons name="TokensForSale-icon" />
+                </div>
+              )}
+            </div>
+          </div>
+          {type !== 'past' && (
+            <div style={{ display: 'flex', gap: '5px', alignItems: 'center', width: '100%' }}>
+              <div className="details-item">
+                <h3>Winning Tickets</h3>
+                <p>{parseFloat(ixo?.detail_winning_ticket)}</p>
+                <div className="icon-wrap">
+                  <Icons name="WinningTickets-icon" />
+                </div>
+              </div>
+              <div className="details-item">
+                <h3>Amount / Ticket</h3>
+                <p>{parseFloat(ixo?.max_user_deposit)} USD</p>
+                <div className="icon-wrap">
+                  <Icons name="AmountTicket-icon" />
+                </div>
+              </div>
+            </div>
+          )}
+          {type === 'past' && (
+            <div style={{ display: 'flex', gap: '5px', alignItems: 'center', width: '100%' }}>
+              <div className="details-item-past">
+                <h3>Total Raised</h3>
+                <p>{ixo?.sale_progress} USD</p>
+              </div>
+              <div className="details-item-past">
+                <h3>Participants</h3>
+                <p>{participants ? participants : 'Loading...'}</p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {type === 'current' && (
+          <div className="btn-wrap">
+            {isLoading ? (
+              <button className="disable">
+                <p>Not Available</p>
+              </button>
+            ) : ixo?.is_blacklisted ||
+              (lotteryWinnersMap[ixo?.id] &&
+                !lotteryWinnersMap[ixo?.id].includes(user?.id as string)) ? (
+              <button className="disable">
+                <p>Not Available</p>
+              </button>
+            ) : (
+              <Countdown
+                date={ixo.sale_start}
+                intervalDelay={0}
+                precision={3}
+                renderer={(props) =>
+                  props.completed ? (
+                    <button
+                      className="main"
+                      onClick={() => {
+                        console.log('Id>>>', ixo?.id);
+                        if (address) {
+                          handleClick(ixo?.id);
+                        } else {
+                          const connector = connectors[0];
+                          if (connector) {
+                            connect({ connector });
+                          }
+                        }
+                      }}>
+                      <Icons name="lightning-icon"></Icons>
+                      <p>{address ? 'Participate' : 'Connect Wallet'}</p>
+                    </button>
+                  ) : (
+                    <div
+                      className="flex items-center justify-center gap-x-1"
+                      style={{
+                        width: '100%',
+                        minHeight: '44px',
+                        background: '#47473B',
+                        borderRadius: '100px',
+                      }}>
+                      <p className="" style={{ color: 'black', fontWeight: '700' }}>
+                        {props.days}d
+                      </p>
+                      <p className="" style={{ color: 'black', fontWeight: '700' }}>
+                        {props.hours}h
+                      </p>
+                      <p className="" style={{ color: 'black', fontWeight: '700' }}>
+                        {props.minutes}m
+                      </p>
+                      <p className="" style={{ color: 'black', fontWeight: '700' }}>
+                        {props.seconds}s
+                      </p>
+                    </div>
+                  )
+                }></Countdown>
+            )}
+          </div>
+        )}
+
+        {type === 'upcoming' && (
+          <div className="btn-wrap">
+            {ixo?.status === 'Open' && (
+              <button
+                className="main"
+                onClick={
+                  //() => window.open(ixo.profile_link, '_blank')
+                  () => setIsJumpToTaskModel(true)
+                }>
+                <p>Jump to Tasks</p>
+              </button>
+            )}
+            {ixo?.status === 'TBA' && (
+              <button className="disable">
+                <p>TBA</p>
+              </button>
+            )}
+          </div>
+        )}
+
+        {type === 'past' && (
+          <div className="btn-wrap">
+            <button
+              onClick={() => window.open(ixo.profile_link, '_blank')}
+              style={{
+                border: '1px solid #BEF642',
+                borderRadius: '50px',
+                backgroundColor: 'transparent',
+              }}>
+              <p
+                style={{
+                  color: '#FFF',
+                  fontSize: '14px',
+                  fontWeight: '800',
+                  fontFamily: 'Plus Jakarta Sans',
+                }}>
+                View project
+              </p>
+            </button>
+          </div>
+        )}
+
+        {type !== 'past' && (
+          <p
+            style={{
+              color: '#82827E',
+              fontSize: '12px',
+              fontWeight: '400',
+              fontFamily: 'Plus Jakarta Sans',
+              width: '100%',
+              textAlign: 'center',
+              marginTop: '-5px',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              router.push(`/ixos/ixosSingle/${ixo?.id}`);
+            }}>
+            View project
+          </p>
+        )}
+      </Box>
+      <JumpToTaskModel isOpen={isJumpToTaskModel} onClose={setIsJumpToTaskModel} />
+    </>
   );
 }
 
