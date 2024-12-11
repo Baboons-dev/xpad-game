@@ -486,43 +486,120 @@ export default function PortfolioPage() {
                 {/* Success Modal */}
                 <Modal
                   centered
-                  wrapClassName="ModalWrap"
-                  className="ModalElement"
                   visible={isSuccessModalVisible}
+                  //visible={true}
                   footer={null} // Remove default footer
                   onCancel={handleSuccessOk} // Close modal when clicking outside or on the X button
-                >
-                  <div className="ModalInnerWrap">
-                    <div className="modal-header-wrap">
-                      <Icons name="kinetix-icon"></Icons>
-                      <div className="intro">
-                        <p>Initial X Offering (IXO) powered by</p> <Icons name="xpad-icon"></Icons>
-                      </div>
+                  styles={{
+                    content: {
+                      backgroundColor: 'transparent',
+                    },
+                  }}>
+                  <div
+                    style={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                    }}>
+                    <Icons name="kinetix-icon" />
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        justifyContent: 'center',
+                        marginTop: '10px',
+                      }}>
+                      <p
+                        style={{
+                          color: '#BEF642',
+                          fontSize: '14px',
+                          fontWeight: '500',
+                          fontFamily: 'Plus Jakarta Sans',
+                        }}>
+                        Initial X Offering (IXO) powered by
+                      </p>{' '}
+                      <Icons name="xpad-icon" />
                     </div>
 
-                    <div className="modal-body-wrap">
-                      <div className="kinetix-modal-bg">
-                        <Icons name="kinetix-modal-bg"></Icons>
-                      </div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
 
-                      <div className="modal-row-wrap">
-                        <div className="text-wrap">
-                          <p>You&apos;ve Requested a Claim!</p>
-                          <h3>We have received your claim request successfully.</h3>
-                          <h3
-                            style={{
-                              opacity: '0.5',
-                              marginTop: '10px',
-                              fontWeight: '500',
-                            }}>
-                            Note: It can take up to 48 hours to receive your tokens. Please be
-                            patient.
-                          </h3>
-                        </div>
-                        <button className="modal-btn" onClick={handleSuccessOk}>
-                          <p>Close</p>
-                        </button>
-                      </div>
+                        backgroundColor: '#191916',
+                        borderRadius: '15px',
+                        padding: '30px 15px',
+                        marginTop: '20px',
+                        width: '100%',
+                        position: 'relative',
+                        backgroundImage: 'url(/Vector.svg)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                      }}>
+                      <Image src="/img.svg" alt="kinetix-modal-bg" height="160px" w="156px" />
+
+                      <p
+                        style={{
+                          color: '#BEF642',
+                          fontSize: '18px',
+                          fontWeight: '700',
+                          fontFamily: 'Plus Jakarta Sans',
+                          textAlign: 'center',
+                          marginTop: '15px',
+                        }}>
+                        You&apos;ve Requested a Claim!
+                      </p>
+                      <h3
+                        style={{
+                          color: '#fff',
+                          fontSize: '12px',
+                          fontWeight: '700',
+                          fontFamily: 'Plus Jakarta Sans',
+                          textAlign: 'center',
+                          marginTop: '5px',
+                          lineHeight: 'normal',
+                        }}>
+                        We have received your claim request successfully.
+                      </h3>
+                      <h3
+                        style={{
+                          opacity: '0.5',
+                          color: 'rgba(255, 255, 255, 0.50)',
+                          fontSize: '12px',
+                          fontWeight: '700',
+                          fontFamily: 'Plus Jakarta Sans',
+                          textAlign: 'center',
+                          marginTop: '16px',
+                          lineHeight: 'normal',
+                        }}>
+                        Note: It can take up to 48 hours to receive your tokens. Please be patient.
+                      </h3>
+
+                      <button
+                        style={{
+                          marginTop: '15px',
+                          borderRadius: '50px',
+                          backgroundColor: '#BEF642',
+                          height: '44px',
+                          width: '100%',
+                        }}
+                        onClick={handleSuccessOk}
+                        className="btn-style-1">
+                        <p
+                          style={{
+                            color: '#000000',
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            fontFamily: 'Plus Jakarta Sans',
+                          }}>
+                          Close
+                        </p>
+                      </button>
                     </div>
                   </div>
                 </Modal>
@@ -533,46 +610,132 @@ export default function PortfolioPage() {
                   wrapClassName="ModalWrap"
                   className="ModalElement"
                   visible={isErrorModalVisible}
+                  //visible={true}
                   footer={null} // Remove default footer
                   onCancel={handleErrorOk} // Close modal when clicking outside or on the X button
-                >
-                  <div className="ModalInnerWrap">
-                    <div className="modal-header-wrap">
-                      <Icons name="kinetix-icon"></Icons>
-                      <div className="intro">
-                        <p>Initial X Offering (IXO) powered by</p> <Icons name="xpad-icon"></Icons>
-                      </div>
+                  styles={{
+                    content: {
+                      backgroundColor: 'transparent',
+                    },
+                  }}>
+                  <div
+                    style={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                    }}>
+                    <Icons name="kinetix-icon" />
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        justifyContent: 'center',
+                        marginTop: '10px',
+                      }}>
+                      <p
+                        style={{
+                          color: '#BEF642',
+                          fontSize: '14px',
+                          fontWeight: '500',
+                          fontFamily: 'Plus Jakarta Sans',
+                        }}>
+                        Initial X Offering (IXO) powered by
+                      </p>{' '}
+                      <Icons name="xpad-icon" />
                     </div>
 
-                    <div className="modal-body-wrap">
-                      <div className="kinetix-modal-bg error-bg">
-                        <Icons name="kinetix-error-modal-bg"></Icons>
-                      </div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
 
-                      <div className="modal-row-wrap error-modal">
-                        <div className="text-wrap">
-                          <p> Error Occurred!</p>
-                          <h3>
-                            Sh*t. An error occurred while submitting your claim request. Please try
-                            again later.
-                          </h3>
-                        </div>
-                        <button className="modal-btn" onClick={handleErrorOk}>
-                          <p>Close</p>
-                        </button>
-                      </div>
+                        backgroundColor: '#191916',
+                        borderRadius: '15px',
+                        padding: '30px 15px',
+                        marginTop: '20px',
+                        width: '100%',
+                        position: 'relative',
+                        backgroundImage: 'url(/Vector.svg)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                      }}>
+                      <Image src="/img.svg" alt="kinetix-modal-bg" height="160px" w="156px" />
+
+                      <p
+                        style={{
+                          color: '#BEF642',
+                          fontSize: '18px',
+                          fontWeight: '700',
+                          fontFamily: 'Plus Jakarta Sans',
+                          textAlign: 'center',
+                          marginTop: '15px',
+                        }}>
+                        Error Occurred!
+                      </p>
+                      <h3
+                        style={{
+                          color: '#fff',
+                          fontSize: '12px',
+                          fontWeight: '700',
+                          fontFamily: 'Plus Jakarta Sans',
+                          textAlign: 'center',
+                          marginTop: '5px',
+                          lineHeight: 'normal',
+                        }}>
+                        Sh*t. An error occurred while submitting your claim request. Please try
+                        again later.
+                      </h3>
+
+                      <button
+                        style={{
+                          marginTop: '15px',
+                          borderRadius: '50px',
+                          backgroundColor: '#BEF642',
+                          height: '44px',
+                          width: '100%',
+                        }}
+                        onClick={handleErrorOk}
+                        className="btn-style-1">
+                        <p
+                          style={{
+                            color: '#000000',
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            fontFamily: 'Plus Jakarta Sans',
+                          }}>
+                          Close
+                        </p>
+                      </button>
                     </div>
                   </div>
+
+                  {/* <div className="modal-row-wrap error-modal">
+                    <div className="text-wrap">
+                      <p> Error Occurred!</p>
+                      <h3>
+                        Sh*t. An error occurred while submitting your claim request. Please try
+                        again later.
+                      </h3>
+                    </div>
+                    <button className="modal-btn" onClick={handleErrorOk}>
+                      <p>Close</p>
+                    </button>
+                  </div> */}
                 </Modal>
 
-                <Modal
+                {/* <Modal
                   title="Error"
                   visible={isErrorModalVisible}
                   onOk={handleErrorOk}
                   onCancel={handleErrorOk} // Close modal on cancel too
                 >
                   <p>There was an error claiming the tokens. Please try again.</p>
-                </Modal>
+                </Modal> */}
               </div>
             </div>
           );
