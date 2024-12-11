@@ -8,6 +8,7 @@ import HomePageOption from '@/components/LayerX/HomePageOptions';
 import HomeMasonary from '@/components/LayerX/HomeMasonary';
 
 export default function LayerXPage() {
+  //
   return (
     <Box w="100%" display="flex" flexDirection="column" minHeight="100vh" pb="80px">
       <Box position="relative" w="100%" zIndex={0}>
