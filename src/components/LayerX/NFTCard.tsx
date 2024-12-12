@@ -8,7 +8,7 @@ import {
   removeVoteFromCompetingNfts,
 } from '@/api/layerxApiCalls/api';
 import { AllNftsResponseData, CompetitionObject } from '@/types/type';
-import { Box, Button, useToast, Text } from '@chakra-ui/react';
+import { Box, Button, useToast, Text, Spinner } from '@chakra-ui/react';
 import { Avatar, Divider, Spin } from 'antd';
 import { Heart, Share2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
@@ -45,9 +45,11 @@ export default function NFTCard({
   const toast = useToast();
   const params = useParams();
   const selectedCompetitionId = params.id; // Extracts the 'id' from the dynamic
+  const [isFavLoading, setIsFavLoading] = useState(false);
 
   const onAddToFavClick = async (nftDetail: AllNftsResponseData) => {
     try {
+      setIsFavLoading(true);
       const res = await addNftToFavorite(nftDetail?.identifier || '');
       if (res?.message) {
         favoriteNft(nftDetail.identifier);
@@ -59,11 +61,14 @@ export default function NFTCard({
         duration: 3000,
         isClosable: true,
       });
+    } finally {
+      setIsFavLoading(false);
     }
   };
 
   const removeFromFavorites = async (nftDetail: AllNftsResponseData) => {
     try {
+      setIsFavLoading(true);
       const res = await addNftToFavorite(nftDetail?.identifier || '');
       if (res?.message) {
         unFavoriteNft(nftDetail.identifier);
@@ -75,6 +80,8 @@ export default function NFTCard({
         duration: 3000,
         isClosable: true,
       });
+    } finally {
+      setIsFavLoading(false);
     }
   };
 
@@ -188,30 +195,23 @@ export default function NFTCard({
               ) : (
                 <div className="flex items-center space-x-4">
                   <button className="text-[#33A7FF]/60 hover:text-[#33A7FF] transition-colors">
-                    {nft.is_favorite ? (
-                      <HeartFilledIcon
-                        onClick={() => removeFromFavorites(nft)}
-                        color="#f91880"
-                        width="24px"
-                        height="24px"
-                      />
+                    {isFavLoading ? (
+                      <Spinner size="sm" />
                     ) : (
-                      <HeartIcon onClick={() => onAddToFavClick(nft)} color="red" />
+                      <>
+                        {nft.is_favorite ? (
+                          <HeartFilledIcon
+                            onClick={() => removeFromFavorites(nft)}
+                            color="#f91880"
+                            width="24px"
+                            height="24px"
+                          />
+                        ) : (
+                          <HeartIcon onClick={() => onAddToFavClick(nft)} color="red" />
+                        )}
+                      </>
                     )}
-                    {/* {nft?.is_favorite ? (
-                      <HeartFilledIcon
-                        onClick={() => removeFromFavorites(nft)}
-                        color="#D9D9D9"
-                        width="20px"
-                        height="20px"
-                      />
-                    ) : (
-                      <HeartIcon onClick={() => onAddToFavClick(nft)} color="red" />
-                    )} */}
                   </button>
-                  {/* <button className="text-[#33A7FF]/60 hover:text-[#33A7FF] transition-colors">
-                    <Share2 className="h-5 w-5" />
-                  </button> */}
                 </div>
               )}
             </div>
