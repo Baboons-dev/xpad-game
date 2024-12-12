@@ -18,6 +18,7 @@ import CompetingNfts from '@/components/LayerX/CompetingNfts';
 import LeaderBoard from '@/components/LayerX/LeaderBoard';
 import CompetitionComments from '@/components/LayerX/CompetitionComments';
 import { getCompetitionDetails } from '@/api/layerxApiCalls/api';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 interface TimeTextProps {
   text: string;
@@ -78,12 +79,16 @@ export default function CompetitionDetailPage() {
       <Box position="relative" w="100%" zIndex={0}>
         <Image src={backgroundImage.src} h="auto" objectFit="contain" position="absolute" />
         <Box position="relative" margin="24px 16px 29px 16px">
+          <Breadcrumbs
+            backLink="/"
+            items={[
+              { label: 'X NFTs', link: '/layerx' },
+              { label: 'Competitions', link: '/layerx/competitions' },
+            ]}
+            activeTab={competitionDetails?.competition_name || ''}
+            color="#337BFF"
+          />
           <Box display="flex" alignItems="center">
-            <Link href="/layerx/competitions">
-              <Box>
-                <BackArrowIcon />
-              </Box>
-            </Link>
             <Box width="100%" display="flex" justifyContent="center">
               <Text
                 color="#33A7FF"

@@ -1,35 +1,28 @@
-"use client";
-import { Box, Image, Text } from "@chakra-ui/react";
-import backgroundImage from "../../../assets/background.png";
-import { Tabs } from "antd";
-import FeaturedCompetitions from "@/components/LayerX/FeaturedCompetitions";
-import MyCompetitions from "@/components/LayerX/MyCompetitions";
-import Link from "next/link";
-import BackArrowIcon from "@/icons/ArrowBack";
+'use client';
+import { Box, Image, Text } from '@chakra-ui/react';
+import backgroundImage from '../../../assets/background.png';
+import { Tabs } from 'antd';
+import FeaturedCompetitions from '@/components/LayerX/FeaturedCompetitions';
+import MyCompetitions from '@/components/LayerX/MyCompetitions';
+import Link from 'next/link';
+import BackArrowIcon from '@/icons/ArrowBack';
+import Breadcrumbs from '@/components/Breadcrumbs';
+import { useState } from 'react';
 
 export default function CompetitionsPage() {
+  const [activeTab, setActiveTab] = useState('1');
   return (
-    <Box
-      w="100%"
-      display="flex"
-      flexDirection="column"
-      minHeight="100vh"
-      pb="80px"
-    >
+    <Box w="100%" display="flex" flexDirection="column" minHeight="100vh" pb="80px">
       <Box position="relative" w="100%" zIndex={0}>
-        <Image
-          src={backgroundImage.src}
-          h="auto"
-          objectFit="contain"
-          position="absolute"
-        />
+        <Image src={backgroundImage.src} h="auto" objectFit="contain" position="absolute" />
         <Box position="relative" margin="24px 16px 29px 16px">
+          <Breadcrumbs
+            backLink="/"
+            items={[{ label: 'X NFTs', link: '/layerx' }]}
+            activeTab={activeTab === '1' ? 'All Competitions' : 'My Competitions'}
+            color="#337BFF"
+          />
           <Box display="flex" alignItems="center">
-            <Link href="/layerx">
-              <Box>
-                <BackArrowIcon />
-              </Box>
-            </Link>
             <Box width="100%" display="flex" justifyContent="center">
               <Text
                 color="#33A7FF"
@@ -37,9 +30,8 @@ export default function CompetitionsPage() {
                 fontStyle="normal"
                 fontWeight="800"
                 lineHeight="normal"
-                fontFamily="Plus Jakarta Sans"
-              >
-                Competitions
+                fontFamily="Plus Jakarta Sans">
+                {activeTab === '1' ? 'All Competitions' : 'My Competitions'}
               </Text>
             </Box>
           </Box>
@@ -49,15 +41,16 @@ export default function CompetitionsPage() {
           <Tabs
             defaultActiveKey="1"
             className="layerx-tabs"
+            onChange={(key) => setActiveTab(key)}
             items={[
               {
-                label: "All Competitions",
-                key: "1",
+                label: 'All Competitions',
+                key: '1',
                 children: <FeaturedCompetitions />,
               },
               {
-                label: "My Competitions",
-                key: "2",
+                label: 'My Competitions',
+                key: '2',
                 children: <MyCompetitions />,
               },
             ]}
@@ -72,7 +65,7 @@ export default function CompetitionsPage() {
 
         .layerx-tabs .ant-tabs-tab {
           color: rgba(255, 255, 255, 0.5);
-          font-family: "Plus Jakarta Sans";
+          font-family: 'Plus Jakarta Sans';
         }
 
         .layerx-tabs .ant-tabs-tab:hover {

@@ -18,6 +18,7 @@ import * as ReactDOMServer from 'react-dom/server';
 import { getInvestors, getLotteryResults } from '@/api/apiCalls/user';
 import { useConnect } from 'wagmi';
 import JumpToTaskModel from '@/components/LayerX/JumpToTaskModel';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 function IXOCard({
   ixo,
@@ -610,12 +611,15 @@ export default function FundraisePage() {
       <Box position="relative" w="100%" zIndex={0}>
         <Image src={backgroundImage.src} h="auto" objectFit="contain" position="absolute" />
         <Box position="relative" margin="24px 16px 29px 16px">
+          <Breadcrumbs
+            backLink="/"
+            items={[{ label: 'IXOs', link: '/ixos' }]}
+            activeTab={
+              activeTab === '1' ? 'All IXOs' : activeTab === '2' ? 'Upcoming IXOs' : 'Past IXOs'
+            }
+            color="#BEF642"
+          />
           <Box display="flex" alignItems="center">
-            <Link href="/ixos">
-              <Box>
-                <BackArrowIcon />
-              </Box>
-            </Link>
             <Box width="100%" display="flex" justifyContent="center">
               <Text
                 color="#BEF642"

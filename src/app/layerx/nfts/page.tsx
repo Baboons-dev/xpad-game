@@ -9,6 +9,8 @@ import Link from 'next/link';
 import BackArrowIcon from '@/icons/ArrowBack';
 import FavoriteNfts from '@/components/LayerX/FavoriteNfts';
 import { useState } from 'react';
+import { LeftOutlined } from '@ant-design/icons';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export default function NFTsPage() {
   const [activeTab, setActiveTab] = useState('1');
@@ -18,12 +20,15 @@ export default function NFTsPage() {
       <Box position="relative" w="100%" zIndex={0}>
         <Image src={backgroundImage.src} h="auto" objectFit="contain" position="absolute" />
         <Box position="relative" margin="24px 16px 29px 16px">
+          <Breadcrumbs
+            backLink="/"
+            items={[{ label: 'X NFTs', link: '/layerx' }]}
+            activeTab={
+              activeTab === '1' ? 'All NFTs' : activeTab === '2' ? 'My NFTs' : 'Favorite NFTs'
+            }
+            color="#337BFF"
+          />
           <Box display="flex" alignItems="center">
-            <Link href="/layerx">
-              <Box>
-                <BackArrowIcon />
-              </Box>
-            </Link>
             <Box width="100%" display="flex" justifyContent="center">
               <Text
                 color="#33A7FF"
@@ -32,7 +37,7 @@ export default function NFTsPage() {
                 fontWeight="800"
                 lineHeight="normal"
                 fontFamily="Plus Jakarta Sans">
-                NFTs
+                {activeTab === '1' ? 'All NFTs' : activeTab === '2' ? 'My NFTs' : 'Favorite NFTs'}
               </Text>
             </Box>
           </Box>

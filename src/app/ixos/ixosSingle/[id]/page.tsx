@@ -13,6 +13,7 @@ import checked from '@/assets/CheckboxChecked.svg';
 import linkIcon from '@/assets/LinkIcon.svg';
 import statusOn from '@/assets/statusOn.svg';
 import statusOff from '@/assets/statusOf.svg';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 type TabType = 'whitelist' | 'ixoDetails' | 'about';
 
@@ -74,12 +75,21 @@ const page = () => {
             zIndex={1}
           />
           <Box position="relative" margin="24px 16px 29px 16px" zIndex={2}>
-            <Box display="flex" alignItems="center" style={{ paddingTop: '36px' }}>
-              <Link href="/ixos/fundraise">
-                <Box>
-                  <BackArrowIcon />
-                </Box>
-              </Link>
+            <Box
+              display="flex"
+              alignItems="center"
+              style={{ paddingTop: '36px', flexDirection: 'column', justifyContent: 'center' }}>
+              <Box style={{ width: '100%' }}>
+                <Breadcrumbs
+                  backLink="/"
+                  items={[
+                    { label: 'IXOs', link: '/ixos' },
+                    { label: 'Fundraising', link: '/ixos/fundraise' },
+                  ]}
+                  activeTab={ixo?.title || ''}
+                  color="#BEF642"
+                />
+              </Box>
               <Box width="100%" display="flex" justifyContent="center">
                 <Text
                   color="#BEF642"

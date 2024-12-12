@@ -15,6 +15,7 @@ import backgroundImage from '../../../assets/background.png';
 import Link from 'next/link';
 import BackArrowIcon from '@/icons/ArrowBack';
 import { Tabs } from 'antd';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 interface ClientData {
   title: string;
@@ -1050,12 +1051,23 @@ export default function PortfolioPage() {
           position="absolute"
         />
         <Box position="relative" margin="0px 16px 29px 16px">
-          <Box display="flex" alignItems="center" padding="36px 0px 0px 0px">
-            <Link href="/ixos">
-              <Box>
-                <BackArrowIcon />
-              </Box>
-            </Link>
+          <Box
+            display="flex"
+            alignItems="center"
+            padding="36px 0px 0px 0px"
+            style={{ flexDirection: 'column', justifyContent: 'center' }}>
+            <Box style={{ width: '100%' }}>
+              <Breadcrumbs
+                backLink="/"
+                items={[{ label: 'IXOs', link: '/ixos' }]}
+                activeTab={
+                  activeTab === '1'
+                    ? `IXO Portfolio / Vested Portfolio`
+                    : 'IXO Portfolio / Claimed Portfolio'
+                }
+                color="#BEF642"
+              />
+            </Box>
             <Box width="100%" display="flex" justifyContent="center">
               <Text
                 color="#BEF642"
