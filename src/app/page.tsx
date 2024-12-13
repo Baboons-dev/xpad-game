@@ -21,7 +21,7 @@ export default function HomePage() {
       description: "Explore the revolutionary LayerX ecosystem",
       href: "/layerx",
       borderColor: "#33A7FF",
-      buttonText: "Explore NFT Minting",
+      buttonText: "Explore X NFTs",
       disabled: false,
     },
     {
@@ -31,7 +31,7 @@ export default function HomePage() {
         "Play games with your collected XP. But watch out, you can also lose!",
       href: "/xplay",
       borderColor: "#F6C942",
-      buttonText: "Play Games",
+      buttonText: "Start Playing!",
       disabled: false,
     },
     {
@@ -41,8 +41,8 @@ export default function HomePage() {
         "Decentralized fundraising on X, using engagement-based participation.",
       href: "/ixos",
       borderColor: "#BEF642",
-      buttonText: "Coming Soon",
-      disabled: true,
+      buttonText: "Discover IXOs",
+      disabled: false,
     },
   ];
 
