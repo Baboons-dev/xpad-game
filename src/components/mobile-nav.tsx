@@ -388,11 +388,14 @@ export function MobileNav() {
       bottom="0"
       left="0"
       right="0"
-      height="64px"
+      // height="64px"
+      paddingTop="10px"
+      paddingBottom="20px"
       bg="black"
       borderTop="1px solid"
       borderColor="rgba(255, 255, 255, 0.1)"
       display="flex"
+      gap='12px'
       alignItems="center"
       justifyContent="space-around"
       px={4}
@@ -406,7 +409,7 @@ export function MobileNav() {
           <Link
             key={item.href}
             href={item?.disabled ? '#' : item.href}
-            style={{ textDecoration: 'none' }}>
+            style={{ textDecoration: 'none', flex: '1 0 0' }}>
             <Box
               display="flex"
               flexDirection="column"

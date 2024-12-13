@@ -651,7 +651,7 @@ export default function ParticipatePage() {
                   fontFamily: 'Plus Jakarta Sans',
                   marginTop: '-10px',
                 }}>
-                Your Allocation: 400 USD
+                Thank you for investing in this IXO.
               </h3>
 
               <Button

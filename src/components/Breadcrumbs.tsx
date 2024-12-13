@@ -20,7 +20,7 @@ const Breadcrumbs = ({ backLink, items, activeTab, color = '#337BFF' }: Breadcru
     <Box
       style={{
         display: 'flex',
-        gap: '14px',
+        gap: '12px',
         alignItems: 'center',
         fontSize: '12px',
         fontFamily: 'Plus Jakarta Sans',
@@ -29,7 +29,7 @@ const Breadcrumbs = ({ backLink, items, activeTab, color = '#337BFF' }: Breadcru
         marginBottom: '20px',
       }}>
       <Link href={backLink}>
-        <p style={{ fontWeight: '700', color: color, cursor: 'pointer' }}>
+        <p style={{ display:'flex', flexWrap:'nowrap', gap:'6px', fontWeight: '700', color: color, cursor: 'pointer' }}>
           <LeftOutlined />
           {` Back`}
         </p>
@@ -38,12 +38,12 @@ const Breadcrumbs = ({ backLink, items, activeTab, color = '#337BFF' }: Breadcru
         <React.Fragment key={index}>
           <p>|</p>
           <Link href={item.link}>
-            <p style={{ color: color, cursor: 'pointer' }}>{item.label}</p>
+            <p style={{ color: color, cursor: 'pointer', whiteSpace:'nowrap' }}>{item.label}</p>
           </Link>
         </React.Fragment>
       ))}
       <p>/</p>
-      <p style={{ cursor: 'pointer' }}>{activeTab}</p>
+      <p style={{ cursor: 'pointer', width:'100px', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{activeTab}</p>
     </Box>
   );
 };
