@@ -4,6 +4,7 @@ declare interface TweetScreenshotPayload {
     url: string;
     image_cid: string;
     json_cid: string;
+    json_url: string;
   };
 }
 
