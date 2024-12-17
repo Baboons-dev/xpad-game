@@ -96,8 +96,8 @@ export default function BattleArena({
           ))}
         </div>
 
-        <div className="card-container w-full flex justify-center mt-[24px] gap-[20px]">
-          <div className="card-col mt-[69px] flex-1 flex flex-col gap-[5.5px] max-w-[174px]">
+        <div className="card-container w-full flex justify-between mt-[24px] gap-[20px] max-w-[369px] mx-auto">
+          <div className="card-col mt-[69px] flex-1 flex flex-col gap-[5.5px] max-w-[147px]">
             <div className="card-row grid grid-flow-col gap-[8px] px-[10px]">
               {Array.from({ length: 4 }, (_, idx) => (
                 <Image
@@ -132,7 +132,7 @@ export default function BattleArena({
             />
           </div>
 
-          <div className="card-col flex-1 flex flex-col gap-[5.5px] max-w-[174px]">
+          <div className="card-col flex-1 flex flex-col gap-[5.5px] max-w-[147px]">
             <div className="card-row grid grid-flow-col gap-[8px] px-[10px]">
               {Array.from({ length: 4 }, (_, idx) => (
                 <Image
