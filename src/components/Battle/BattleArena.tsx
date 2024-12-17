@@ -51,161 +51,80 @@ export default function BattleArena({
         }}
       />
 
-      <div className="inner-wrap mx-auto">
-        <div className="user-stat-container">
-          {[fighter1, fighter2].map((fighter, index) => (
-            <div className="user-item" key={index}>
-              <Image
-                className="BattleArena_userStat_BG"
-                src={BattleArena_userStat_BG}
-                alt={''}
-                width={0}
-                height={0}
-                sizes="100vw"
-                priority
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                }}
-              />
+      {!winner && (
+        <div className="inner-wrap mx-auto">
+          <div className="user-stat-container">
+            {[fighter1, fighter2].map((fighter, index) => (
+              <div className="user-item" key={index}>
+                <Image
+                  className="BattleArena_userStat_BG"
+                  src={BattleArena_userStat_BG}
+                  alt={''}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  priority
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                  }}
+                />
 
-              <div className="item-wrap">
-                <div className="img-wrap">
-                  <Avatar
-                    className="min-w-[40px] min-h-[40px]"
-                    src={fighter.avatar}></Avatar>
-                </div>
+                <div className="item-wrap">
+                  <div className="img-wrap">
+                    <Avatar
+                      className="min-w-[40px] min-h-[40px]"
+                      src={fighter.avatar}></Avatar>
+                  </div>
 
-                <div className="user-name">
-                  <h2>{fighter.username}</h2>
-                </div>
+                  <div className="user-name">
+                    <h2>{fighter.username}</h2>
+                  </div>
 
-                <div className="user-lvl">
-                  <h3>Rising Star</h3>
-                </div>
+                  <div className="user-lvl">
+                    <h3>Rising Star</h3>
+                  </div>
 
-                <div className="hp-info">
-                  <p>HP: {fighter.health}%</p>
+                  <div className="hp-info">
+                    <p>HP: {fighter.health}%</p>
 
-                  <div className="progress-wrap">
-                    <div
-                      className="progress-item"
-                      style={{
-                        width: `${(fighter.health / fighter.points) * 100}%`,
-                      }}></div>
+                    <div className="progress-wrap">
+                      <div
+                        className="progress-item"
+                        style={{
+                          width: `${(fighter.health / fighter.points) * 100}%`,
+                        }}></div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="card-container w-full flex justify-between mt-[24px] gap-[20px] max-w-[369px] mx-auto">
-          <div className="card-col mt-[69px] flex-1 flex items-center flex-col gap-[5.5px] max-w-[147px]">
-            <div className="card-row grid grid-flow-col gap-[8px] px-[10px]">
-              {Array.from({ length: 4 }, (_, idx) => (
-                <Image
-                  key={idx}
-                  className="CardBack_bg flex-1"
-                  src={CardBack_bg}
-                  alt={''}
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  priority
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                  }}
-                />
-              ))}
-            </div>
-
-            <Image
-              className="CardBack_bg"
-              src={CardBack_bg}
-              alt={''}
-              width={0}
-              height={0}
-              sizes="100vw"
-              priority
-              style={{
-                width: '100%',
-                height: 'auto',
-              }}
-            />
-
-            <Icons name="CardBack_shadow" className="w-[106%]" />
+            ))}
           </div>
 
-          <div className="card-col flex-1 flex flex-col gap-[5.5px] max-w-[147px]">
-            <div className="card-row grid grid-flow-col gap-[8px] px-[10px]">
-              {Array.from({ length: 4 }, (_, idx) => (
-                <Image
-                  key={idx}
-                  className="CardBack_bg flex-1"
-                  src={CardBack_bg}
-                  alt={''}
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  priority
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                  }}
-                />
-              ))}
-            </div>
-            <Image
-              className="CardBack_bg"
-              src={CardBack_bg}
-              alt={''}
-              width={0}
-              height={0}
-              sizes="100vw"
-              priority
-              style={{
-                width: '100%',
-                height: 'auto',
-              }}
-            />
+          <div className="card-container w-full flex justify-between mt-[24px] gap-[20px] max-w-[369px] mx-auto">
+            <div className="card-col mt-[69px] flex-1 flex items-center flex-col gap-[5.5px] max-w-[147px]">
+              <div className="card-row grid grid-flow-col gap-[8px] px-[10px]">
+                {Array.from({ length: 4 }, (_, idx) => (
+                  <Image
+                    key={idx}
+                    className="CardBack_bg flex-1"
+                    src={CardBack_bg}
+                    alt={''}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    priority
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                    }}
+                  />
+                ))}
+              </div>
 
-            <Icons name="CardBack_shadow" className="w-[106%]" />
-          </div>
-        </div>
-
-        {!isFighting && !winner && (
-          <div className="onStartBattle_btn-wrap mt-[40px]">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className=" flex justify-center items-center flex-col gap-[32px]">
-              <h3 className="text-[14px] text-[#ffffffb3] font-[400] leading-[normal] tracking-[normal] text-center max-w-[180px]">
-                Game is about to start. Press Start Battle to begin.
-              </h3>
-
-              <button
-                onClick={onStartBattle}
-                className="flex justify-center items-center h-[36px] bg-[#FF7843] px-[24px] rounded-[8px] gap-[8px]">
-                <Icons name="sword-fill" className="h-[20px] w-[20px]" />
-                <p className="text-[14px] text-[#000] font-[600] leading-[normal] tracking-[0.42px]">
-                  Start Battle
-                </p>
-              </button>
-            </motion.div>
-          </div>
-        )}
-
-        {isFighting && <BattleLog messages={battleLog} />}
-
-        {winner && (
-          <div className="game-end">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}>
               <Image
-                src={user_won}
+                className="CardBack_bg"
+                src={CardBack_bg}
                 alt={''}
                 width={0}
                 height={0}
@@ -217,19 +136,101 @@ export default function BattleArena({
                 }}
               />
 
-              <h2>Winner!</h2>
+              <Icons name="CardBack_shadow" className="w-[106%]" />
+            </div>
 
-              <p>
-                You won against joepert013! You gain <span>200XP</span>
-              </p>
+            <div className="card-col flex-1 flex flex-col gap-[5.5px] max-w-[147px]">
+              <div className="card-row grid grid-flow-col gap-[8px] px-[10px]">
+                {Array.from({ length: 4 }, (_, idx) => (
+                  <Image
+                    key={idx}
+                    className="CardBack_bg flex-1"
+                    src={CardBack_bg}
+                    alt={''}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    priority
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                    }}
+                  />
+                ))}
+              </div>
+              <Image
+                className="CardBack_bg"
+                src={CardBack_bg}
+                alt={''}
+                width={0}
+                height={0}
+                sizes="100vw"
+                priority
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                }}
+              />
 
-              <Link className="btn" href={'/xplay'}>
-                <p>Close</p>
-              </Link>
-            </motion.div>
+              <Icons name="CardBack_shadow" className="w-[106%]" />
+            </div>
           </div>
-        )}
-      </div>
+
+          {!isFighting && !winner && (
+            <div className="onStartBattle_btn-wrap mt-[40px]">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className=" flex justify-center items-center flex-col gap-[32px]">
+                <h3 className="text-[14px] text-[#ffffffb3] font-[400] leading-[normal] tracking-[normal] text-center max-w-[180px]">
+                  Game is about to start. Press Start Battle to begin.
+                </h3>
+
+                <button
+                  onClick={onStartBattle}
+                  className="flex justify-center items-center h-[36px] bg-[#FF7843] px-[24px] rounded-[8px] gap-[8px]">
+                  <Icons name="sword-fill" className="h-[20px] w-[20px]" />
+                  <p className="text-[14px] text-[#000] font-[600] leading-[normal] tracking-[0.42px]">
+                    Start Battle
+                  </p>
+                </button>
+              </motion.div>
+            </div>
+          )}
+
+          {isFighting && <BattleLog messages={battleLog} />}
+        </div>
+      )}
+      {winner && (
+        <div className="game-end px-[24px]">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}>
+            <Image
+              src={user_won}
+              alt={''}
+              width={0}
+              height={0}
+              sizes="100vw"
+              priority
+              style={{
+                width: '100%',
+                height: 'auto',
+              }}
+            />
+
+            <h2>Winner!</h2>
+
+            <p>
+              You won against joepert013! You gain <span>200XP</span>
+            </p>
+
+            <Link className="btn" href={'/xplay'}>
+              <p>Close</p>
+            </Link>
+          </motion.div>
+        </div>
+      )}
     </main>
   );
 }
