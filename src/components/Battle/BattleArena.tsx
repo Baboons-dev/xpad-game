@@ -5,9 +5,11 @@ import { User } from '@/types/type';
 import BattleLog from './BattleLog';
 import { Avatar, Button } from 'antd';
 import Image from 'next/image';
+import Icons from '@/config/icon';
+import '@/assets/scss/BattleArena.scss';
 import BattleArenaBG from '@/assets/images/BattleArenaBG.png';
 import CardBack_bg from '@/assets/images/CardBack_bg.png';
-import Icons from '@/config/icon';
+import BattleArena_userStat_BG from '@/assets/images/BattleArena_userStat_BG.png';
 
 interface BattleArenaProps {
   fighters?: [User, User];
@@ -41,64 +43,61 @@ export default function BattleArena({
         style={{
           width: '100%',
           height: '100vh',
+          objectFit: 'cover',
         }}
       />
 
       <div className="inner-wrap max-w-4xl mx-auto space-y-6">
-        <div className="grid grid-cols-2 gap-2 md:gap-6">
+        <div className="user-stat-container">
           {[fighter1, fighter2].map((fighter, index) => (
-            <motion.div
-              key={fighter.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.2 }}>
-              <div className="p-3 md:p-6 bg-gradient-to-b from-card/90 to-black/90 border-brand-lime/20">
-                <div className="flex flex-col items-center space-y-2 md:space-y-4">
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-brand-lime/10 blur-lg rounded-full"></div>
-                    <Avatar
-                      className="w-16 h-16 md:w-32 md:h-32 ring-2 md:ring-4 ring-brand-lime/20"
-                      src={fighter.avatar}></Avatar>
-                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-black/90 px-2 md:px-4 py-1 rounded-full border border-brand-lime/20">
-                      <div className="flex items-center space-x-1 md:space-x-2">
-                        <Sword className="w-3 h-3 md:w-4 md:h-4 text-brand-lime" />
-                        <span className="text-xs md:text-sm font-mono text-brand-lime">
-                          {fighter.points}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+            <div className="user-item" key={fighter.id}>
+              <Image
+                className="BattleArena_userStat_BG"
+                src={BattleArena_userStat_BG}
+                alt={''}
+                width={0}
+                height={0}
+                sizes="100vw"
+                priority
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                }}
+              />
 
-                  <div className="text-center mt-2 md:mt-4">
-                    <h3 className="text-sm md:text-xl font-bold text-brand-white truncate max-w-[120px] md:max-w-full">
-                      {fighter.username}
-                    </h3>
-                    <div className="mt-1 md:mt-2">
-                      <div className="w-full bg-black/50 rounded-full h-1.5 md:h-2">
-                        <motion.div
-                          className="bg-brand-lime h-full rounded-full"
-                          initial={{ width: '100%' }}
-                          animate={{
-                            width: `${
-                              (fighter.health / fighter.points) * 100
-                            }%`,
-                          }}
-                          transition={{ duration: 0.5 }}
-                        />
-                      </div>
-                      <p className="text-xs md:text-sm text-muted mt-1">
-                        HP: {fighter.health}/{fighter.points}
-                      </p>
-                    </div>
+              <div className="item-wrap">
+                <div className="img-wrap">
+                  <Avatar
+                    className="min-w-[40px] min-h-[40px]"
+                    src={fighter.avatar}></Avatar>
+                </div>
+
+                <div className="user-name">
+                  <h2>{fighter.username}</h2>
+                </div>
+
+                <div className="user-lvl">
+                  <h3>Rising Star</h3>
+                </div>
+
+                <div className="hp-info">
+                  <p>HP: {fighter.health}%</p>
+
+                  <div className="progress-wrap">
+                    <div
+                      className="progress-item"
+                      style={{
+                        width: `${(fighter.health / fighter.points) * 100}%`,
+                      }}></div>
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        <div className="card-container w-full flex justify-between mt-[24px] gap-[75px]">
-          <div className="card-col mt-[69px] flex-1 flex flex-col gap-[5.5px]">
+        <div className="card-container w-full flex justify-center mt-[24px] gap-[20px]">
+          <div className="card-col mt-[69px] flex-1 flex flex-col gap-[5.5px] max-w-[174px]">
             <div className="card-row grid grid-flow-col gap-[8px] px-[10px]">
               {Array.from({ length: 4 }, (_, idx) => (
                 <Image
@@ -133,7 +132,7 @@ export default function BattleArena({
             />
           </div>
 
-          <div className="card-col flex-1 flex flex-col gap-[5.5px]">
+          <div className="card-col flex-1 flex flex-col gap-[5.5px] max-w-[174px]">
             <div className="card-row grid grid-flow-col gap-[8px] px-[10px]">
               {Array.from({ length: 4 }, (_, idx) => (
                 <Image
@@ -167,6 +166,7 @@ export default function BattleArena({
             />
           </div>
         </div>
+
         <div className="onStartBattle_btn-wrap mt-[40px]">
           {!isFighting && !winner && (
             <motion.div
@@ -189,7 +189,7 @@ export default function BattleArena({
           )}
         </div>
 
-        <div className="flex flex-col items-center">
+        <div className="winner flex flex-col items-center">
           {winner && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
