@@ -6,10 +6,13 @@ import BattleLog from './BattleLog';
 import { Avatar, Button } from 'antd';
 import Image from 'next/image';
 import Icons from '@/config/icon';
+import Link from 'next/link';
 import '@/assets/scss/BattleArena.scss';
 import BattleArenaBG from '@/assets/images/BattleArenaBG.png';
 import CardBack_bg from '@/assets/images/CardBack_bg.png';
 import BattleArena_userStat_BG from '@/assets/images/BattleArena_userStat_BG.png';
+import user_won from '@/assets/images/user_won.png';
+import user_lost from '@/assets/images/user_lost.png';
 
 interface BattleArenaProps {
   fighters?: [User, User];
@@ -195,20 +198,34 @@ export default function BattleArena({
         )}
 
         {isFighting && <BattleLog messages={battleLog} />}
-        {/* <BattleLog messages={battleLog} /> */}
 
         {winner && (
-          <div className="winner flex flex-col items-center">
+          <div className="game-end">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center">
-              <h2 className="text-xl md:text-2xl font-bold text-brand-lime mb-2">
-                Winner: {winner.username}!
-              </h2>
-              <p className="text-sm md:text-base text-muted">
-                Victory has been claimed!
+              animate={{ opacity: 1, y: 0 }}>
+              <Image
+                src={user_won}
+                alt={''}
+                width={0}
+                height={0}
+                sizes="100vw"
+                priority
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                }}
+              />
+
+              <h2>Winner!</h2>
+
+              <p>
+                You won against joepert013! You gain <span>200XP</span>
               </p>
+
+              <Link className="btn" href={'/xplay'}>
+                <p>Close</p>
+              </Link>
             </motion.div>
           </div>
         )}

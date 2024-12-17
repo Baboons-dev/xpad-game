@@ -109,8 +109,72 @@
       }
     }
   }
-}
 
-.onStartBattle_btn-wrap {
-  // display: none; // testing
+  .game-end {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.60);
+    backdrop-filter: blur(2px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+    img {
+      max-width: 243px;
+    }
+
+    h2 {
+      color: #FFF;
+      text-align: center;
+      font-size: 28px;
+      font-style: normal;
+      font-weight: 800;
+      line-height: 22px;
+      letter-spacing: 0.84px;
+      margin-top: 36px;
+    }
+
+    p {
+      color: rgba(255, 255, 255, 0.80);
+      text-align: center;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 22px;
+      margin-top: 8px;
+      max-width: 227px;
+
+      span {
+        color: #FF7843;
+      }
+    }
+
+    .btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      border: 2px solid #FF7843;
+      height: 34px;
+      padding: 0px 50px;
+      margin-top: 36px;
+
+      p {
+        color: #FF7843;
+        font-family: "Plus Jakarta Sans";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: 0.42px;
+        margin: 0;
+      }
+    }
+  }
 }

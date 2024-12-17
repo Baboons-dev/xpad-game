@@ -384,7 +384,7 @@ export function MobileNav() {
 
   return (
     <Box
-      className="MobileNav"
+      className="footer mobile-nav"
       position="fixed"
       bottom="0"
       left="0"

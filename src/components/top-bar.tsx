@@ -12,7 +12,7 @@ export function TopBar() {
   const user = useStore((state) => state.user);
   return (
     <Box
-      className="Header TopBar"
+      className="Header top-bar"
       display="flex"
       justifyContent="space-between"
       height="64px"
