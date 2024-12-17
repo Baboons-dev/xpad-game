@@ -126,9 +126,9 @@ export function MobileNav() {
     {
       href: '/xplay',
       label: 'xPlay',
-      color: '#F6C942',
+      color: '#FF7843',
       icon: (active: boolean) => (
-        <Icon w={6} h={6} viewBox="0 0 24 24" color={active ? '#F6C942' : '#595959'}>
+        <Icon w={6} h={6} viewBox="0 0 24 24" color={active ? '#FF7843' : '#595959'}>
           <svg
             width="24"
             height="24"
