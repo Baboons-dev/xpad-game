@@ -201,6 +201,7 @@ export default function BattleArena({
           {isFighting && <BattleLog messages={battleLog} />}
         </div>
       )}
+
       {winner && (
         <div className="game-end px-[24px]">
           <motion.div

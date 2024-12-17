@@ -31,14 +31,15 @@ export default function Home() {
           );
 
           const loggedInFighter = fighters?.find(
-            (f: { username: string }) => f.username === user?.username
+            // (f: { username: string }) => f.username === user?.username
+            (f: { username: string }) => f.username === "hasib58961094" // Manually setting the loggedInFighter
           );
 
           // give same points for fair fight
           playerFighterId &&
             setFighters([
-              { ...matchingFighter, points: 100 },
               { ...loggedInFighter, points: 100 },
+              { ...matchingFighter, points: 100 },
             ] as any); // Assuming response data is the array of users
           setLoading(false);
         }
