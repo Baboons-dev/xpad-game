@@ -5,6 +5,7 @@ import { User } from '@/types/type';
 import BattleLog from './BattleLog';
 import { Avatar, Button } from 'antd';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import Icons from '@/config/icon';
 import Link from 'next/link';
 import '@/assets/scss/BattleArena.scss';
@@ -19,6 +20,7 @@ interface BattleArenaProps {
   battleLog: string[];
   isFighting: boolean;
   winner: User | null;
+  userWon: boolean | null;
   onStartBattle: () => void;
 }
 
@@ -27,11 +29,14 @@ export default function BattleArena({
   battleLog,
   isFighting,
   winner,
+  userWon,
   onStartBattle,
 }: BattleArenaProps) {
   if (!fighters) return null;
 
   const [fighter1, fighter2] = fighters;
+  const [UserFighter, setUserFighter] = useState(fighters[0]);
+  const [UserVS, setUserVS] = useState(fighters[1]);
 
   return (
     <main className="BattleArena relative isolate py-[12px] px-[12px] font-['Plus_Jakarta_Sans']">
@@ -207,24 +212,35 @@ export default function BattleArena({
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}>
-            <Image
-              src={user_won}
-              alt={''}
-              width={0}
-              height={0}
-              sizes="100vw"
-              priority
-              style={{
-                width: '100%',
-                height: 'auto',
-              }}
-            />
+            {userWon ? (
+              <Image
+                src={user_won}
+                alt={''}
+                width={243}
+                height={0}
+                sizes="100vw"
+                priority
+              />
+            ) : (
+              <Image
+                src={user_lost}
+                alt={''}
+                width={243}
+                height={0}
+                sizes="100vw"
+                priority
+              />
+            )}
 
-            <h2>Winner!</h2>
+            {userWon ? <h2>Winner!</h2> : <h2>You lost</h2>}
 
-            <p>
-              You won against joepert013! You gain <span>200XP</span>
-            </p>
+            {userWon ? (
+              <p>
+                You won against {UserVS.username} You gain <span>200XP</span>
+              </p>
+            ) : (
+              <p>Better luck next time!</p>
+            )}
 
             <Link className="btn" href={'/xplay'}>
               <p>Close</p>

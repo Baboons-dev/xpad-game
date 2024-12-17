@@ -15,13 +15,16 @@ export default function Home() {
   const [isFighting, setIsFighting] = useState(false);
   const [winner, setWinner] = useState<User | null>(null);
   const playerFighterId = searchParams.get('fighter');
+  const [UserWon, setUserWon] = useState(false);
   const user = useStore((state) => state.user);
 
   useEffect(() => {
     setLoading(true);
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('https://api.xpad-extension.baboons.tech/api/user/list/');
+        const response = await axios.get(
+          'https://api.xpad-extension.baboons.tech/api/user/list/'
+        );
 
         const fighters = response?.data?.results;
         // Filter to find the fighter with the matching `id`
@@ -32,7 +35,7 @@ export default function Home() {
 
           const loggedInFighter = fighters?.find(
             // (f: { username: string }) => f.username === user?.username
-            (f: { username: string }) => f.username === "hasib58961094" // Manually setting the loggedInFighter
+            (f: { username: string }) => f.username === 'hasib58961094' // Manually setting the loggedInFighter
           );
 
           // give same points for fair fight
@@ -57,6 +60,7 @@ export default function Home() {
       setIsFighting(true);
       setBattleLog([]);
       setWinner(null);
+      setUserWon(false);
 
       // Initialize each fighter's health, giving zero-point fighters a minimum starting health
       const newFighters = fighters.map((f) => ({
@@ -88,7 +92,9 @@ export default function Home() {
             currentFighters[0].health > currentFighters[1].health
               ? currentFighters[0]
               : currentFighters[1];
+          setUserWon(currentFighters[0].health > currentFighters[1].health);
           setWinner(winner);
+          console.log('winner', winner);
           return;
         }
 
@@ -99,12 +105,18 @@ export default function Home() {
         const move = moves[Math.floor(Math.random() * moves.length)];
 
         // Ensure attacker points contribute to damage calculation even if they're 0
-        const attackerPoints = Math.max(currentFighters[attackerIndex].points, 1);
+        const attackerPoints = Math.max(
+          currentFighters[attackerIndex].points,
+          1
+        );
 
         // Calculate damage with a base factor and minimum damage threshold
         const baseDamageFactor = 0.1 + Math.random() * 0.4;
         const minimumDamage = 5;
-        const damage = Math.max(Math.floor(attackerPoints * baseDamageFactor), minimumDamage);
+        const damage = Math.max(
+          Math.floor(attackerPoints * baseDamageFactor),
+          minimumDamage
+        );
 
         // Update defender's health in `currentFighters`
         currentFighters = currentFighters.map((fighter, index) => {
@@ -142,6 +154,7 @@ export default function Home() {
           battleLog={battleLog}
           isFighting={isFighting}
           winner={winner}
+          userWon={UserWon}
           onStartBattle={simulateBattle}
         />
       )}
