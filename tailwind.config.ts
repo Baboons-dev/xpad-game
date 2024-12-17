@@ -56,9 +56,9 @@ const config: Config = {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
-        "brand-lime": "#BEF642",
+        "brand-lime": "#FF7843",
         "brand-white": "#FFFFFF",
-        "brand-lime-dark": "#bef642",
+        "brand-lime-dark": "#FF7843",
     },
     extend: {
       boxShadow: {

@@ -1,9 +1,13 @@
-"use client";
-import { Sword, Swords } from "lucide-react";
-import { motion } from "framer-motion";
-import { User } from "@/types/type";
-import BattleLog from "./BattleLog";
-import { Avatar, Button } from "antd";
+'use client';
+import { Sword, Swords } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { User } from '@/types/type';
+import BattleLog from './BattleLog';
+import { Avatar, Button } from 'antd';
+import Image from 'next/image';
+import BattleArenaBG from '@/assets/images/BattleArenaBG.png';
+import CardBack_bg from '@/assets/images/CardBack_bg.png';
+import Icons from '@/config/icon';
 
 interface BattleArenaProps {
   fighters?: [User, User];
@@ -25,32 +29,36 @@ export default function BattleArena({
   const [fighter1, fighter2] = fighters;
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-background via-background/95 to-card/90 p-2 pt-20 md:p-8 font-['Plus_Jakarta_Sans']">
-      <div className="max-w-4xl mx-auto space-y-6">
-        <div className="text-center mb-6 relative">
-          <div className="absolute inset-0 bg-brand-lime/5 blur-3xl rounded-full"></div>
-          <h1 className="text-3xl md:text-5xl font-black mb-2 md:mb-4 bg-gradient-to-r from-brand-lime to-brand-white bg-clip-text text-transparent">
-            Battle Arena
-          </h1>
-          <p className="text-muted text-sm md:text-lg">
-            May the best fighter win!
-          </p>
-        </div>
+    <main className="BattleArena relative isolate py-[12px] px-[12px] font-['Plus_Jakarta_Sans']">
+      <Image
+        className="BattleArenaBG absolute z-[-1] top-[-64px] left-0 pointer-events-none"
+        src={BattleArenaBG}
+        alt={''}
+        width={0}
+        height={0}
+        sizes="100vw"
+        priority
+        style={{
+          width: '100%',
+          height: '100vh',
+        }}
+      />
 
+      <div className="inner-wrap max-w-4xl mx-auto space-y-6">
         <div className="grid grid-cols-2 gap-2 md:gap-6">
           {[fighter1, fighter2].map((fighter, index) => (
             <motion.div
               key={fighter.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.2 }}
-            >
+              transition={{ delay: index * 0.2 }}>
               <div className="p-3 md:p-6 bg-gradient-to-b from-card/90 to-black/90 border-brand-lime/20">
                 <div className="flex flex-col items-center space-y-2 md:space-y-4">
                   <div className="relative">
                     <div className="absolute inset-0 bg-brand-lime/10 blur-lg rounded-full"></div>
-                    <Avatar className="w-16 h-16 md:w-32 md:h-32 ring-2 md:ring-4 ring-brand-lime/20" src={fighter.avatar}>
-                    </Avatar>
+                    <Avatar
+                      className="w-16 h-16 md:w-32 md:h-32 ring-2 md:ring-4 ring-brand-lime/20"
+                      src={fighter.avatar}></Avatar>
                     <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-black/90 px-2 md:px-4 py-1 rounded-full border border-brand-lime/20">
                       <div className="flex items-center space-x-1 md:space-x-2">
                         <Sword className="w-3 h-3 md:w-4 md:h-4 text-brand-lime" />
@@ -69,7 +77,7 @@ export default function BattleArena({
                       <div className="w-full bg-black/50 rounded-full h-1.5 md:h-2">
                         <motion.div
                           className="bg-brand-lime h-full rounded-full"
-                          initial={{ width: "100%" }}
+                          initial={{ width: '100%' }}
                           animate={{
                             width: `${
                               (fighter.health / fighter.points) * 100
@@ -89,31 +97,104 @@ export default function BattleArena({
           ))}
         </div>
 
-        <div className="flex flex-col items-center space-y-4 md:space-y-6">
+        <div className="card-container w-full flex justify-between mt-[24px] gap-[75px]">
+          <div className="card-col mt-[69px] flex-1 flex flex-col gap-[5.5px]">
+            <div className="card-row grid grid-flow-col gap-[8px] px-[10px]">
+              {Array.from({ length: 4 }, (_, idx) => (
+                <Image
+                  key={idx}
+                  className="CardBack_bg flex-1"
+                  src={CardBack_bg}
+                  alt={''}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  priority
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                  }}
+                />
+              ))}
+            </div>
+
+            <Image
+              className="CardBack_bg"
+              src={CardBack_bg}
+              alt={''}
+              width={0}
+              height={0}
+              sizes="100vw"
+              priority
+              style={{
+                width: '100%',
+                height: 'auto',
+              }}
+            />
+          </div>
+
+          <div className="card-col flex-1 flex flex-col gap-[5.5px]">
+            <div className="card-row grid grid-flow-col gap-[8px] px-[10px]">
+              {Array.from({ length: 4 }, (_, idx) => (
+                <Image
+                  key={idx}
+                  className="CardBack_bg flex-1"
+                  src={CardBack_bg}
+                  alt={''}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  priority
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                  }}
+                />
+              ))}
+            </div>
+            <Image
+              className="CardBack_bg"
+              src={CardBack_bg}
+              alt={''}
+              width={0}
+              height={0}
+              sizes="100vw"
+              priority
+              style={{
+                width: '100%',
+                height: 'auto',
+              }}
+            />
+          </div>
+        </div>
+        <div className="onStartBattle_btn-wrap mt-[40px]">
           {!isFighting && !winner && (
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="relative"
-            >
-              <div className="absolute inset-0 bg-brand-lime/20 blur-xl rounded-full"></div>
-              <Button
-                size="lg"
+              className=" flex justify-center items-center flex-col gap-[32px]">
+              <h3 className="text-[14px] text-[#ffffffb3] font-[400] leading-[normal] tracking-[normal] text-center max-w-[180px]">
+                Game is about to start. Press Start Battle to begin.
+              </h3>
+
+              <button
                 onClick={onStartBattle}
-                className="relative bg-gradient-to-r from-brand-lime to-brand-lime-dark hover:from-brand-lime-dark hover:to-brand-lime text-background font-bold text-base md:text-lg px-6 md:px-8 py-4 md:py-6"
-              >
-                <Swords className="mr-2 h-4 w-4 md:h-6 md:w-6" />
-                Start Battle
-              </Button>
+                className="flex justify-center items-center h-[36px] bg-[#FF7843] px-[24px] rounded-[8px] gap-[8px]">
+                <Icons name="sword-fill" className="h-[20px] w-[20px]" />
+                <p className="text-[14px] text-[#000] font-[600] leading-[normal] tracking-[0.42px]">
+                  Start Battle
+                </p>
+              </button>
             </motion.div>
           )}
+        </div>
 
+        <div className="flex flex-col items-center">
           {winner && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-center"
-            >
+              className="text-center">
               <h2 className="text-xl md:text-2xl font-bold text-brand-lime mb-2">
                 Winner: {winner.username}!
               </h2>
@@ -122,11 +203,13 @@ export default function BattleArena({
               </p>
             </motion.div>
           )}
+        </div>
 
-          <div className="w-full">
+        {isFighting && (
+          <div className="BattleLog w-full">
             <BattleLog messages={battleLog} />
           </div>
-        </div>
+        )}
       </div>
     </main>
   );

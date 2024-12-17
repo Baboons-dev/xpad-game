@@ -36,10 +36,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={inter.className}
         style={{
-          height: '100vh',
           background: '#000',
           paddingTop: '64px', // Add padding to account for fixed TopBar
-          paddingBottom: '80px', // Add padding to account for mobile navigation
+          paddingBottom: '65px', // Add padding to account for mobile navigation
           maxWidth: '500px',
           margin: 'auto',
         }}>

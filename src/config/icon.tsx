@@ -270,7 +270,12 @@ const Icons = ({ name, className }: { name: string; className?: string }) => {
               <stop offset="1" stopColor="white" />
             </linearGradient>
             <clipPath id="clip0_20_1020">
-              <rect width="300.683" height="300" fill="white" transform="translate(0.658203 0.5)" />
+              <rect
+                width="300.683"
+                height="300"
+                fill="white"
+                transform="translate(0.658203 0.5)"
+              />
             </clipPath>
           </defs>
         </svg>
@@ -329,7 +334,12 @@ const Icons = ({ name, className }: { name: string; className?: string }) => {
           </g>
           <defs>
             <clipPath id="clip0_20_1113">
-              <rect width="18" height="18" fill="white" transform="translate(0 0.5)" />
+              <rect
+                width="18"
+                height="18"
+                fill="white"
+                transform="translate(0 0.5)"
+              />
             </clipPath>
           </defs>
         </svg>
@@ -859,7 +869,12 @@ const Icons = ({ name, className }: { name: string; className?: string }) => {
               <stop offset="1" stopColor="#F39737" />
             </linearGradient>
             <clipPath id="clip0_19_509">
-              <rect width="166.91" height="40" fill="white" transform="translate(0.544922)" />
+              <rect
+                width="166.91"
+                height="40"
+                fill="white"
+                transform="translate(0.544922)"
+              />
             </clipPath>
           </defs>
         </svg>
@@ -1563,9 +1578,18 @@ const Icons = ({ name, className }: { name: string; className?: string }) => {
               d="M13 26C20.1797 26 26 20.1797 26 13C26 5.8203 20.1797 0 13 0C5.8203 0 0 5.8203 0 13C0 20.1797 5.8203 26 13 26Z"
               fill="#BEF642"
             />
-            <path d="M17.009 10.6742H7.61523L9.9918 8.30469H19.3855L17.009 10.6742Z" fill="black" />
-            <path d="M17.009 18.0539H7.61523L9.9918 15.6855H19.3855" fill="black" />
-            <path d="M9.9918 14.3636H19.3855L17.009 11.9941H7.61523" fill="black" />
+            <path
+              d="M17.009 10.6742H7.61523L9.9918 8.30469H19.3855L17.009 10.6742Z"
+              fill="black"
+            />
+            <path
+              d="M17.009 18.0539H7.61523L9.9918 15.6855H19.3855"
+              fill="black"
+            />
+            <path
+              d="M9.9918 14.3636H19.3855L17.009 11.9941H7.61523"
+              fill="black"
+            />
           </g>
           <defs>
             <clipPath id="clip0_243_123">
@@ -1586,8 +1610,14 @@ const Icons = ({ name, className }: { name: string; className?: string }) => {
             d="M17.2743 11.6627H8.50684L10.725 9.45117H19.4925L17.2743 11.6627Z"
             fill="#BEF642"
           />
-          <path d="M17.2743 18.5493H8.50684L10.725 16.3389H19.4925" fill="#BEF642" />
-          <path d="M10.725 15.1061H19.4925L17.2743 12.8945H8.50684" fill="#BEF642" />
+          <path
+            d="M17.2743 18.5493H8.50684L10.725 16.3389H19.4925"
+            fill="#BEF642"
+          />
+          <path
+            d="M10.725 15.1061H19.4925L17.2743 12.8945H8.50684"
+            fill="#BEF642"
+          />
         </svg>
       );
     case 'bsc_past':
@@ -2005,7 +2035,12 @@ const Icons = ({ name, className }: { name: string; className?: string }) => {
               <stop offset="1" stop-color="white" />
             </linearGradient>
             <clipPath id="clip0_347_44">
-              <rect width="300.683" height="300" fill="white" transform="translate(0.158203)" />
+              <rect
+                width="300.683"
+                height="300"
+                fill="white"
+                transform="translate(0.158203)"
+              />
             </clipPath>
           </defs>
         </svg>
@@ -2138,7 +2173,12 @@ const Icons = ({ name, className }: { name: string; className?: string }) => {
           </g>
           <defs>
             <clipPath id="clip0_361_43">
-              <rect width="180" height="146" fill="white" transform="translate(73 6)" />
+              <rect
+                width="180"
+                height="146"
+                fill="white"
+                transform="translate(73 6)"
+              />
             </clipPath>
           </defs>
         </svg>
@@ -2346,7 +2386,12 @@ const Icons = ({ name, className }: { name: string; className?: string }) => {
           </g>
           <defs>
             <clipPath id="clip0_389_257">
-              <rect width="12" height="10" fill="white" transform="translate(0.5)" />
+              <rect
+                width="12"
+                height="10"
+                fill="white"
+                transform="translate(0.5)"
+              />
             </clipPath>
           </defs>
         </svg>
@@ -2362,6 +2407,21 @@ const Icons = ({ name, className }: { name: string; className?: string }) => {
           <path
             d="M8.58882 2.76447V1.998C8.58882 1.43114 8.18164 1 7.65469 1H3.93413C3.40719 1 3 1.43114 3 1.998V2.76447C3 3.22754 3.21557 3.65868 3.59082 3.8982L5.20359 5L3.59082 6.1018C3.21557 6.33333 3 6.76447 3 7.23553V8.002C3 8.56886 3.40719 9 3.93413 9H7.66267C8.18962 9 8.59681 8.56886 8.59681 8.002V7.23553C8.59681 6.77245 8.38124 6.34132 8.00599 6.1018L6.39321 5L8.00599 3.8982C8.38124 3.66667 8.59681 3.23553 8.59681 2.76447H8.58882Z"
             fill="#31312F"
+          />
+        </svg>
+      );
+    case 'sword-fill':
+      return (
+        <svg
+          className={className}
+          width="21"
+          height="20"
+          viewBox="0 0 21 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M6.37336 11.1717L9.31919 14.1183L8.14169 15.2967L9.32086 16.4758L8.14252 17.6542L6.08002 15.5917L3.72252 17.9492L2.54419 16.7708L4.90169 14.4125L2.83919 12.3508L4.01752 11.1725L5.19586 12.35L6.37336 11.1717ZM3.00002 2.5L5.95502 2.5025L15.8025 12.3508L16.9817 11.1725L18.1609 12.3508L16.0984 14.4133L18.455 16.7708L17.2767 17.9492L14.9192 15.5917L12.8575 17.6542L11.6784 16.4758L12.8567 15.2967L3.00169 5.4425L3.00002 2.5ZM15.0475 2.5L18 2.5025L18.0017 5.43833L14.6242 8.815L11.6775 5.86917L15.0475 2.5Z"
+            fill="black"
           />
         </svg>
       );

@@ -1,17 +1,18 @@
-"use client";
-import { useUser } from "@/hooks";
-import { useStore } from "@/store";
-import ProfilePicture from "../assets/profilePicture.png";
-import { Box, Image, Text } from "@chakra-ui/react";
-import XpIcon from "@/icons/XpIcon";
-import {useRouter} from "next/navigation";
+'use client';
+import { useUser } from '@/hooks';
+import { useStore } from '@/store';
+import ProfilePicture from '../assets/profilePicture.png';
+import { Box, Image, Text } from '@chakra-ui/react';
+import XpIcon from '@/icons/XpIcon';
+import { useRouter } from 'next/navigation';
 
 export function TopBar() {
-   const router = useRouter();
+  const router = useRouter();
   const { logout } = useUser();
   const user = useStore((state) => state.user);
   return (
     <Box
+      className="Header TopBar"
       display="flex"
       justifyContent="space-between"
       height="64px"
@@ -25,22 +26,18 @@ export function TopBar() {
       borderBottom="1px solid"
       borderColor="rgba(255, 255, 255, 0.1)"
       backdropFilter="blur(10px)"
-      maxWidth={"500px"}
-      margin={"auto"}
-    >
+      maxWidth={'500px'}
+      margin={'auto'}>
       <Box display="flex" gap="10px" flexDirection="row" alignItems="center">
         {user?.avatar ? (
           <Box
             padding="0px"
-            height="30px"
-            width="30px"
+            height="40px"
+            width="40px"
             zIndex="2"
-            borderRadius="100px"
+            borderRadius="8px"
             border="1px solid rgba(255, 255, 255, 0.16)"
-            // backgroundImage="linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)"
-            // backgroundClip="content-box, border-box"
-            overflow="hidden"
-          >
+            overflow="hidden">
             <Image
               src={user?.avatar}
               alt="Description"
@@ -54,15 +51,12 @@ export function TopBar() {
         ) : (
           <Box
             padding="0px"
-            height="30px"
-            width="30px"
+            height="40px"
+            width="40px"
             zIndex="2"
-            borderRadius="100px"
+            borderRadius="8px"
             border="1px solid rgba(255, 255, 255, 0.16)"
-            // backgroundImage="linear-gradient(#1F1F1F, #1F1F1F), linear-gradient(#1ED1FC, #47E473, #3AFF65)"
-            // backgroundClip="content-box, border-box"
-            overflow="hidden"
-          >
+            overflow="hidden">
             <Image
               src={ProfilePicture.src}
               alt="Description"
@@ -74,19 +68,23 @@ export function TopBar() {
             />
           </Box>
         )}
-        <Box display="flex" justifyContent="center" alignItems="center" onClick={()=>router.push('/profile')}>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          onClick={() => router.push('/profile')}>
           <Text
             color="#FFF"
             fontSize="14px"
             fontStyle="normal"
             fontWeight="800"
             fontFamily="Plus Jakarta Sans"
-            lineHeight="normal"
-          >
+            lineHeight="normal">
             {user?.username}
           </Text>
         </Box>
       </Box>
+
       <Box display="flex" gap="13px" flexDirection="row">
         <Box display="flex" justifyContent="center" alignItems="center">
           <XpIcon />
@@ -97,8 +95,7 @@ export function TopBar() {
             fontSize="16px"
             fontWeight="700"
             fontFamily="Plus Jakarta Sans"
-            lineHeight="normal"
-          >
+            lineHeight="normal">
             {user?.points.toLocaleString()}
           </Text>
         </Box>

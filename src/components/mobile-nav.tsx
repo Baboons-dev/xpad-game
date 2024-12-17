@@ -384,18 +384,17 @@ export function MobileNav() {
 
   return (
     <Box
+      className="MobileNav"
       position="fixed"
       bottom="0"
       left="0"
       right="0"
-      // height="64px"
-      paddingTop="10px"
-      paddingBottom="20px"
+      padding={'12px 16px'}
       bg="black"
       borderTop="1px solid"
       borderColor="rgba(255, 255, 255, 0.1)"
       display="flex"
-      gap='12px'
+      gap="12px"
       alignItems="center"
       justifyContent="space-around"
       px={4}
