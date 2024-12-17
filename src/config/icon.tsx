@@ -2425,6 +2425,85 @@ const Icons = ({ name, className }: { name: string; className?: string }) => {
           />
         </svg>
       );
+    case 'CardBack_shadow':
+      return (
+        <svg
+          className={className}
+          width="157"
+          height="35"
+          viewBox="0 0 157 35"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#filter0_di_59_395)">
+            <ellipse cx="78.5" cy="14.5" rx="73.5" ry="12.5" fill="#141211" />
+          </g>
+          <defs>
+            <filter
+              id="filter0_di_59_395"
+              x="0"
+              y="0"
+              width="157"
+              height="35"
+              filterUnits="userSpaceOnUse"
+              color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix" />
+              <feColorMatrix
+                in="SourceAlpha"
+                type="matrix"
+                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                result="hardAlpha"
+              />
+              <feOffset dy="3" />
+              <feGaussianBlur stdDeviation="2.5" />
+              <feComposite in2="hardAlpha" operator="out" />
+              <feColorMatrix
+                type="matrix"
+                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.45 0"
+              />
+              <feBlend
+                mode="normal"
+                in2="BackgroundImageFix"
+                result="effect1_dropShadow_59_395"
+              />
+              <feBlend
+                mode="normal"
+                in="SourceGraphic"
+                in2="effect1_dropShadow_59_395"
+                result="shape"
+              />
+              <feColorMatrix
+                in="SourceAlpha"
+                type="matrix"
+                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                result="hardAlpha"
+              />
+              <feMorphology
+                radius="1"
+                operator="erode"
+                in="SourceAlpha"
+                result="effect2_innerShadow_59_395"
+              />
+              <feOffset />
+              <feGaussianBlur stdDeviation="1.5" />
+              <feComposite
+                in2="hardAlpha"
+                operator="arithmetic"
+                k2="-1"
+                k3="1"
+              />
+              <feColorMatrix
+                type="matrix"
+                values="0 0 0 0 0.999756 0 0 0 0 0.999756 0 0 0 0 0.999756 0 0 0 0.25 0"
+              />
+              <feBlend
+                mode="normal"
+                in2="shape"
+                result="effect2_innerShadow_59_395"
+              />
+            </filter>
+          </defs>
+        </svg>
+      );
     // case 'svg-icon':
     //   return svg;
 

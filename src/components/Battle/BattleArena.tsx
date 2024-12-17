@@ -43,6 +43,7 @@ export default function BattleArena({
         style={{
           width: '100%',
           height: '100vh',
+          maxHeight: '833px',
           objectFit: 'cover',
         }}
       />
@@ -97,7 +98,7 @@ export default function BattleArena({
         </div>
 
         <div className="card-container w-full flex justify-between mt-[24px] gap-[20px] max-w-[369px] mx-auto">
-          <div className="card-col mt-[69px] flex-1 flex flex-col gap-[5.5px] max-w-[147px]">
+          <div className="card-col mt-[69px] flex-1 flex items-center flex-col gap-[5.5px] max-w-[147px]">
             <div className="card-row grid grid-flow-col gap-[8px] px-[10px]">
               {Array.from({ length: 4 }, (_, idx) => (
                 <Image
@@ -130,6 +131,8 @@ export default function BattleArena({
                 height: 'auto',
               }}
             />
+
+            <Icons name="CardBack_shadow" className="w-[106%]" />
           </div>
 
           <div className="card-col flex-1 flex flex-col gap-[5.5px] max-w-[147px]">
@@ -164,6 +167,8 @@ export default function BattleArena({
                 height: 'auto',
               }}
             />
+
+            <Icons name="CardBack_shadow" className="w-[106%]" />
           </div>
         </div>
 
