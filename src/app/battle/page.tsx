@@ -18,6 +18,7 @@ export default function Home() {
   const [UserWon, setUserWon] = useState(false);
   const user = useStore((state) => state.user);
 
+  // ------------FetchUsers-------------
   useEffect(() => {
     setLoading(true);
     const fetchUsers = async () => {
@@ -54,7 +55,20 @@ export default function Home() {
 
     fetchUsers();
   }, []);
+  // ------------/FetchUsers-------------
+  
+  // ------------All Moves and Damage Point-------------
+  const moves = ['punch', 'burn', 'kick', 'freeze', 'poison'];
+  const moveDamage: any = {
+    punch: 20,
+    burn: 30,
+    kick: 40,
+    freeze: 25,
+    poison: 35,
+  };
+  // ------------/All Moves and Damage Point-------------
 
+  // ------------SimulateBattle-------------
   const simulateBattle = () => {
     if (fighters && fighters.length > 0) {
       setIsFighting(true);
@@ -72,17 +86,15 @@ export default function Home() {
       let turnCounter = 0;
 
       const battleInterval = setInterval(() => {
-        // Check for end conditions: either fighter has zero health or max turns reached
+        // Note: Check for end conditions: either fighter has zero health or max turns reached
+        // Note: turnCounter >= 6 - use this for tun based fair gameplay
+        // Note: currentFighters[0].health === 0 ||
+        // Note: currentFighters[1].health === 0  - use this for health based fair gameplay
 
-        // turnCounter >= 6 - use this for tun based fair gameplay
-
-        // currentFighters[0].health === 0 ||
-        // currentFighters[1].health === 0  - use this for health based fair gameplay
-
+        // ------------GameCompleted-------------
         if (
-          // turnCounter >= 6
           currentFighters[0].health === 0 ||
-          currentFighters[1].health === 0 // Limit turns for this example
+          currentFighters[1].health === 0 // stop when any fighter health is 0
         ) {
           clearInterval(battleInterval);
           setIsFighting(false);
@@ -97,26 +109,17 @@ export default function Home() {
           console.log('winner', winner);
           return;
         }
+        // ------------/GameCompleted-------------
 
+        // Which fighter is attacking and which is defending
         const attackerIndex = turnCounter % 2 === 0 ? 0 : 1;
         const defenderIndex = attackerIndex === 0 ? 1 : 0;
 
-        const moves = ['punch', 'burn', 'kick', 'freeze', 'poison'];
+        // Randomly choose a move for the attacker
         const move = moves[Math.floor(Math.random() * moves.length)];
 
-        // Ensure attacker points contribute to damage calculation even if they're 0
-        const attackerPoints = Math.max(
-          currentFighters[attackerIndex].points,
-          1
-        );
-
-        // Calculate damage with a base factor and minimum damage threshold
-        const baseDamageFactor = 0.1 + Math.random() * 0.4;
-        const minimumDamage = 5;
-        const damage = Math.max(
-          Math.floor(attackerPoints * baseDamageFactor),
-          minimumDamage
-        );
+        // Get the damage for the chosen move
+        const damage = moveDamage[move];
 
         // Update defender's health in `currentFighters`
         currentFighters = currentFighters.map((fighter, index) => {
@@ -143,10 +146,11 @@ export default function Home() {
         // Update both `fighters` and `currentFighters` state to ensure health is saved
         setFighters([...currentFighters] as any);
         turnCounter++;
-      }, 2000);
-      // }, 500); // test speed up the game
+        // }, 2000);
+      }, 500); // test speed up the game
     }
   };
+  // ------------/SimulateBattle-------------
 
   return (
     <>
