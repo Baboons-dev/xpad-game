@@ -17,7 +17,7 @@ import user_lost from '@/assets/images/user_lost.png';
 
 interface BattleArenaProps {
   fighters?: [User, User];
-  battleLog: string[];
+  battleLog: any[];
   isFighting: boolean;
   winner: User | null;
   userWon: boolean | null;
@@ -56,6 +56,7 @@ export default function BattleArena({
         }}
       />
 
+      {/* {true && ( */}
       {!winner && (
         <div className="inner-wrap mx-auto">
           <div className="user-stat-container">
@@ -203,10 +204,12 @@ export default function BattleArena({
             </div>
           )}
 
-          {isFighting && <BattleLog messages={battleLog} />}
+          {isFighting && <BattleLog battleLog={battleLog} />}
+          {/* {true && <BattleLog battleLog={battleLog} />} */}
         </div>
       )}
 
+      {/* {false && winner && ( */}
       {winner && (
         <div className="game-end px-[24px]">
           <motion.div

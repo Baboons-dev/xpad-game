@@ -11,7 +11,7 @@ export default function Home() {
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [fighters, setFighters] = useState<[User, User]>();
-  const [battleLog, setBattleLog] = useState<string[]>([]);
+  const [battleLog, setBattleLog] = useState<any[]>([]);
   const [isFighting, setIsFighting] = useState(false);
   const [winner, setWinner] = useState<User | null>(null);
   const playerFighterId = searchParams.get('fighter');
@@ -35,7 +35,7 @@ export default function Home() {
 
           const loggedInFighter = fighters?.find(
             // (f: { username: string }) => f.username === user?.username
-            (f: { username: string }) => f.username === 'hasib58961094' // Manually setting the loggedInFighter
+            (f: { username: string }) => f.username === 'hasib58961094' // test Manually setting the loggedInFighter
           );
 
           // give same points for fair fight
@@ -101,7 +101,7 @@ export default function Home() {
         const attackerIndex = turnCounter % 2 === 0 ? 0 : 1;
         const defenderIndex = attackerIndex === 0 ? 1 : 0;
 
-        const moves = ['punched', 'kicked', 'struck', 'attacked'];
+        const moves = ['punch', 'burn', 'kick', 'freeze', 'poison'];
         const move = moves[Math.floor(Math.random() * moves.length)];
 
         // Ensure attacker points contribute to damage calculation even if they're 0
@@ -132,13 +132,19 @@ export default function Home() {
         // Log the attack in the battle log
         setBattleLog((prev) => [
           ...prev,
-          `${currentFighters[attackerIndex].username} ${move} ${currentFighters[defenderIndex].username} for ${damage} damage!`,
+          {
+            move,
+            damage,
+            attacker: currentFighters[attackerIndex].username,
+            defender: currentFighters[defenderIndex].username,
+          },
         ]);
 
         // Update both `fighters` and `currentFighters` state to ensure health is saved
         setFighters([...currentFighters] as any);
         turnCounter++;
       }, 2000);
+      // }, 500); // test speed up the game
     }
   };
 
