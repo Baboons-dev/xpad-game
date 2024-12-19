@@ -56,7 +56,7 @@ export default function Home() {
     fetchUsers();
   }, []);
   // ------------/FetchUsers-------------
-  
+
   // ------------All Moves and Damage Point-------------
   const moves = ['punch', 'burn', 'kick', 'freeze', 'poison'];
   const moveDamage: any = {
@@ -106,7 +106,6 @@ export default function Home() {
               : currentFighters[1];
           setUserWon(currentFighters[0].health > currentFighters[1].health);
           setWinner(winner);
-          console.log('winner', winner);
           return;
         }
         // ------------/GameCompleted-------------
@@ -140,14 +139,15 @@ export default function Home() {
             damage,
             attacker: currentFighters[attackerIndex].username,
             defender: currentFighters[defenderIndex].username,
+            move_by_login_player: attackerIndex == 0 ? true : false,
           },
         ]);
 
         // Update both `fighters` and `currentFighters` state to ensure health is saved
         setFighters([...currentFighters] as any);
         turnCounter++;
-        // }, 2000);
-      }, 500); // test speed up the game
+        }, 2000);
+      // }, 500); // test speed up the game
     }
   };
   // ------------/SimulateBattle-------------

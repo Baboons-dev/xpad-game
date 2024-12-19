@@ -3,6 +3,7 @@ import { Sword, Swords } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { User } from '@/types/type';
 import BattleLog from './BattleLog';
+import BattleCardPlay from './BattleCardPlay';
 import { Avatar, Button } from 'antd';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -10,7 +11,6 @@ import Icons from '@/config/icon';
 import Link from 'next/link';
 import '@/assets/scss/BattleArena.scss';
 import BattleArenaBG from '@/assets/images/BattleArenaBG.png';
-import CardBack_bg from '@/assets/images/CardBack_bg.png';
 import BattleArena_userStat_BG from '@/assets/images/BattleArena_userStat_BG.png';
 import user_won from '@/assets/images/user_won.png';
 import user_lost from '@/assets/images/user_lost.png';
@@ -56,7 +56,7 @@ export default function BattleArena({
         }}
       />
 
-      {/* {true && ( */}
+      {/*  {true && ( */}
       {!winner && (
         <div className="inner-wrap mx-auto">
           <div className="user-stat-container">
@@ -107,80 +107,7 @@ export default function BattleArena({
             ))}
           </div>
 
-          <div className="card-container w-full flex justify-between mt-[24px] gap-[20px] max-w-[369px] mx-auto">
-            <div className="card-col mt-[69px] flex-1 flex items-center flex-col gap-[5.5px] max-w-[147px]">
-              <div className="card-row grid grid-flow-col gap-[8px] px-[10px]">
-                {Array.from({ length: 4 }, (_, idx) => (
-                  <Image
-                    key={idx}
-                    className="CardBack_bg flex-1"
-                    src={CardBack_bg}
-                    alt={''}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    priority
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                    }}
-                  />
-                ))}
-              </div>
-
-              <Image
-                className="CardBack_bg"
-                src={CardBack_bg}
-                alt={''}
-                width={0}
-                height={0}
-                sizes="100vw"
-                priority
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                }}
-              />
-
-              <Icons name="CardBack_shadow" className="w-[106%]" />
-            </div>
-
-            <div className="card-col flex-1 flex flex-col gap-[5.5px] max-w-[147px]">
-              <div className="card-row grid grid-flow-col gap-[8px] px-[10px]">
-                {Array.from({ length: 4 }, (_, idx) => (
-                  <Image
-                    key={idx}
-                    className="CardBack_bg flex-1"
-                    src={CardBack_bg}
-                    alt={''}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    priority
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                    }}
-                  />
-                ))}
-              </div>
-              <Image
-                className="CardBack_bg"
-                src={CardBack_bg}
-                alt={''}
-                width={0}
-                height={0}
-                sizes="100vw"
-                priority
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                }}
-              />
-
-              <Icons name="CardBack_shadow" className="w-[106%]" />
-            </div>
-          </div>
+          <BattleCardPlay battleLog={battleLog} />
 
           {!isFighting && !winner && (
             <div className="onStartBattle_btn-wrap mt-[40px]">
@@ -209,8 +136,8 @@ export default function BattleArena({
         </div>
       )}
 
-      {/* {false && winner && ( */}
       {winner && (
+      // {false && winner && (
         <div className="game-end px-[24px]">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

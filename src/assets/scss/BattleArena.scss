@@ -93,6 +93,337 @@
     }
   }
 
+  .BattleCardPlay {
+    .card-col {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      gap: 5.5px;
+      max-width: 147px;
+
+      .top-card-row {
+        padding: 0 10px;
+        gap: 8px;
+        display: flex;
+        flex-flow: row-reverse;
+
+        .top-card-img {
+          transition: all 0.3s 0s ease-out;
+
+          &.step {
+            opacity: 0;
+            transform: scale(1.3);
+          }
+        }
+      }
+
+      .main-card {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+
+        .card-border {
+          position: absolute;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          border-radius: 12px;
+
+          &.last_log {
+            opacity: 0 !important;
+          }
+
+          &.punch {
+            border: 3px solid #FA475A;
+            box-shadow: 0px 0px 13.068px 0px #E9273C;
+          }
+
+          &.burn {
+            border: 3px solid #FF7843;
+            box-shadow: 0px 0px 13.068px 0px #FC9C5A;
+          }
+
+          &.kick {
+            border: 3px solid #936DEE;
+            box-shadow: 0px 0px 13.068px 0px #6E3BEB;
+          }
+
+          &.freeze {
+            border: 3px solid #AAE9E1;
+            box-shadow: 0px 0px 13.068px 0px #7CE5D8;
+          }
+
+          &.poison {
+            border: 3px solid #D7F981;
+            box-shadow: 0px 0px 13.068px 0px #B1F700;
+          }
+
+          .inner-item {
+            isolation: isolate;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            padding: 17px;
+            border-radius: 9px;
+            background: #0C0C0B;
+            pointer-events: none;
+
+            &.punch {
+              border: 1px solid #E9273B;
+            }
+
+            &.burn {
+              border: 1px solid #FF520E;
+            }
+
+            &.kick {
+              border: 1px solid #6E3BEB;
+            }
+
+            &.freeze {
+              border: 1px solid #7CE5D8;
+            }
+
+            &.poison {
+              border: 1px solid #B1F700;
+            }
+
+            .card_img {
+              position: relative;
+              z-index: -1;
+              isolation: isolate;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              &::after {
+                position: absolute;
+                z-index: -1;
+                content: "";
+                width: 67.954px;
+                height: 77.537px;
+                filter: blur(24.08888816833496px);
+              }
+
+              &.punch {
+                &::after {
+                  background: #E9273B;
+                }
+              }
+
+              &.burn {
+                &::after {
+                  background: #FF520E;
+                }
+              }
+
+              &.kick {
+                &::after {
+                  background: #6E3BEB;
+                }
+              }
+
+              &.freeze {
+                &::after {
+                  background: #7CE5D8;
+                }
+              }
+
+              &.poison {
+                &::after {
+                  background: #B1F700;
+                }
+              }
+            }
+
+            .card-move {
+              position: relative;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border-radius: 3.485px;
+              height: 32px;
+              background: #21211E;
+
+              .notch {
+                position: absolute;
+                bottom: -6px;
+                width: 71px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .card-diamond {
+                  position: absolute;
+                }
+              }
+
+              h4 {
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 700;
+                line-height: normal;
+                letter-spacing: 0.36px;
+              }
+
+              &.punch {
+                border-top: 0.871px solid #E9273A;
+
+                h4 {
+                  color: #E8273B;
+                }
+
+                .notch {
+                  .card-diamond {
+                    svg {
+                      path {
+                        fill: #E9273C;
+                      }
+                    }
+                  }
+                }
+              }
+
+              &.burn {
+                border-top: 0.871px solid #FF520E;
+
+                h4 {
+                  color: #FF520E;
+                }
+
+                .notch {
+                  .card-diamond {
+                    svg {
+                      path {
+                        fill: #FF520E;
+                      }
+                    }
+                  }
+                }
+              }
+
+              &.kick {
+                border-top: 0.871px solid #6E3BEB;
+
+                h4 {
+                  color: #6E3BEB;
+                }
+
+                .notch {
+                  .card-diamond {
+                    svg {
+                      path {
+                        fill: #6E3BEB;
+                      }
+                    }
+                  }
+                }
+              }
+
+              &.freeze {
+                border-top: 0.871px solid #7CE5D8;
+
+                h4 {
+                  color: #7CE5D8;
+                }
+
+                .notch {
+                  .card-diamond {
+                    svg {
+                      path {
+                        fill: #7CE5D8;
+                      }
+                    }
+                  }
+                }
+              }
+
+              &.poison {
+                border-top: 0.871px solid #B1F700;
+
+                h4 {
+                  color: #B1F700;
+                }
+
+                .notch {
+                  .card-diamond {
+                    svg {
+                      path {
+                        fill: #B1F700;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+            .damage-wrap {
+              margin-top: 25px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              gap: 7px;
+
+              h5 {
+                color: rgba(255, 255, 255, 0.50);
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+                letter-spacing: 0.36px;
+              }
+
+              &.punch {
+                svg {
+                  path {
+                    fill: #E9273B;
+                  }
+                }
+              }
+
+              &.burn {
+                svg {
+                  path {
+                    fill: #FF520E;
+                  }
+                }
+              }
+
+              &.kick {
+                svg {
+                  path {
+                    fill: #6E3BEB;
+                  }
+                }
+              }
+
+              &.freeze {
+                svg {
+                  path {
+                    fill: #7CE5D8;
+                  }
+                }
+              }
+
+              &.poison {
+                svg {
+                  path {
+                    fill: #B1F700;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   .BattleLog {
     .log-container {
       .battleLog-wrap {
@@ -286,4 +617,8 @@
       }
     }
   }
+}
+
+.test {
+  outline: 2.2px solid #ff375f;
 }
