@@ -1,7 +1,13 @@
 'use client';
 import type { ITelegramUser, IWebApp } from '@/types/type';
 import { usePathname } from 'next/navigation';
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 export interface ITelegramContext {
   webApp?: IWebApp;
@@ -10,7 +16,11 @@ export interface ITelegramContext {
 
 export const TelegramContext = createContext<ITelegramContext>({});
 
-export const TelegramProvider = ({ children }: { children: React.ReactNode }) => {
+export const TelegramProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [webApp, setWebApp] = useState<IWebApp | null>(null);
   const pathname = usePathname();
   useEffect(() => {
