@@ -46,12 +46,12 @@ export default function BattleCardPlay({ battleLog }: BattleLogProps) {
         <div className="top-card-row">
           {Array.from({ length: 4 }, (_, idx) => (
             <div
+              key={idx}
               className={
                 'top-card-img flex-1 ' +
                 (LoginPlayer_TurnCount > idx ? 'step' : '')
               }>
               <Image
-                key={idx}
                 className={'pointer-events-none'}
                 src={CardBack_bg}
                 alt={''}
@@ -152,12 +152,12 @@ export default function BattleCardPlay({ battleLog }: BattleLogProps) {
         <div className="top-card-row">
           {Array.from({ length: 4 }, (_, idx) => (
             <div
+              key={idx}
               className={
                 'top-card-img flex-1 ' +
                 (Attacker_TurnCount > idx ? 'step' : '')
               }>
               <Image
-                key={idx}
                 className={'pointer-events-none'}
                 src={CardBack_bg}
                 alt={''}
