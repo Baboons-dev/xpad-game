@@ -1,6 +1,6 @@
 const {Telegraf} = require("telegraf");
 const crypto = require("crypto-js");
-const web_link = "https://xplay.baboons.tech/";
+const web_link = "https://tg.thelayerx.com/";
 const TOKEN = "8169861892:AAHmobMRPylA7SLW9Z-kgOS7BQNZOQq6JYw";
 
 const bot = new Telegraf(TOKEN);
