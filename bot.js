@@ -36,23 +36,28 @@ bot.command('start', async (ctx) => {
     encrypted = encrypt(userId.toString());
   } while (encrypted.includes('+'));
   if (userId && encrypted) {
-    await ctx.replyWithPhoto(new InputFile('tg-cover.png'), {
-      reply_markup: {
-        inline_keyboard: [
-          [
-            {
-              text: 'Start Layer X',
-              web_app: {
-                url: web_link + '?tgId=' + encodeURIComponent(encrypted),
-              },
-            },
-          ],
-          [{ text: '🫂 FOLLOW X', url: 'https://x.com/TheLayerX' }],
-        ],
+    ctx.replyWithPhoto(
+      {
+        source: 'tg-cover.png',
       },
-      caption:
-        'Explore the possibilities with Layer X, The Only Layer 2. Join Initial X Offers for exclusive fundraising, transform any post on X into a unique NFT, or challenge your friends in an epic card game. The choice is yours!',
-    });
+      {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: 'Start Layer X',
+                web_app: {
+                  url: web_link + '?tgId=' + encodeURIComponent(encrypted),
+                },
+              },
+            ],
+            [{ text: '🫂 FOLLOW X', url: 'https://x.com/TheLayerX' }],
+          ],
+        },
+        caption:
+          'Explore the possibilities with Layer X, The Only Layer 2. Join Initial X Offers for exclusive fundraising, transform any post on X into a unique NFT, or challenge your friends in an epic card game. The choice is yours!',
+      }
+    );
 
     ctx.setChatMenuButton({
       text: 'Start Layer X',
