@@ -133,7 +133,11 @@ export default function Authenticate() {
           <Box marginTop="24px" display="flex" justifyContent="center">
             <Logo />
           </Box>
-          <Box marginTop="50px" marginBottom="50px" display="flex" justifyContent="center">
+          <Box
+            marginTop="50px"
+            marginBottom="50px"
+            display="flex"
+            justifyContent="center">
             <UnionLogo />
           </Box>
 
@@ -152,7 +156,10 @@ export default function Authenticate() {
               backgroundColor="#000"
               cursor="pointer"
               onClick={() => (twUrl ? onAuthenticateLink() : login())}>
-              <Box padding="20px 90px" borderRadius="100px" backgroundColor="#000">
+              <Box
+                padding="20px 90px"
+                borderRadius="100px"
+                backgroundColor="#000">
                 <Text
                   color="#FFF"
                   fontSize="16px"

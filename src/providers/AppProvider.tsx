@@ -75,7 +75,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         handleLogout();
       }
     }
-  }, [signerMessage, address, connector, accessToken, data, isSuccess, isError]);
+  }, [
+    signerMessage,
+    address,
+    connector,
+    accessToken,
+    data,
+    isSuccess,
+    isError,
+  ]);
   useEffect(() => {
     if (address && user && connector) {
       console.table({ address, user });
@@ -100,7 +108,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    if (!!user && !!telegram_user && user?.telegram_id !== telegram_user?.id.toString()) {
+    if (
+      !!user &&
+      !!telegram_user &&
+      user?.telegram_id !== telegram_user?.id.toString()
+    ) {
       setFistTime(true);
       logout();
     } else if (accessToken && !user) {
@@ -110,7 +122,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       router.push('/authenticate?' + searchParams.toString());
     }
 
-    if (accessToken && fistTime && user?.telegram_id === telegram_user?.id.toString()) {
+    if (
+      accessToken &&
+      fistTime &&
+      user?.telegram_id === telegram_user?.id.toString()
+    ) {
       getCurrentUser();
       setFistTime(false);
     }
