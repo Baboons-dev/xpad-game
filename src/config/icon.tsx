@@ -2594,6 +2594,92 @@ const Icons = ({ name, className }: { name: string; className?: string }) => {
           />
         </svg>
       );
+    case 'card-notch':
+      return (
+        <svg
+          className={className}
+          width="73"
+          height="7"
+          viewBox="0 0 73 7"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M72.1187 0.219238H0.67971L36.3992 6.31769L72.1187 0.219238Z"
+            fill="#21211E"
+          />
+        </svg>
+      );
+    case 'card-diamond':
+      return (
+        <svg
+          className={className}
+          width="28"
+          height="30"
+          viewBox="0 0 28 30"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#filter0_dd_88_893)">
+            <path
+              d="M20.9845 7.7334C21.1157 7.7334 21.2452 7.76302 21.3633 7.82004C21.4814 7.87706 21.5851 7.96001 21.6667 8.06271L21.7312 8.15681L24.3448 12.5128C24.4304 12.6557 24.4732 12.8201 24.4683 12.9865C24.4634 13.153 24.4108 13.3145 24.3169 13.452L24.2472 13.5417L16.8158 21.847C16.6778 21.9877 16.5131 22.0996 16.3313 22.1758C16.1496 22.2521 15.9544 22.2914 15.7573 22.2913C15.4088 22.2913 15.0734 22.1693 14.7902 21.928L14.6726 21.8182L7.26737 13.5417C7.15596 13.4174 7.08261 13.2637 7.05605 13.0989C7.02948 12.9341 7.05082 12.7652 7.11752 12.6122L7.1698 12.512L9.79474 8.13677L9.8505 8.05836C9.89048 8.00884 9.93576 7.96385 9.98554 7.92419L10.0631 7.86844L10.1397 7.82488L10.1833 7.80484L10.2356 7.78306L10.3305 7.75518L10.4281 7.73775L10.53 7.7334H20.9845ZM13.243 11.1686C13.0449 11.05 12.8079 11.0148 12.5839 11.0708C12.36 11.1269 12.1674 11.2695 12.0486 11.4674L11.5258 12.3386L11.4736 12.4397C11.4069 12.5934 11.386 12.7631 11.4133 12.9285C11.4407 13.0938 11.5151 13.2478 11.6278 13.3719L13.3702 15.2885L13.4486 15.3652C13.6099 15.5032 13.816 15.5776 14.0282 15.5743C14.2404 15.5711 14.4442 15.4906 14.6012 15.3478L14.677 15.2693C14.815 15.1081 14.8894 14.902 14.8862 14.6897C14.883 14.4775 14.8024 14.2738 14.6596 14.1167L13.3519 12.6792L13.5418 12.363L13.5897 12.2733C13.6773 12.0786 13.6903 11.8586 13.6264 11.655C13.5625 11.4514 13.4261 11.2783 13.243 11.1686Z"
+              fill="#E9273C"
+            />
+          </g>
+          <defs>
+            <filter
+              id="filter0_dd_88_893"
+              x="0.0752845"
+              y="0.763738"
+              width="27.8782"
+              height="28.4974"
+              filterUnits="userSpaceOnUse"
+              colorInterpolationFilters="sRGB">
+              <feFlood floodOpacity="0" result="BackgroundImageFix" />
+              <feColorMatrix
+                in="SourceAlpha"
+                type="matrix"
+                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                result="hardAlpha"
+              />
+              <feOffset dy="3.48483" />
+              <feGaussianBlur stdDeviation="1.74242" />
+              <feComposite in2="hardAlpha" operator="out" />
+              <feColorMatrix
+                type="matrix"
+                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
+              />
+              <feBlend
+                mode="normal"
+                in2="BackgroundImageFix"
+                result="effect1_dropShadow_88_893"
+              />
+              <feColorMatrix
+                in="SourceAlpha"
+                type="matrix"
+                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                result="hardAlpha"
+              />
+              <feOffset dx="-3.48483" dy="-3.48483" />
+              <feGaussianBlur stdDeviation="1.74242" />
+              <feComposite in2="hardAlpha" operator="out" />
+              <feColorMatrix
+                type="matrix"
+                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
+              />
+              <feBlend
+                mode="normal"
+                in2="effect1_dropShadow_88_893"
+                result="effect2_dropShadow_88_893"
+              />
+              <feBlend
+                mode="normal"
+                in="SourceGraphic"
+                in2="effect2_dropShadow_88_893"
+                result="shape"
+              />
+            </filter>
+          </defs>
+        </svg>
+      );
     // case 'svg-icon':
     // className={className}
     //   return svg;
