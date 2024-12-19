@@ -37,7 +37,7 @@ bot.command("start", async (ctx) => {
     }while (encrypted.includes('+'));
     if (userId && encrypted) {
         ctx.setChatMenuButton({
-            text: "Game",
+            text: "KOM NUUUUU",
             type: "web_app",
             web_app: {
                 url: web_link + "?tgId=" + encodeURIComponent(encrypted),
