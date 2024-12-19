@@ -41,21 +41,21 @@ bot.command('start', async (ctx) => {
         inline_keyboard: [
           [
             {
-              text: 'Launch xPad',
+              text: 'Start Layer X',
               web_app: {
                 url: web_link + '?tgId=' + encodeURIComponent(encrypted),
               },
             },
           ],
-          [{ text: '🔊 Telegram COMMUNITY', url: 'https://t.me/thelayerx' }],
-          [{ text: '🫂 FOLLOW X', url: 'https://x.com/layerx' }],
+          [{ text: '🫂 FOLLOW X', url: 'https://x.com/TheLayerX' }],
         ],
       },
-      caption: '🚀 Welcome to LayerX',
+      caption:
+        'Explore the possibilities with Layer X, The Only Layer 2. Join Initial X Offers for exclusive fundraising, transform any post on X into a unique NFT, or challenge your friends in an epic card game. The choice is yours!',
     });
 
     ctx.setChatMenuButton({
-      text: 'Launch xPad',
+      text: 'Start Layer X',
       type: 'web_app',
       web_app: {
         url: web_link + '?tgId=' + encodeURIComponent(encrypted),
