@@ -31,7 +31,6 @@ import { useAppKit } from '@reown/appkit/react';
 import Image from 'next/image';
 import { Box } from '@chakra-ui/react';
 
-
 const ParticipatePageWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -71,10 +70,17 @@ export default function ParticipatePage() {
     address: address,
     token: client?.participate_token_contract,
   });
-  const { data: hash, isSuccess, isError, writeContract, error } = useWriteContract();
-  const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
-    hash,
-  });
+  const {
+    data: hash,
+    isSuccess,
+    isError,
+    writeContract,
+    error,
+  } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
 
   const getClient = async () => {
     setInitialLoading(true);
@@ -238,7 +244,8 @@ export default function ParticipatePage() {
   }, [isAuthenticated, isConnected, user, address]);
 
   const totalDeposited = client?.sale_progress;
-  const totalToDeposit = client?.detail_launch_price * client?.detail_token_for_sale;
+  const totalToDeposit =
+    client?.detail_launch_price * client?.detail_token_for_sale;
   const saleRemaining = totalToDeposit - totalDeposited;
 
   const max = () => {
@@ -262,7 +269,7 @@ export default function ParticipatePage() {
     }
     return 0;
   };
-  
+
   useEffect(() => {
     if (!isConnected && !address) {
       message.warning('Please connect your wallet first');
@@ -303,7 +310,12 @@ export default function ParticipatePage() {
       <Box position="absolute" w="100%" zIndex={0} top="62px">
         <Image
           src={'/background.png'}
-          style={{ position: 'absolute', objectFit: 'contain', width: '100%', height: 'auto' }}
+          style={{
+            position: 'absolute',
+            objectFit: 'contain',
+            width: '100%',
+            height: 'auto',
+          }}
           alt="background"
           width={1920}
           height={1080}
@@ -331,8 +343,14 @@ export default function ParticipatePage() {
                 flexDirection: 'column',
               }}>
               <Icons name="kinetix-icon"></Icons>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                <p style={{ fontSize: '14px', fontWeight: '500', color: '#BEF642' }}>
+              <div
+                style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <p
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    color: '#BEF642',
+                  }}>
                   Initial X Offering (IXO) powered by
                 </p>{' '}
                 <Icons name="xpad-icon"></Icons>
@@ -344,20 +362,42 @@ export default function ParticipatePage() {
                 <div className="skeleton-loader">
                   <div
                     className="skeleton-item"
-                    style={{ width: '100%', height: '24px', marginBottom: '16px' }}></div>
+                    style={{
+                      width: '100%',
+                      height: '24px',
+                      marginBottom: '16px',
+                    }}></div>
                   <div
                     className="skeleton-item"
-                    style={{ width: '80%', height: '20px', marginBottom: '12px' }}></div>
+                    style={{
+                      width: '80%',
+                      height: '20px',
+                      marginBottom: '12px',
+                    }}></div>
                   <div
                     className="skeleton-item"
-                    style={{ width: '60%', height: '20px', marginBottom: '12px' }}></div>
+                    style={{
+                      width: '60%',
+                      height: '20px',
+                      marginBottom: '12px',
+                    }}></div>
                   <div
                     className="skeleton-item"
-                    style={{ width: '40%', height: '20px', marginBottom: '12px' }}></div>
+                    style={{
+                      width: '40%',
+                      height: '20px',
+                      marginBottom: '12px',
+                    }}></div>
                   <div
                     className="skeleton-item"
-                    style={{ width: '100%', height: '40px', marginBottom: '16px' }}></div>
-                  <div className="skeleton-item" style={{ width: '100%', height: '48px' }}></div>
+                    style={{
+                      width: '100%',
+                      height: '40px',
+                      marginBottom: '16px',
+                    }}></div>
+                  <div
+                    className="skeleton-item"
+                    style={{ width: '100%', height: '48px' }}></div>
                 </div>
               </div>
             ) : client ? (
@@ -380,7 +420,8 @@ export default function ParticipatePage() {
                           marginTop: '20px',
                           position: 'relative',
                         }}>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div
+                          style={{ display: 'flex', flexDirection: 'column' }}>
                           <div
                             style={{
                               display: 'flex',
@@ -395,7 +436,9 @@ export default function ParticipatePage() {
                                 fontFamily: 'Plus Jakarta Sans',
                               }}>
                               {client.sale_progress} /{' '}
-                              {client.detail_launch_price * client.detail_token_for_sale} USD
+                              {client.detail_launch_price *
+                                client.detail_token_for_sale}{' '}
+                              USD
                             </p>
                             <p
                               style={{
@@ -404,7 +447,8 @@ export default function ParticipatePage() {
                                 color: '#FFF',
                                 fontFamily: 'Plus Jakarta Sans',
                               }}>
-                              Your Allocation: {client.max_user_deposit} {balance?.symbol}
+                              Your Allocation: {client.max_user_deposit}{' '}
+                              {balance?.symbol}
                             </p>
                           </div>
                           <div
@@ -420,7 +464,8 @@ export default function ParticipatePage() {
                               style={{
                                 width: `${
                                   (client.sale_progress * 100) /
-                                  (client.detail_launch_price * client.detail_token_for_sale)
+                                  (client.detail_launch_price *
+                                    client.detail_token_for_sale)
                                 }%`,
                                 height: '8px',
                                 borderRadius: '20px',
@@ -466,7 +511,12 @@ export default function ParticipatePage() {
                             style={{ cursor: 'pointer' }}
                             className="max max-button"
                             onClick={() => setInputValue(maxReal())}>
-                            <p style={{ fontSize: '12px', fontWeight: '500', color: '#BEF642' }}>
+                            <p
+                              style={{
+                                fontSize: '12px',
+                                fontWeight: '500',
+                                color: '#BEF642',
+                              }}>
                               Max: {maxReal()} {balance?.symbol}
                             </p>
                           </div>
@@ -474,7 +524,11 @@ export default function ParticipatePage() {
                         <div style={{ marginTop: '15px' }}>
                           {client.sold_out ? (
                             <Button disabled type="primary">
-                              <span style={{ fontWeight: '800', fontFamily: 'Plus Jakarta Sans' }}>
+                              <span
+                                style={{
+                                  fontWeight: '800',
+                                  fontFamily: 'Plus Jakarta Sans',
+                                }}>
                                 {' '}
                                 Sold Out
                               </span>
@@ -491,7 +545,11 @@ export default function ParticipatePage() {
                                 transactionLoading ||
                                 inputValue === 0
                               }>
-                              <span style={{ fontWeight: '800', fontFamily: 'Plus Jakarta Sans' }}>
+                              <span
+                                style={{
+                                  fontWeight: '800',
+                                  fontFamily: 'Plus Jakarta Sans',
+                                }}>
                                 Confirm
                               </span>
                             </Button>
@@ -515,7 +573,7 @@ export default function ParticipatePage() {
                               backgroundColor: 'rgba(25, 25, 22, 0.97)',
                               borderRadius: '15px',
                               padding: '0px 28px',
-                              backdropFilter:'blur(2px)'
+                              backdropFilter: 'blur(2px)',
                             }}>
                             <div
                               style={{
@@ -525,8 +583,7 @@ export default function ParticipatePage() {
                                 display: 'flex', // To ensure alignment for the icon
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                              }}
-                            >
+                              }}>
                               <Icons name="loading-spin-icon" />
                             </div>
                             <p
@@ -546,7 +603,8 @@ export default function ParticipatePage() {
                                 color: '#fff',
                                 textAlign: 'center',
                               }}>
-                              We are processing your deposit request. This may take up to 1 minute.
+                              We are processing your deposit request. This may
+                              take up to 1 minute.
                             </p>
                             <p
                               style={{
@@ -556,7 +614,9 @@ export default function ParticipatePage() {
                                 color: '#bef642',
                                 textAlign: 'center',
                               }}>
-                              Please open your Metamask app to approve the transaction and keep this app open until it's complete.
+                              Please open your Metamask app to approve the
+                              transaction and keep this app open until it's
+                              complete.
                             </p>
                           </div>
                         )}
@@ -565,8 +625,10 @@ export default function ParticipatePage() {
                   ) : (
                     <div className="card-main">
                       <div className="not-winner-message">
-                        <p style={{color:"#FFF"}}>Not a lottery winner</p>
-                        <p style={{color:"#FFF"}}>You are not eligible to participate in this IXO.</p>
+                        <p style={{ color: '#FFF' }}>Not a lottery winner</p>
+                        <p style={{ color: '#FFF' }}>
+                          You are not eligible to participate in this IXO.
+                        </p>
                       </div>
                     </div>
                   )
@@ -633,7 +695,11 @@ export default function ParticipatePage() {
                 paddingLeft: '15px',
                 paddingRight: '15px',
               }}>
-              <Image src="/img.svg" alt="success" width={100} height={100}></Image>
+              <Image
+                src="/img.svg"
+                alt="success"
+                width={100}
+                height={100}></Image>
               <p
                 style={{
                   fontSize: '18px',
@@ -662,7 +728,12 @@ export default function ParticipatePage() {
                   setSuccessModal(false); // Close the modal
                   router.push('/'); // Redirect to homepage
                 }}>
-                <p style={{ fontSize: '14px', fontWeight: '600', fontFamily: 'Plus Jakarta Sans' }}>
+                <p
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    fontFamily: 'Plus Jakarta Sans',
+                  }}>
                   Close
                 </p>
               </Button>
@@ -709,7 +780,11 @@ export default function ParticipatePage() {
                 paddingLeft: '15px',
                 paddingRight: '15px',
               }}>
-              <Image src="/SHIT..svg" alt="success" width={197} height={160}></Image>
+              <Image
+                src="/SHIT..svg"
+                alt="success"
+                width={197}
+                height={160}></Image>
               <p
                 style={{
                   fontSize: '18px',
@@ -728,8 +803,8 @@ export default function ParticipatePage() {
                   marginTop: '-10px',
                   textAlign: 'center',
                 }}>
-                Sh*t. The pool was filled before your transaction was processed by the network.
-                Better luck next time!
+                Sh*t. The pool was filled before your transaction was processed
+                by the network. Better luck next time!
               </h3>
 
               <Button
@@ -740,7 +815,12 @@ export default function ParticipatePage() {
                   setErrorModal(false); // Close the modal
                   router.push('/'); // Redirect to homepage
                 }}>
-                <p style={{ fontSize: '14px', fontWeight: '600', fontFamily: 'Plus Jakarta Sans' }}>
+                <p
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    fontFamily: 'Plus Jakarta Sans',
+                  }}>
                   Back to home
                 </p>
               </Button>

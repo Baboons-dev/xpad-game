@@ -10,8 +10,13 @@ import { useAppKit } from '@reown/appkit/react';
 import { Button, ConfigProvider, Input, message } from 'antd';
 import { Zap } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
-import { useAccount, useChainId, useWriteContract } from 'wagmi';
+import { useState, useEffect } from 'react';
+import {
+  useAccount,
+  useChainId,
+  useWriteContract,
+  useSwitchChain,
+} from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import backgroundImage from '../../../assets/background.png';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -21,11 +26,31 @@ export default function MintPage() {
   const [loading, setLoading] = useState(false);
   const { data: hash, isPending, writeContractAsync } = useWriteContract();
   const { address } = useAccount();
-  const chaiId = useChainId();
-  const setIShowOpenWalletAppModal = useSelector.use.setIShowOpenWalletAppModal();
+  const chainId = useChainId();
+  const { switchChainAsync } = useSwitchChain();
+  const setIShowOpenWalletAppModal =
+    useSelector.use.setIShowOpenWalletAppModal();
   const { open, close } = useAppKit();
   const [isMinted, setIsMinted] = useState(false);
   const [mintUrl, setMintUrl] = useState('');
+
+  const isWrongNetwork = chainId !== config.chains[0].id;
+
+  const handleSwitchNetwork = async () => {
+    try {
+      await switchChainAsync({ chainId: config.chains[0].id });
+      message.success('Successfully switched to LayerX Network');
+    } catch (error) {
+      console.error('Error switching network:', error);
+      message.error('Failed to switch network');
+    }
+  };
+
+  useEffect(() => {
+    if (address && isWrongNetwork) {
+      handleSwitchNetwork();
+    }
+  }, [address, chainId]);
 
   const handleMint = async () => {
     setLoading(true);
@@ -47,7 +72,7 @@ export default function MintPage() {
       // setIShowOpenWalletAppModal(false);
       if (resMint) {
         const rec = await waitForTransactionReceipt(config, {
-          chainId: chaiId,
+          chainId: chainId,
           hash: resMint,
         });
       }
@@ -98,9 +123,19 @@ export default function MintPage() {
           },
         },
       }}>
-      <Box w="100%" display="flex" flexDirection="column" minHeight="100vh" pb="80px">
+      <Box
+        w="100%"
+        display="flex"
+        flexDirection="column"
+        minHeight="100vh"
+        pb="80px">
         <Box position="relative" w="100%" zIndex={0}>
-          <Image src={backgroundImage.src} h="auto" objectFit="contain" position="absolute" />
+          <Image
+            src={backgroundImage.src}
+            h="auto"
+            objectFit="contain"
+            position="absolute"
+          />
           <Box position="relative" margin="24px 16px 29px 16px">
             <Box display="flex" alignItems="center">
               <Link href="/layerx">
@@ -139,7 +174,10 @@ export default function MintPage() {
                     alt="minted"
                     width={'321px'}
                     height={'345px'}
-                    style={{ borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.25)' }}
+                    style={{
+                      borderRadius: '10px',
+                      border: '1px solid rgba(255, 255, 255, 0.25)',
+                    }}
                   />
                 ) : (
                   <Box
@@ -155,7 +193,12 @@ export default function MintPage() {
                       gap: '6px',
                     }}>
                     <IconMint />
-                    <Box style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+                    <Box
+                      style={{
+                        display: 'flex',
+                        gap: '5px',
+                        alignItems: 'center',
+                      }}>
                       <Text
                         color="rgba(160, 160, 160, 1)"
                         fontSize="14px"
@@ -163,7 +206,9 @@ export default function MintPage() {
                         fontFamily="Plus Jakarta Sans">
                         Processing your NFT...
                       </Text>
-                      <LoadingOutlined style={{ color: 'rgba(160, 160, 160, 1)' }} />
+                      <LoadingOutlined
+                        style={{ color: 'rgba(160, 160, 160, 1)' }}
+                      />
                     </Box>
                   </Box>
                 )}
@@ -218,8 +263,8 @@ export default function MintPage() {
                       fontWeight="400"
                       fontFamily="Plus Jakarta Sans"
                       textAlign="center">
-                      Minting an NFT is as simple as pasting a URL from a post on X into the modal
-                      below. Could it be any easier?
+                      Minting an NFT is as simple as pasting a URL from a post
+                      on X into the modal below. Could it be any easier?
                     </Text>
                   </Box>
 
@@ -233,16 +278,26 @@ export default function MintPage() {
                   </Box>
 
                   {address ? (
-                    <Button
-                      onClick={handleMint}
-                      loading={loading}
-                      disabled={!url}
-                      size="large"
-                      type="primary"
-                      style={{ width: '100%', marginTop: '8px' }}
-                      iconPosition={'end'}>
-                      {loading ? 'Processing...' : 'Mint now!'}
-                    </Button>
+                    isWrongNetwork ? (
+                      <Button
+                        onClick={handleSwitchNetwork}
+                        size="large"
+                        type="primary"
+                        style={{ width: '100%', marginTop: '8px' }}>
+                        Switch to LayerX Network
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={handleMint}
+                        loading={loading}
+                        disabled={!url}
+                        size="large"
+                        type="primary"
+                        style={{ width: '100%', marginTop: '8px' }}
+                        iconPosition={'end'}>
+                        {loading ? 'Processing...' : 'Mint now!'}
+                      </Button>
+                    )
                   ) : (
                     <Button
                       onClick={() => {
@@ -262,8 +317,8 @@ export default function MintPage() {
                       fontFamily="Plus Jakarta Sans"
                       textAlign="center"
                       width="100%">
-                      We are currently processing the creation of your NFT. Please be patient as we
-                      complete this process.
+                      We are currently processing the creation of your NFT.
+                      Please be patient as we complete this process.
                     </Text>
                   )}
                 </Box>
@@ -278,7 +333,12 @@ export default function MintPage() {
 
 const IconMint = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="61" height="60" viewBox="0 0 61 60" fill="none">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="61"
+      height="60"
+      viewBox="0 0 61 60"
+      fill="none">
       <g clip-path="url(#clip0_662_3237)">
         <path
           d="M49.9091 0H11.0909C4.96557 0 0 4.88417 0 10.9091V49.0909C0 55.1158 4.96557 60 11.0909 60H49.9091C56.0344 60 61 55.1158 61 49.0909V10.9091C61 4.88417 56.0344 0 49.9091 0Z"
